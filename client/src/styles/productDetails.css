@@ -1,3 +1,9 @@
 .detailsPage {
     height: 100vh;
+    display: flex;
+    justify-content: space-around;
+}
+
+.detailsPage .details {
+    width: 360px;
 }
