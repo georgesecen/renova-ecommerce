@@ -2,8 +2,14 @@
     height: 100vh;
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
 }
 
-.detailsPage .details {
+.details, .detailsImg {
     width: 360px;
+}
+
+.detailsImg {
+    border: 1px solid rgb(126, 126, 126);
+    margin: 30px 0;
 }

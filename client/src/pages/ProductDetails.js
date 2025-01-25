@@ -3,6 +3,9 @@ import '../styles/productDetails.css'
 function ProductDetails() {
     return (
       <div className="detailsPage">
+        <div className="detailsImg">
+          image
+        </div>
         <div className="details">
             <h4>Product Name</h4>
             <h6>$29.99</h6>
