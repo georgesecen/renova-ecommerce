@@ -3,13 +3,27 @@
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+
+    padding: 20px 100px;
 }
 
-.details, .detailsImg {
-    width: 360px;
+.details {
+    width: 46%;
+    min-width: 330px;
+    padding-top: 20px;
+
 }
 
 .detailsImg {
+    width: 46%;
+    min-width: 330px;
+    max-height: 400px;
+
     border: 1px solid rgb(126, 126, 126);
-    margin: 30px 0;
+}
+
+@media screen and (max-width: 780px) {
+    .detailsPage {
+        padding: 10px;
+    }
 }
