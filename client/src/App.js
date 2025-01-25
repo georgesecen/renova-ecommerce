@@ -7,7 +7,7 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BottomNavBar from './components/BottomNavBar';
-import ProductDetails from './components/ProductDetails';
+import ProductDetails from './pages/ProductDetails';
 
 function App() {
     return (
