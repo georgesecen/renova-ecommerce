@@ -7,6 +7,7 @@ import Contact from './pages/Contact';
 import Cart from './pages/Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BottomNavBar from './components/BottomNavBar';
+import ProductDetails from './components/ProductDetails';
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<Home />} />
                 <Route path='/products' element={<Products />} />
+                <Route path='/products/:id' element={<ProductDetails />} />
                 <Route path='/contact' element={<Contact />} />
                 <Route path='/cart' element={<Cart />} />
             </Routes>
