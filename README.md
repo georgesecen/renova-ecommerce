@@ -13,7 +13,7 @@
 ### Set up DB
 - Install MySQL workbench https://dev.mysql.com/downloads/workbench/
 - Create login
-- Create new credentials
+- Create new connection (+)
 -     AWS MySQL
 -     ecommerce.cxo2ya20m42g.us
 -     admin
