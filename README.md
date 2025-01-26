@@ -10,7 +10,19 @@
     - navigate to server folder and run
 -     npm install express mysql2 cors dotenv jsonwebtoken bcryptjs
 
-#### * MySQL has to be downloaded locally! Homebrew for mac and mysql installer for windows *
+### Set up DB
+- Install MySQL workbench https://dev.mysql.com/downloads/workbench/
+- Create login
+- Create new credentials
+-     AWS MySQL
+-     ecommerce.cxo2ya20m42g.us
+-     admin
+-     vP3LRZLzvSVi0ugG6PSL
+<img width="797" alt="Screenshot 2025-01-26 at 9 36 56 AM" src="https://github.com/user-attachments/assets/b8db3ae1-61a0-4dd2-8622-518b1f6c28b8" />
+
+
+
+#### * MySQL no longer has to be downloaded locally! *
 
 ### Run Project
 - open terminal/bash and run the following commands
@@ -63,10 +75,3 @@
 - A user adds products to their cart, which is stored in the cart_items table.
 - When they proceed to checkout, an order is created in the orders table.
 - The individual products in that order are then saved in the order_items table, with the price_at_purchase field capturing the price of each product at the time of purchase.
-
-
-admin  
-vP3LRZLzvSVi0ugG6PSL  
-ecommerce.cxo2ya20m42g.us-east-2.rds.amazonaws.com
-
-
