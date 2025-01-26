@@ -64,3 +64,9 @@
 - When they proceed to checkout, an order is created in the orders table.
 - The individual products in that order are then saved in the order_items table, with the price_at_purchase field capturing the price of each product at the time of purchase.
 
+
+admin  
+vP3LRZLzvSVi0ugG6PSL  
+ecommerce.cxo2ya20m42g.us-east-2.rds.amazonaws.com
+
+
