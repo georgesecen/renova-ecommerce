@@ -25,16 +25,6 @@
 #### * MySQL no longer has to be downloaded locally! *
 
 ### Run Project
-- open terminal/bash and run the following commands
--     mysql.server start
--     mysql -u cmcrae -p
-- enter password
--     P@ww0rd
-- run command to select DB
--     USE ecommerce
-- from here you can run mysql queries and type "EXIT" to stop
-  
-#### *DONT FORGET SEMICOLONS!!*
 
 #### Running the backend
 
