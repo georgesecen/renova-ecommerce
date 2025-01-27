@@ -14,11 +14,32 @@
 - Install MySQL workbench https://dev.mysql.com/downloads/workbench/
 - Create login
 - Create new connection (+)
--     AWS MySQL
--     ecommerce.cxo2ya20m42g.us
--     admin
--     vP3LRZLzvSVi0ugG6PSL
+    - Connection name
+    -     AWS MySQL
+    - Host name
+    -     ecommerce.cxo2ya20m42g.us-east-2.rds.amazonaws.com
+    - Username
+    -     admin
+    - Password
+    -     vP3LRZLzvSVi0ugG6PSL
 <img width="797" alt="Screenshot 2025-01-26 at 9 36 56 AM" src="https://github.com/user-attachments/assets/b8db3ae1-61a0-4dd2-8622-518b1f6c28b8" />
+
+### Everyone must create their own .env file in the root of the server directory
+<img width="715" alt="Screenshot 2025-01-27 at 4 24 50 PM" src="https://github.com/user-attachments/assets/e6d2e488-029e-49b7-bd30-f49b90d4b63e" />
+
+#### * Paste these credentials *
+
+```
+DB_HOST=ecommerce.cxo2ya20m42g.us-east-2.rds.amazonaws.com
+DB_USER=admin
+DB_PASSWORD=vP3LRZLzvSVi0ugG6PSL
+DB_NAME=ecommerce
+PORT=3306
+CLIENT_ID=595612368789-11lkfbgcgn8decreuaijcp8dknjuampn.apps.googleusercontent.com
+CLIENT_SECRET=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
+JWT_SECRET=my_super_secret_key
+```
+
 
 
 
