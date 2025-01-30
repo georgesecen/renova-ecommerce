@@ -8,7 +8,7 @@
 -     npm install react-router-dom bootstrap axios react-bootstrap react-icons
 - install back end packages
     - navigate to server folder and run
--     npm install express mysql2 nodemailer cors dotenv jsonwebtoken bcryptjs
+-     npm install express mysql2 nodemailer cors dotenv jsonwebtoken bcryptjs stripe
 
 ### Set up DB
 - Install MySQL workbench https://dev.mysql.com/downloads/workbench/
