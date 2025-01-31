@@ -1,5 +1,24 @@
+@font-face {
+    font-family: Quicksand;
+    src: url(./assets/fonts/Quicksand-VariableFont_wght.ttf);
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    color: var(--text);
+}
+
+:root {
+    --text: #dadadc;
+    --bg: #333333;
+}
+
+div.App {
+    background-image: url(./assets/images/dark-background.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
 }

@@ -1,4 +1,54 @@
-div.home-page {
-    padding: 0 80px;
-    height: 100vh;
+.home-page {
+    font-family: Quicksand;
+}
+
+.home-page .section {
+    height: 90vh;
+}
+
+ /* First section styles */
+ .home-page .a {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.home-page .a .text {
+    width: 60%;
+    padding: 100px 0 0 200px;
+}
+
+.home-page .a .text h1 {
+    font-size: 70px;
+    line-height: 150px;
+}
+
+.home-page .a .image {
+    width: 40%;
+    padding-top: 120px;
+}
+
+.home-page .a .image img {
+    max-width: 250px;
+}
+
+@media screen and (max-width: 780px) {
+    .home-page .a .text {
+        width: 100%;
+        padding: 30px 0 0 50px;
+    }
+
+    .home-page .a .text h1 {
+        font-size: 60px;
+        line-height: 100px;
+    }
+
+    .home-page .a .image {
+        width: 100%;
+        padding-top: 20px;
+    }
+
+    .home-page .a .image img {
+        max-width: 200px;
+    }
 }
