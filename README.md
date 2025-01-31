@@ -5,10 +5,10 @@
 -     git clone https://github.com/cmcrae1989/WebCommunicationsProject.git
 - install front end packages
     - navigate to client folder and run
--     npm install react-router-dom bootstrap axios react-bootstrap react-icons
+-     npm install react-router-dom bootstrap axios react-bootstrap react-icons @stripe/react-stripe-js @stripe/stripe-js
 - install back end packages
     - navigate to server folder and run
--     npm install express mysql2 nodemailer cors dotenv jsonwebtoken bcryptjs stripe
+-     npm install express mysql2 nodemailer cors dotenv jsonwebtoken bcryptjs stripe googleapis
 
 ### Set up DB
 - Install MySQL workbench https://dev.mysql.com/downloads/workbench/
