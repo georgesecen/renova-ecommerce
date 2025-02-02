@@ -33,7 +33,7 @@
 DB_HOST=ecommerce.cxo2ya20m42g.us-east-2.rds.amazonaws.com
 DB_USER=admin
 DB_PASSWORD=vP3LRZLzvSVi0ugG6PSL
-DB_NAME=ecommerce
+DB_NAME=ecommerce{first and last initial here - all caps}
 PORT=3306
 CLIENT_ID=595612368789-11lkfbgcgn8decreuaijcp8dknjuampn.apps.googleusercontent.com
 CLIENT_SECRET=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
