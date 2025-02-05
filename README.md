@@ -64,33 +64,14 @@ STRIPE_WEBHOOK_SECRET=whsec_4798b91eb4ce6d978dc9ffbe61d824f01a1d364bf3f53b760855
 -     npm start
 
 ## DATABASE SCHEMA
+# **E-Commerce Database Model: Changes & Updates**
 
+---
 
-1. Users Table:
-    * Stores user information such as username, email, and password.
-2. Products Table:
-    * Stores information about the products available for purchase, including name, description, price, stock quantity, and image URL.
-    * The price is stored as a DECIMAL type with two decimal places for precision.
-    * stock_quantity tracks how many units are available for each product.
-3. Cart Items Table:
-    * Represents products that a user has added to their cart. It has a many-to-one relationship with both the users and products tables.
-    * quantity represents how many units of the product the user has in their cart.
-    * The unique constraint on (user_id, product_id) ensures that a user cannot add the same product multiple times to the cart. If they attempt to add the same product again, the quantity will just be updated.
-4. Orders Table:
-    * Once a user completes a checkout process, the order is created in this table.
-    * It stores the total price of the order, the order status (pending, completed, cancelled, shipped), and the user_id to link the order to a user.
-5. Order Items Table:
-    * Contains details about the individual products in an order.
-    * Each order can have multiple products (hence a many-to-many relationship between orders and products).
-    * It also stores the price_at_purchase, which is useful for historical pricing in case the product price changes after the order.
-### Example of How the Data Works:
-- A user signs up with unique credentials which are saved in the users table after the password is hashed. a JWT is generated upon login to be kept in local storage for validation that persists throughout the site.
-- A user adds products to their cart, which is stored in the cart_items table.
-- When they proceed to checkout, an order is created in the orders table.
-- The individual products in that order are then saved in the order_items table, with the price_at_purchase field capturing the price of each product at the time of purchase.
+## **🔹 Schema to be Updated Soon**
+This section contains the **original database schema** before updates.
 
-### Order in which tables are created
--- Create `users` table
+```sql
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
@@ -100,91 +81,16 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Create `products` table
 CREATE TABLE products (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    price DECIMAL(10, 2) NOT NULL,
-    image VARCHAR(255),
-    stock_quantity INT NOT NULL DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
--- Create `cart_items` table
-CREATE TABLE cart_items (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    product_id INT,
-    quantity INT NOT NULL DEFAULT 1,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
-);
-
--- Create `orders` table
-CREATE TABLE orders (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    total_price DECIMAL(10, 2) NOT NULL,
-    status ENUM('pending', 'completed', 'cancelled', 'shipped') NOT NULL DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
--- Create `order_items` table
-CREATE TABLE order_items (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    order_id INT,
-    product_id INT,
-    quantity INT NOT NULL,
-    price_at_purchase DECIMAL(10, 2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
-);
-
--- Create `contacts` table
-CREATE TABLE contacts (
-    email_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100),
-    email VARCHAR(100),
-    message VARCHAR(255)
-);
-
-### Order in which tables are to be deleted
-DROP TABLE IF EXISTS contacts;
-DROP TABLE IF EXISTS order_items;
-DROP TABLE IF EXISTS orders;
-DROP TABLE IF EXISTS cart_items;
-DROP TABLE IF EXISTS products;
-DROP TABLE IF EXISTS users;
-
-#### * Final Schema to be updated soon *
-# E-Commerce Database Model
-
-## Users Table
-```sql
-users (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) NOT NULL UNIQUE,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)
-products (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     price DECIMAL(10, 2) NOT NULL, -- Base price (can be adjusted per variant)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)
-product_variants (
+);
+
+CREATE TABLE product_variants (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
     color VARCHAR(50) NOT NULL,
@@ -193,8 +99,9 @@ product_variants (
     price DECIMAL(10,2), -- Optional: Allow custom pricing per variant
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
-)
-product_images (
+);
+
+CREATE TABLE product_images (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
     product_variant_id INT NULL, -- Images can be specific to a variant
@@ -202,8 +109,9 @@ product_images (
     image_url VARCHAR(255) NOT NULL,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
     FOREIGN KEY (product_variant_id) REFERENCES product_variants(id) ON DELETE CASCADE
-)
-cart_items (
+);
+
+CREATE TABLE cart_items (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     product_variant_id INT NOT NULL, -- Refers to specific size/color
@@ -212,8 +120,9 @@ cart_items (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (product_variant_id) REFERENCES product_variants(id) ON DELETE CASCADE
-)
-orders (
+);
+
+CREATE TABLE orders (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     total_price DECIMAL(10, 2) NOT NULL,
@@ -221,8 +130,9 @@ orders (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-)
-order_items (
+);
+
+CREATE TABLE order_items (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
     product_variant_id INT NOT NULL, -- Tracks specific size/color
@@ -231,6 +141,125 @@ order_items (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
     FOREIGN KEY (product_variant_id) REFERENCES product_variants(id) ON DELETE CASCADE
-)
+);
+```
+### Mostly Updated Schema
+```sql
+CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    uuid VARCHAR(36) NOT NULL UNIQUE, -- ✅ NEW: Auto-generated for tracking before signup
+    username VARCHAR(255) UNIQUE, 
+    email VARCHAR(255) UNIQUE, 
+    password VARCHAR(255), 
+    guest BOOLEAN DEFAULT FALSE, -- ✅ NEW: Differentiates guests from registered users
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE guest_users ( -- ✅ NEW TABLE: Supports guest checkout
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    session_token VARCHAR(255) NOT NULL UNIQUE, -- Used to track guest session
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE products (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE product_variants (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    color VARCHAR(50) NOT NULL,
+    size VARCHAR(10) NOT NULL,
+    stock_quantity INT NOT NULL DEFAULT 0,
+    price DECIMAL(10,2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
+
+CREATE TABLE product_images (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    product_variant_id INT NULL,
+    is_primary BOOL DEFAULT FALSE,
+    image_url VARCHAR(255) NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_variant_id) REFERENCES product_variants(id) ON DELETE CASCADE
+);
+
+CREATE TABLE cart_items (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NULL, -- ✅ UPDATED: Now nullable to support guest carts
+    guest_user_id INT NULL, -- ✅ NEW: Enables guest carts
+    product_variant_id INT NOT NULL,
+    quantity INT NOT NULL DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (guest_user_id) REFERENCES guest_users(id) ON DELETE CASCADE, -- ✅ NEW
+    FOREIGN KEY (product_variant_id) REFERENCES product_variants(id) ON DELETE CASCADE,
+    CHECK (
+        (user_id IS NOT NULL AND guest_user_id IS NULL) OR 
+        (guest_user_id IS NOT NULL AND user_id IS NULL)
+    ) -- ✅ NEW: Ensures only one type of user owns the cart
+);
+
+CREATE TABLE orders (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NULL, -- ✅ UPDATED: Nullable for guest orders
+    guest_user_id INT NULL, -- ✅ NEW: Enables guest checkout
+    total_price DECIMAL(10, 2) NOT NULL,
+    status ENUM('pending', 'completed', 'cancelled', 'shipped') NOT NULL DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (guest_user_id) REFERENCES guest_users(id) ON DELETE CASCADE, -- ✅ NEW
+    CHECK (
+        (user_id IS NOT NULL AND guest_user_id IS NULL) OR 
+        (guest_user_id IS NOT NULL AND user_id IS NULL)
+    ) -- ✅ NEW: Ensures only one user type per order
+);
+
+CREATE TABLE order_items (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_variant_id INT NOT NULL,
+    quantity INT NOT NULL,
+    price_at_purchase DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_variant_id) REFERENCES product_variants(id) ON DELETE CASCADE
+);
+
+CREATE TABLE shipping_addresses (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NULL, -- ✅ UPDATED: Nullable for guest shipping addresses
+    guest_user_id INT NULL, -- ✅ NEW: Allows guests to provide shipping info
+    order_id INT NULL,
+    recipient_name VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    address_line1 VARCHAR(255) NOT NULL,
+    address_line2 VARCHAR(255) NULL,
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(100) NOT NULL,
+    postal_code VARCHAR(20) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (guest_user_id) REFERENCES guest_users(id) ON DELETE CASCADE, -- ✅ NEW
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL,
+    CHECK (
+        (user_id IS NOT NULL AND guest_user_id IS NULL) OR 
+        (guest_user_id IS NOT NULL AND user_id IS NULL)
+    ) -- ✅ NEW: Ensures shipping address belongs to only one type of user
+);
+
+
 
 
