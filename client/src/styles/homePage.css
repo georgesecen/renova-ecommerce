@@ -10,17 +10,18 @@
 }
 
  /* First section styles */
- .home-page .a {
+
+.home-page .a {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
+/* Text container  */
 .home-page .a .text {
-    width: 60%;
+    width: 55%;
     margin-top: 140px;
-    padding-left: 12vw;
-    font-size: 18px;
+    margin-left: 12vw;
 }
 
 .home-page .a .text h1 {
@@ -30,6 +31,10 @@
     text-shadow: 0px 0px 15px rgba(235, 235, 235, 0.57);
 
     padding-bottom: 16px;
+}
+
+.home-page .a .text p {
+    font-size: 15px;
 }
 
 .shop-now {
@@ -48,8 +53,9 @@
     box-shadow: 0px 0px 10px rgba(215, 215, 215, 0.57);
 }
 
+/* Image container   */
 .home-page .a .image {
-    width: 40%;
+    width: 45%;
     margin-top: 120px;
 }
 
@@ -77,6 +83,7 @@
         padding: 0;
         height: 250px;
         margin-top: 8vh;
+        margin-left: 0;
     }
 
     /* Image container  */
