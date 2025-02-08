@@ -7,12 +7,18 @@
 
 .home-page .section {
     height: 80vh;
+    display: flex;
 }
 
- /* First section styles */
+.home-page h1 {
+    font-family: Italiana;
+    font-size: min(calc(10vw + 30px), 168px);
+    text-shadow: 0px 0px 15px rgba(235, 235, 235, 0.57);
+}
+
+/* First section styles */
 
 .home-page .a {
-    display: flex;
     justify-content: center;
     flex-wrap: nowrap;
 }
@@ -25,11 +31,8 @@
 }
 
 .home-page .a .text h1 {
-    font-family: Italiana;
     font-size: min(calc(10vw + 30px), 168px);
     line-height: 10vw;
-    text-shadow: 0px 0px 15px rgba(235, 235, 235, 0.57);
-
     padding-bottom: 16px;
 }
 
@@ -45,7 +48,7 @@
     padding: 12px;
 
     transition-duration: 200ms;
-    line-height: 100px;
+    line-height: 140px;
 }
 
 .shop-now:hover {
@@ -95,4 +98,18 @@
     .home-page .a .image img {
         max-width: 200px;
     }
+}
+
+/* Second section  */
+
+.home-page .b {
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.home-page .b h1 {
+    margin-top: 10vh;
+    font-size: min(calc(6vw + 30px), 118px);
+    letter-spacing: 5px;
 }

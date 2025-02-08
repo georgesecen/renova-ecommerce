@@ -23,7 +23,8 @@ function Home() {
         </div>
 
         <div className="section b">
-
+          <h1>PLACEHOLDER</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
         </div>
     </div>
   )
