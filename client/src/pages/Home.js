@@ -19,7 +19,6 @@ function Home() {
           </div>
           <div className="image">
             <img src={hoodieImg2} alt=""/>
-            <img src={hoodieImg} alt=""/>
           </div>
         </div>
 
