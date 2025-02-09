@@ -66,3 +66,40 @@ exports.createProduct = async (request, response) => {
     }
 }
 
+/**
+ * Updates a product in the database.
+ * @param {Object} request Express js request object.
+ * @param {Object} response Express js response object.
+ */
+exports.updateProduct = async (request, response) => {
+
+    const {id, name, description, price} = request.body
+
+    try{
+
+        // Get product
+        const product = await Product.findByPk(id)
+
+        // If product does not exist
+        if (product == null){
+            throw new Error(`Product with ID ${id} does not exist in database.`)
+        }
+
+        // Update product
+        await product.update({
+            name: name,
+            description: description,
+            price: price,
+        })
+
+        console.log("Product updated successfully in database.")
+        response.status(200).json({
+            message: "Product updated successfully in database.",
+        })
+    } 
+    catch (error){
+        console.log(`Error in productController.js function updateProduct: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+}
+
