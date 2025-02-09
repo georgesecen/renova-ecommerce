@@ -259,7 +259,26 @@ CREATE TABLE shipping_addresses (
         (guest_user_id IS NOT NULL AND user_id IS NULL)
     ) -- ✅ NEW: Ensures shipping address belongs to only one type of user
 );
+```
+## New DB Model
 
+![ecommerce model](https://github.com/user-attachments/assets/70860595-31e4-4a5e-88d0-8770a24f8ad2)
+
+### From here we will be using migrations to make changes to the database
+
+To reflect the database changes, navigate to the server directory and run:
+-     npx sequelize-cli db:migrate
+- If sequelize is not installed npm should prompt you to install with the command.
+- After sequelize is installed it will need to be initialized with the following command:
+-     npx sequelize-cli init
+- This generates a few new files
+- Changes will need to be made to the config/config.json file to look like this
+
+<img width="617" alt="Screenshot 2025-02-08 at 8 02 06 PM" src="https://github.com/user-attachments/assets/b2de0e87-1237-421f-9afe-ab84e9ed0161" />
+
+* Make sure to change the database key to your mock database name: ecommerce(first initial, last initial)
+* When you have the correct credentials run the migrate command again:
+*     npx sequelize-cli db:migrate
 
 
 
