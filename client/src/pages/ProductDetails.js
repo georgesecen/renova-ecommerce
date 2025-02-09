@@ -3,7 +3,10 @@ import '../styles/productDetails.css'
 function ProductDetails() {
     return (
       <div className="detailsPage">
-        <div className="detailsImg">
+        <div className="productImages">
+          
+        </div>
+        <div className="selectedImg">
           image
         </div>
         <div className="details">

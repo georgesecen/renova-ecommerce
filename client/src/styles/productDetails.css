@@ -1,29 +1,37 @@
 .detailsPage {
-    height: 100vh;
+    height: calc(100vh - 80px);
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-
-    padding: 20px 100px;
+    justify-content: space-between;
+    flex-wrap: nowrap;
 }
 
-.details {
-    width: 46%;
-    min-width: 330px;
-    padding-top: 20px;
-
+.detailsPage div {
+    margin: 50px 15px 0;
 }
 
-.detailsImg {
-    width: 46%;
+/* Images list styles  */
+.productImages {
+    width: 10%;
+}
+
+/* Big image container styles */
+.selectedImg {
+    width: 65%;
     min-width: 330px;
-    max-height: 400px;
+    height: 400px;
 
     border: 1px solid rgb(126, 126, 126);
+}
+
+/* Text + form container styles */
+.details {
+    width: 35%;
+    min-width: 330px;
 }
 
 @media screen and (max-width: 780px) {
     .detailsPage {
         padding: 10px;
+        flex-wrap: wrap;
     }
 }
