@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const { google } = require('googleapis');
 const db = require("../server/config/database");
 const userRoutes = require('./routes/user');
@@ -26,7 +25,7 @@ const app = express();
 // Middleware
 app.use(cors());
 
-// Only apply the bodyParser.json if it is not the Stripe webhook route as the Stripe webhook needs the raw
+// Only apply the json parser if it is not the Stripe webhook route as the Stripe webhook needs the raw
 // body for verification
 app.use((request, response, next)=>{
     // If route is Stripe webook do not apply bodyParser
@@ -34,7 +33,9 @@ app.use((request, response, next)=>{
         next()
     }
     else{
-        bodyParser.json()(request, response, next)
+
+        // Replaced body-parser with urlencoded extended true because it parses nested json
+        express.urlencoded({extended: true})(request, response, next)
     }
 })
 
@@ -84,6 +85,10 @@ app.use('/admin', adminAuthentication, adminRoutes);
 
 // app.use('/', emailRoutes);
 app.use("/api", emailRoutes);
+
+// For static assets which are in the servers public directory such as images
+// https://expressjs.com/en/starter/static-files.html
+app.use('/static', express.static('public'))
 
 
 const connectDB = async () => {
