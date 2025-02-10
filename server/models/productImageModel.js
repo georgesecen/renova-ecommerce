@@ -22,7 +22,6 @@ const ProductImage = sequelize.define("ProductImage", {
         },
         image_url: {
             type: DataTypes.STRING,
-            allowNull: false,
         }
     },
 {
