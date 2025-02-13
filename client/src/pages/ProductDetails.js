@@ -2,8 +2,12 @@ import '../styles/productDetails.css'
 import Carousel from 'react-bootstrap/Carousel';
 import img1 from '../assets/images/hoodie.png'
 import img2 from '../assets/images/hoodie2.png'
+import { useLocation } from 'react-router-dom';
 
 function ProductDetails() {
+
+  const {state} = useLocation();
+  const { id, name, price, desc } = state;
     return (
       <div className="detailsPage">
         <div className="productImages">
@@ -20,9 +24,9 @@ function ProductDetails() {
           </Carousel>
         </div>
         <div className="details">
-            <h4>Product Name</h4>
-            <h6>$29.99</h6>
-            <p>sjfdj skd fsk dfskkjah</p>
+            <h4>{state.name}</h4>
+            <h6>${state.price}</h6>
+            <p>{state.desc}</p>
             <form>
                 <h5>Colour</h5>
                 <h5>Size</h5>

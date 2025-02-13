@@ -5,8 +5,10 @@ import Spinner from '../components/Spinner';
 import '../styles/productsPage.css';
 import ProductModal from "./ProductModal";
 import { Button } from "../components/Button";
+import { useNavigate } from 'react-router-dom';
 
 function ProductItem() {
+    const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -56,6 +58,21 @@ function ProductItem() {
             });
     };
 
+    /** This function will take in a product object and 
+     *  redirect the user to /products:id where id is 
+     *  product.id and send the data of the product object
+     *  to the page
+     * 
+     * @param {*} product 
+     */
+    const toProductPage = (product) => {
+        navigate('/products/' + (product.id), {
+                 state: { id: product.id, name: product.name, 
+                        price: product.price, desc: product.description } 
+                    }
+                )
+    }
+
     if (loading) {
         //TODO put styles in external stylesheet
         return (
@@ -71,7 +88,7 @@ function ProductItem() {
         <div>
         <ul className="productList">
             {products.map((product) => (
-                <li key={product.id} className="productItem">
+                <li key={product.id} className="productItem" onClick={() => toProductPage(product)}>
                         {/*if product contains more than one image grab the first - otherwise grab default*/}
                     <img
                         // src={product.images?.length > 0 ? `/images/${product.images[0].image_url}` : '/images/default.jpg'}
