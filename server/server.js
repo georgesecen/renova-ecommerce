@@ -10,6 +10,7 @@ const cartRoutes = require('./routes/cart');
 const stripeRoutes = require('./routes/stripe')
 const emailRoutes = require('./mail/email');
 const productImageRoutes = require('./routes/productImage');
+const productVariantRoutes = require('./routes/productVariant');
 
 const adminAuthentication = require('./middleware/adminMiddleware')
 const adminRoutes = require('./routes/admin')
@@ -77,6 +78,7 @@ app.get('/auth', (req, res) => {
 app.use('/user', userRoutes);
 app.use('/products', productRoutes);
 app.use('/images', productImageRoutes);
+app.use('/product-variants', productVariantRoutes);
 app.use('/orders', orderRoutes);
 app.use('/orderItems', orderItemRoutes);
 app.use('/cart', cartRoutes);
