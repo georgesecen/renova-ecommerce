@@ -1,4 +1,7 @@
 import '../styles/productDetails.css'
+import Carousel from 'react-bootstrap/Carousel';
+import img1 from '../assets/images/hoodie.png'
+import img2 from '../assets/images/hoodie2.png'
 
 function ProductDetails() {
     return (
@@ -7,7 +10,14 @@ function ProductDetails() {
           
         </div>
         <div className="selectedImg">
-          image
+          <Carousel activeIndex={1}>
+            <Carousel.Item className="carouselItem">
+              <img src={img1} alt=""/>
+            </Carousel.Item>
+            <Carousel.Item>
+            <img src={img2} alt=""/>
+            </Carousel.Item>
+          </Carousel>
         </div>
         <div className="details">
             <h4>Product Name</h4>
