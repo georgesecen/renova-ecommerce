@@ -68,3 +68,36 @@ exports.updateProductVariant = async (request, response) => {
         response.status(500).json({error: error.message})
     }
 }
+
+/**
+ * Deletes a product variant in the database.
+ * @param {Object} request Express js request object.
+ * @param {Object} response Express js response object.
+ */
+exports.deleteProductVariant = async (request, response) => {
+
+    const {id} = request.body
+
+    try{
+
+        // Get product variant
+        const productVariant = await ProductVariant.findByPk(id)
+
+        // If product variant does not exist
+        if (productVariant == null){
+            throw new Error(`Product variant with ID ${id} does not exist in database.`)
+        }
+
+        // Delete product variant
+        await productVariant.destroy()
+
+        console.log("Product variant deleted successfully in database.")
+        response.status(200).json({
+            message: "Product variant deleted successfully in database.",
+        })
+    } 
+    catch (error){
+        console.log(`Error in productVariantController.js function updateProductVariant: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+}
