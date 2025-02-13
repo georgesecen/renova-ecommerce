@@ -103,3 +103,35 @@ exports.updateProduct = async (request, response) => {
     }
 }
 
+/**
+ * Deletes a product in the database.
+ * @param {Object} request Express js request object.
+ * @param {Object} response Express js response object.
+ */
+exports.deleteProduct = async (request, response) => {
+
+    const {id} = request.body
+
+    try{
+
+        // Get product
+        const product = await Product.findByPk(id)
+
+        // If product does not exist
+        if (product == null){
+            throw new Error(`Product with ID ${id} does not exist in database.`)
+        }
+
+        // Delete product
+        await product.destroy()
+
+        console.log("Product deleted successfully in database.")
+        response.status(200).json({
+            message: "Product deleted successfully in database.",
+        })
+    } 
+    catch (error){
+        console.log(`Error in productController.js function deleteProduct: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+}
