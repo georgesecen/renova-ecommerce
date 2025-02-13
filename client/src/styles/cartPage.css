@@ -1,5 +1,6 @@
 div.cart-page {
     padding: 0 80px;
+    min-height: calc(100dvh - 80px);
 }
 .cart {
     display: flex;

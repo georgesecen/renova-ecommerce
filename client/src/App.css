@@ -2,6 +2,10 @@
     font-family: Quicksand;
     src: url(./assets/fonts/Quicksand-VariableFont_wght.ttf);
 }
+@font-face {
+    font-family: Italiana;
+    src: url(./assets/fonts/Italiana-Regular.ttf);
+}
 
 * {
     margin: 0;
@@ -21,4 +25,5 @@ div.App {
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
+    font-family: Quicksand;
 }

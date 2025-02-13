@@ -1,0 +1,12 @@
+input.input{
+    background-color: var(--bg);
+    color: var(--text);
+    width: 100%;
+    border: none;
+    padding: 1.2rem;
+    border-radius: .5rem;
+}
+
+input.input::placeholder{
+    text-transform: uppercase;
+}

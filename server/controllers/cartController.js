@@ -1,124 +1,142 @@
-// const Cart = require('../models/cartModel');
-//
-// exports.getAllCartItems = (req, res) => {
-//     Cart.getAll((err, results) => {
-//         if (err) {
-//             return res.status(500).json({ error: 'Error fetching cart items' });
-//         }
-//         res.json(results);
-//     });
-// };
-//
-// exports.addCartItem = (req, res) => {
-//     const { user_id, product_id, quantity } = req.body;  // Exclude `id` since it's auto-incremented
-//
-//     console.log('Request Data:', req.body);
-//     // Validate input (optional but recommended)
-//     if (!user_id || !product_id || !quantity) {
-//         return res.status(400).json({ error: 'Missing required fields' });
-//     }
-//     // Check if the product already exists in the cart for this user
-//     Cart.checkIfProductExists(user_id, product_id, (err, results) => {
-//         if (err) {
-//             console.error('Error checking product existence:', err);
-//             return res.status(500).json({ error: 'Error checking product existence' });
-//         }
-//
-//         if (results.length > 0) {
-//             // Product already in cart, update the quantity
-//             const existingQuantity = results[0].quantity;
-//             const newQuantity = existingQuantity + quantity;
-//
-//             // Update the quantity of the existing cart item
-//             Cart.updateQuantity(user_id, product_id, newQuantity, (updateErr, updateResult) => {
-//                 if (updateErr) {
-//                     console.error('Error updating quantity:', updateErr);
-//                     return res.status(500).json({ error: 'Error updating cart item' });
-//                 }
-//
-//                 res.status(200).json({ message: 'Item quantity updated', cartItemId: results[0].id });
-//             });
-//         } else {
-//             // Product not in cart, create a new cart item
-//             const created_at = new Date();
-//             const updated_at = new Date();
-//
-//             Cart.create(user_id, product_id, quantity, (createErr, createResult) => {
-//                 if (createErr) {
-//                     console.error('Error adding item to cart:', createErr);
-//                     return res.status(500).json({ error: 'Error adding item to cart' });
-//                 }
-//
-//                 res.status(201).json({ message: 'Item added to cart', cartItemId: createResult.insertId });
-//             });
-//         }
-//     });
-//
-//     // // Call the model to add the item to the cart
-//     // Cart.create(user_id, product_id, quantity, (err, result) => {
-//     //     console.log('Incoming data:', req.body);
-//     //
-//     //     if (err) {
-//     //         return res.status(500).json({ error: 'Error adding item to cart' });
-//     //     }
-//     //     res.status(201).json({ message: 'Item added to cart successfully', cartItemId: result.insertId });
-//     // });
-// };
-
 const Cart = require('../models/cartModel');
+const ProductVariant = require('../models/productVariantModel');
+const Product = require('../models/productModel');
+const Image = require('../models/ProductImageModel');
 
-exports.getAllCartItems = (req, res) => {
-    Cart.getAll((err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Error fetching cart items' });
+exports.getAllCartItems = async (req, res) => {
+    try {
+        //TODO make dynamic when authentication is set up
+        // const userId = req.user ? req.user.id : null;
+        const userId = 2
+        console.log("User ID from JWT:", userId);
+        if (!userId) {
+            console.log("no user id")
+            return res.status(400).json({ error: 'User ID is required' });
         }
-        res.json(results);
-    });
+
+        console.log(`Fetching cart items for user ID: ${userId}`);
+
+        const cartItems = await Cart.findAll({
+            where: { user_id: userId },
+            include: [
+                {
+                    model: ProductVariant,
+                    as: 'productVariant',
+                    attributes: ['id', 'product_id', 'color', 'size', 'stock_quantity', 'price'],
+                    //Join tables
+                    include: [
+                        {
+                            model: Product,
+                            as: 'product',
+                            attributes: ['id', 'name', 'description', 'price'],
+                            include: [
+                                {
+                                    model: Image,
+                                    as: 'image',
+                                    attributes: ['image_url', 'is_primary'],
+                                }
+                            ]
+                        }
+
+                    ]
+                }
+            ],
+            attributes: ['id', 'quantity', 'createdAt', 'updatedAt']
+        });
+        //Check if cart is empty
+        if (!cartItems.length) {
+            console.log('no items in the cart')
+            return res.status(200).json([]);
+        }
+        res.status(200).json(cartItems);
+    } catch (error) {
+        console.error('Error fetching cart items:', error);
+        res.status(500).json({ error: 'Error fetching cart items' });
+    }
+};
+// Get a single cart item by ID
+exports.getCartItem = async (req, res) => {
+    try {
+        const userId = req.user ? req.user.id : null;
+        const cartItemId = req.params.cart_item_id;
+        if (!userId || !cartItemId) {
+            return res.status(400).json({ error: 'User ID and Cart Item ID are required' });
+        }
+        const cartItem = await Cart.findOne({ where: { id: cartItemId, user_id: userId } });
+        if (!cartItem) {
+            return res.status(404).json({ error: 'Cart item not found' });
+        }
+
+        res.status(200).json(cartItem);
+    } catch (error) {
+        console.error('Error fetching cart item:', error);
+        res.status(500).json({ error: 'Error fetching cart item' });
+    }
 };
 
-exports.addCartItem = (req, res) => {
-    const { user_id, product_id, quantity } = req.body;
+// Add or update a cart item
+exports.addCartItem = async (req, res) => {
+    try {
+        //TODO make user_id dynamic once authentication is set up
+        // const user_id = req.user ? req.user.id : null;
+        const user_id = 2
+        const { product_variant_id, quantity } = req.body;
+        console.log(product_variant_id);
+        console.log(user_id)
+        console.log(quantity)
+        if (!user_id || !product_variant_id || !quantity) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
 
-    console.log('Request Data:', req.body); // Debugging
+        const existingItem = await Cart.findOne({ where: { user_id, product_variant_id } });
 
-    // Validate input
-    if (!user_id || !product_id || !quantity) {
-        return res.status(400).json({ error: 'Missing required fields' });
+        if (existingItem) {
+            existingItem.quantity += quantity;
+            await existingItem.save();
+            return res.status(200).json({ message: 'Item quantity updated', cartItemId: existingItem.id });
+        }
+
+        const newItem = await Cart.create({ user_id, product_variant_id, quantity });
+        res.status(201).json({ message: 'Item added to cart', cartItemId: newItem.id });
+    } catch (error) {
+        console.error('Error adding item to cart:', error);
+        res.status(500).json({ error: 'Error adding item to cart' });
     }
+};
 
-    // Check if the product exists in the cart for this user
-    Cart.checkIfProductExists(user_id, product_id, (err, results) => {
-        if (err) {
-            console.error('Error checking product existence:', err);
-            return res.status(500).json({ error: 'Error checking product existence' });
+// Remove cart item or decrease quantity
+exports.removeCartItem = async (req, res) => {
+    try {
+        //TODO change to dynamic user_id
+        const user_id = 2
+        // const user_id = req.user.id;
+        const cart_item_id  = req.params.cart_item_id;  // Get from URL
+
+        const { product_id, quantity } = req.body;
+        console.log(user_id)
+        console.log(product_id);
+        console.log(quantity);
+        console.log(cart_item_id);
+        if (!user_id || !product_id || !quantity) {
+            return res.status(400).json({ error: 'Missing required fields' });
         }
 
-        if (results.length > 0) {
-            // Product already in cart, update quantity
-            const existingQuantity = results[0].quantity;
-            const newQuantity = existingQuantity + quantity;
-
-            Cart.updateQuantity(user_id, product_id, newQuantity, (updateErr, updateResult) => {
-                if (updateErr) {
-                    console.error('Error updating quantity:', updateErr);
-                    return res.status(500).json({ error: 'Error updating cart item' });
-                }
-
-                res.status(200).json({ message: 'Item quantity updated', cartItemId: results[0].id });
-            });
-        } else {
-            // Product not in cart, create a new cart item
-            const created_at = new Date();
-            const updated_at = new Date();
-
-            Cart.create(user_id, product_id, quantity, (createErr, createResult) => {
-                if (createErr) {
-                    console.error('Error adding item to cart:', createErr);
-                    return res.status(500).json({ error: 'Error adding item to cart' });
-                }
-
-                res.status(201).json({ message: 'Item added to cart', cartItemId: createResult.insertId });
-            });
+        const cartItem = await Cart.findOne({ where: { user_id, id: cart_item_id} });
+        console.log(cartItem);
+        if (!cartItem) {
+            return res.status(404).json({ error: 'Product not found in cart' });
         }
-    });
+
+        if (cartItem.quantity > quantity) {
+            cartItem.quantity -= quantity;
+            await cartItem.save();
+            return res.status(200).json({ message: 'Item quantity updated', cartItemId: cartItem.id });
+        }
+
+        await cartItem.destroy();
+        res.status(200).json({ message: 'Item removed from cart' });
+    } catch (error) {
+        console.error('Error removing cart item:', error);
+        res.status(500).json({ error: 'Error removing cart item' });
+    }
 };
