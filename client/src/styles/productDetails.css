@@ -35,6 +35,22 @@
     display: block;
 }
 
+/* Carousel buttons  */
+.carousel-control-next, .carousel-control-prev {
+    display: none;
+}
+
+.carousel:hover .carousel-control-next, .carousel:hover .carousel-control-prev {
+    display: flex;
+}
+
+.carousel-indicators [data-bs-target] {
+    width: 5px;
+    height: 5px;
+    border-radius: 100%;
+}
+
+
 /* Text + form container styles */
 .details {
     width: 35%;
