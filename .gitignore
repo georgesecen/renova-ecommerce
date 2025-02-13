@@ -348,4 +348,4 @@ sketch
 *.env
 
 # So we dont track images added and removed from server
-public/images
+*/public/images/
