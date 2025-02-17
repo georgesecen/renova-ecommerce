@@ -38,31 +38,131 @@ exports.register = async (req, res) => {
     }
 };
 
-exports.login = async(req, res) => {
+// exports.login = async(req, res) => {
+//     const { email, password } = req.body;
+//     console.log(email);
+//     try {
+//         const foundUserByEmail = await userModel.findOne({ where: { email } });
+//         if (foundUserByEmail) {
+//             const isMatch = bcrypt.compareSync(password, foundUserByEmail.dataValues.password);
+//             if (!isMatch) {
+//                 return res.status(400).json({error: 'Invalid password'});
+//             }
+//             const token = jwt.sign({ userId: foundUserByEmail.id, role: foundUserByEmail.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+//             //TODO handle token expiration in an elegant way
+//             console.log(token);
+//             res.cookie('jwt', token, {
+//                 httpOnly: true,
+//                 secure: process.env.NODE_ENV === "production",
+//                 sameSite: 'lax',
+//                 maxAge: 1000 * 60 * 60 * 24,
+//             })
+//             return res.status(200).json({ message: "User successfully logged in", token });
+//         } else {
+//             return res.status(400).json({error: 'Invalid email'});
+//         }
+//     } catch (e) {
+//         console.log(e);
+//         return res.status(500).json({error: "Error logging in user"});
+//     }
+// };
+exports.login = async (req, res) => {
     const { email, password } = req.body;
     console.log(email);
+
     try {
         const foundUserByEmail = await userModel.findOne({ where: { email } });
+
         if (foundUserByEmail) {
             const isMatch = bcrypt.compareSync(password, foundUserByEmail.dataValues.password);
             if (!isMatch) {
-                return res.status(400).json({error: 'Invalid password'});
+                return res.status(400).json({ error: 'Invalid password' });
             }
-            const token = jwt.sign({ userId: foundUserByEmail.id, role: foundUserByEmail.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            //TODO handle token expiration in an elegant way
-            console.log(token);
-            res.cookie('jwt', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
+
+            const accessToken = jwt.sign(
+                { userId: foundUserByEmail.id, role: foundUserByEmail.role },
+                process.env.JWT_SECRET,
+                { expiresIn: '1h' }
+            );
+
+            const refreshToken = jwt.sign(
+                { userId: foundUserByEmail.id, role: foundUserByEmail.role },
+                process.env.REFRESH_SECRET,
+                { expiresIn: '7d' }
+            );
+
+            // Set JWT tokens in cookies
+            res.cookie('jwt', accessToken, {
+                httpOnly: true,  // Ensure the cookie is not accessible via JavaScript
+                secure: process.env.NODE_ENV === "production",  // Use secure cookies in production
                 sameSite: 'lax',
-                maxAge: 1000 * 60 * 60 * 24,
-            })
-            return res.status(200).json({ message: "User successfully logged in", token });
+                maxAge: 1000 * 60 * 60 * 24,  // 1 day for access token
+            });
+
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,  // Ensure the cookie is not accessible via JavaScript
+                secure: process.env.NODE_ENV === "production",  // Use secure cookies in production
+                sameSite: 'lax',
+                maxAge: 1000 * 60 * 60 * 24 * 7,  // 7 days for refresh token
+            });
+
+            return res.status(200).json({ message: "User successfully logged in", token: accessToken });
+
         } else {
-            return res.status(400).json({error: 'Invalid email'});
+            return res.status(400).json({ error: 'Invalid email' });
         }
+
     } catch (e) {
         console.log(e);
-        return res.status(500).json({error: "Error logging in user"});
+        return res.status(500).json({ error: "Error logging in user" });
+    }
+};
+
+
+// exports.refreshToken = async (req, res) => {
+//     const refreshToken = req.cookies.refreshToken;
+//     if (!refreshToken) {
+//         return res.status(401).json({error: 'Token not found'});
+//     }
+//     try {
+//         const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
+//
+//         // Generate a new access token
+//         const newAccessToken = jwt.sign(
+//             {userId: decoded.userId, role: decoded.role},
+//             process.env.JWT_SECRET,
+//             {expiresIn: '1h'} // Set expiration for access token
+//         );
+//
+//         return res.status(200).json({accessToken: newAccessToken});
+//
+//     } catch (error) {
+//         console.error("Invalid refresh token:", error);
+//         return res.status(403).json({error: 'Invalid or expired refresh token'});
+//     }
+// }
+
+exports.refreshToken = async (req, res) => {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+        return res.status(401).json({ error: 'Refresh token not found' });
+    }
+
+    try {
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
+
+        // Generate a new access token
+        const newAccessToken = jwt.sign(
+            { userId: decoded.userId, role: decoded.role },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }  // Access token expiration time
+        );
+
+        return res.status(200).json({ accessToken: newAccessToken });
+
+    } catch (error) {
+        console.error("Invalid or expired refresh token:", error);
+        return res.status(403).json({ error: 'Invalid or expired refresh token' });
     }
 };

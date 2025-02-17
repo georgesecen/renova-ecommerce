@@ -37,6 +37,7 @@ export const loginUser = async (email,password) => {
         throw error;
     }
 }
+
 //Create guest user
 export const createGuestUser = async (session_token,expiry) => {
     console.log("Attempting to register a new guest user");
@@ -81,3 +82,48 @@ export const getCartItemQuantity = async () => {
         return 0;
     }
 }
+
+// Function to refresh the access token using the refresh token
+//TODO read over
+const refreshAccessToken = async () => {
+    try {
+        const response = await API.post('/refresh-token', { withCredentials: true });
+        return response.data.accessToken;
+    } catch (error) {
+        console.error("Error refreshing token:", error);
+        throw new Error("Unable to refresh token");
+    }
+};
+
+// Set up Axios interceptor to handle expired access token
+API.interceptors.response.use(
+    response => response, // If response is successful, just return it
+    async (error) => {
+        const originalRequest = error.config;
+
+        // If the error is a 401 (Unauthorized) and it hasn't been retried yet
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true; // Mark the request as retried
+
+            // Try to refresh the token
+            try {
+                const newAccessToken = await refreshAccessToken();
+                // Update the request header with the new access token
+                API.defaults.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                // axios.defaults.headers['Authorization'] = `Bearer ${newAccessToken}`;
+                originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+
+                // Retry the original request with the new token
+                // return axios(originalRequest);
+                return API(originalRequest);
+            } catch (refreshError) {
+                console.error("Token refresh failed:", refreshError);
+                return Promise.reject(refreshError);
+            }
+        }
+
+        return Promise.reject(error);
+    }
+);
+
+export default API;

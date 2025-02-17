@@ -26,9 +26,6 @@ const authenticateJWT = (req, res, next) => {
             return res.status(403).json({ error: 'Invalid or expired token' });
         }
 
-        // console.log("Decoded JWT:", decodedToken);
-        // console.log("Decoded JWT:", decodedToken.userId);
-
         // Ensure the token contains a valid user ID before attaching it to the request
         if (!decodedToken.userId) {
             return res.status(400).json({ error: 'Invalid token structure' });
