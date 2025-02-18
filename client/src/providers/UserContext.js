@@ -8,6 +8,7 @@ const UserContext = createContext();
 // Provide the context to the app
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     // Check cookies on initial load
     useEffect(() => {
@@ -16,6 +17,7 @@ export const UserProvider = ({ children }) => {
             try{
                 const decoded = jwtDecode(token); // Decode the token
                 setUser({ userId: decoded.userId });
+                setIsLoggedIn(true);
             } catch(err) {
                 console.error("Invalid token:", err);
                 Cookies.remove('jwt'); // Remove invalid token
@@ -29,6 +31,7 @@ export const UserProvider = ({ children }) => {
         try {
             Cookies.set('jwt', token); // Set JWT token in cookies
             const decoded = jwtDecode(token); // Decode the token
+            setIsLoggedIn(true)
             setUser({ userId: decoded.userId }); // Update React Context state
         } catch(err) {
             console.error("failed to decode token:", err);
@@ -38,11 +41,12 @@ export const UserProvider = ({ children }) => {
 
     const logout = () => {
         Cookies.remove('jwt'); // Clear JWT token from cookies
+        setIsLoggedIn(false);
         setUser(null); // Remove user data from context
     };
 
     return (
-        <UserContext.Provider value={{ user, login, logout }}>
+        <UserContext.Provider value={{ user, login, logout, isLoggedIn }}>
             {children}
         </UserContext.Provider>
     );

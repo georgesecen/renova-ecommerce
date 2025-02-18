@@ -3,10 +3,13 @@ import {useCart} from "../providers/CartContext";
 import '../styles/header.css'
 import { CgShoppingCart } from 'react-icons/cg'
 import '../assets/images/logo.png'
+import {useUser} from "../providers/UserContext";
 
 function Header() {
   const { totalQuantity } = useCart();
+  const { isLoggedIn, logout } = useUser();
   const logo = require('../assets/images/logo.png');
+    console.log(isLoggedIn)
   return (
     <div className="header">
       <div className="headerContent">
@@ -20,7 +23,11 @@ function Header() {
                 <NavLink to='/contact'>CONTACT</NavLink>
             </div>
             <div className="headerNav2">
-		            <NavLink to="/signIn">SIGN IN</NavLink>
+                {isLoggedIn ? (
+                    <NavLink to="/" onClick={logout}>LOGOUT</NavLink>
+                ) : (
+                    <NavLink to="/signIn">SIGN IN</NavLink>
+                )}
                 <NavLink to='/cart'> {totalQuantity} {<CgShoppingCart />}</NavLink>
             </div>
         </div>

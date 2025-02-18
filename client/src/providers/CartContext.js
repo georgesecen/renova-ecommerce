@@ -16,6 +16,7 @@ export const CartProvider = ({ children }) => {
         const fetchCartItems = async () => {
             try {
                 const quantity = await getCartItemQuantity();
+                console.log(quantity);
                 setTotalQuantity(quantity);  // Set the cart quantity from the API
                 localStorage.setItem('cartQuantity', quantity);  // Persist cart quantity
             } catch (error) {
