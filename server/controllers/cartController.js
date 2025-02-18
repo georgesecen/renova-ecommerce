@@ -5,7 +5,8 @@ const Image = require('../models/ProductImageModel');
 
 exports.getAllCartItems = async (req, res) => {
     try {
-        const userId = req.user;
+        const userId = req.user.userId;
+        console.log(userId)
         if (!userId) {
             console.log("no user id")
             return res.status(400).json({ error: 'User ID is required' });
@@ -73,7 +74,7 @@ exports.getCartItem = async (req, res) => {
 // Add or update a cart item
 exports.addCartItem = async (req, res) => {
     try {
-        const user_id = req.user;
+        const user_id = req.user.userId;
         console.log("User ID from addCartItem method:", user_id);
         const { product_variant_id, quantity } = req.body;
         if (!user_id || !product_variant_id || !quantity) {
@@ -99,7 +100,7 @@ exports.addCartItem = async (req, res) => {
 // Remove cart item or decrease quantity
 exports.removeCartItem = async (req, res) => {
     try {
-        const user_id = req.user;
+        const user_id = req.user.userId;
         const cart_item_id  = req.params.cart_item_id;  // Get from URL
 
         const { product_id, quantity } = req.body;
@@ -130,7 +131,8 @@ exports.removeCartItem = async (req, res) => {
 
 exports.getCartQuantity = async (req, res) => {
     try {
-        const user_id = req.user;
+        const user_id = req.user.userId;
+        console.log("cartquantity from cart controller: ",user_id)
         if (!user_id) return res.status(400).json({ error: "User ID required" });
 
         const cartItems = await Cart.findAll({ where: { user_id } });

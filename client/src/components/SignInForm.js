@@ -56,7 +56,7 @@ export default function SignInForm() {
         const response = await loginUser(formData.email, formData.password);
         const data = response.data;
         //grab token from response and store it
-        const token = response.data.token;
+        const token = data.token;
         login(token); //set context
         //grab cart quantity from db
         const res = await getCartItemQuantity();

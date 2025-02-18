@@ -76,6 +76,7 @@ export const getCartItemQuantity = async () => {
         const response = await API.get('/cart/quantity', {
             withCredentials: true,
         });
+        console.log("cart quantity: ",response);
         return response.data.cartQuantity;  // Update this based on the correct response format
     } catch (error) {
         console.error("Error fetching cart:", error);
