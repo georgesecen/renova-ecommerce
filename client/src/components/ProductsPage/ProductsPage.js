@@ -1,14 +1,16 @@
+import { useState } from 'react';
 import './productsPage.css'
 
 function ProductsPage() {
+    const [filter, filterBy] = useState(0)
     return (
         <div className="products-page">
             <div className="side-nav">
                 <ul>
-                <li>ALL</li>
-                <li>HOODIES</li>
-                <li>T-SHIRTS</li>
-                <li>PANTS</li>
+                <li className={filter === 0 ? "active" : ""} onClick={() => filterBy(0)}>ALL</li>
+                <li className={filter === 1 ? "active" : ""} onClick={() => filterBy(1)}>HOODIES</li>
+                <li className={filter === 2 ? "active" : ""} onClick={() => filterBy(2)}>T-SHIRTS</li>
+                <li className={filter === 3 ? "active" : ""} onClick={() => filterBy(3)}>PANTS</li>
                 </ul>
             </div>
 
