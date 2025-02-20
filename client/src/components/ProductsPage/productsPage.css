@@ -1,0 +1,9 @@
+.products-page {
+    height: calc(100vh - 80px);
+    display: flex;
+    /* background-color: rgba(24, 24, 25, 0.637); */
+}
+
+.products-page .side-nav {
+    width: 200px;
+}
