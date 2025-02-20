@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 function ProductDetails() {
 
   const {state} = useLocation();
-  const { id, name, price, desc } = state;
+  const { id } = state;
     return (
       <div className="detailsPage">
         <div className="productImages">
@@ -24,9 +24,9 @@ function ProductDetails() {
           </Carousel>
         </div>
         <div className="details">
-            <h4>{state.name}</h4>
-            <h6>${state.price}</h6>
-            <p>{state.desc}</p>
+            <h4>name</h4>
+            <h6>$</h6>
+            <p>desc</p>
             <form>
                 <h5>Colour</h5>
                 <h5>Size</h5>

@@ -58,17 +58,15 @@ function ProductItem() {
             });
     };
 
-    /** This function will take in a product object and 
+    /** This function will take in an int productId and 
      *  redirect the user to /products:id where id is 
-     *  product.id and send the data of the product object
-     *  to the page
+     *  productId
      * 
      * @param {*} product 
      */
-    const toProductPage = (product) => {
-        navigate('/products/' + (product.id), {
-                 state: { id: product.id, name: product.name, 
-                        price: product.price, desc: product.description } 
+    const toProductPage = (productId) => {
+        navigate('/products/' + (productId), {
+                 state: { id: productId } 
                     }
                 )
     }
@@ -88,7 +86,7 @@ function ProductItem() {
         <div>
         <ul className="productList">
             {products.map((product) => (
-                <li key={product.id} className="productItem" onClick={() => toProductPage(product)}>
+                <li key={product.id} className="productItem" onClick={() => toProductPage(product.id)}>
                         {/*if product contains more than one image grab the first - otherwise grab default*/}
                     <img
                         // src={product.images?.length > 0 ? `/images/${product.images[0].image_url}` : '/images/default.jpg'}
