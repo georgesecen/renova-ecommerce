@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './productsPage.css'
+import ProductCard from '../ProductCard/ProductCard';
 
 function ProductsPage() {
     const [filter, filterBy] = useState(0)
@@ -15,7 +16,7 @@ function ProductsPage() {
             </div>
 
             <div className="products-list">
-
+                <ProductCard/>
             </div>
         </div>
     );

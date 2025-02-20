@@ -1,0 +1,6 @@
+.product-card {
+    width: 200px;
+    height: 250px;
+    background-color: rgb(40, 40, 40);
+    border-radius: 10px;
+}
