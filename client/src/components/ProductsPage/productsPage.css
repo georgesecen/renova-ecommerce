@@ -1,9 +1,35 @@
 .products-page {
     height: calc(100vh - 80px);
     display: flex;
-    /* background-color: rgba(24, 24, 25, 0.637); */
+    background-color: rgb(28, 28, 29);
 }
+
+
+/* Side navigation styles  */
 
 .products-page .side-nav {
     width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.products-page .side-nav ul {
+    list-style-type: none;
+    margin-bottom: 300px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+.products-page .side-nav ul > li {
+    margin-top: 8px;
+    cursor: pointer;
+
+    transition-duration: 130ms;
+}
+
+.products-page .side-nav ul > li:hover {
+    font-size: 16px;
+    color: rgb(241, 247, 252);
 }
