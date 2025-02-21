@@ -1,6 +1,21 @@
 .product-card {
     width: 200px;
-    height: 250px;
+    height: 230px;
     background-color: rgb(40, 40, 40);
     border-radius: 10px;
+    position: relative;
+}
+
+.product-card > div {
+    position: absolute;
+    bottom: 10px;
+    font-size: 13px;
+}
+
+.name {
+    left: 10px
+}
+
+.price {
+    right: 10px;
 }
