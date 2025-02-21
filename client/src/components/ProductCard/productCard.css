@@ -1,21 +1,28 @@
 .product-card {
     width: 200px;
     height: 230px;
-    background-color: rgb(40, 40, 40);
+    background-color: rgb(36, 36, 37);
     border-radius: 10px;
     position: relative;
+    padding-top: 20px;
 }
 
-.product-card > div {
+.product-card .name, .product-card .price {
     position: absolute;
     bottom: 10px;
     font-size: 13px;
 }
 
-.name {
+.product-card .image img {
+    max-width: 120px;
+    margin: auto;
+    display: block;
+}
+
+.product-card .name {
     left: 10px
 }
 
-.price {
+.product-card .price {
     right: 10px;
 }
