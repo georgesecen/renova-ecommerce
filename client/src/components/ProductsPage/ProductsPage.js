@@ -17,6 +17,16 @@ function ProductsPage() {
 
             <div className="products-list">
                 <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
             </div>
         </div>
     );
