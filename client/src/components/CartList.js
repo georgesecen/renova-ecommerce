@@ -18,7 +18,7 @@ function CartList() {
         getCartItems()
             .then((response) => {
                 // console.log(response[0].item.productVariant.product.image.img_url);
-                console.log(response[0].productVariant.product.id);
+                console.log(response);
                 const formattedItems = response.map((item) => ({
                     cart_item_id: item.id,
                     quantity: item.quantity,
@@ -116,6 +116,7 @@ function CartList() {
             <div className="product-list" style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "60vh" }}>
                 <Spinner />
             </div>
+            // <div><Spinner /></div>
         );
     }
     // Function to calculate total cost of items in the cart

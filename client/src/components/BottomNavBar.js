@@ -9,7 +9,6 @@ function BottomNavBar() {
       <NavLink to="/products">Products</NavLink>
       <NavLink to="/contact">Contact</NavLink>
       <NavLink to="/signIn">Sign In</NavLink>
-      <NavLink to="/signUp">Sign Up</NavLink>
     </div>
   );
 }

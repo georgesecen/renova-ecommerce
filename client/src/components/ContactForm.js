@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { Input } from "./Input";
 import { Button } from "./Button";
+import Spinner from '../components/Spinner';
+
 
 export default function ContactForm() {
     // State for form fields
@@ -13,6 +15,11 @@ export default function ContactForm() {
         email: '',
         message: ''
     });
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [serverMessage, setServerMessage] = useState("");
+
     // State for validation messages
     const [validated, setValidated] = useState(false);
     // State form validation
@@ -71,6 +78,7 @@ export default function ContactForm() {
         const form = event.currentTarget;
 
         if (validateForm()) {
+            setIsLoading(true);
             const response = await fetch("http://localhost:3306/api/send-email", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -82,9 +90,10 @@ export default function ContactForm() {
             });
 
             const data = await response.json();
-            alert(data.message);
+            setServerMessage(data.message);
             setShowModal(true);
             setFormData({ firstName: '', lastName: '', email: '', message: '' });
+            setIsLoading(false);
         } else {
             console.log("Form has errors");
         }
@@ -160,6 +169,7 @@ export default function ContactForm() {
                 </Form.Group>
 
                 <Button type={"submit"}>contact us</Button>
+                {isLoading ? <Spinner/> : <p>{serverMessage}</p>}
             </Form>
             {/*<FormModal*/}
             {/*    show={showModal}*/}

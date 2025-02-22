@@ -66,3 +66,10 @@ div.products-page h1 {
     color: black;
     background-color: white;
 }
+
+.spinner-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60dvh;
+}

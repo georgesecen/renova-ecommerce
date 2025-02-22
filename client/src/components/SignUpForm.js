@@ -5,6 +5,8 @@ import { Button } from "./Button";
 import { addUser } from "../services/api";
 import { Input } from "./Input";
 import { Link } from "react-router";
+import Spinner from '../components/Spinner';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function SignUpForm() {
   const [formData, setFormData] = useState({
@@ -12,8 +14,9 @@ export default function SignUpForm() {
     password: "",
     username: "",
   });
-
   const [serverMessage, setServerMessage] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [validated, setValidated] = useState(false);
 
@@ -53,23 +56,21 @@ export default function SignUpForm() {
     
     if (validateForm()) {
       try {
-        const response = await addUser(formData.email, formData.password, formData.username);
+        setIsLoading(true);
+        const response = await addUser(uuidv4(), formData.username, formData.email, formData.password);
         const data = response.data;
         setFormData({ email: "", password: "", username: "" });
         setServerMessage(data.message);
-        
-        
+        setIsLoading(false);
       } catch (err) {
+        setIsLoading(false);
         if (err.response) {
           setServerMessage(err.response.data.error);
         } else {
-          console.log(err.message); 
+          // console.log(err.response.data.error);
+          console.log(err)
         }
-     
-        
       }
-
-      
     } else {
       console.log("form errors");
     }
@@ -140,10 +141,9 @@ export default function SignUpForm() {
         {/* <Button variant="primary" type="submit">
           Submit
         </Button> */}
-        <Button type={"submit"}>sign up</Button>
+        <Button isDisabled={isLoading} type={"submit"}>sign up</Button>
         <p className="link-to-signin">ALREADY HAVE ACCOUNT? <Link className="accent" to={"/signIn"}>SIGN IN</Link></p>
-        <p>{serverMessage}</p>
-        
+        {isLoading ? <Spinner/> : <p>{serverMessage}</p>}
       </Form>
     </div>
   );

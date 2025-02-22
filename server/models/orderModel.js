@@ -35,6 +35,10 @@ const Order = sequelize.define('order',
         },
         updated_at: {
             type: DataTypes.DATE,
+        },
+        stripe_id: {
+            type: DataTypes.STRING,
+            allowNull: false,
         }
     },
     {

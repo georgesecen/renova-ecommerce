@@ -17,6 +17,10 @@ const GuestUser = sequelize.define(
         },
         created_at: {
             type: DataTypes.DATE,
+        },
+        expires_at: {
+            type: DataTypes.BIGINT,
+            allowNull: false,
         }
 
     },

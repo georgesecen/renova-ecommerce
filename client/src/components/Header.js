@@ -21,7 +21,6 @@ function Header() {
             </div>
             <div className="headerNav2">
 		            <NavLink to="/signIn">SIGN IN</NavLink>
-          	    <NavLink to="/signUp">SIGN UP</NavLink>
                 <NavLink to='/cart'> {totalQuantity} {<CgShoppingCart />}</NavLink>
             </div>
         </div>

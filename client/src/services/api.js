@@ -3,78 +3,81 @@ import axios from "axios";
 // set up url to match express
 const API = axios.create({
     baseURL: 'http://localhost:3306',
+    withCredentials: true,
 });
 
-API.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem('jwtToken');  // Retrieve token from localStorage
-        console.log("Intercepting request. Token:", token);
-        if (token) {
-            console.log('token provided');
-            config.headers['Authorization'] = `Bearer ${token}`;
-            console.log(config.headers['Authorization'])// Add token to headers
-        }
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
-    }
-);
-
 export const getProducts = () => {
-    return API.get("/products");
+    return API.get("/products", {withCredentials: true});
 }
 export const addProduct = (product) => {
-    return API.post("/cart", product);
+    return API.post("/cart", product, {withCredentials: true});
 }
 export const removeCartItem = (cartItem) => {
     console.log(`Attempting to delete /cart/${cartItem.cart_item_id}`);
     return API.delete(`/cart/${cartItem.cart_item_id}`, {
+        withCredentials: true,
         data: {
             product_id: cartItem.cart_item_id,
             quantity: cartItem.quantity,
         },
     });
 };
-
-export const addUser = (email,password,username) => {
+//Register user
+export const addUser = (uuid,username,email,password) => {
     console.log("Attempting to register a new user");
-    return API.post(`/user/register`, {email,password,username});
+    return API.post(`/user/register`, {uuid,username,email,password}, {withCredentials: true});
+}
+//User login
+export const loginUser = async (email,password) => {
+    try {
+        const response = await API.post(`/user/login`, {email,password}, {withCredentials: true});
+        return response;
+    } catch(error) {
+        console.error("login error: ", error);
+        throw error;
+    }
+}
+//Create guest user
+export const createGuestUser = async (session_token,expiry) => {
+    console.log("Attempting to register a new guest user");
+    return API.post(`/guest/register`, {session_token, expiry}, {withCredentials: true});
 }
 
-export const loginUser = (email,password) => {
-    console.log("Attempting to login user");
-    return API.post(`/user/login`,{email,password})
-}
+export const getGuestUser = async () => {
+    const guestUserId = localStorage.getItem('guestUserId');  // Retrieve guestUserId
+    if (!guestUserId) {
+        console.warn("No guest user ID found in localStorage.");
+        return null;
+    }
+
+    try {
+        const response = await API.get(`/guest/${guestUserId}`, {withCredentials:true});  // Fetch guest user by ID
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching guest user:', error);
+        return null;
+    }
+};
 
 
 export const getCartItems = async () => {
     try {
-        const token = localStorage.getItem('jwtToken');
-        // console.log('Token retrieved from localStorage:', token);
-        if (!token) {
-            throw new Error("JWT token is missing");
-        }
-        // console.log('Token before request:', token);
-        const response = await API.get('/cart'
-        );
-        console.log(response);
-        return response.data;  // Return cart data from the server
-
+        const response = await API.get("/cart", {withCredentials: true});
+        return response.data;
     } catch (error) {
-        console.error('Error fetching cart:', error);
-        if (error.response) {
-            console.error('Error Response:', error.response.data);
-            console.error('Error Status:', error.response.status);
-            console.error('Error Headers:', error.response.headers);
-        } else if (error.request) {
-            // The request was made but no response was received
-            console.error('Error Request:', error.request);
-        } else {
-            // Something else triggered the error
-            console.error('Error Message:', error.message);
-        }
-        throw error;  // Rethrow the error to let the component handle it
+        console.error("Error fetching cart:", error);
+        throw error;
     }
 };
 
+export const getCartItemQuantity = async () => {
+    try {
+        const response = await API.get('/cart/quantity', {
+            withCredentials: true,
+        });
+        return response.data.cartQuantity;  // Update this based on the correct response format
+    } catch (error) {
+        console.error("Error fetching cart:", error);
+        return 0;
+    }
+}
