@@ -1,4 +1,5 @@
 const Order = require("../models/orderModel")
+const OrderItem = require("../models/orderItemModel")
 const ShippingAddress = require("../models/ShippingAddressModel")
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
@@ -74,7 +75,7 @@ exports.webhook = async (request, response) => {
                 })
 
                 // Create shipping
-                const shipping = await ShippingAddress.create({
+                await ShippingAddress.create({
                     order_id: order.id,
                     recipient_name: name,
 
@@ -98,14 +99,23 @@ exports.webhook = async (request, response) => {
                         limit: 100
                     }
                 )
-                console.log(lineItems)
+                
+                // Create order item for every item purchased at checkout
+                // https://docs.stripe.com/api/checkout/sessions/line_items
+                for (const lineItem of lineItems["data"]){
+                    await OrderItem.create({
+                        order_id: order.id,
+                        product_variant_id: parseInt(lineItem["price"]["product"]),
+                        quantity: lineItem["quantity"],
+                        price_at_purchase: lineItem["price"]["unit_amount"] / 100 // Convert from cents to dollars
+                    })
+                }
 
-
+                console.log("Checkout session successfully added to database.")
+                
             } catch(error) {
-                console.log("Error: ", error)
+                console.log(`Error in stripeWebhook.js function webhook: ${error.message}`)
             }
-            console.log(event.data.object)
-            console.log("Checkout session succeeded!")
             break
 
         default:
