@@ -56,10 +56,21 @@ exports.webhook = async (request, response) => {
 
                 // Get all needed checkout session data
                 const checkoutId = event.data.object["id"]
+                const paymentStatus = event.data.object["payment_status"]
                 const {email, phone: phoneNumber} = event.data.object["customer_details"]
                 const name = event.data.object["shipping_details"]["name"]
                 const {city, country, line1, postal_code: postalCode, state} = event.data.object["shipping_details"]["address"]
                 const amountTotal = event.data.object["amount_total"] / 100 // Convert from cents to dollars
+
+                // Create order
+                const order = await Order.create({
+                    total_price: amountTotal,
+                    status: paymentStatus == "paid" ? "completed" : "pending",
+                    stripe_id: checkoutId,
+
+                    // TODO: Remove foreign key constraints as you cannot track user from webhook (I think)
+                    user_id: 2
+                })
 
                 // Get checkout session line items (max limit is 100 items)
                 const lineItems = await stripe.checkout.sessions.listLineItems(
@@ -71,7 +82,9 @@ exports.webhook = async (request, response) => {
                 console.log(lineItems)
 
 
-            } catch(error) {}
+            } catch(error) {
+                console.log(error)
+            }
             console.log(event.data.object)
             console.log("Checkout session succeeded!")
             break
