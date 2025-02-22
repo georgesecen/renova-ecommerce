@@ -1,7 +1,7 @@
 .product-card {
     width: 200px;
     height: 270px;
-    margin: 10px 18px;
+    margin: 12px 18px;
     position: relative;
 }
 
@@ -37,17 +37,17 @@
 .product-card button {
     display: none;
     position: absolute;
-    bottom: 0;
+    bottom: 4px;
     width: 100%;
 
-    color: var(--text);
+    color: rgb(200, 200, 200);
     text-decoration: none;
-    border: .5px solid var(--text);
+    border: .5px solid rgb(200, 200, 200);
     border-radius: 2px;
     background: none;
     font-size: 12px;
     padding: 3px;
-    transition-duration: 100ms;
+    transition-duration: 150ms;
 }
 
 .product-card:hover button {
@@ -55,5 +55,6 @@
 }
 
 .product-card button:hover {
-    color: rgb(247, 247, 247);
+    color: rgb(232, 232, 232);
+    border-color: rgb(232, 232, 232);
 }

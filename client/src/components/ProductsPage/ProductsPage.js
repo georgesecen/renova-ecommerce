@@ -35,7 +35,7 @@ function ProductsPage() {
 
             <div className="products-list">
             {products.map((product) => (
-                <ProductCard key={product.id} name={product.name} price={product.price}/>
+                <ProductCard key={product.id} img={`images/${product.image[0].image_url}`} name={product.name} price={product.price}/>
             ))}
             </div>
         </div>
