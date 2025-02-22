@@ -1,3 +1,5 @@
+const Order = require("../models/orderModel")
+
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 // TODO: Create webhook which only listens to events we need as it is unnecessary to listen to
@@ -17,7 +19,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
  * @param {Object} response Express js response object.
  * @returns {void}
  */
-exports.webhook = (request, response) => {
+exports.webhook = async (request, response) => {
     
     let event = request.body
   
@@ -49,6 +51,28 @@ exports.webhook = (request, response) => {
         
         // Occurs when a Checkout Session has been successfully completed
         case "checkout.session.completed":
+
+            try {
+
+                // Get all needed checkout session data
+                const checkoutId = event.data.object["id"]
+                const {email, phone: phoneNumber} = event.data.object["customer_details"]
+                const name = event.data.object["shipping_details"]["name"]
+                const {city, country, line1, postal_code: postalCode, state} = event.data.object["shipping_details"]["address"]
+                const amountTotal = event.data.object["amount_total"] / 100 // Convert from cents to dollars
+
+                // Get checkout session line items (max limit is 100 items)
+                const lineItems = await stripe.checkout.sessions.listLineItems(
+                    checkoutId,
+                    {
+                        limit: 100
+                    }
+                )
+                console.log(lineItems)
+
+
+            } catch(error) {}
+            console.log(event.data.object)
             console.log("Checkout session succeeded!")
             break
 

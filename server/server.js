@@ -44,7 +44,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.json());
+// app.use(express.json());
 app.use(cookieParser());
 
 // Only apply the json parser if it is not the Stripe webhook route as the Stripe webhook needs the raw
@@ -57,7 +57,8 @@ app.use((request, response, next)=>{
     else{
 
         // Replaced body-parser with urlencoded extended true because it parses nested json
-        express.urlencoded({extended: true})(request, response, next)
+        // express.urlencoded({extended: true})(request, response, next)
+        express.json()(request, response, next)
     }
 })
 
