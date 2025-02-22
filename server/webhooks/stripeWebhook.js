@@ -1,4 +1,5 @@
 const Order = require("../models/orderModel")
+const ShippingAddress = require("../models/ShippingAddressModel")
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
@@ -59,7 +60,7 @@ exports.webhook = async (request, response) => {
                 const paymentStatus = event.data.object["payment_status"]
                 const {email, phone: phoneNumber} = event.data.object["customer_details"]
                 const name = event.data.object["shipping_details"]["name"]
-                const {city, country, line1, postal_code: postalCode, state} = event.data.object["shipping_details"]["address"]
+                const {city, country, line1, line2, postal_code: postalCode, state} = event.data.object["shipping_details"]["address"]
                 const amountTotal = event.data.object["amount_total"] / 100 // Convert from cents to dollars
 
                 // Create order
@@ -67,6 +68,24 @@ exports.webhook = async (request, response) => {
                     total_price: amountTotal,
                     status: paymentStatus == "paid" ? "completed" : "pending",
                     stripe_id: checkoutId,
+
+                    // TODO: Remove foreign key constraints as you cannot track user from webhook (I think)
+                    user_id: 2
+                })
+
+                // Create shipping
+                const shipping = await ShippingAddress.create({
+                    order_id: order.id,
+                    recipient_name: name,
+
+                    // TODO: Allow phone numbers to be null as they are not required at checkout
+                    phone_number: "test",
+                    address_line1: line1,
+                    address_line2: line2,
+                    city: city,
+                    state: state,
+                    postal_code: postalCode,
+                    country: country,
 
                     // TODO: Remove foreign key constraints as you cannot track user from webhook (I think)
                     user_id: 2
@@ -83,7 +102,7 @@ exports.webhook = async (request, response) => {
 
 
             } catch(error) {
-                console.log(error)
+                console.log("Error: ", error)
             }
             console.log(event.data.object)
             console.log("Checkout session succeeded!")
