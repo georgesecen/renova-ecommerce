@@ -1,5 +1,7 @@
 import axios from "axios";
 
+//TODO refactor into different files
+
 // set up url to match express
 const API = axios.create({
     baseURL: 'http://localhost:3306',
@@ -30,10 +32,17 @@ export const addUser = (uuid,username,email,password) => {
 //User login
 export const loginUser = async (email,password) => {
     try {
-        const response = await API.post(`/user/login`, {email,password}, {withCredentials: true});
-        return response;
+        return await API.post(`/user/login`, {email,password}, {withCredentials: true});
     } catch(error) {
         console.error("login error: ", error);
+        throw error;
+    }
+}
+export const logoutUser = async () => {
+    try {
+        return await API.post('user/logout', {}, {withCredentials: true});
+    } catch (error) {
+        console.error("logoutUser");
         throw error;
     }
 }

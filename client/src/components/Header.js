@@ -1,15 +1,30 @@
 import { NavLink } from 'react-router-dom'
-import {useCart} from "../providers/CartContext";
+
 import '../styles/header.css'
 import { CgShoppingCart } from 'react-icons/cg'
 import '../assets/images/logo.png'
-import {useUser} from "../providers/UserContext";
+import { useUser } from "../providers/UserContext";
+import { useCart } from "../providers/CartContext";
+import { logoutUser } from "../services/api";
 
 function Header() {
-  const { totalQuantity } = useCart();
+  const { totalQuantity, updateCartQuantity } = useCart();
   const { isLoggedIn, logout } = useUser();
   const logo = require('../assets/images/logo.png');
-    console.log(isLoggedIn)
+    console.log("user logged in: ",isLoggedIn)
+    const logoutHandler = async () => {
+        try {
+            await logoutUser();
+            logout();
+            updateCartQuantity(0);
+            localStorage.removeItem('cartQuantity');
+            window.location.href = '/';
+        } catch (error) {
+            console.error("logoutUser");
+            throw error;
+        }
+        console.log("user logged in: ",isLoggedIn)
+    }
   return (
     <div className="header">
       <div className="headerContent">
@@ -24,7 +39,7 @@ function Header() {
             </div>
             <div className="headerNav2">
                 {isLoggedIn ? (
-                    <NavLink to="/" onClick={logout}>LOGOUT</NavLink>
+                    <NavLink to="/" onClick={logoutHandler}>LOGOUT</NavLink>
                 ) : (
                     <NavLink to="/signIn">SIGN IN</NavLink>
                 )}

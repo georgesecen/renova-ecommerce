@@ -14,17 +14,22 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         const token = Cookies.get('jwt'); // Retrieve the JWT token from cookies
         if (token) {
-            try{
+            try {
                 const decoded = jwtDecode(token); // Decode the token
                 setUser({ userId: decoded.userId });
                 setIsLoggedIn(true);
             } catch(err) {
                 console.error("Invalid token:", err);
                 Cookies.remove('jwt'); // Remove invalid token
+                setUser(null);
+                setIsLoggedIn(false);
             }
 
+        } else {
+            setUser(null);
+            setIsLoggedIn(false);
         }
-    }, []);
+    }, [Cookies.get('jwt')]);
 
     // Update user on login
     const login = (token) => {
