@@ -7,9 +7,6 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 // TODO: Create webhook which only listens to events we need as it is unnecessary to listen to
 // every single event from Stripe
 
-// TODO: Keep track of events we have already seen as it is possible we are sent duplicate events with
-// the same event id
-
 // TODO: For extra security verify that webhook events are only coming from Stripes trusted ip
 // addresses https://docs.stripe.com/ips
 
@@ -63,6 +60,18 @@ exports.webhook = async (request, response) => {
                 const name = event.data.object["shipping_details"]["name"]
                 const {city, country, line1, line2, postal_code: postalCode, state} = event.data.object["shipping_details"]["address"]
                 const amountTotal = event.data.object["amount_total"] / 100 // Convert from cents to dollars
+
+                // Make sure we have not already processed event as it is 
+                // possible we are sent duplicate events with the same event id
+                // If we have already added order to the database
+                const duplicate = await Order.findAll({
+                    where: {
+                        stripe_id: checkoutId
+                    }
+                })
+                if (duplicate.length > 0){
+                    break
+                }   
 
                 // Create order
                 const order = await Order.create({
