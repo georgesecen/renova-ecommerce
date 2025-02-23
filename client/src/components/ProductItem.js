@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getProducts, addProduct } from '../services/api';
+import { getProducts } from '../services/products';
+import { addProduct } from '../services/cart';
 import { useCart } from '../providers/CartContext';
 import Spinner from '../components/Spinner';
 import '../styles/productsPage.css';

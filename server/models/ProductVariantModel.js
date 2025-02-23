@@ -28,10 +28,14 @@ const ProductVariantModel = sequelize.define('ProductVariant', {
         price: {
             type: DataTypes.DECIMAL(10,2),
         },
+        created_at: {
+            type: DataTypes.DATE,
+        }
     },
 {
     tableName: 'product_variants',
     timestamps: true,
+    updatedAt: false,
     underscored: true,
     }
 )

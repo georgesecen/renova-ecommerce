@@ -32,7 +32,7 @@ module.exports = {
     await queryInterface.addColumn('products', 'categoryId', {
       type: Sequelize.INTEGER,
       references: {
-        model: 'product_categories', // Matches the table name in createTable()
+        model: 'product_categories',
         key: 'id',
       },
       onUpdate: 'CASCADE',

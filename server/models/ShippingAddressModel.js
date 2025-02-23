@@ -51,18 +51,11 @@ const ShippingAddress = sequelize.define('ShippingAddress', {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        created_at: {
-            type: DataTypes.DATE,
-        },
-        updated_at: {
-            type: DataTypes.DATE,
-        }
     },
     {
         tableName: 'shipping_addresses',
         underscored: true,
         timestamps: true,
-        updatedAt: false,
     }
 )
 
