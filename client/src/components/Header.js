@@ -1,29 +1,30 @@
 import { NavLink } from 'react-router-dom'
-
 import '../styles/header.css'
 import { CgShoppingCart } from 'react-icons/cg'
 import '../assets/images/logo.png'
 import { useUser } from "../providers/UserContext";
 import { useCart } from "../providers/CartContext";
-import { logoutUser } from "../services/api";
+import { logoutUser } from "../services/user";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const { totalQuantity, updateCartQuantity } = useCart();
   const { isLoggedIn, logout } = useUser();
   const logo = require('../assets/images/logo.png');
-    console.log("user logged in: ",isLoggedIn)
+
+    const navigate = useNavigate();
+    //Handle logout
     const logoutHandler = async () => {
         try {
             await logoutUser();
             logout();
             updateCartQuantity(0);
             localStorage.removeItem('cartQuantity');
-            window.location.href = '/';
+            navigate('/');
         } catch (error) {
             console.error("logoutUser");
             throw error;
         }
-        console.log("user logged in: ",isLoggedIn)
     }
   return (
     <div className="header">
