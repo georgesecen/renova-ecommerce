@@ -12,6 +12,8 @@
     border-radius: 10px;
     position: relative;
     padding-top: 20px;
+
+    cursor: pointer;
 }
 
 .product-card .card .name, .card .price {

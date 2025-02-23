@@ -20,7 +20,15 @@ function ProductsPage() {
                     console.error('Error fetching products:', error);
                     setLoading(false);
                 });
-        }, []);
+    }, []);
+
+    const filterProducts = (categoryId) => {
+        const result = products.filter(product => product.categoryId == 2);
+        return result
+    }
+
+    const test = filterProducts(1);
+    console.log(test);
 
     return (
         <div className="products-page">
@@ -37,6 +45,7 @@ function ProductsPage() {
             {products.map((product) => (
                 <ProductCard key={product.id} img={`images/${product.image[0].image_url}`} name={product.name} price={product.price}/>
             ))}
+
             </div>
         </div>
     );
