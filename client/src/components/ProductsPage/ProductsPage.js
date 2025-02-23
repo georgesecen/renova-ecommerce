@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react';
 import './productsPage.css'
 import ProductCard from '../ProductCard/ProductCard';
 import { getProducts } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
+
 
 function ProductsPage() {
+    const navigate = useNavigate();  
     const [filter, filterBy] = useState(0);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -22,13 +25,23 @@ function ProductsPage() {
                 });
     }, []);
 
-    const filterProducts = (categoryId) => {
-        const result = products.filter(product => product.categoryId == 2);
+    const filterProducts = () => {
+        const result = products.filter(product => product.name == 'shirt');
         return result
     }
 
-    const test = filterProducts(1);
-    console.log(test);
+    // const test = filterProducts();
+    // console.log(test);
+
+    /** This function will take in an int productId and 
+     *  redirect the user to /products:id where id is 
+     *  productId
+     * 
+     * @param {*} product 
+     */
+    const toProductPage = (productId) => {
+        navigate('/products/' + (productId), {state: { id: productId } })
+    }
 
     return (
         <div className="products-page">
@@ -43,7 +56,13 @@ function ProductsPage() {
 
             <div className="products-list">
             {products.map((product) => (
-                <ProductCard key={product.id} img={`images/${product.image[0].image_url}`} name={product.name} price={product.price}/>
+                <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
+
+                img={`images/${product.image[0].image_url}`} 
+                name={product.name} 
+                price={product.price}>
+                    
+                </ProductCard>
             ))}
 
             </div>
