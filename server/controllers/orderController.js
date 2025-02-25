@@ -1,4 +1,6 @@
+const OrderItem = require('../models/orderItemModel');
 const Order = require('../models/orderModel');
+const ShippingAddress = require('../models/ShippingAddressModel');
 
 exports.placeOrder = (req, res) => {
     const { userId, products } = req.body;
@@ -63,6 +65,41 @@ exports.updateOrderStatus = async (request, response) => {
     } 
     catch (error){
         console.log(`Error in orderController.js function updateOrderStatus: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+}
+
+/**
+ * Gets all orders from the database.
+ * @param {Object} request Express js request object.
+ * @param {Object} response Express js response object.
+ */
+exports.getOrders = async (request, response) => {
+
+    try{
+
+        const orders = await Order.findAll({
+            // Join tables
+            include: [
+                {
+                    model: ShippingAddress,
+                    as: "shipping_address"
+                },
+                {
+                    model: OrderItem,
+                    as: "order_items"
+                }
+            ]
+        })
+
+        console.log("Orders queried successfully in database.")
+        response.status(200).json({
+            message: "Order queried successfully in database.",
+            data: orders
+        })
+    } 
+    catch (error){
+        console.log(`Error in orderController.js function getOrders: ${error.message}`)
         response.status(500).json({error: error.message})
     }
 }
