@@ -1,6 +1,7 @@
 .products-page {
-    height: calc(100vh);
-    background-color: rgba(25, 25, 25, 0.915);
+    height: calc(100vh - 80px);
+    background-color: rgb(25, 25, 25);
+    box-shadow: 0 -80px rgb(25, 25, 25);
     padding-top: 80px;
 }
 
@@ -19,12 +20,11 @@
     width: 200px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    padding-top: 20px;
 }
 
 .products-page .side-nav ul {
     list-style-type: none;
-    margin-bottom: 300px;
     font-size: 13px;
     font-weight: 400;
     letter-spacing: 2px;
@@ -45,7 +45,7 @@
 /* Products list styles  */
 
 .products-page .products-list {
-    max-width: calc(100vw - 300px);
+    max-width: calc(100vw - 500px);
     margin-left: auto;
     margin-right: auto;
     display: flex;
