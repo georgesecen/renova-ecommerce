@@ -42,7 +42,6 @@ const Order = sequelize.define('order',
     }
 );
 
-
 // Define relationships
 const OrderItem = require("./orderItemModel");
 const ShippingAddress = require("./ShippingAddressModel");

@@ -35,4 +35,12 @@ const OrderItem = sequelize.define('orderItem',
     }
 )
 
+// Define relationships
+const ProductVariantModel = require('./productVariantModel');
+
+OrderItem.belongsTo(ProductVariantModel, {
+    foreignKey: "product_variant_id",
+    as: "product_variant"
+})
+
 module.exports = OrderItem;
