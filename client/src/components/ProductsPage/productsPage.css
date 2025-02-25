@@ -1,7 +1,11 @@
 .products-page {
     height: calc(100vh - 80px);
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
-    background-color: rgb(27, 27, 27);
+    /* background-color: rgb(27, 27, 27); */
+    padding-top: 80px;
 }
 
 

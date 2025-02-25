@@ -3,8 +3,8 @@ import './productCard.css';
 function ProductCard(props) {
     const img = require('../../assets/images/hoodie2.png')
     return (
-        <div className='product-card' onClick={props.customClickEvent}>
-            <div className='card'>
+        <div className='product-card'>
+            <div className='card' onClick={props.customClickEvent}>
                 <div className="image">
                     <img src={img} alt=""/>
                     {/* <img src={props.img} alt=""/> */}
