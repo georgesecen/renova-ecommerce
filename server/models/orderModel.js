@@ -30,12 +30,6 @@ const Order = sequelize.define('order',
             ),
             allowNull: false,
         },
-        created_at: {
-            type: DataTypes.DATE,
-        },
-        updated_at: {
-            type: DataTypes.DATE,
-        },
         stripe_id: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -48,4 +42,19 @@ const Order = sequelize.define('order',
     }
 );
 
+
+// Define relationships
+const OrderItem = require("./orderItemModel");
+const ShippingAddress = require("./ShippingAddressModel");
+
+Order.hasMany(OrderItem, {
+    foreignKey: "order_id",
+    as: "order_items"
+})
+Order.hasOne(ShippingAddress, {
+    foreignKey: "order_id",
+    as: "shipping_address"
+})
+
 module.exports = Order;
+
