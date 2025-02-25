@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const { google } = require('googleapis');
 const db = require("../server/config/database");
 const userRoutes = require('./routes/user');
@@ -10,13 +9,16 @@ const orderItemRoutes = require('./routes/orderItem');
 const cartRoutes = require('./routes/cart');
 const stripeRoutes = require('./routes/stripe')
 const emailRoutes = require('./mail/email');
+const productImageRoutes = require('./routes/productImage');
+const productVariantRoutes = require('./routes/productVariant');
 const guestRoutes = require('./routes/userGuest');
 
 const adminAuthentication = require('./middleware/adminMiddleware')
 const adminRoutes = require('./routes/admin')
 
 const sequelize = require('./config/database');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const { json, urlencoded } = require('body-parser');
 
 require('dotenv').config();
 
@@ -43,10 +45,10 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.json());
 app.use(cookieParser());
+app.use(urlencoded())
 
-// Only apply the bodyParser.json if it is not the Stripe webhook route as the Stripe webhook needs the raw
+// Only apply the json parser if it is not the Stripe webhook route as the Stripe webhook needs the raw
 // body for verification
 app.use((request, response, next)=>{
     // If route is Stripe webook do not apply bodyParser
@@ -54,7 +56,7 @@ app.use((request, response, next)=>{
         next()
     }
     else{
-        bodyParser.json()(request, response, next)
+        json()(request, response, next)
     }
 })
 
@@ -79,12 +81,18 @@ app.get('/auth', (req, res) => {
 app.use('/user', userRoutes);
 app.use('/guest', guestRoutes);
 app.use('/products', productRoutes);
+app.use('/images', productImageRoutes);
+app.use('/product-variants', productVariantRoutes);
 app.use('/orders', orderRoutes);
 app.use('/orderItems', orderItemRoutes);
 app.use('/cart', cartRoutes);
 app.use('/stripe', stripeRoutes);
 app.use('/admin', adminAuthentication, adminRoutes);
 app.use("/api", emailRoutes);
+
+// For static assets which are in the servers public directory such as images
+// https://expressjs.com/en/starter/static-files.html
+app.use('/static', express.static('public'))
 
 
 const connectDB = async () => {

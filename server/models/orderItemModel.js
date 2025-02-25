@@ -26,14 +26,21 @@ const OrderItem = sequelize.define('orderItem',
         price_at_purchase: {
             type: DataTypes.DECIMAL(10,2),
             allowNull: false,
-        },
-        created_at: {
-            type: DataTypes.DATE,
         }
     },
 {
     tableName: 'order_items',
+    underscored: true,
+    updatedAt: false
     }
 )
+
+// Define relationships
+const ProductVariantModel = require('./productVariantModel');
+
+OrderItem.belongsTo(ProductVariantModel, {
+    foreignKey: "product_variant_id",
+    as: "product_variant"
+})
 
 module.exports = OrderItem;
