@@ -2,21 +2,21 @@
   "development": {
     "username": "admin",
     "password": "vP3LRZLzvSVi0ugG6PSL",
-    "database": "ecommerceCM",
+    "database": "ecommerceWS",
     "host": "ecommerce.cxo2ya20m42g.us-east-2.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {
     "username": "admin",
     "password": "vP3LRZLzvSVi0ugG6PSL",
-    "database": "ecommerceCM",
+    "database": "ecommerceWS",
     "host": "ecommerce.cxo2ya20m42g.us-east-2.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "production": {
     "username": "admin",
     "password": "vP3LRZLzvSVi0ugG6PSL",
-    "database": "ecommerceCM",
+    "database": "ecommerceWS",
     "host": "ecommerce.cxo2ya20m42g.us-east-2.rds.amazonaws.com",
     "dialect": "mysql"
   }

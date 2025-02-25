@@ -34,13 +34,6 @@ const User = sequelize.define(
         guest: {
             type: DataTypes.TINYINT,
         },
-        created_at: {
-            type: DataTypes.DATE,
-        },
-        updated_at: {
-            type: DataTypes.DATE,
-        }
-
     },
     {
         // Other model options go here

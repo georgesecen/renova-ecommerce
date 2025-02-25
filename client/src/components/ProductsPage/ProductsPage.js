@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './productsPage.css'
 import ProductCard from '../ProductCard/ProductCard';
-import { getProducts } from '../../services/api';
+import { getProducts } from '../../services/products';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -12,17 +12,17 @@ function ProductsPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-            console.log(products)
-            getProducts()
-                .then((response) => {
-                    console.log(response.data[0].image[0]);
-                    setProducts(response.data);
-                    setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
-                })
-                .catch((error) => {
-                    console.error('Error fetching products:', error);
-                    setLoading(false);
-                });
+        console.log(products)
+        getProducts()
+            .then((response) => {
+                console.log(response.data[0].image[0]);
+                setProducts(response.data);
+                setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
+            })
+            .catch((error) => {
+                console.error('Error fetching products:', error);
+                setLoading(false);
+            });
     }, []);
 
     const filterProducts = () => {
