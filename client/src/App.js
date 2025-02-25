@@ -12,6 +12,7 @@ import SignUp from "./pages/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BottomNavBar from "./components/BottomNavBar";
 import { PageNotFound } from "./pages/PageNotFound";
+import OrdersTable from "./components/OrdersTable/OrdersTable";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/signUp" element={<SignUp />} />
         <Route path='/test-stripe' element={<TestStripe />} />
+        <Route path='/orders' element={<OrdersTable />} />
         <Route path='/return' element={<Return />} />
       </Routes>
       <BottomNavBar />
