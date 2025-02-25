@@ -45,25 +45,28 @@ function ProductsPage() {
 
     return (
         <div className="products-page">
-            <div className="side-nav">
-                <ul>
-                <li className={filter === 0 ? "active" : ""} onClick={() => filterBy(0)}>ALL</li>
-                <li className={filter === 1 ? "active" : ""} onClick={() => filterBy(1)}>HOODIES</li>
-                <li className={filter === 2 ? "active" : ""} onClick={() => filterBy(2)}>T-SHIRTS</li>
-                <li className={filter === 3 ? "active" : ""} onClick={() => filterBy(3)}>PANTS</li>
-                </ul>
-            </div>
+            <div className="content">
 
-            <div className="products-list">
-            {products.map((product) => (
-                <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
+                <div className="side-nav">
+                    <ul>
+                    <li className={filter === 0 ? "active" : ""} onClick={() => filterBy(0)}>ALL</li>
+                    <li className={filter === 1 ? "active" : ""} onClick={() => filterBy(1)}>HOODIES</li>
+                    <li className={filter === 2 ? "active" : ""} onClick={() => filterBy(2)}>T-SHIRTS</li>
+                    <li className={filter === 3 ? "active" : ""} onClick={() => filterBy(3)}>PANTS</li>
+                    </ul>
+                </div>
 
-                img={`images/${product.image[0].image_url}`} 
-                name={product.name} 
-                price={product.price}>
-                    
-                </ProductCard>
-            ))}
+                <div className="products-list">
+                {products.map((product) => (
+                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
+
+                    img={`images/${product.image[0].image_url}`} 
+                    name={product.name} 
+                    price={product.price}>
+                        
+                    </ProductCard>
+                ))}
+                </div>
 
             </div>
         </div>
