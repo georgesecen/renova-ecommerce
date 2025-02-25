@@ -1,3 +1,4 @@
+/* Card container  */
 .product-card {
     width: 230px;
     height: 300px;
@@ -5,6 +6,7 @@
     position: relative;
 }
 
+/* Product card styles */
 .product-card .card {
     width: 100%;
     height: 85%;
@@ -21,11 +23,7 @@
     background-color: rgb(42, 42, 43);
 }
 
-.product-card .card .name, .card .price {
-    position: absolute;
-    bottom: 10px;
-    font-size: 13px;
-}
+/* Card image styless  */
 
 .product-card .card .image img {
     max-width: 120px;
@@ -37,6 +35,14 @@
     max-width: 130px;
 }
 
+/* Card detail styles  */
+
+.product-card .card .name, .card .price {
+    position: absolute;
+    bottom: 10px;
+    font-size: 13px;
+}
+
 .product-card .card .name {
     left: 10px
 }
@@ -45,6 +51,7 @@
     right: 10px;
 }
 
+/* Add to card button styles  */
 .product-card button {
     display: none;
     position: absolute;
@@ -68,11 +75,4 @@
 .product-card button:hover {
     color: rgb(232, 232, 232);
     border-color: rgb(232, 232, 232);
-}
-
-@keyframes highlightCard {
-    /* from {background-color: rgb(36, 36, 37);} */
-    from {background: linear-gradient(to bottom right rgb(36, 36, 37), rgb(78, 78, 79), rgb(36, 36, 37));}
-    to {background-color: rgb(36, 36, 37);}
-
 }
