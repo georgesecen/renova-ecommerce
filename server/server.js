@@ -17,7 +17,8 @@ const adminAuthentication = require('./middleware/adminMiddleware')
 const adminRoutes = require('./routes/admin')
 
 const sequelize = require('./config/database');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const { json, urlencoded } = require('body-parser');
 
 require('dotenv').config();
 
@@ -44,8 +45,8 @@ app.use((req, res, next) => {
     next();
 });
 
-// app.use(express.json());
 app.use(cookieParser());
+app.use(urlencoded())
 
 // Only apply the json parser if it is not the Stripe webhook route as the Stripe webhook needs the raw
 // body for verification
@@ -55,10 +56,7 @@ app.use((request, response, next)=>{
         next()
     }
     else{
-
-        // Replaced body-parser with urlencoded extended true because it parses nested json
-        // express.urlencoded({extended: true})(request, response, next)
-        express.json()(request, response, next)
+        json()(request, response, next)
     }
 })
 
