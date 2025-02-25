@@ -4,7 +4,7 @@ import '../assets/images/hoodie2.png'
 import '../assets/images/hoodie.png'
 import { NavLink } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
-import { createGuestUser } from "../services/api";
+import { createGuestUser } from "../services/guest";
 
 function Home() {
   const hoodieImg = require('../assets/images/hoodie.png')

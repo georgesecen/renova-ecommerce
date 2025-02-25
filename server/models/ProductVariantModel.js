@@ -28,13 +28,14 @@ const ProductVariantModel = sequelize.define('ProductVariant', {
         price: {
             type: DataTypes.DECIMAL(10,2),
         },
+        created_at: {
+            type: DataTypes.DATE,
+        }
     },
 {
     tableName: 'product_variants',
-
-    // Database table has created_at but no updated_at??
-    // Its causing problems so timestamps is temporarily set to false
-    timestamps: false,
+    timestamps: true,
+    updatedAt: false,
     underscored: true,
     }
 )

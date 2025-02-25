@@ -4,7 +4,8 @@ import { Form } from "react-bootstrap";
 import { Button } from "./Button";
 import { Link, useNavigate } from "react-router";
 import { Input } from "./Input";
-import {getCartItemQuantity, loginUser} from "../services/api";
+import { loginUser} from "../services/user";
+import { getCartItemQuantity } from "../services/cart";
 import Spinner from '../components/Spinner';
 import { useUser } from "../providers/UserContext";
 import { useCart } from "../providers/CartContext";
@@ -56,7 +57,7 @@ export default function SignInForm() {
         const response = await loginUser(formData.email, formData.password);
         const data = response.data;
         //grab token from response and store it
-        const token = response.data.token;
+        const token = data.token;
         login(token); //set context
         //grab cart quantity from db
         const res = await getCartItemQuantity();

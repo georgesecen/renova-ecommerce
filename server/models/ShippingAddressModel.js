@@ -55,7 +55,6 @@ const ShippingAddress = sequelize.define('ShippingAddress', {
         tableName: 'shipping_addresses',
         underscored: true,
         timestamps: true,
-        updatedAt: false,
     }
 )
 
