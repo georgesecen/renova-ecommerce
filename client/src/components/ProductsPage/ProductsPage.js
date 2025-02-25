@@ -66,6 +66,34 @@ function ProductsPage() {
                         
                     </ProductCard>
                 ))}
+                {products.map((product) => (
+                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
+
+                    img={`images/${product.image[0].image_url}`} 
+                    name={product.name} 
+                    price={product.price}>
+                        
+                    </ProductCard>
+                ))}
+                {products.map((product) => (
+                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
+
+                    img={`images/${product.image[0].image_url}`} 
+                    name={product.name} 
+                    price={product.price}>
+                        
+                    </ProductCard>
+                ))}
+                {products.map((product) => (
+                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
+
+                    img={`images/${product.image[0].image_url}`} 
+                    name={product.name} 
+                    price={product.price}>
+                        
+                    </ProductCard>
+                ))}
+                
                 </div>
 
             </div>
