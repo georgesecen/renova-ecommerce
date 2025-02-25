@@ -49,12 +49,6 @@ const ShippingAddress = sequelize.define('ShippingAddress', {
         country: {
             type: DataTypes.STRING,
             allowNull: false,
-        },
-        created_at: {
-            type: DataTypes.DATE,
-        },
-        updated_at: {
-            type: DataTypes.DATE,
         }
     },
     {

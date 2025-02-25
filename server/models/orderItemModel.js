@@ -26,9 +26,6 @@ const OrderItem = sequelize.define('orderItem',
         price_at_purchase: {
             type: DataTypes.DECIMAL(10,2),
             allowNull: false,
-        },
-        created_at: {
-            type: DataTypes.DATE,
         }
     },
 {
