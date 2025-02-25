@@ -13,7 +13,12 @@
     position: relative;
     padding-top: 28px;
 
+    transition-duration: 400ms;
     cursor: pointer;
+}
+
+.product-card .card:hover {
+    background-color: rgb(42, 42, 43);
 }
 
 .product-card .card .name, .card .price {
@@ -26,6 +31,10 @@
     max-width: 120px;
     margin: auto;
     display: block;
+    transition-duration: 400ms;
+}
+.product-card .card:hover .image img {
+    max-width: 130px;
 }
 
 .product-card .card .name {
@@ -59,4 +68,11 @@
 .product-card button:hover {
     color: rgb(232, 232, 232);
     border-color: rgb(232, 232, 232);
+}
+
+@keyframes highlightCard {
+    /* from {background-color: rgb(36, 36, 37);} */
+    from {background: linear-gradient(to bottom right rgb(36, 36, 37), rgb(78, 78, 79), rgb(36, 36, 37));}
+    to {background-color: rgb(36, 36, 37);}
+
 }
