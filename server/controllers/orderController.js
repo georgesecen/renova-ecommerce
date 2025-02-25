@@ -1,5 +1,6 @@
 const OrderItem = require('../models/orderItemModel');
 const Order = require('../models/orderModel');
+const ProductVariantModel = require('../models/productVariantModel');
 const ShippingAddress = require('../models/ShippingAddressModel');
 
 exports.placeOrder = (req, res) => {
@@ -87,7 +88,13 @@ exports.getOrders = async (request, response) => {
                 },
                 {
                     model: OrderItem,
-                    as: "order_items"
+                    as: "order_items",
+                    include: [
+                        {
+                            model: ProductVariantModel,
+                            as: "product_variant"
+                        }
+                    ]
                 }
             ]
         })
