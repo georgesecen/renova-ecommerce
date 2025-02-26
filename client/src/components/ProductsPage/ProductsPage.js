@@ -51,9 +51,6 @@ function ProductsPage() {
         // return result
     }
 
-    // const test = filterProducts();
-    // console.log(test);
-
     /** This function will take in an int productId and 
      *  redirect the user to /products:id where id is 
      *  productId
@@ -81,40 +78,12 @@ function ProductsPage() {
                 {filteredProducts.map((product) => (
                     <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
 
-                    img={`images/${product.image[0].image_url}`} 
+                    // img={`images/${product.image[0].image_url}`} 
                     name={product.name} 
                     price={product.price}>
                         
                     </ProductCard>
                 ))}
-                {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
-
-                    img={`images/${product.image[0].image_url}`} 
-                    name={product.name} 
-                    price={product.price}>
-                        
-                    </ProductCard>
-                ))}
-                {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
-
-                    img={`images/${product.image[0].image_url}`} 
-                    name={product.name} 
-                    price={product.price}>
-                        
-                    </ProductCard>
-                ))}
-                {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
-
-                    img={`images/${product.image[0].image_url}`} 
-                    name={product.name} 
-                    price={product.price}>
-                        
-                    </ProductCard>
-                ))}
-                
                 </div>
 
             </div>
