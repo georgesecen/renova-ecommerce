@@ -4,7 +4,8 @@
     align-items: center;
     width: fit-content;
     border-radius: 1em;
-    background-color: goldenrod;
+    background-color: white;
+    border: 1px solid black;
     padding: 0.7em 0.2em 0.7em 0.2em;
 }
 
@@ -22,6 +23,7 @@
 .order-card-container > button > p{
     margin: 0;
     font-size: 0.9em;
+    color: white;
 }
 .order-card-container > button > img{
     width: 1.4em;
@@ -37,9 +39,12 @@
     font-size: 0.7em;
     margin: 0;
     margin-bottom: 0.3em;
+    color: #6E6E6E;
+    text-wrap: nowrap;
 }
 /* Value */
 .order-card-item-container > p{
     font-size: 0.9em;
     margin: 0;
+    text-wrap: nowrap;
 }

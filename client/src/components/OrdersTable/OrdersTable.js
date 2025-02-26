@@ -5,7 +5,7 @@ import "./ordersTable.css"
 const OrdersTable = () => {
   return (
     <div className='order-table-container'>
-        <OrderCard></OrderCard>
+        <OrderCard status={"completed"}></OrderCard>
     </div>
   )
 }
