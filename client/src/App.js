@@ -2,7 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import Home from "./pages/Home";
-import Products from "./pages/Products";
+import ProductsPage from "./components/ProductsPage/ProductsPage";
+// import ProductItem from "./components/ProductItem";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import TestStripe from './pages/TestStripe';
@@ -12,6 +13,7 @@ import SignUp from "./pages/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BottomNavBar from "./components/BottomNavBar";
 import { PageNotFound } from "./pages/PageNotFound";
+import ProductDetails from './pages/ProductDetails';
 
 function App() {
   return (
@@ -20,7 +22,8 @@ function App() {
       <Routes>
         <Route path="*" element={ <PageNotFound/>} />
         <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path='/products/:id' element={<ProductDetails />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/signIn" element={<SignIn />} />
