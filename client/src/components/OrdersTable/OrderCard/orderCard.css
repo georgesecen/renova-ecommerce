@@ -1,5 +1,10 @@
+
 .order-card-container{
-    font-size: 15px;
+    font-size: 16px;
+}
+
+/* The order item which contains all order details */
+.order-card-header-container{
     display: flex;
     align-items: center;
     width: fit-content;
@@ -11,7 +16,7 @@
 }
 
 /* Pending, completed, shipped button */
-.order-card-container > button{
+.order-card-header-container > button{
     border: none;
     background-color: aquamarine;
     display: flex;
@@ -21,12 +26,12 @@
     height: fit-content;
     margin-right: 0.9em;
 }
-.order-card-container > button > p{
+.order-card-header-container > button > p{
     margin: 0;
     font-size: 0.9em;
     color: white;
 }
-.order-card-container > button > img{
+.order-card-header-container > button > img{
     width: 1.4em;
 }
 
@@ -50,9 +55,22 @@
     text-wrap: nowrap;
 }
 
-/* Lines which divide items */
-.order-card-container > .seperator{
+/* Lines which divides labels and values */
+.order-card-container .seperator{
     min-height: 2.3em;
     min-width: 0.05em;
     background-color: #CDCDCD;
+}
+
+.order-item-container{
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding: 0.7em 0.2em 0.7em 0.2em;
+    overflow-x: auto;
+}
+
+
+.order-card-items-container{
+    
 }
