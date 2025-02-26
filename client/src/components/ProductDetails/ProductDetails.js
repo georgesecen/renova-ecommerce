@@ -1,7 +1,7 @@
-import '../styles/productDetails.css'
+import './productDetails.css'
 import Carousel from 'react-bootstrap/Carousel';
-import img1 from '../assets/images/hoodie.png'
-import img2 from '../assets/images/hoodie2.png'
+import img1 from '../../assets/images/hoodie.png'
+import img2 from '../../assets/images/hoodie2.png'
 import { useLocation } from 'react-router-dom';
 
 function ProductDetails() {

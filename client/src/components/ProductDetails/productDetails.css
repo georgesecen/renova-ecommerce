@@ -45,8 +45,8 @@
 }
 
 .carousel-indicators [data-bs-target] {
-    width: 5px;
-    height: 5px;
+    max-width: 5px;
+    min-height: 5px;
     border-radius: 100%;
 }
 
