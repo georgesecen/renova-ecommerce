@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./orderCard.css"
 
 const testLogo = require("../../../assets/images/logo.png")
@@ -46,6 +46,8 @@ const OrderCard = ({status}) => {
     canceled: "#FB3C3F"
   }
 
+  const [showDropdown, setShowDropdown] = useState(false)
+
   return (
     <div className='order-card-container'>
       <div className='order-card-header-container'>
@@ -79,7 +81,7 @@ const OrderCard = ({status}) => {
 
       </div>
 
-      <ul className='order-card-items-container'>
+      <ul className={`order-card-items-container ${showDropdown ? "show" : ""}`}>
         <li>
         <OrderItem 
           productVariantId={"#18"} 
@@ -115,6 +117,8 @@ const OrderCard = ({status}) => {
         </li>
         
       </ul>
+
+      <button onClick={()=>{setShowDropdown(!showDropdown)}}>dropdown</button>
     </div>
   )
 }

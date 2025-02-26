@@ -72,7 +72,6 @@
     overflow-x: auto;
 }
 
-
 /* List which holds all items purchased with order */
 .order-card-items-container{
     overflow: hidden;
@@ -84,8 +83,17 @@
     width: fit-content;
     border-radius: 0em 0em 0.7em 0.7em;
     padding-top: 0.8em;
-    transform: translateY(-0.9em);
+    transform: translateY(-1em);
     z-index: 1;
+
+    /* For dropdown effect */
+    /* Dropdown strategy from https://codepen.io/Simona_Deng/pen/QjqQgZ */
+    max-height: 0px;
+    transition: max-height 1s cubic-bezier(0, 1.05, 0, 1);
+}
+.order-card-items-container.show{
+    max-height: 1000px;
+    transition: max-height 0.5s ease-in;
 }
 .order-card-items-container > li{
     border-bottom: 1.5px solid #BABABA;
