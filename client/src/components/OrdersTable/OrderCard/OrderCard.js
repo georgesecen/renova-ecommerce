@@ -4,10 +4,10 @@ import "./orderCard.css"
 const testLogo = require("../../../assets/images/logo.png")
 
 // Card item is every label with value below it
-const CardItem = ({label, value}) => {
+const LabelValue = ({label, value}) => {
 
   return (
-    <div className='order-card-item-container'> 
+    <div className='order-card-label-value-container'> 
       <h6>{label}</h6>
       <p>{value ? value : "N/A"}</p>
     </div>
@@ -19,19 +19,19 @@ const CardItem = ({label, value}) => {
 const OrderItem = ({productVariantId, name, priceAtPurchase, quantity, size, color, gender}) => {
   return (
     <div className='order-item-container'>
-      <CardItem label={"Product Variant Id"} value={productVariantId}></CardItem>
+      <LabelValue label={"Product Variant Id"} value={productVariantId}></LabelValue>
       <div className='seperator'></div>
-      <CardItem label={"Name"} value={name}></CardItem>
+      <LabelValue label={"Name"} value={name}></LabelValue>
       <div className='seperator'></div>
-      <CardItem label={"Price At Purchase"} value={priceAtPurchase}></CardItem>
+      <LabelValue label={"Price At Purchase"} value={priceAtPurchase}></LabelValue>
       <div className='seperator'></div>
-      <CardItem label={"Quantity"} value={quantity}></CardItem>
+      <LabelValue label={"Quantity"} value={quantity}></LabelValue>
       <div className='seperator'></div>
-      <CardItem label={"Size"} value={size}></CardItem>
+      <LabelValue label={"Size"} value={size}></LabelValue>
       <div className='seperator'></div>
-      <CardItem label={"Color"} value={color}></CardItem>
+      <LabelValue label={"Color"} value={color}></LabelValue>
       <div className='seperator'></div>
-      <CardItem label={"Gender"} value={gender}></CardItem>
+      <LabelValue label={"Gender"} value={gender}></LabelValue>
     </div>
   )
 }
@@ -50,32 +50,32 @@ const OrderCard = ({status}) => {
     <div className='order-card-container'>
       <div className='order-card-header-container'>
         
-        <CardItem label={"Order ID"} value={"#18"} leftBorder={false} rightBorder={false}></CardItem>
+        <LabelValue label={"Order ID"} value={"#18"} leftBorder={false} rightBorder={false}></LabelValue>
         <button style={{"backgroundColor": colors[status]}}>
           <p>{status}</p>
           <img src={testLogo} alt='Edit'/>
         </button>
         <div className='seperator'></div>
 
-        <CardItem label={"Total"} value={"$78.25"}></CardItem>
+        <LabelValue label={"Total"} value={"$78.25"}></LabelValue>
         <div className='seperator'></div>
-        <CardItem label={"Time"} value={"2025/02/01 - 1:28"}></CardItem>
+        <LabelValue label={"Time"} value={"2025/02/01 - 1:28"}></LabelValue>
         <div className='seperator'></div>
-        <CardItem label={"Name"} value={"Jimmy Test"}></CardItem>
+        <LabelValue label={"Name"} value={"Jimmy Test"}></LabelValue>
         <div className='seperator'></div>
-        <CardItem label={"Phone"} value={null}></CardItem>
+        <LabelValue label={"Phone"} value={null}></LabelValue>
         <div className='seperator'></div>
-        <CardItem label={"Country"} value={"US"}></CardItem>
+        <LabelValue label={"Country"} value={"US"}></LabelValue>
         <div className='seperator'></div>
-        <CardItem label={"City"} value={"Windsor"}></CardItem>
+        <LabelValue label={"City"} value={"Windsor"}></LabelValue>
         <div className='seperator'></div>
-        <CardItem label={"State"} value={"OH"}></CardItem>
+        <LabelValue label={"State"} value={"OH"}></LabelValue>
         <div className='seperator'></div>
-        <CardItem label={"Postal Code"} value={"1234567"}></CardItem>
+        <LabelValue label={"Postal Code"} value={"1234567"}></LabelValue>
         <div className='seperator'></div>
-        <CardItem label={"Line 1"} value={"123 Sesame Street "}></CardItem>
+        <LabelValue label={"Line 1"} value={"123 Sesame Street "}></LabelValue>
         <div className='seperator'></div>
-        <CardItem label={"Line 2"} value={null}></CardItem>
+        <LabelValue label={"Line 2"} value={null}></LabelValue>
 
       </div>
 
