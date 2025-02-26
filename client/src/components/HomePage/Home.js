@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react'
 import './homePage.css'
 import '../../assets/images/hoodie2.png'
-import '../../assets/images/hoodie.png'
+import '../../assets/images/hoodies.png'
 import { NavLink } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { createGuestUser } from "../../services/guest";
 
 function Home() {
-  const hoodieImg = require('../../assets/images/hoodie.png')
+  const hoodiesImg = require('../../assets/images/hoodies.png')
   const hoodieImg2 = require('../../assets/images/hoodie2.png')
 
 //generate session function
@@ -63,7 +63,7 @@ useEffect(() => {
             <NavLink to='/products' className="shop-now">SHOP NOW</NavLink>
           </div>
           <div className="image">
-            <img src={hoodieImg2} alt=""/>
+            <img src={hoodiesImg} alt=""/>
           </div>
         </div>
 
