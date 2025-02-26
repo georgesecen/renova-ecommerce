@@ -1,4 +1,22 @@
 .order-card-container{
+    font-size: 16px;
+}
+
+/* Pending, completed, shipped button */
+.order-card-container > button{
+    border: none;
+    background-color: aquamarine;
+    display: flex;
+    gap: 0.2em;
+    border-radius: 2em;
+    padding: 0.2em 0.8em 0.2em 0.8em;
+}
+.order-card-container > button > p{
+    margin: 0;
+    font-size: 1.1em;
+}
+.order-card-container > button > img{
+    width: 1.4em;
 }
 
 .order-card-item-container{
