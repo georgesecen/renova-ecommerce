@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react'
-import '../styles/homePage.css'
-import '../assets/images/hoodie2.png'
-import '../assets/images/hoodie.png'
+import './homePage.css'
+import '../../assets/images/hoodie2.png'
+import '../../assets/images/hoodie.png'
 import { NavLink } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
-import { createGuestUser } from "../services/guest";
+import { createGuestUser } from "../../services/guest";
 
 function Home() {
-  const hoodieImg = require('../assets/images/hoodie.png')
-  const hoodieImg2 = require('../assets/images/hoodie2.png')
+  const hoodieImg = require('../../assets/images/hoodie.png')
+  const hoodieImg2 = require('../../assets/images/hoodie2.png')
 
 //generate session function
   function generateGuestSession() {
