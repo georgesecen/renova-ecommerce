@@ -57,6 +57,24 @@
     min-width: 330px;
 }
 
+.details .addToCart {
+    width: 180px;
+    color: var(--text);
+    text-decoration: none;
+    border: .8px solid var(--text);
+    border-radius: 1px;
+    padding: 2px;
+    background: none;
+
+    transition-duration: 400ms;
+}
+
+.details .addToCart:hover {
+    color: black;
+    border-color: black;
+    background-color: rgb(231, 234, 237);
+}
+
 @media screen and (max-width: 780px) {
     .detailsPage {
         height: 110vh;

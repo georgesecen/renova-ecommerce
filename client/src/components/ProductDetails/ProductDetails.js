@@ -30,7 +30,7 @@ function ProductDetails() {
             <form>
                 {/* <h5>Colour</h5>
                 <h5>Size</h5> */}
-                <button type="submit">Add to cart</button>
+                <button className="addToCart" type="submit">ADD TO CART</button>
             </form>
         </div>
       </div>
