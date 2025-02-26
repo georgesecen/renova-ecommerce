@@ -50,10 +50,10 @@ const OrderCard = ({status}) => {
 
   return (
     <div className='order-card-container'>
-      <div className='order-card-header-container'>
+      <div onClick={()=>{setShowDropdown(!showDropdown)}} className='order-card-header-container'>
         
         <LabelValue label={"Order ID"} value={"#18"} leftBorder={false} rightBorder={false}></LabelValue>
-        <button style={{"backgroundColor": colors[status]}}>
+        <button onClick={(event)=>{event.stopPropagation() /*To prevent sub menu showing*/ }} style={{"backgroundColor": colors[status]}}>
           <p>{status}</p>
           <img src={testLogo} alt='Edit'/>
         </button>
@@ -78,6 +78,9 @@ const OrderCard = ({status}) => {
         <LabelValue label={"Line 1"} value={"123 Sesame Street "}></LabelValue>
         <div className='seperator'></div>
         <LabelValue label={"Line 2"} value={null}></LabelValue>
+
+        {/* Arrow icon which shows sub menu is open */}
+        <img src={testLogo} alt='Edit' className={showDropdown ? "show" : ""}/>
 
       </div>
 
@@ -118,7 +121,6 @@ const OrderCard = ({status}) => {
         
       </ul>
 
-      <button onClick={()=>{setShowDropdown(!showDropdown)}}>dropdown</button>
     </div>
   )
 }
