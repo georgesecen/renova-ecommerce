@@ -1,5 +1,11 @@
 .order-card-container{
-    font-size: 16px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    border-radius: 1em;
+    background-color: goldenrod;
+    padding: 0.7em 0.2em 0.7em 0.2em;
 }
 
 /* Pending, completed, shipped button */
@@ -10,10 +16,12 @@
     gap: 0.2em;
     border-radius: 2em;
     padding: 0.2em 0.8em 0.2em 0.8em;
+    height: fit-content;
+    margin-right: 0.9em;
 }
 .order-card-container > button > p{
     margin: 0;
-    font-size: 1.1em;
+    font-size: 0.9em;
 }
 .order-card-container > button > img{
     width: 1.4em;
@@ -22,16 +30,16 @@
 .order-card-item-container{
     text-align: left;
     width: fit-content;
-    border: 1px solid black;
+    padding: 0em 0.85em 0em 0.85em;
 }
-
 /* Label */
 .order-card-item-container > h6{
-    font-size: 0.75em;
+    font-size: 0.7em;
     margin: 0;
+    margin-bottom: 0.3em;
 }
 /* Value */
 .order-card-item-container > p{
-    font-size: 1.1em;
+    font-size: 0.9em;
     margin: 0;
 }
