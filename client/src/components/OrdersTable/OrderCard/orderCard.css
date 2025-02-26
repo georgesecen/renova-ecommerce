@@ -8,11 +8,13 @@
     display: flex;
     align-items: center;
     width: fit-content;
-    border-radius: 1em;
+    border-radius: 0.7em;
     background-color: white;
     border: 1px solid black;
     padding: 0.7em 0.2em 0.7em 0.2em;
     overflow-x: auto;
+    position: relative;
+    z-index: 2;
 }
 
 /* Pending, completed, shipped button */
@@ -71,6 +73,24 @@
 }
 
 
+/* List which holds all items purchased with order */
 .order-card-items-container{
-
+    overflow: hidden;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    border: 1.5px solid #B5B5B5;
+    width: fit-content;
+    border-radius: 0em 0em 0.7em 0.7em;
+    padding-top: 0.8em;
+    transform: translateY(-0.9em);
+    z-index: 1;
+}
+.order-card-items-container > li{
+    border-bottom: 1.5px solid #BABABA;
+}
+/* So border does not show on last list item */
+.order-card-items-container > li:last-of-type{
+    border-bottom: none;
 }
