@@ -1,0 +1,19 @@
+.order-card-container{
+}
+
+.order-card-item-container{
+    text-align: left;
+    width: fit-content;
+    border: 1px solid black;
+}
+
+/* Label */
+.order-card-item-container > h6{
+    font-size: 0.75em;
+    margin: 0;
+}
+/* Value */
+.order-card-item-container > p{
+    font-size: 1.1em;
+    margin: 0;
+}
