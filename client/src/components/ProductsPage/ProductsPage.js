@@ -9,6 +9,7 @@ function ProductsPage() {
     const navigate = useNavigate();  
     const [filter, filterBy] = useState(0);
     const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -17,6 +18,7 @@ function ProductsPage() {
             .then((response) => {
                 console.log(response.data[0].image[0]);
                 setProducts(response.data);
+                setFilteredProducts(response.data)  // Populate filtering array
                 setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
             })
             .catch((error) => {
@@ -25,9 +27,28 @@ function ProductsPage() {
             });
     }, []);
 
-    const filterProducts = () => {
-        const result = products.filter(product => product.name == 'shirt');
-        return result
+    // Temporary filtering method
+    const filterProducts = (id) => {
+        filterBy(id)
+
+        let name = ""
+        switch (id) {
+            case 0:
+                setFilteredProducts(products)
+                return
+            case 1:
+                name = "Hoodie"
+                break
+            case 2:
+                name = "shirt"
+                break
+            case 3:
+                name = "Joggers"
+        }
+
+        setFilteredProducts(products.filter(product => product.name == name));
+        console.log(filter, filteredProducts)
+        // return result
     }
 
     // const test = filterProducts();
@@ -49,15 +70,15 @@ function ProductsPage() {
 
                 <div className="side-nav">
                     <ul>
-                    <li className={filter === 0 ? "active" : ""} onClick={() => filterBy(0)}>ALL</li>
-                    <li className={filter === 1 ? "active" : ""} onClick={() => filterBy(1)}>HOODIES</li>
-                    <li className={filter === 2 ? "active" : ""} onClick={() => filterBy(2)}>T-SHIRTS</li>
-                    <li className={filter === 3 ? "active" : ""} onClick={() => filterBy(3)}>PANTS</li>
+                    <li className={filter === 0 ? "active" : ""} onClick={() => filterProducts(0)}>ALL</li>
+                    <li className={filter === 1 ? "active" : ""} onClick={() => filterProducts(1)}>HOODIES</li>
+                    <li className={filter === 2 ? "active" : ""} onClick={() => filterProducts(2)}>T-SHIRTS</li>
+                    <li className={filter === 3 ? "active" : ""} onClick={() => filterProducts(3)}>PANTS</li>
                     </ul>
                 </div>
 
                 <div className="products-list">
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                     <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
 
                     img={`images/${product.image[0].image_url}`} 
@@ -66,7 +87,7 @@ function ProductsPage() {
                         
                     </ProductCard>
                 ))}
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                     <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
 
                     img={`images/${product.image[0].image_url}`} 
@@ -75,7 +96,7 @@ function ProductsPage() {
                         
                     </ProductCard>
                 ))}
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                     <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
 
                     img={`images/${product.image[0].image_url}`} 
@@ -84,7 +105,7 @@ function ProductsPage() {
                         
                     </ProductCard>
                 ))}
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                     <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
 
                     img={`images/${product.image[0].image_url}`} 
