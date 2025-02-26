@@ -343,3 +343,9 @@ sketch
 # https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
 
 # End of https://www.toptal.com/developers/gitignore/api/react,node,webstorm,phpstorm
+
+# For stripe credentials
+*.env
+
+# So we dont track images added and removed from server
+*/public/images/

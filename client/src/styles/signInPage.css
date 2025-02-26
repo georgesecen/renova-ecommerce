@@ -1,0 +1,9 @@
+div.signin-page {
+  padding: 0 80px;
+  min-height: calc(100dvh - 80px);
+}
+
+div.signin-page h1{
+  margin-bottom: 3rem;
+  text-align: center;
+}

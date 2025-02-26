@@ -1,18 +1,46 @@
-const db = require('../config/database');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-const orderItemModel = {
-    create: (id, orderId, quantity, price_at_purchase, created_at, callback) => {
-        const query = 'INSERT INTO orders (id, orderId, quantity, price_at_purchase, created_at) VALUES (?, ?, ?, ?, ?)';
-        db.query(query, [id, orderId, quantity, price_at_purchase, created_at], callback);
+const OrderItem = sequelize.define('orderItem',
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        order_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            foreignKey: 'order_id',
+        },
+        product_variant_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            foreignKey: 'product_variant_id',
+        },
+        quantity: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        price_at_purchase: {
+            type: DataTypes.DECIMAL(10,2),
+            allowNull: false,
+        }
     },
-    getAll: (callback) => {
-        const query = 'SELECT * FROM orders_items';
-        db.query(query, callback);
-    },
-    getByUserId: (id, callback) => {
-        const query = 'SELECT * FROM orders WHERE userId = ?';
-        db.query(query, [id], callback);
+{
+    tableName: 'order_items',
+    underscored: true,
+    updatedAt: false
     }
-};
+)
 
-module.exports = orderItemModel;
+// Define relationships
+const ProductVariantModel = require('./productVariantModel');
+
+OrderItem.belongsTo(ProductVariantModel, {
+    foreignKey: "product_variant_id",
+    as: "product_variant"
+})
+
+module.exports = OrderItem;

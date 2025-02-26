@@ -1,14 +1,40 @@
-const db = require('../config/database');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+const ProductVariant = require('../models/productVariantModel');
 
-const productModel = {
-    getAll: (callback) => {
-        const query = 'SELECT * FROM products';
-        db.query(query, callback);
+const Product = sequelize.define(
+    'Product',
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        description: {
+            type: DataTypes.TEXT,
+        },
+        price: {
+            type: DataTypes.DECIMAL(10, 2),
+            allowNull: false,
+        },
     },
-    create: (name, description, price, image, stock_quantity, created_at, updated_at, callback) => {
-        const query = 'INSERT INTO products (name, description, price, imageUrl, stock, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)';
-        db.query(query, [name, description, price, image, stock_quantity, created_at, updated_at], callback);
+{
+    tableName: 'products',
+    timestamps: true,
+    underscored: true,
     }
-};
+)
+//Make sure image is loaded after products are grabbed
+const Image = require('./productImageModel');
+//Define relationships
+Product.hasMany(Image,{foreignKey:'product_id', as: 'image', onDelete: 'CASCADE'});
+Image.belongsTo(Product, {foreignKey:'product_id', as: 'productVariant'});
+ProductVariant.belongsTo(Product, {foreignKey:'product_id', as: 'product'});
 
-module.exports = productModel;
+
+module.exports = Product;
