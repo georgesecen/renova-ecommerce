@@ -53,6 +53,7 @@ useEffect(() => {
     window.removeEventListener('load', handleWindowLoad);
   };
 }, []);
+
   return (
     <div className="home-page">
         <div className="section a">
@@ -67,7 +68,7 @@ useEffect(() => {
         </div>
 
         <div className="section b">
-          <h1>PLACEHOLDER</h1>
+          <h1>SOME TEXT</h1>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
         </div>
     </div>

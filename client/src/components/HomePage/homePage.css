@@ -13,7 +13,13 @@
 .home-page h1 {
     font-family: Italiana;
     font-size: min(calc(10vw + 30px), 168px);
-    text-shadow: 0px 0px 15px rgba(235, 235, 235, 0.57);
+    text-shadow: 0px 0px 14px rgba(235, 235, 235, 0.57);
+
+    animation: glow 6s infinite;
+}
+
+@keyframes glow {
+    20% {text-shadow: 0px 0px 20px;}
 }
 
 /* First section styles */
@@ -110,6 +116,6 @@
 
 .home-page .b h1 {
     margin-top: 10vh;
-    font-size: min(calc(6vw + 30px), 118px);
-    letter-spacing: 5px;
+    font-size: min(calc(4vw + 30px), 118px);
+    letter-spacing: 3px;
 }
