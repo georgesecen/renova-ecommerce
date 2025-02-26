@@ -4,18 +4,12 @@ import "./orderCard.css"
 const testLogo = require("../../../assets/images/logo.png")
 
 // Card item is every label with value below it
-const CardItem = ({label, value, leftBorder, rightBorder}) => {
-  
-  // To divide each piece of information
-  const styles = {
-    "border-left": leftBorder ? "1px solid #CDCDCD" : "",
-    "border-right": rightBorder ? "1px solid #CDCDCD" : ""
-  }
+const CardItem = ({label, value}) => {
 
   return (
-    <div className='order-card-item-container' style={styles}> 
+    <div className='order-card-item-container'> 
       <h6>{label}</h6>
-      <p>{value}</p>
+      <p>{value ? value : "N/A"}</p>
     </div>
   )
 }
@@ -34,20 +28,31 @@ const OrderCard = ({status}) => {
     <div className='order-card-container'>
       
       <CardItem label={"Order ID"} value={"#18"} leftBorder={false} rightBorder={false}></CardItem>
-
       <button style={{"backgroundColor": colors[status]}}>
         <p>{status}</p>
         <img src={testLogo} alt='Edit'/>
       </button>
+      <div className='seperator'></div>
 
-      <CardItem label={"Total"} value={"$78.25"} leftBorder={true} rightBorder={true}></CardItem>
-      <CardItem label={"Time"} value={"2025/02/01 - 1:28"} leftBorder={false} rightBorder={true}></CardItem>
-      <CardItem label={"Name"} value={"Jimmy Test"} leftBorder={false} rightBorder={true}></CardItem>
-      <CardItem label={"Country"} value={"US"} leftBorder={false} rightBorder={true}></CardItem>
-      <CardItem label={"City"} value={"Windsor"} leftBorder={false} rightBorder={true}></CardItem>
-      <CardItem label={"State"} value={"OH"} leftBorder={false} rightBorder={true}></CardItem>
-      <CardItem label={"Postal Code"} value={"1234567"} leftBorder={false} rightBorder={true}></CardItem>
-      <CardItem label={"Line 1"} value={"123 Sesame Street "} leftBorder={false} rightBorder={false}></CardItem>
+      <CardItem label={"Total"} value={"$78.25"}></CardItem>
+      <div className='seperator'></div>
+      <CardItem label={"Time"} value={"2025/02/01 - 1:28"}></CardItem>
+      <div className='seperator'></div>
+      <CardItem label={"Name"} value={"Jimmy Test"}></CardItem>
+      <div className='seperator'></div>
+      <CardItem label={"Phone"} value={null}></CardItem>
+      <div className='seperator'></div>
+      <CardItem label={"Country"} value={"US"}></CardItem>
+      <div className='seperator'></div>
+      <CardItem label={"City"} value={"Windsor"}></CardItem>
+      <div className='seperator'></div>
+      <CardItem label={"State"} value={"OH"}></CardItem>
+      <div className='seperator'></div>
+      <CardItem label={"Postal Code"} value={"1234567"}></CardItem>
+      <div className='seperator'></div>
+      <CardItem label={"Line 1"} value={"123 Sesame Street "}></CardItem>
+      <div className='seperator'></div>
+      <CardItem label={"Line 2"} value={null}></CardItem>
 
     </div>
   )
