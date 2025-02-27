@@ -5,10 +5,8 @@ const Image = require('../models/ProductImageModel');
 
 exports.getAllCartItems = async (req, res) => {
     try {
-        //TODO make dynamic when authentication is set up
-        // const userId = req.user ? req.user.id : null;
-        const userId = 2
-        console.log("User ID from JWT:", userId);
+        const userId = req.user.userId;
+        console.log(userId)
         if (!userId) {
             console.log("no user id")
             return res.status(400).json({ error: 'User ID is required' });
@@ -37,7 +35,6 @@ exports.getAllCartItems = async (req, res) => {
                                 }
                             ]
                         }
-
                     ]
                 }
             ],
@@ -77,13 +74,9 @@ exports.getCartItem = async (req, res) => {
 // Add or update a cart item
 exports.addCartItem = async (req, res) => {
     try {
-        //TODO make user_id dynamic once authentication is set up
-        // const user_id = req.user ? req.user.id : null;
-        const user_id = 2
+        const user_id = req.user.userId;
+        console.log("User ID from addCartItem method:", user_id);
         const { product_variant_id, quantity } = req.body;
-        console.log(product_variant_id);
-        console.log(user_id)
-        console.log(quantity)
         if (!user_id || !product_variant_id || !quantity) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
@@ -107,16 +100,11 @@ exports.addCartItem = async (req, res) => {
 // Remove cart item or decrease quantity
 exports.removeCartItem = async (req, res) => {
     try {
-        //TODO change to dynamic user_id
-        const user_id = 2
-        // const user_id = req.user.id;
+        const user_id = req.user.userId;
         const cart_item_id  = req.params.cart_item_id;  // Get from URL
 
         const { product_id, quantity } = req.body;
-        console.log(user_id)
-        console.log(product_id);
-        console.log(quantity);
-        console.log(cart_item_id);
+
         if (!user_id || !product_id || !quantity) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
@@ -140,3 +128,19 @@ exports.removeCartItem = async (req, res) => {
         res.status(500).json({ error: 'Error removing cart item' });
     }
 };
+
+exports.getCartQuantity = async (req, res) => {
+    try {
+        const user_id = req.user.userId;
+        console.log("cartquantity from cart controller: ",user_id)
+        if (!user_id) return res.status(400).json({ error: "User ID required" });
+
+        const cartItems = await Cart.findAll({ where: { user_id } });
+
+        const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+        res.status(200).json({ cartQuantity: totalQuantity });
+    } catch (err) {
+        console.error('Error fetching cartQuantity:', err);
+        res.status(500).json({ error: "Error fetching cart quantity" });
+    }
+}

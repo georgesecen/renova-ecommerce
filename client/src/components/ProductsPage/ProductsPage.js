@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './productsPage.css'
 import ProductCard from '../ProductCard/ProductCard';
-import { getProducts } from '../../services/api';
+import { getProducts } from '../../services/products';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -9,29 +9,47 @@ function ProductsPage() {
     const navigate = useNavigate();  
     const [filter, filterBy] = useState(0);
     const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-            console.log(products)
-            getProducts()
-                .then((response) => {
-                    console.log(response.data[0].image[0]);
-                    setProducts(response.data);
-                    setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
-                })
-                .catch((error) => {
-                    console.error('Error fetching products:', error);
-                    setLoading(false);
-                });
+        console.log(products)
+        getProducts()
+            .then((response) => {
+                console.log(response.data[0].image[0]);
+                setProducts(response.data);
+                setFilteredProducts(response.data)  // Populate filtering array
+                setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
+            })
+            .catch((error) => {
+                console.error('Error fetching products:', error);
+                setLoading(false);
+            });
     }, []);
 
-    const filterProducts = () => {
-        const result = products.filter(product => product.name == 'shirt');
-        return result
-    }
+    // Temporary filtering method
+    const filterProducts = (id) => {
+        filterBy(id)
 
-    // const test = filterProducts();
-    // console.log(test);
+        let name = ""
+        switch (id) {
+            case 0:
+                setFilteredProducts(products)
+                return
+            case 1:
+                name = "Hoodie"
+                break
+            case 2:
+                name = "shirt"
+                break
+            case 3:
+                name = "Joggers"
+        }
+
+        setFilteredProducts(products.filter(product => product.name == name));
+        console.log(filter, filteredProducts)
+        // return result
+    }
 
     /** This function will take in an int productId and 
      *  redirect the user to /products:id where id is 
@@ -54,51 +72,23 @@ function ProductsPage() {
 
                 <div className="side-nav">
                     <ul>
-                    <li className={filter === 0 ? "active" : ""} onClick={() => filterBy(0)}>ALL</li>
-                    <li className={filter === 1 ? "active" : ""} onClick={() => filterBy(1)}>HOODIES</li>
-                    <li className={filter === 2 ? "active" : ""} onClick={() => filterBy(2)}>T-SHIRTS</li>
-                    <li className={filter === 3 ? "active" : ""} onClick={() => filterBy(3)}>PANTS</li>
+                    <li className={filter === 0 ? "active" : ""} onClick={() => filterProducts(0)}>ALL</li>
+                    <li className={filter === 1 ? "active" : ""} onClick={() => filterProducts(1)}>HOODIES</li>
+                    <li className={filter === 2 ? "active" : ""} onClick={() => filterProducts(2)}>T-SHIRTS</li>
+                    <li className={filter === 3 ? "active" : ""} onClick={() => filterProducts(3)}>PANTS</li>
                     </ul>
                 </div>
 
                 <div className="products-list">
-                {products.map((product) => (
-                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
-
-                    img={`images/${product.image[0].image_url}`} 
-                    name={product.name} 
-                    price={product.price}>
-                        
-                    </ProductCard>
-                ))}
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                     <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
 
-                    img={`images/${product.image[0].image_url}`} 
+                    // img={`images/${product.image[0].image_url}`} 
                     name={product.name} 
                     price={product.price}>
                         
                     </ProductCard>
                 ))}
-                {products.map((product) => (
-                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
-
-                    img={`images/${product.image[0].image_url}`} 
-                    name={product.name} 
-                    price={product.price}>
-                        
-                    </ProductCard>
-                ))}
-                {products.map((product) => (
-                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
-
-                    img={`images/${product.image[0].image_url}`} 
-                    name={product.name} 
-                    price={product.price}>
-                        
-                    </ProductCard>
-                ))}
-                
                 </div>
 
             </div>

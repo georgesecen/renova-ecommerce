@@ -25,11 +25,12 @@ div.headerContent a:hover {
     color: #7b7b7b;
 }
 
+/* Left logo section  */
 div.headerLogo {
     font-family: Italiana;
     letter-spacing: 2px;
     width: 25%;
-    font-size: 30px;
+    font-size: 28px;
     text-align: left;
 }
 
@@ -37,6 +38,9 @@ div.headerLogo img {
     width: 36px;
     padding: 0 10px 8px 0;
 }
+
+/* Middle nav section  */
+
 
 div.headerNav {
     width: 70%;
@@ -54,10 +58,14 @@ div.headerNav a:last-of-type {
     padding-right: 0;
 }
 
+/* Right nav (signin + cart)  */
+
 div.headerNav2 {
     text-align: right;
     width: 25%;
 }
+
+/* Smaller screens  */
 
 @media screen and (max-width: 780px) {
     div.header {
