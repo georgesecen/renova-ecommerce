@@ -5,12 +5,13 @@ import { getOrders } from '../../services/orders'
 
 const OrdersTable = () => {
 
-  // Get orders
   const [orders, setOrders] = useState()
+
+  // Get orders
   useEffect(() => {
-    getOrders(sessionStorage.key)
-      .then((response) => {setOrders(response.data)})
-      .catch((error) => {console.log(error)})
+  getOrders(sessionStorage.getItem("key"))
+    .then((response) => {setOrders(response.data)})
+    .catch((error) => {console.log(error)})
   }, [])
 
   console.log(orders)
