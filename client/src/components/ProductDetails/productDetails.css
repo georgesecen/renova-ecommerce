@@ -17,7 +17,7 @@
 /* Selected image container styles */
 .selectedImg {
     width: 65%;
-    height: 400px;
+    height: 600px;
 }
 
 .selectedImg .carousel, .carouselItem {
@@ -26,8 +26,8 @@
 }
 
 .selectedImg .carousel img {
-    max-width: 300px;
-    max-height: 380px;
+    max-width: 500px;
+    max-height: 560px;
     width: auto;
     height: auto;
     margin-left: auto;

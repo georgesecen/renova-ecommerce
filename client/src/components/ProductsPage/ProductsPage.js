@@ -81,7 +81,7 @@ function ProductsPage() {
 
                 <div className="products-list">
                 {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
+                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
 
                     // img={`images/${product.image[0].image_url}`} 
                     name={product.name} 
