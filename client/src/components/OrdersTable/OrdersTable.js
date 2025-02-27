@@ -9,7 +9,7 @@ const OrdersTable = () => {
 
   // Get orders
   useEffect(() => {
-  getOrders(sessionStorage.getItem("key"))
+  getOrders()
     .then((response) => {setOrders(response.data)})
     .catch((error) => {console.log(error)})
   }, [])

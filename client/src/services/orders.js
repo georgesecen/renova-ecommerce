@@ -2,12 +2,11 @@ import API from "./axiosInstance";
 
 /**
  * Gets orders from server.
- * @param {number} key Authentication key.
  * @returns {Object} AxiosResponse object.
  */
-export const getOrders = async (key) => {
+export const getOrders = async () => {
     try {
-        return await API.post(`/orders/get-orders`, {adminPassword: key});
+        return await API.post(`/orders/get-orders`, {adminPassword: sessionStorage.getItem("key")});
     } catch(error){
         console.log(error)
     }
