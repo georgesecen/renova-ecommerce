@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
+import ProductDetails from "./components/ProductDetails/ProductDetails";
 import Home from "./components/HomePage/Home";
 import ProductsPage from "./components/ProductsPage/ProductsPage";
 import Contact from "./pages/Contact";
@@ -12,7 +13,6 @@ import SignUp from "./pages/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BottomNavBar from "./components/BottomNavBar";
 import { PageNotFound } from "./pages/PageNotFound";
-import ProductDetails from './pages/ProductDetails';
 
 function App() {
   return (
