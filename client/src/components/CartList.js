@@ -1,6 +1,6 @@
 import '../styles/cartPage.css'
 import React, { useEffect, useState } from "react";
-import {getCartItems, removeCartItem} from "../services/api";
+import {getCartItems, removeCartItem} from "../services/cart";
 import Spinner from "./Spinner";
 import {useCart} from "../providers/CartContext";
 import ProductModal from "./ProductModal";

@@ -1,8 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
-import Home from "./pages/Home";
-import Products from "./pages/Products";
+import ProductDetails from "./components/ProductDetails/ProductDetails";
+import Home from "./components/HomePage/Home";
+import ProductsPage from "./components/ProductsPage/ProductsPage";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import TestStripe from './pages/TestStripe';
@@ -20,7 +21,8 @@ function App() {
       <Routes>
         <Route path="*" element={ <PageNotFound/>} />
         <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path='/products/:id' element={<ProductDetails />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/signIn" element={<SignIn />} />

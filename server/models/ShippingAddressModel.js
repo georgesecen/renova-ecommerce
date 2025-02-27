@@ -26,7 +26,6 @@ const ShippingAddress = sequelize.define('ShippingAddress', {
         },
         phone_number: {
             type: DataTypes.STRING,
-            allowNull: false,
         },
         address_line1: {
             type: DataTypes.STRING,
@@ -50,19 +49,12 @@ const ShippingAddress = sequelize.define('ShippingAddress', {
         country: {
             type: DataTypes.STRING,
             allowNull: false,
-        },
-        created_at: {
-            type: DataTypes.DATE,
-        },
-        updated_at: {
-            type: DataTypes.DATE,
         }
     },
     {
         tableName: 'shipping_addresses',
         underscored: true,
         timestamps: true,
-        updatedAt: false,
     }
 )
 

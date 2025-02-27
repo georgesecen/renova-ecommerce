@@ -2,7 +2,7 @@ import "../styles/signUpForm.css";
 import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Button } from "./Button";
-import { addUser } from "../services/api";
+import { addUser } from "../services/user";
 import { Input } from "./Input";
 import { Link } from "react-router";
 import Spinner from '../components/Spinner';

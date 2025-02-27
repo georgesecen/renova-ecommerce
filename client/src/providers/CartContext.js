@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import {getCartItemQuantity, getCartItems} from '../services/api';
+import {getCartItemQuantity, getCartItems} from '../services/cart';
 
 // Create Context for Cart
 const CartContext = createContext();
@@ -16,6 +16,7 @@ export const CartProvider = ({ children }) => {
         const fetchCartItems = async () => {
             try {
                 const quantity = await getCartItemQuantity();
+                console.log(quantity);
                 setTotalQuantity(quantity);  // Set the cart quantity from the API
                 localStorage.setItem('cartQuantity', quantity);  // Persist cart quantity
             } catch (error) {

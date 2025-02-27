@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { getProducts, addProduct } from '../services/api';
+import { getProducts } from '../services/products';
+import { addProduct } from '../services/cart';
 import { useCart } from '../providers/CartContext';
 import Spinner from '../components/Spinner';
 import '../styles/productsPage.css';
 import ProductModal from "./ProductModal";
 import { Button } from "../components/Button";
+import { useNavigate } from 'react-router-dom';
 import {useUser} from "../providers/UserContext";
 
 function ProductItem() {
+    const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -70,6 +73,19 @@ function ProductItem() {
             });
     };
 
+    /** This function will take in an int productId and 
+     *  redirect the user to /products:id where id is 
+     *  productId
+     * 
+     * @param {*} product 
+     */
+    const toProductPage = (productId) => {
+        navigate('/products/' + (productId), {
+                 state: { id: productId } 
+                    }
+                )
+    }
+
     if (loading) {
         //TODO put styles in external stylesheet
         return (
@@ -85,6 +101,7 @@ function ProductItem() {
         <div>
         <ul className="productList">
             {products.map((product) => (
+
                 <li key={product.id} className="productItem">
                     {/*if product contains more than one image grab the first - otherwise grab default*/}
                     <img

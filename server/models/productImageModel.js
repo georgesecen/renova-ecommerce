@@ -22,11 +22,11 @@ const ProductImage = sequelize.define("ProductImage", {
         },
         image_url: {
             type: DataTypes.STRING,
-            allowNull: false,
         }
     },
 {
     tableName: "product_images",
+    timestamps: false,
     underscored: true,
     }
 )
