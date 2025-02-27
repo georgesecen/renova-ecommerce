@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import "./orderCard.css"
 
-const testLogo = require("../../../assets/images/logo.png")
+const editIcon = require("../../../assets/icons/edit.png")
+const arrowIcon = require("../../../assets/icons/arrow.png")
 
 // Card item is every label with value below it
 const LabelValue = ({label, value}) => {
@@ -55,7 +56,7 @@ const OrderCard = ({status}) => {
         <LabelValue label={"Order ID"} value={"#18"} leftBorder={false} rightBorder={false}></LabelValue>
         <button onClick={(event)=>{event.stopPropagation() /*To prevent sub menu showing*/ }} style={{"backgroundColor": colors[status]}}>
           <p>{status}</p>
-          <img src={testLogo} alt='Edit'/>
+          <img src={editIcon} alt='Edit'/>
         </button>
         <div className='seperator'></div>
 
@@ -80,7 +81,7 @@ const OrderCard = ({status}) => {
         <LabelValue label={"Line 2"} value={null}></LabelValue>
 
         {/* Arrow icon which shows sub menu is open */}
-        <img src={testLogo} alt='Edit' className={showDropdown ? "show" : ""}/>
+        <img src={arrowIcon} alt='Edit' className={showDropdown ? "show" : ""}/>
 
       </div>
 
