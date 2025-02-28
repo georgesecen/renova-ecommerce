@@ -18,9 +18,10 @@ const OrdersTable = () => {
 
 
   return (
-    <div className='order-table-container'>
+    <ul className='order-table-container'>
         <OrderCard status={"completed"}></OrderCard>
-    </div>
+        <OrderCard status={"completed"}></OrderCard>
+    </ul>
   )
 }
 

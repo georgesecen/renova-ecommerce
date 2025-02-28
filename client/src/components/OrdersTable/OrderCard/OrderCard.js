@@ -50,7 +50,7 @@ const OrderCard = ({status}) => {
   const [showDropdown, setShowDropdown] = useState(false)
 
   return (
-    <div className='order-card-container'>
+    <li className='order-card-container'>
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='order-card-header-container'>
         
         <LabelValue label={"Order ID"} value={"#18"} leftBorder={false} rightBorder={false}></LabelValue>
@@ -122,7 +122,7 @@ const OrderCard = ({status}) => {
         
       </ul>
 
-    </div>
+    </li>
   )
 }
 
