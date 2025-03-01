@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import OrderCard from './OrderCard/OrderCard'
 import "./ordersTable.css"
-import { getOrders } from '../../services/orders'
+import { getOrders, updateOrderStatus } from '../../services/orders'
+import ModalSpinner from '../ModalSpinner/ModalSpinner'
 
 const OrdersTable = () => {
 
@@ -9,12 +10,18 @@ const OrdersTable = () => {
 
   // Get orders
   useEffect(() => {
-  getOrders()
-    .then((response) => {setOrders(response.data.data)})
-    .catch((error) => {console.log(error)})
+    getOrders()
+      .then((response) => {setOrders(response.data.data)})
+      .catch((error) => {console.log(error)})
   }, [])
 
   console.log(orders)
+
+  function updateOrder(id, status){
+    updateOrderStatus(id, status)
+      .then((response) => {console.log(response.data)})
+      .catch((error) => {console.log(error)})
+  }
 
 
   return (
@@ -22,7 +29,7 @@ const OrdersTable = () => {
 
         {
           orders.map((order, index) => {
-            return <OrderCard key={index} order={order}/>
+            return <OrderCard key={index} order={order} update={updateOrder}/>
           })
         }
     </ul>

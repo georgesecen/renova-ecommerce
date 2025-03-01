@@ -37,7 +37,7 @@ const OrderItem = ({productVariantId, name, priceAtPurchase, quantity, size, col
   )
 }
 
-const OrderCard = ({order}) => {
+const OrderCard = ({order, update}) => {
 
   // Get order details
   const {
@@ -73,6 +73,9 @@ const OrderCard = ({order}) => {
 
   return (
     <li className='order-card-container'>
+
+      <button onClick={() => {update(id, "shipped")}}>change to shipped</button>
+
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='order-card-header-container'>
         
         <LabelValue label={"Order ID"} value={`#${id}`} leftBorder={false} rightBorder={false}></LabelValue>
@@ -126,9 +129,8 @@ const OrderCard = ({order}) => {
               const {name: productName} = orderItem.product_variant.product
 
               return (
-                <li>
+                <li key={index}>
                   <OrderItem
-                    key={index}
                     productVariantId={id}
                     name={productName}
                     size={size}
