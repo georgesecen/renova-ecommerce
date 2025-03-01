@@ -49,11 +49,16 @@ function ProductDetails() {
             <h4>{state.name}</h4>
             <h6>${state.price}</h6>
             <p>{state.desc}</p>
-            <form>
-                {/* <h5>Colour</h5>
-                <h5>Size</h5> */}
-                <button className="addToCart">ADD TO CART</button>
-            </form>
+              <h5>Colour</h5>
+              <div className='colour-container'>
+                
+              </div>
+              <h5>Size</h5>
+              <div className='size-container'>
+
+              </div>
+
+              <button className="addToCart">ADD TO CART</button>
         </div>
       </div>
     );
