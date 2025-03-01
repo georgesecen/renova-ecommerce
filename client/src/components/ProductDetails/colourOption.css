@@ -1,0 +1,20 @@
+.colour-option {
+    font-size: 13px;
+
+    width: 3em;
+    height: 3em;
+    border: .8px solid rgb(207, 207, 207);
+    border-radius: 100%;
+    margin: 2px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.colour-option > div {
+    width: 80%;
+    height: 80%;
+    border-radius: 100%;
+    background-color: rgb(231, 231, 231);
+}
