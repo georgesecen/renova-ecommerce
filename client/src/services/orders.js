@@ -11,3 +11,21 @@ export const getOrders = async () => {
         console.log(error)
     }
 }
+
+/**
+ * Update order status.
+ * @param {number} id ID of order to be updated.
+ * @param {string} status Order status to be updated to.
+ * @returns 
+ */
+export const updateOrderStatus = async (id, status) => {
+    try {
+        return await API.post(`/orders/update-order-status`, {
+            adminPassword: sessionStorage.getItem("key"),
+            id: id,
+            status: status
+        });
+    } catch(error){
+        console.log(error)
+    }
+}

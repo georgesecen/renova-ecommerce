@@ -38,7 +38,6 @@ exports.getUserOrders = (req, res) => {
 exports.updateOrderStatus = async (request, response) => {
 
     const {id, status} = request.body
-    console.log(request.body)
 
     try{
 
