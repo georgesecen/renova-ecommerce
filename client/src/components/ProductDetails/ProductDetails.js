@@ -3,11 +3,33 @@ import Carousel from 'react-bootstrap/Carousel';
 import img1 from '../../assets/images/hoodie.png'
 import img2 from '../../assets/images/hoodie2.png'
 import { useLocation } from 'react-router-dom';
+import { getVariants } from '../../services/productVariants';
+import { useState, useEffect } from 'react';
 
 function ProductDetails() {
 
   const {state} = useLocation();
   const { id, name, price } = state;
+
+  const [variants, setVariants] = useState([]);
+
+
+  useEffect(() => {
+          console.log(variants);
+          // Fetch cart items when the component mounts
+          getVariants(state.id)
+              .then((response) => {
+                  console.log(response);
+
+                  setVariants(response.data);  // Store items in state
+                  console.log(variants)
+              })
+              .catch((error) => {
+                  console.error('Error fetching cart:', error);
+              });
+      }, []);
+
+  
     return (
       <div className="detailsPage">
         <div className="productImages">

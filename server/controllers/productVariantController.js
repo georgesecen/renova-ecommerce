@@ -101,3 +101,29 @@ exports.deleteProductVariant = async (request, response) => {
         response.status(500).json({error: error.message})
     }
 }
+
+exports.getProductVariants = async (request, response) => {
+    try {
+        const productId = request.params.id;
+        console.log(request.params)
+
+        console.log(productId)
+        if (!productId) {
+            console.log("no product id")
+            return response.status(400).json({ error: 'product ID is required' });
+        }
+
+        console.log(`Fetching variants for product: ${productId}`);
+
+
+        const variants = await ProductVariant.findAll({
+            where: { product_id: productId }
+        });
+
+        console.log(variants);
+        response.status(200).json(variants);
+    } catch (error) {
+        console.error('There was an error fetching variants', error);
+        response.status(500).json({error: 'failed to fetch variants'});
+    }
+}
