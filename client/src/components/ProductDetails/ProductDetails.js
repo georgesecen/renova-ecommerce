@@ -56,10 +56,14 @@ function ProductDetails() {
             <h5>COLOUR</h5>
             <div className='colour-container'>
               <ColourOption/>
+              <ColourOption/>
+              <ColourOption/>
             </div>
 
             <h5>SIZE</h5>
             <div className='size-container'>
+              <SizeOption/>
+              <SizeOption/>
               <SizeOption/>
             </div>
 
