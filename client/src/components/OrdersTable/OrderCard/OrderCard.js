@@ -37,7 +37,28 @@ const OrderItem = ({productVariantId, name, priceAtPurchase, quantity, size, col
   )
 }
 
-const OrderCard = ({status}) => {
+const OrderCard = ({orderItem}) => {
+
+  // Get order details
+  const {
+    id,
+    status, 
+    total_price: total,
+    createdAt
+  } = orderItem ?? {}
+
+  // Get shipping details
+  const {
+    address_line1: line1,
+    address_line2: line2,
+    country,
+    state, 
+    city,
+    postal_code: postalCode,
+    recipient_name: name,
+    phone_number: phone
+  } = orderItem.shipping_address ?? {}
+
 
   // Display different button colors based on order status
   const colors = {
@@ -53,32 +74,32 @@ const OrderCard = ({status}) => {
     <li className='order-card-container'>
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='order-card-header-container'>
         
-        <LabelValue label={"Order ID"} value={"#18"} leftBorder={false} rightBorder={false}></LabelValue>
+        <LabelValue label={"Order ID"} value={`#${id}`} leftBorder={false} rightBorder={false}></LabelValue>
         <button onClick={(event)=>{event.stopPropagation() /*To prevent sub menu showing*/ }} style={{"backgroundColor": colors[status]}}>
-          <p>{status}</p>
+          <p>{}</p>
           <img src={editIcon} alt='Edit'/>
         </button>
         <div className='seperator'></div>
 
-        <LabelValue label={"Total"} value={"$78.25"}></LabelValue>
+        <LabelValue label={"Total"} value={`$${total}`}></LabelValue>
         <div className='seperator'></div>
-        <LabelValue label={"Time"} value={"2025/02/01 - 1:28"}></LabelValue>
+        <LabelValue label={"Time"} value={new Date(createdAt).toLocaleString("en-US")}></LabelValue>
         <div className='seperator'></div>
-        <LabelValue label={"Name"} value={"Jimmy Test"}></LabelValue>
+        <LabelValue label={"Name"} value={name}></LabelValue>
         <div className='seperator'></div>
-        <LabelValue label={"Phone"} value={null}></LabelValue>
+        <LabelValue label={"Phone"} value={phone}></LabelValue>
         <div className='seperator'></div>
-        <LabelValue label={"Country"} value={"US"}></LabelValue>
+        <LabelValue label={"Country"} value={country}></LabelValue>
         <div className='seperator'></div>
-        <LabelValue label={"City"} value={"Windsor"}></LabelValue>
+        <LabelValue label={"City"} value={city}></LabelValue>
         <div className='seperator'></div>
-        <LabelValue label={"State"} value={"OH"}></LabelValue>
+        <LabelValue label={"State"} value={state}></LabelValue>
         <div className='seperator'></div>
-        <LabelValue label={"Postal Code"} value={"1234567"}></LabelValue>
+        <LabelValue label={"Postal Code"} value={postalCode}></LabelValue>
         <div className='seperator'></div>
-        <LabelValue label={"Line 1"} value={"123 Sesame Street "}></LabelValue>
+        <LabelValue label={"Line 1"} value={line1}></LabelValue>
         <div className='seperator'></div>
-        <LabelValue label={"Line 2"} value={null}></LabelValue>
+        <LabelValue label={"Line 2"} value={line2}></LabelValue>
 
         {/* Arrow icon which shows sub menu is open */}
         <img src={arrowIcon} alt='Edit' className={showDropdown ? "show" : ""}/>

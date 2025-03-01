@@ -5,12 +5,12 @@ import { getOrders } from '../../services/orders'
 
 const OrdersTable = () => {
 
-  const [orders, setOrders] = useState()
+  const [orders, setOrders] = useState([])
 
   // Get orders
   useEffect(() => {
   getOrders()
-    .then((response) => {setOrders(response.data)})
+    .then((response) => {setOrders(response.data.data)})
     .catch((error) => {console.log(error)})
   }, [])
 
@@ -19,8 +19,12 @@ const OrdersTable = () => {
 
   return (
     <ul className='order-table-container'>
-        <OrderCard status={"completed"}></OrderCard>
-        <OrderCard status={"completed"}></OrderCard>
+
+        {
+          orders.map((order, index) => {
+            return <OrderCard key={index} orderItem={order}/>
+          })
+        }
     </ul>
   )
 }
