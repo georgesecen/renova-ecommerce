@@ -128,6 +128,7 @@ const OrderCard = ({order}) => {
               return (
                 <li>
                   <OrderItem
+                    key={index}
                     productVariantId={id}
                     name={productName}
                     size={size}

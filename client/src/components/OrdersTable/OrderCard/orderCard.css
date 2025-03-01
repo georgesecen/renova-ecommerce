@@ -102,6 +102,11 @@
     scrollbar-width: thin;
     z-index: 1;
 
+    /* To have lines lines under list items cover entire
+    width of container even when scrolled
+    */
+    display: grid;
+
     /* For dropdown effect */
     /* Dropdown strategy from https://codepen.io/Simona_Deng/pen/QjqQgZ */
     max-height: 0px;
@@ -113,10 +118,8 @@
 }
 .order-card-items-container > li{
     border-bottom: 1px solid #C1C1C1;
-    min-width: 100%;
-    width: fit-content;
 }
 /* So border does not show on last list item */
 .order-card-items-container > li:last-of-type{
     border-bottom: none;
-}
+} 
