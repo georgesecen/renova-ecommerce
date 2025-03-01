@@ -22,7 +22,7 @@ const OrdersTable = () => {
 
         {
           orders.map((order, index) => {
-            return <OrderCard key={index} orderItem={order}/>
+            return <OrderCard key={index} order={order}/>
           })
         }
     </ul>

@@ -24,7 +24,7 @@ const OrderItem = ({productVariantId, name, priceAtPurchase, quantity, size, col
       <div className='seperator'></div>
       <LabelValue label={"Name"} value={name}></LabelValue>
       <div className='seperator'></div>
-      <LabelValue label={"Price At Purchase"} value={priceAtPurchase}></LabelValue>
+      <LabelValue label={"Price At Purchase"} value={`$${priceAtPurchase}`}></LabelValue>
       <div className='seperator'></div>
       <LabelValue label={"Quantity"} value={quantity}></LabelValue>
       <div className='seperator'></div>
@@ -37,15 +37,16 @@ const OrderItem = ({productVariantId, name, priceAtPurchase, quantity, size, col
   )
 }
 
-const OrderCard = ({orderItem}) => {
+const OrderCard = ({order}) => {
 
   // Get order details
   const {
     id,
     status, 
     total_price: total,
+    order_items: orderItems,
     createdAt
-  } = orderItem ?? {}
+  } = order ?? {}
 
   // Get shipping details
   const {
@@ -57,7 +58,7 @@ const OrderCard = ({orderItem}) => {
     postal_code: postalCode,
     recipient_name: name,
     phone_number: phone
-  } = orderItem.shipping_address ?? {}
+  } = order.shipping_address ?? {}
 
 
   // Display different button colors based on order status
@@ -76,7 +77,7 @@ const OrderCard = ({orderItem}) => {
         
         <LabelValue label={"Order ID"} value={`#${id}`} leftBorder={false} rightBorder={false}></LabelValue>
         <button onClick={(event)=>{event.stopPropagation() /*To prevent sub menu showing*/ }} style={{"backgroundColor": colors[status]}}>
-          <p>{}</p>
+          <p>{status}</p>
           <img src={editIcon} alt='Edit'/>
         </button>
         <div className='seperator'></div>
@@ -107,40 +108,38 @@ const OrderCard = ({orderItem}) => {
       </div>
 
       <ul className={`order-card-items-container ${showDropdown ? "show" : ""}`}>
-        <li>
-        <OrderItem 
-          productVariantId={"#18"} 
-          name={"Cool Hoodie"} 
-          priceAtPurchase={"$19.99"}
-          quantity={2}
-          size={"XL"}
-          color={"Red"}
-          gender={"Women"}
-        ></OrderItem>
-        </li>
-        <li>
-        <OrderItem 
-          productVariantId={"#18"} 
-          name={"Cool Hoodie"} 
-          priceAtPurchase={"$19.99"}
-          quantity={2}
-          size={"XL"}
-          color={"Red"}
-          gender={"Women"}
-        ></OrderItem>
-        </li>
-        <li>
-        <OrderItem 
-          productVariantId={"#18"} 
-          name={"Cool Hoodie"} 
-          priceAtPurchase={"$19.99"}
-          quantity={2}
-          size={"XL"}
-          color={"Red"}
-          gender={"Women"}
-        ></OrderItem>
-        </li>
-        
+          {
+            orderItems.map((orderItem, index) => {
+              // Get order item details
+              const {
+                price_at_purchase: priceAtPurchase,
+                quantity,
+              } = orderItem
+
+              // Get order items product variant details
+              const {
+                id,
+                size,
+                color,
+                gender,
+              } = orderItem.product_variant
+              const {name: productName} = orderItem.product_variant.product
+
+              return (
+                <li>
+                  <OrderItem
+                    productVariantId={id}
+                    name={productName}
+                    size={size}
+                    priceAtPurchase={priceAtPurchase}
+                    quantity={quantity}
+                    color={color}
+                    gender={gender}
+                  ></OrderItem>
+                </li>
+              )
+            })
+          }
       </ul>
 
     </li>

@@ -4,16 +4,16 @@ import OrdersTable from '../../components/OrdersTable/OrdersTable'
 
 const Admin = () => {
 
-  const [key, setKey] = useState(false)
+  const [key, setKey] = useState(true)
 
   // Get key for admin routes
-  useEffect(() => {
+  // useEffect(() => {
 
-    // Store key in session storage for better security
-    sessionStorage.removeItem("key")
-    sessionStorage.setItem("key", prompt("Key:"))
-    setKey(true)
-  }, [])
+  //   // Store key in session storage for better security
+  //   sessionStorage.removeItem("key")
+  //   sessionStorage.setItem("key", prompt("Key:"))
+  //   setKey(true)
+  // }, [])
 
   return (
     <div>
