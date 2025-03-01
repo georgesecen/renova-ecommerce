@@ -7,32 +7,41 @@ import ModalSpinner from '../ModalSpinner/ModalSpinner'
 const OrdersTable = () => {
 
   const [orders, setOrders] = useState([])
+  const [loadOrders, setLoadOrders] = useState(true) // When set to true will trigger reload of orders
+  const [loading, setLoading] = useState(false)
 
   // Get orders
   useEffect(() => {
-    getOrders()
-      .then((response) => {setOrders(response.data.data)})
-      .catch((error) => {console.log(error)})
-  }, [])
+    if (loadOrders){
+      getOrders()
+        .then((response) => {setOrders(response.data.data)})
+        .catch((error) => {console.log(error)})
+        .finally(() => {setLoadOrders(false);})
+    }
+  }, [loadOrders])
 
-  console.log(orders)
-
+  
+  // Function updates orders status
   function updateOrder(id, status){
+    setLoading(true)
     updateOrderStatus(id, status)
       .then((response) => {console.log(response.data)})
       .catch((error) => {console.log(error)})
+      .finally(() => {setLoading(false); setLoadOrders(true)})
   }
 
 
   return (
-    <ul className='order-table-container'>
-
-        {
-          orders.map((order, index) => {
-            return <OrderCard key={index} order={order} update={updateOrder}/>
-          })
-        }
-    </ul>
+    <div className='order-table-container'>
+      {loading && <ModalSpinner />}
+      <ul>
+          {
+            orders.map((order, index) => {
+              return <OrderCard key={index} order={order} update={updateOrder}/>
+            })
+          }
+      </ul>
+    </div>
   )
 }
 

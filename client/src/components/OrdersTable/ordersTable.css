@@ -1,4 +1,4 @@
-.order-table-container{
+.order-table-container > ul{
     margin: 0;
     padding: 0;
     border: 1px solid #B4B4B4;
@@ -8,10 +8,10 @@
     overflow: hidden;
     max-width: 1100px;
 }
-.order-table-container > li{
+.order-table-container > ul > li{
     border-bottom: 1px solid #C1C1C1;
 }
 /* So border does not show on last list item */
-.order-table-container > li:last-of-type{
+.order-table-container > ul > li:last-of-type{
     border-bottom: none;
 }
