@@ -56,12 +56,12 @@ function ProductDetails() {
             <h6>${state.price}</h6>
             <p>{state.desc}</p>
 
-            <h5>COLOUR</h5>
+            <h5>COLOUR - WHITE</h5>
             <div className='colour-container'>
-              <div className="colour-option">
+              <div className={colour === 0 ? "colour-option active" : "colour-option"} onClick={() => setColour(0)}>
                 <div></div>
               </div>
-              <div className="colour-option">
+              <div className={colour === 1 ? "colour-option active" : "colour-option"} onClick={() => setColour(1)}>
                 <div></div>
               </div>
             </div>

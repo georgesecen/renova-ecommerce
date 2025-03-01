@@ -3,9 +3,10 @@
 
     width: 3em;
     height: 3em;
-    border: .8px solid rgb(207, 207, 207);
+    /* border: .8px solid rgb(207, 207, 207); */
     border-radius: 100%;
     margin: 2px;
+    cursor: pointer;
 
     display: flex;
     justify-content: center;
@@ -13,8 +14,12 @@
 }
 
 .colour-option > div {
-    width: 80%;
-    height: 80%;
+    width: 74%;
+    height: 74%;
     border-radius: 100%;
-    background-color: rgb(231, 231, 231);
+    background-color: rgb(255, 146, 146);
+}
+
+.colour-option:hover, .colour-option.active {
+    border: .8px solid rgb(188, 188, 188);
 }
