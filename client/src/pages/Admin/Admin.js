@@ -1,6 +1,7 @@
 import {React, useEffect, useState} from 'react'
 import "./admin.css"
 import OrdersTable from '../../components/OrdersTable/OrdersTable'
+import Toasts from '../../components/Toasts/Toasts'
 
 const Admin = () => {
 
@@ -20,7 +21,8 @@ const Admin = () => {
       <h1>Admin Page</h1>
 
       {/* Make sure key is set before rendering components */}
-      {key && <OrdersTable />}
+      {/* {key && <OrdersTable />} */}
+      <Toasts />
     </div>
   )
 }
