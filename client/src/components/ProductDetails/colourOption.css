@@ -3,9 +3,8 @@
 
     width: 3em;
     height: 3em;
-    /* border: .8px solid rgb(207, 207, 207); */
     border-radius: 100%;
-    margin: 2px;
+    margin: 2px 12px 2px 0;
     cursor: pointer;
 
     display: flex;

@@ -72,7 +72,7 @@
 }
 
 .details > h5 {
-    margin: 10px 0;
+    margin: 14px 0;
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 1px;
@@ -89,7 +89,6 @@
 
 /* Add to cart button  */
 .details .addToCart {
-    /* width: 180px; */
     width: 80%;
     color: var(--text);
     text-decoration: none;
