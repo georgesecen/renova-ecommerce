@@ -2,8 +2,8 @@ import './sizeOption.css';
 
 function SizeOption() {
     return (
-        <div className="colour-option">
-
+        <div className="size-option">
+            <div>S</div>
         </div>
     )
 }

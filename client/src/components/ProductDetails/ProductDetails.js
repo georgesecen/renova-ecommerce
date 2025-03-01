@@ -5,6 +5,8 @@ import img2 from '../../assets/images/hoodie2.png'
 import { useLocation } from 'react-router-dom';
 import { getVariants } from '../../services/productVariants';
 import { useState, useEffect } from 'react';
+import ColourOption from './ColourOption';
+import SizeOption from './SizeOption';
 
 function ProductDetails() {
 
@@ -45,20 +47,23 @@ function ProductDetails() {
             </Carousel.Item>
           </Carousel>
         </div>
+
         <div className="details">
             <h4>{state.name}</h4>
             <h6>${state.price}</h6>
             <p>{state.desc}</p>
-              <h5>Colour</h5>
-              <div className='colour-container'>
-                
-              </div>
-              <h5>Size</h5>
-              <div className='size-container'>
 
-              </div>
+            <h5>COLOUR</h5>
+            <div className='colour-container'>
+              <ColourOption/>
+            </div>
 
-              <button className="addToCart">ADD TO CART</button>
+            <h5>SIZE</h5>
+            <div className='size-container'>
+              <SizeOption/>
+            </div>
+
+            <button className="addToCart">ADD TO CART</button>
         </div>
       </div>
     );

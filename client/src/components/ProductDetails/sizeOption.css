@@ -1,0 +1,17 @@
+.size-option {
+    font-size: 13px;
+
+    width: 3em;
+    height: 3em;
+    border: .8px solid rgb(207, 207, 207);
+    border-radius: 8px;
+    margin: 2px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.size-option > div {
+    font-size: 1.2em;
+}
