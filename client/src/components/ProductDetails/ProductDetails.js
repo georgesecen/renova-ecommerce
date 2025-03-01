@@ -1,13 +1,12 @@
 import './productDetails.css'
 import './sizeOption.css';
-
+import './colourOption.css';
 import Carousel from 'react-bootstrap/Carousel';
 import img1 from '../../assets/images/hoodie.png'
 import img2 from '../../assets/images/hoodie2.png'
 import { useLocation } from 'react-router-dom';
 import { getVariants } from '../../services/productVariants';
 import { useState, useEffect } from 'react';
-import ColourOption from './ColourOption';
 
 function ProductDetails() {
 
@@ -59,9 +58,12 @@ function ProductDetails() {
 
             <h5>COLOUR</h5>
             <div className='colour-container'>
-              <ColourOption/>
-              <ColourOption/>
-              <ColourOption/>
+              <div className="colour-option">
+                <div></div>
+              </div>
+              <div className="colour-option">
+                <div></div>
+              </div>
             </div>
 
             <h5>SIZE</h5>
