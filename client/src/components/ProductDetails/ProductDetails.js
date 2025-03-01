@@ -1,4 +1,6 @@
 import './productDetails.css'
+import './sizeOption.css';
+
 import Carousel from 'react-bootstrap/Carousel';
 import img1 from '../../assets/images/hoodie.png'
 import img2 from '../../assets/images/hoodie2.png'
@@ -6,7 +8,6 @@ import { useLocation } from 'react-router-dom';
 import { getVariants } from '../../services/productVariants';
 import { useState, useEffect } from 'react';
 import ColourOption from './ColourOption';
-import SizeOption from './SizeOption';
 
 function ProductDetails() {
 
@@ -14,11 +15,14 @@ function ProductDetails() {
   const { id, name, price } = state;
 
   const [variants, setVariants] = useState([]);
+  const [colour, setColour] = useState(0)
+  const [size, setSize] = useState(0)
 
-
+  /**
+   * This method fetches all variants associated with the viewed product.
+   */
   useEffect(() => {
           console.log(variants);
-          // Fetch cart items when the component mounts
           getVariants(state.id)
               .then((response) => {
                   console.log(response);
@@ -27,7 +31,7 @@ function ProductDetails() {
                   console.log(variants)
               })
               .catch((error) => {
-                  console.error('Error fetching cart:', error);
+                  console.error('Error fetching variants:', error);
               });
       }, []);
 
@@ -62,9 +66,12 @@ function ProductDetails() {
 
             <h5>SIZE</h5>
             <div className='size-container'>
-              <SizeOption/>
-              <SizeOption/>
-              <SizeOption/>
+              <div className={size === 0 ? "size-option active" : "size-option"} onClick={() => setSize(0)}>
+                  <div>S</div>
+              </div>
+              <div className={size === 1 ? "size-option active" : "size-option"} onClick={() => setSize(1)}>
+                  <div>M</div>
+              </div>
             </div>
 
             <button className="addToCart">ADD TO CART</button>

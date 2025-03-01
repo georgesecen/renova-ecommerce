@@ -3,15 +3,19 @@
 
     width: 3em;
     height: 3em;
-    border: .8px solid rgb(207, 207, 207);
     border-radius: 8px;
-    margin: 2px;
+    margin: 2px 5px;
 
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .size-option > div {
     font-size: 1.2em;
+}
+
+.size-option:hover, .size-option.active {
+    border: .8px solid rgb(188, 188, 188);
 }
