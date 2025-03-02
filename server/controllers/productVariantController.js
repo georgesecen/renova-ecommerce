@@ -1,7 +1,8 @@
 const ProductVariant = require("../models/productVariantModel")
+const { createDatabaseAndStripeProduct } = require("../services/productVariantIntegrationService")
 
 /**
- * Creates a product variant in the database.
+ * Creates a product variant in database and on Stripe.
  * @param {Object} request Express js request object.
  * @param {Object} response Express js response object.
  */
@@ -11,18 +12,11 @@ exports.createProductVariant = async (request, response) => {
 
     try{
 
-        // Create product variant
-        await ProductVariant.create({
-            product_id: productId,
-            color: color,
-            size: size,
-            stock_quantity: quantity,
-            price: price
-        })
+        await createDatabaseAndStripeProduct(productId, color, size, quantity, price)
 
-        console.log("Product variant created successfully in database.")
+        console.log("Product variant created successfully in database and on Stripe.")
         response.status(200).json({
-            message: "Product variant created successfully in database.",
+            message: "Product variant created successfully in database and on Stripe.",
         })
     } 
     catch (error){
