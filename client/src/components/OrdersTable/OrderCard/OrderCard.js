@@ -78,7 +78,7 @@ const OrderCard = ({order, update}) => {
 
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='order-card-header-container'>
         
-        <LabelValue label={"Order ID"} value={`#${id}`} leftBorder={false} rightBorder={false}></LabelValue>
+        <LabelValue label={"Order ID"} value={`#${id}`}></LabelValue>
         <button onClick={(event)=>{event.stopPropagation() /*To prevent sub menu showing*/ }} style={{"backgroundColor": colors[status]}}>
           <p>{status}</p>
           <img src={editIcon} alt='Edit'/>
