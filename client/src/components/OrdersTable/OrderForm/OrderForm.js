@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
 import "./orderForm.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 // https://react-bootstrap.netlify.app/docs/components/modal/
-const OrderForm = () => {
+const OrderForm = ({ show, setShow, update, orderStatus, orderId }) => {
 
-  const [show, setShow] = useState(true)
-
-  function getFormData(){
+  // Gets data from form and updates orders status
+  function processFormData(){
     const formData = new FormData(document.getElementById("order-form"))
-    console.log(Object.fromEntries(formData.entries()))
+    const entries = Object.fromEntries(formData.entries()) // Get key value pairs (Keys being form feild names)
+    // Update order status
+    update(orderId, entries.status)
   }
   
   // TODO: Style everything
@@ -21,17 +21,17 @@ const OrderForm = () => {
         </Modal.Header>
         <Modal.Body>
             <form id='order-form'>
-                <input name="status" value="shipped" type="radio"/>Shipped <br></br>
-                <input name="status" value="canceled" type="radio"/>Canceled <br></br>
-                <input name="status" value="pending" type="radio"/>Pending <br></br>
-                <input name="status" value="completed" type="radio"/>Completed <br></br>
+                <input name="status" value="shipped" type="radio" defaultChecked={orderStatus === "shipped" && true}/>Shipped <br></br>
+                <input name="status" value="cancelled" type="radio" defaultChecked={orderStatus === "cancelled" && true}/>Canceled <br></br>
+                <input name="status" value="pending" type="radio" defaultChecked={orderStatus === "pending" && true}/>Pending <br></br>
+                <input name="status" value="completed" type="radio" defaultChecked={orderStatus === "completed" && true}/>Completed <br></br>
             </form>
         </Modal.Body>
         <Modal.Footer>
             <Button variant="secondary" onClick={() => setShow(false)}>
                 Close
             </Button>
-            <Button variant="primary" onClick={() => {setShow(false); getFormData()}}>
+            <Button variant="primary" onClick={() => {setShow(false); processFormData()}}>
                 Save Changes
             </Button>
         </Modal.Footer>

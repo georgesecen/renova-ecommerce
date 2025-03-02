@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import "./orderCard.css"
+import OrderForm from '../OrderForm/OrderForm'
 
 const editIcon = require("../../../assets/icons/edit.png")
 const arrowIcon = require("../../../assets/icons/arrow.png")
@@ -39,6 +40,9 @@ const OrderItem = ({productVariantId, name, priceAtPurchase, quantity, size, col
 
 const OrderCard = ({order, update}) => {
 
+  const [showDropdown, setShowDropdown] = useState(false)
+  const [showOrderForm, setShowOrderForm] = useState(false)
+
   // Get order details
   const {
     id,
@@ -66,20 +70,24 @@ const OrderCard = ({order, update}) => {
     completed: "#5FC21C",
     pending: "#E88D58",
     shipped: "#7157FF",
-    canceled: "#FB3C3F"
+    cancelled: "#FB3C3F"
   }
-
-  const [showDropdown, setShowDropdown] = useState(false)
 
   return (
     <li className='order-card-container'>
 
-      <button onClick={() => {update(id, "shipped")}}>change to shipped</button>
+      <OrderForm show={showOrderForm} setShow={setShowOrderForm} update={update} orderStatus={status} orderId={id}/>
 
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='order-card-header-container'>
         
         <LabelValue label={"Order ID"} value={`#${id}`}></LabelValue>
-        <button onClick={(event)=>{event.stopPropagation() /*To prevent sub menu showing*/ }} style={{"backgroundColor": colors[status]}}>
+        <button 
+          onClick={(event)=>{
+            event.stopPropagation() // To prevent sub menu showing
+            setShowOrderForm(!showOrderForm)
+          }} 
+          style={{"backgroundColor": colors[status]}}
+        >
           <p>{status}</p>
           <img src={editIcon} alt='Edit'/>
         </button>

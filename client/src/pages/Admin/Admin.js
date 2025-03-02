@@ -29,8 +29,7 @@ const Admin = () => {
       <Toasts ref={toastsRef} />
 
       {/* To make sure key is set before rendering components */}
-      {/* {key && <OrdersTable displayNotification={displayNotification} />} */}
-      <OrderForm />
+      {key && <OrdersTable displayNotification={displayNotification} />}
     </div>
   )
 }

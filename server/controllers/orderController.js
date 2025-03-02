@@ -50,7 +50,7 @@ exports.updateOrderStatus = async (request, response) => {
         }
         
         // If status is not a valid option
-        if (!new Set(["pending", "completed", "canceled", "shipped"]).has(status)){
+        if (!new Set(["pending", "completed", "cancelled", "shipped"]).has(status)){
             throw new Error(`Status ${status} is not a valid option. Status must be pending, completed, canceled, or shipped.`)
         }
 
