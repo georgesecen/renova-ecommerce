@@ -9,8 +9,9 @@ const OrderForm = ({ show, setShow, update, orderStatus, orderId }) => {
   function processFormData(){
     const formData = new FormData(document.getElementById("order-form"))
     const entries = Object.fromEntries(formData.entries()) // Get key value pairs (Keys being form feild names)
-    // Update order status
-    update(orderId, entries.status)
+    
+    // Only if status was changed update order status
+    if (entries.status !== orderStatus) update(orderId, entries.status)
   }
   
   // TODO: Style everything
@@ -21,10 +22,10 @@ const OrderForm = ({ show, setShow, update, orderStatus, orderId }) => {
         </Modal.Header>
         <Modal.Body>
             <form id='order-form'>
-                <input name="status" value="shipped" type="radio" defaultChecked={orderStatus === "shipped" && true}/>Shipped <br></br>
-                <input name="status" value="cancelled" type="radio" defaultChecked={orderStatus === "cancelled" && true}/>Canceled <br></br>
-                <input name="status" value="pending" type="radio" defaultChecked={orderStatus === "pending" && true}/>Pending <br></br>
-                <input name="status" value="completed" type="radio" defaultChecked={orderStatus === "completed" && true}/>Completed <br></br>
+                <input name="status" value="shipped" type="radio" defaultChecked={orderStatus === "shipped"}/>Shipped <br></br>
+                <input name="status" value="cancelled" type="radio" defaultChecked={orderStatus === "cancelled"}/>Cancelled <br></br>
+                <input name="status" value="pending" type="radio" defaultChecked={orderStatus === "pending"}/>Pending <br></br>
+                <input name="status" value="completed" type="radio" defaultChecked={orderStatus === "completed"}/>Completed <br></br>
             </form>
         </Modal.Body>
         <Modal.Footer>

@@ -27,8 +27,6 @@ const Toasts = ({ref}) => {
     setToasts([...toasts])
   }
 
-  console.log(toasts)
-
   return (
     <ToastContainer position='top-center'>
 
