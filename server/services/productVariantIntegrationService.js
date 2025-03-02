@@ -124,3 +124,31 @@ exports.createProductImage = async (productId, productVariantId, isPrimary, file
     }
 }
 
+/**
+ * Deletes an image in the database and on the server itself.
+ * @param {number} imageId ID of image to delete.
+ */
+exports.deleteProductImage = async (imageId) => {
+    try{
+
+        // Get image from database
+        const image = await ProductImage.findByPk(imageId)
+
+        // Get image name so we know what image to delete on server
+        const imageName = image.image_url
+
+        // Delete image in database
+        await image.destroy()
+
+        // Get path to image on server
+        const serverPath = path.dirname(__dirname)
+        const imagePath = path.join(serverPath, "public", "images", imageName)   
+
+        // Delete image on server
+        await fs.promises.rm(imagePath)
+
+    } catch(error){
+        throw Error(`Error in productVariantIntegrationService.js function deleteProductImage: ${error}`)
+    }
+}
+
