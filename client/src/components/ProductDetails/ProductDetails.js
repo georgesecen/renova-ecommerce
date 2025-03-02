@@ -15,7 +15,7 @@ function ProductDetails() {
 
   const [variants, setVariants] = useState([]);
   const [colour, setColour] = useState("")
-  const [size, setSize] = useState(0)
+  const [size, setSize] = useState("")
 
   const cols = useRef(new Set()); 
   const sizes = useRef(new Set()); 
@@ -75,12 +75,12 @@ function ProductDetails() {
 
             <h5>SIZE</h5>
             <div className='size-container'>
-              <div className={size === 0 ? "size-option active" : "size-option"} onClick={() => setSize(0)}>
-                  <div>S</div>
-              </div>
-              <div className={size === 1 ? "size-option active" : "size-option"} onClick={() => setSize(1)}>
-                  <div>M</div>
-              </div>
+
+              {Array.from(sizes.current).map((s) => (
+                <div key={s} className={size === s ? "size-option active" : "size-option"} onClick={() => setSize(s)}>
+                  <div>{s}</div>
+                </div>
+              ))}
             </div>
 
             <button className="addToCart">ADD TO CART</button>
