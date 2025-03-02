@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from 'react'
+import {React, useEffect, useState, useRef} from 'react'
 import "./admin.css"
 import OrdersTable from '../../components/OrdersTable/OrdersTable'
 import Toasts from '../../components/Toasts/Toasts'
@@ -6,6 +6,12 @@ import Toasts from '../../components/Toasts/Toasts'
 const Admin = () => {
 
   const [key, setKey] = useState(true)
+
+  // To get the Toasts component function to add new toasts
+  const toastsRef = useRef()
+  function displayNotification(title, message, type = ""){
+    toastsRef.current.addToast(title, message, type)
+  }
 
   // Get key for admin routes
   // useEffect(() => {
@@ -19,10 +25,10 @@ const Admin = () => {
   return (
     <div>
       <h1>Admin Page</h1>
+      <Toasts ref={toastsRef} />
 
-      {/* Make sure key is set before rendering components */}
-      {/* {key && <OrdersTable />} */}
-      <Toasts />
+      {/* To make sure key is set before rendering components */}
+      {key && <OrdersTable displayNotification={displayNotification} />}
     </div>
   )
 }

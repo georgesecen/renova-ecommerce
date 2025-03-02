@@ -4,7 +4,7 @@ import "./ordersTable.css"
 import { getOrders, updateOrderStatus } from '../../services/orders'
 import ModalSpinner from '../ModalSpinner/ModalSpinner'
 
-const OrdersTable = () => {
+const OrdersTable = ({displayNotification}) => {
 
   const [orders, setOrders] = useState([])
   const [loadOrders, setLoadOrders] = useState(true) // When set to true will trigger reload of orders
@@ -14,9 +14,9 @@ const OrdersTable = () => {
   useEffect(() => {
     if (loadOrders){
       getOrders()
-        .then((response) => {setOrders(response.data.data)})
-        .catch((error) => {console.log(error)})
-        .finally(() => {setLoadOrders(false);})
+        .then((response) => setOrders(response.data.data))
+        .catch((error) => displayNotification("Get", `${error}`, "danger"))
+        .finally(() => setLoadOrders(false))
     }
   }, [loadOrders])
 
@@ -25,8 +25,8 @@ const OrdersTable = () => {
   function updateOrder(id, status){
     setLoading(true)
     updateOrderStatus(id, status)
-      .then((response) => {console.log(response.data)})
-      .catch((error) => {console.log(error)})
+      .then((response) => displayNotification("Update", response.data.message))
+      .catch((error) => displayNotification("Update", `${error}`, "danger"))
       .finally(() => {setLoading(false); setLoadOrders(true)})
   }
 
