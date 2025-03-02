@@ -6,7 +6,7 @@ import img1 from '../../assets/images/hoodie.png'
 import img2 from '../../assets/images/hoodie2.png'
 import { useLocation } from 'react-router-dom';
 import { getVariants } from '../../services/productVariants';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 function ProductDetails() {
 
@@ -14,26 +14,33 @@ function ProductDetails() {
   const { id, name, price } = state;
 
   const [variants, setVariants] = useState([]);
-  const [colour, setColour] = useState(0)
+  const [colour, setColour] = useState("")
   const [size, setSize] = useState(0)
+
+  const cols = useRef(new Set()); 
+  const sizes = useRef(new Set()); 
 
   /**
    * This method fetches all variants associated with the viewed product.
    */
-  useEffect(() => {
-          console.log(variants);
+    useEffect(() => {
           getVariants(state.id)
               .then((response) => {
                   console.log(response);
 
-                  setVariants(response.data);  // Store items in state
-                  console.log(variants)
+                  setVariants(response);  // Store items in state
+                  cols.current = new Set(response.map(a => a.color))
+                  sizes.current = new Set(response.map(a => a.size))
+
+                  setColour(response[0].color)
+                  setSize(response[0].size)
+
+                  console.log("Variants: ", variants)
               })
               .catch((error) => {
                   console.error('Error fetching variants:', error);
               });
-      }, []);
-
+    }, []);
   
     return (
       <div className="detailsPage">
@@ -56,14 +63,14 @@ function ProductDetails() {
             <h6>${state.price}</h6>
             <p>{state.desc}</p>
 
-            <h5>COLOUR - WHITE</h5>
+            <h5>COLOUR - {colour}</h5>
             <div className='colour-container'>
-              <div className={colour === 0 ? "colour-option active" : "colour-option"} onClick={() => setColour(0)}>
-                <div></div>
-              </div>
-              <div className={colour === 1 ? "colour-option active" : "colour-option"} onClick={() => setColour(1)}>
-                <div></div>
-              </div>
+
+              {Array.from(cols.current).map((col) => (
+                <div key={col} className={colour === col ? "colour-option active" : "colour-option"} onClick={() => setColour(col)}>
+                  <div></div>
+                </div>
+              ))}
             </div>
 
             <h5>SIZE</h5>
