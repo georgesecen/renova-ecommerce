@@ -1,4 +1,4 @@
-const { createProductImage, deleteProductImage } = require('../services/productVariantIntegrationService');
+const { createDatabaseProductImage, deleteDatabaseProductImage } = require('../services/productVariantIntegrationService');
 
 /**
  * Creates an image in the database and adds image to the server.
@@ -12,7 +12,7 @@ exports.createImage = async (request, response) => {
 
     try{
 
-        await createProductImage(productId, productVariantId, isPrimary, originalname, buffer)
+        await createDatabaseProductImage(productId, productVariantId, isPrimary, originalname, buffer)
 
         console.log("Image created successfully in database and added to server.")
         response.status(200).json({
@@ -36,7 +36,7 @@ exports.deleteImage = async (request, response) => {
 
     try{
 
-        await deleteProductImage(id)
+        await deleteDatabaseProductImage(id)
 
         console.log("Image deleted successfully in database and on server.")
         response.status(200).json({
