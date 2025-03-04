@@ -130,6 +130,7 @@ exports.createDatabaseProductImage = async (productId, productVariantId, isPrima
 /**
  * Deletes an image in the database and on the server itself.
  * @param {number} imageId ID of image to delete.
+ * @returns {Promise<string>} Image name of file deleted from server.
  */
 exports.deleteDatabaseProductImage = async (imageId) => {
     try{
@@ -149,6 +150,8 @@ exports.deleteDatabaseProductImage = async (imageId) => {
 
         // Delete image on server
         await fs.promises.rm(imagePath)
+
+        return imageName
 
     } catch(error){
         throw Error(`Error in productVariantIntegrationService.js function deleteDatabaseProductImage: ${error}`)
@@ -172,18 +175,48 @@ exports.createDatabaseAndStripeProductImage = async (productId, productVariantId
         // Get product variant from Stripe
         const product = await StripeProduct.findById(`${productVariantId}`)
 
-        // Get path to images folder on server
+        // Get path to image on server
         const serverPath = path.dirname(__dirname)
-        const imagesPath = path.join(serverPath, "public", "images") 
+        const imagePath = path.join(serverPath, "public", "images", name) 
 
         // Add image to Stripe product variant
         // TODO: Uncomment next line which adds actual image url (server cannot be localhost)
-        // product.images.push(path.join(imagesPath, name))
+        // product.images.push(imagePath)
         product.images.push("https://google.com")
         await product.update()
 
     } catch(error){
         throw Error(`Error in productVariantIntegrationService.js function createDatabaseAndStripeProductImage: ${error}`)
+    }
+}
+
+/**
+ * Deletes an image for a product variant in the database, on the server itself, and on Stripe.
+ * @param {number} productVariantId ID of product variant which image belongs to.
+ * @param {number} imageId ID of image to be deleted.
+ */
+exports.deleteDatabaseAndStripeProductImage = async (productVariantId, imageId) => {
+    try{
+
+        // Get name of image file deleted from server
+        const name = await this.deleteDatabaseProductImage(imageId)
+
+        // Get product variant from Stripe
+        const product = await StripeProduct.findById(`${productVariantId}`)
+
+        // Get path to where image was on server
+        const serverPath = path.dirname(__dirname)
+        const imagePath = path.join(serverPath, "public", "images", name) 
+
+        // Remove image from Stripe product variant
+        // TODO: Uncomment next lines which removes actual image url (server cannot be localhost)
+        // if (product.images.includes(imagePath)){
+        //     product.images.splice(product.images.indexOf(imagePath), 1)
+        //     await product.update()
+        // } 
+
+    } catch(error){
+        throw Error(`Error in productVariantIntegrationService.js function deleteDatabaseAndStripeProductImage: ${error}`)
     }
 }
 
@@ -234,3 +267,4 @@ const cloneProductImages = async (productId, productVariantId, sourceProductVari
         throw Error(`Error in productVariantIntegrationService.js function cloneProductImages: ${error}`)
     }
 }
+
