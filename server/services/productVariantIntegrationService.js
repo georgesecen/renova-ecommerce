@@ -5,6 +5,7 @@ const StripePrice = require("../models/stripePriceModel")
 const StripeProduct = require("../models/stripeProductModel")
 const path = require('path')
 const fs = require('fs')
+const { createDatabaseProductImage, deleteDatabaseProductImage } = require("../services/productService")
 
 /**
  * Creates a product variant in the database and on Stripe with the specified details.
@@ -42,7 +43,7 @@ exports.createDatabaseAndStripeProductVariant = async (productId, color, size, q
         await stripeProduct.update()
 
     } catch(error){
-        throw new Error(`Error in productVariantIntegrationService.js function createDatabaseAndStripeProduct: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function createDatabaseAndStripeProductVariant: ${error}`)
     }
 }
 
@@ -53,9 +54,12 @@ exports.createDatabaseAndStripeProductVariant = async (productId, color, size, q
 exports.deleteDatabaseAndStripeProductVariant = async (productVariantId) => {
     try{
 
-        // Get and delete product variant from database
-        const productVariant = await ProductVariant.findByPk(productVariantId)
-        await productVariant.destroy()
+        // Delete product variant from database
+        await ProductVariant.destroy({
+            where: {
+                id: productVariantId
+            }
+        })
 
         // Get product on Stripe server
         const stripeProduct = await StripeProduct.findById(productVariantId)
@@ -76,85 +80,7 @@ exports.deleteDatabaseAndStripeProductVariant = async (productVariantId) => {
         }
 
     } catch(error){
-        throw new Error(`Error in productVariantIntegrationService.js function deleteDatabaseAndStripeProduct: ${error}`)
-    }
-}
-
-/**
- * Creates an image for product/product variant in the database and on the server itself. (Name 
- * of image on server is primary key of corresponding image in database)
- * @param {number} productId ID of product that image will belong to.
- * @param {number} productVariantId ID of product variant that image will belong to.
- * @param {number} isPrimary 1 if the image is the primary image for the product/product variant, otherwise 0.
- * @param {string} fileName Name of image file which will be uploaded. (Name will be different on server)
- * @param {Buffer} buffer The file data as a buffer.
- * @returns {Promise<string>} Image name of file on server.
- */
-exports.createDatabaseProductImage = async (productId, productVariantId, isPrimary, fileName, buffer) => {
-    try{
-
-        // Add image details to database
-        const image = await ProductImage.create({
-            product_id: productId,
-            product_variant_id: productVariantId,
-            is_primary: isPrimary,
-        })
-
-        // Note: When working with paths avoid using slashes at all costs as different operating 
-        // systems use different slashes
-
-        // Get path to images folder on server
-        const serverPath = path.dirname(__dirname)
-        const imagesPath = path.join(serverPath, "public", "images") 
-        
-        // Image name on server will be primary key of corresponding image in database followed by
-        // the image extension
-        const imageName = `${image.id}${path.extname(fileName)}`
-
-        // Add image to server
-        // Note: Images with same name will be overwritten.
-        await fs.promises.writeFile(path.join(imagesPath, imageName), buffer)
-
-        // Update image_url to the image added to server
-        await image.update({
-            image_url: imageName
-        })
-
-        return imageName
-
-    } catch(error){
-        throw new Error(`Error in productVariantIntegrationService.js function createDatabaseProductImage: ${error}`)
-    }
-}
-
-/**
- * Deletes an image in the database and on the server itself.
- * @param {number} imageId ID of image to delete.
- * @returns {Promise<string>} Image name of file deleted from server.
- */
-exports.deleteDatabaseProductImage = async (imageId) => {
-    try{
-
-        // Get image from database
-        const image = await ProductImage.findByPk(imageId)
-
-        // Get image name so we know what image to delete on server
-        const imageName = image.image_url
-
-        // Delete image in database
-        await image.destroy()
-
-        // Get path to image on server
-        const serverPath = path.dirname(__dirname)
-        const imagePath = path.join(serverPath, "public", "images", imageName)   
-
-        // Delete image on server
-        await fs.promises.rm(imagePath)
-
-        return imageName
-
-    } catch(error){
-        throw new Error(`Error in productVariantIntegrationService.js function deleteDatabaseProductImage: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function deleteDatabaseAndStripeProductVariant: ${error}`)
     }
 }
 
@@ -166,11 +92,11 @@ exports.deleteDatabaseProductImage = async (imageId) => {
  * @param {string} fileName Name of image file which will be uploaded. (Name will be different on server)
  * @param {Buffer} buffer The file data as a buffer.
  */
-exports.createDatabaseAndStripeProductImage = async (productId, productVariantId, isPrimary, fileName, buffer) => {
+exports.createDatabaseAndStripeProductVariantImage = async (productId, productVariantId, isPrimary, fileName, buffer) => {
     try{
 
         // Get name of image file added to server for product variant
-        const name = await this.createDatabaseProductImage(productId, productVariantId, isPrimary, fileName, buffer)
+        const name = await createDatabaseProductImage(productId, productVariantId, isPrimary, fileName, buffer)
 
         // Get product variant from Stripe
         const product = await StripeProduct.findById(`${productVariantId}`)
@@ -186,7 +112,7 @@ exports.createDatabaseAndStripeProductImage = async (productId, productVariantId
         await product.update()
 
     } catch(error){
-        throw new Error(`Error in productVariantIntegrationService.js function createDatabaseAndStripeProductImage: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function createDatabaseAndStripeProductVariantImage: ${error}`)
     }
 }
 
@@ -195,11 +121,11 @@ exports.createDatabaseAndStripeProductImage = async (productId, productVariantId
  * @param {number} productVariantId ID of product variant which image belongs to.
  * @param {number} imageId ID of image to be deleted.
  */
-exports.deleteDatabaseAndStripeProductImage = async (productVariantId, imageId) => {
+exports.deleteDatabaseAndStripeProductVariantImage = async (productVariantId, imageId) => {
     try{
 
         // Get name of image file deleted from server
-        const name = await this.deleteDatabaseProductImage(imageId)
+        const name = await deleteDatabaseProductImage(imageId)
 
         // Get product variant from Stripe
         const product = await StripeProduct.findById(`${productVariantId}`)
@@ -216,7 +142,7 @@ exports.deleteDatabaseAndStripeProductImage = async (productVariantId, imageId) 
         // } 
 
     } catch(error){
-        throw new Error(`Error in productVariantIntegrationService.js function deleteDatabaseAndStripeProductImage: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function deleteDatabaseAndStripeProductVariantImage: ${error}`)
     }
 }
 
@@ -228,10 +154,10 @@ exports.deleteDatabaseAndStripeProductImage = async (productVariantId, imageId) 
  * @param {number} productVariantId ID of product variant which images will be added to.
  * @param {number} sourceProductVariantId ID of product variant containing the images to be cloned.
  */
-const cloneProductImages = async (productId, productVariantId, sourceProductVariantId) => {
+exports.cloneProductVariantImages = async (productId, productVariantId, sourceProductVariantId) => {
     try{
 
-        // Get all the images of the target product variant
+        // Get all the images of the source product variant
         const images = await ProductImage.findAll({
             where: {
                 product_variant_id: sourceProductVariantId
@@ -250,8 +176,8 @@ const cloneProductImages = async (productId, productVariantId, sourceProductVari
             // Get buffer of image file
             const buffer = await fs.promises.readFile(path.join(imagesPath, image.image_url))
             
-            // Copy exact same image from target product variant to product variant
-            imageUrls.push(await this.createDatabaseProductImage(productId, productVariantId, image.is_primary, image.image_url, buffer))
+            // Copy exact same image from source product variant to product variant
+            imageUrls.push(await createDatabaseProductImage(productId, productVariantId, image.is_primary, image.image_url, buffer))
         }
         
         // Get product variant from Stripe
@@ -264,15 +190,15 @@ const cloneProductImages = async (productId, productVariantId, sourceProductVari
         await product.update()
 
     } catch(error){
-        throw new Error(`Error in productVariantIntegrationService.js function cloneProductImages: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function cloneProductVariantImages: ${error}`)
     }
 }
 
 /**
- * Deletes all images associated with product variant in the database and on the server itself.
- * @param {number} productVariantId ID of product variant to delete all associated images.
+ * Deletes product variant and all images associated with product variant in the database and on the server itself.
+ * @param {number} productVariantId ID of product variant to delete.
  */
-exports.deleteAllDatabaseProductVariantImages = async (productVariantId) => {
+exports.deleteProductVariant = async (productVariantId) => {
     try{
 
         // Get all images of product variant
@@ -284,48 +210,14 @@ exports.deleteAllDatabaseProductVariantImages = async (productVariantId) => {
 
         // Delete each image from server and database
         for (const image of images){
-            await this.deleteDatabaseProductImage(image.id)
+            await deleteDatabaseProductImage(image.id)
         }
+
+        // Delete product variant
+        this.deleteDatabaseAndStripeProductVariant(productVariantId)
 
     } catch(error){
-        throw new Error(`Error in productVariantIntegrationService.js function deleteAllDatabaseProductVariantImages: ${error}`)
-    }
-}
-
-/**
- * Deletes all images associated with product, and any product variants belonging to product, in the database
- * and on the server.
- * @param {number} productId ID of product to delete all associated images.
- */
-exports.deleteAllDatabaseProductImages = async (productId) => {
-    try{
-
-        // Get all product variants belonging to product
-        const productVariants = await ProductVariant.findAll({
-            where: {
-                product_id: productId
-            }
-        })
-
-        // Delete all images which belong to product variants
-        for (const productVariant of productVariants){
-            await this.deleteAllDatabaseProductVariantImages(productVariant.id)
-        }
-
-        // Get all images of product
-        const images = await ProductImage.findAll({
-            where: {
-                product_id: productId
-            }
-        })
-
-        // Delete each image of product from server and database
-        for (const image of images){
-            await this.deleteDatabaseProductImage(image.id)
-        }
-
-    } catch(error){
-        throw new Error(`Error in productVariantIntegrationService.js function deleteAllDatabaseProductImages: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function deleteProductVariant: ${error}`)
     }
 }
 
