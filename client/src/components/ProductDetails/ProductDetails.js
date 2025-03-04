@@ -63,14 +63,18 @@ function ProductDetails() {
             <h6>${state.price}</h6>
             <p>{state.desc}</p>
 
-            <h5>COLOUR - {colour}</h5>
+            <h5>COLOUR: {colour.toUpperCase()}</h5>
             <div className='colour-container'>
 
               {Array.from(cols.current).map((col) => (
                 <div key={col} className={colour === col ? "colour-option active" : "colour-option"} onClick={() => setColour(col)}>
-                  <div></div>
+                  <div style={{background: col}}></div>
                 </div>
               ))}
+
+                <div className={colour === "pink" ? "colour-option active" : "colour-option"} onClick={() => setColour("pink")}>
+                  <div style={{background: "darkgreen"}}></div>
+                </div>
             </div>
 
             <h5>SIZE</h5>
