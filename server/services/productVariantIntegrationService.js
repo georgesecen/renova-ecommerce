@@ -42,7 +42,7 @@ exports.createDatabaseAndStripeProductVariant = async (productId, color, size, q
         await stripeProduct.update()
 
     } catch(error){
-        throw Error(`Error in productVariantIntegrationService.js function createDatabaseAndStripeProduct: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function createDatabaseAndStripeProduct: ${error}`)
     }
 }
 
@@ -76,7 +76,7 @@ exports.deleteDatabaseAndStripeProductVariant = async (productVariantId) => {
         }
 
     } catch(error){
-        throw Error(`Error in productVariantIntegrationService.js function deleteDatabaseAndStripeProduct: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function deleteDatabaseAndStripeProduct: ${error}`)
     }
 }
 
@@ -123,7 +123,7 @@ exports.createDatabaseProductImage = async (productId, productVariantId, isPrima
         return imageName
 
     } catch(error){
-        throw Error(`Error in productVariantIntegrationService.js function createDatabaseProductImage: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function createDatabaseProductImage: ${error}`)
     }
 }
 
@@ -154,7 +154,7 @@ exports.deleteDatabaseProductImage = async (imageId) => {
         return imageName
 
     } catch(error){
-        throw Error(`Error in productVariantIntegrationService.js function deleteDatabaseProductImage: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function deleteDatabaseProductImage: ${error}`)
     }
 }
 
@@ -186,7 +186,7 @@ exports.createDatabaseAndStripeProductImage = async (productId, productVariantId
         await product.update()
 
     } catch(error){
-        throw Error(`Error in productVariantIntegrationService.js function createDatabaseAndStripeProductImage: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function createDatabaseAndStripeProductImage: ${error}`)
     }
 }
 
@@ -216,7 +216,7 @@ exports.deleteDatabaseAndStripeProductImage = async (productVariantId, imageId) 
         // } 
 
     } catch(error){
-        throw Error(`Error in productVariantIntegrationService.js function deleteDatabaseAndStripeProductImage: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function deleteDatabaseAndStripeProductImage: ${error}`)
     }
 }
 
@@ -264,7 +264,7 @@ const cloneProductImages = async (productId, productVariantId, sourceProductVari
         await product.update()
 
     } catch(error){
-        throw Error(`Error in productVariantIntegrationService.js function cloneProductImages: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function cloneProductImages: ${error}`)
     }
 }
 
@@ -288,7 +288,7 @@ exports.deleteAllDatabaseProductVariantImages = async (productVariantId) => {
         }
 
     } catch(error){
-        throw Error(`Error in productVariantIntegrationService.js function deleteAllDatabaseProductVariantImages: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function deleteAllDatabaseProductVariantImages: ${error}`)
     }
 }
 
@@ -325,6 +325,56 @@ exports.deleteAllDatabaseProductImages = async (productId) => {
         }
 
     } catch(error){
-        throw Error(`Error in productVariantIntegrationService.js function deleteAllDatabaseProductImages: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function deleteAllDatabaseProductImages: ${error}`)
+    }
+}
+
+/**
+ * Updates price for product variant in the database and on Stripe.
+ * @param {number} productVariantId ID of product variant to update price for.
+ * @param {number} price New price to give product variant. (In dollars)
+ */
+exports.updateProductVariantAndStripePrice = async (productVariantId, price) => {
+    try{
+
+        // Update product variant in database
+        await ProductVariant.update(
+            {
+                price: price
+            },
+            {
+                where: {
+                    id: productVariantId
+                }
+            }
+        )
+
+        // Get product from Stripe
+        const stripeProduct = await StripeProduct.findById(`${productVariantId}`)
+        
+        // Get products price object on Stripe server
+        const stripePrice = stripeProduct.defaultPriceId ? await StripePrice.findById(stripeProduct.defaultPriceId) : null
+
+        // If there is no price for product or price has changed
+        if (stripePrice == null || stripePrice.unitAmount != price){
+
+            // Create new Stripe price for product
+            const newStripePrice = await StripePrice.create(price, stripeProduct.id)
+
+            // Update Stripe product to have new price
+            stripeProduct.defaultPriceId = newStripePrice.id
+            await stripeProduct.update()
+        }        
+
+        // If there exists a price for product and price has been changed
+        if (stripePrice !== null && stripePrice.unitAmount != price){
+            
+            // Archive old Stripe price as product has been given updated price
+            stripePrice.active = false
+            await stripePrice.update()
+        }
+
+    } catch(error){
+        throw new Error(`Error in productVariantIntegrationService.js function updateProductVariantAndStripePrice: ${error}`)
     }
 }

@@ -30,11 +30,14 @@ class StripePrice{
     static async create(unitAmount, productId){
         try{
 
+            // Round unit amount to 2 decimal places
+            unitAmount = parseFloat((unitAmount).toFixed(2))
+
             // Create Stripe price object
             const price = await stripe.prices.create({
                 // TODO: Add support for multiple currencies 
                 currency: "cad",
-                unit_amount: unitAmount * 100, // Convert price from dollars to cents
+                unit_amount: Math.round(unitAmount * 100), // Convert price from dollars to cents
                 product: productId
             })
 
