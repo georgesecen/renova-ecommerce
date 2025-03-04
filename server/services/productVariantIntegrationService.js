@@ -14,7 +14,7 @@ const fs = require('fs')
  * @param {number} quantity Quantity of product variant.
  * @param {number} price Price of product variant.
  */
-exports.createDatabaseAndStripeProduct = async (productId, color, size, quantity, price) => {
+exports.createDatabaseAndStripeProductVariant = async (productId, color, size, quantity, price) => {
     try{
 
         // Get product variants product
@@ -50,7 +50,7 @@ exports.createDatabaseAndStripeProduct = async (productId, color, size, quantity
  * Deletes product variant in the database and archives product variant on Stripe.
  * @param {number} productVariantId ID of product variant to be deleted.
  */
-exports.deleteDatabaseAndStripeProduct = async (productVariantId) => {
+exports.deleteDatabaseAndStripeProductVariant = async (productVariantId) => {
     try{
 
         // Get and delete product variant from database
@@ -268,3 +268,26 @@ const cloneProductImages = async (productId, productVariantId, sourceProductVari
     }
 }
 
+/**
+ * Deletes all images associated with product variant in the database and on the server itself.
+ * @param {number} productVariantId ID of product variant to delete all associated images.
+ */
+exports.deleteAllDatabaseProductVariantImages = async (productVariantId) => {
+    try{
+
+        // Get all images of product variant
+        const images = await ProductImage.findAll({
+            where: {
+                product_variant_id: productVariantId
+            }
+        })
+
+        // Delete each image from server and database
+        for (const image of images){
+            await this.deleteDatabaseProductImage(image.id)
+        }
+
+    } catch(error){
+        throw Error(`Error in productVariantIntegrationService.js function deleteAllDatabaseProductVariantImages: ${error}`)
+    }
+}

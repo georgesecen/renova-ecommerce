@@ -1,5 +1,5 @@
 const ProductVariant = require("../models/productVariantModel")
-const { createDatabaseAndStripeProduct, deleteDatabaseAndStripeProduct } = require("../services/productVariantIntegrationService")
+const { createDatabaseAndStripeProductVariant, deleteDatabaseAndStripeProductVariant } = require("../services/productVariantIntegrationService")
 
 /**
  * Creates a product variant in database and on Stripe.
@@ -12,7 +12,7 @@ exports.createProductVariant = async (request, response) => {
 
     try{
 
-        await createDatabaseAndStripeProduct(productId, color, size, quantity, price)
+        await createDatabaseAndStripeProductVariant(productId, color, size, quantity, price)
 
         console.log("Product variant created successfully in database and on Stripe.")
         response.status(200).json({
@@ -74,7 +74,7 @@ exports.deleteProductVariant = async (request, response) => {
 
     try{
 
-        await deleteDatabaseAndStripeProduct(id)
+        await deleteDatabaseAndStripeProductVariant(id)
 
         console.log("Product variant deleted successfully in database and on Stripe.")
         response.status(200).json({
