@@ -291,3 +291,40 @@ exports.deleteAllDatabaseProductVariantImages = async (productVariantId) => {
         throw Error(`Error in productVariantIntegrationService.js function deleteAllDatabaseProductVariantImages: ${error}`)
     }
 }
+
+/**
+ * Deletes all images associated with product, and any product variants belonging to product, in the database
+ * and on the server.
+ * @param {number} productId ID of product to delete all associated images.
+ */
+exports.deleteAllDatabaseProductImages = async (productId) => {
+    try{
+
+        // Get all product variants belonging to product
+        const productVariants = await ProductVariant.findAll({
+            where: {
+                product_id: productId
+            }
+        })
+
+        // Delete all images which belong to product variants
+        for (const productVariant of productVariants){
+            await this.deleteAllDatabaseProductVariantImages(productVariant.id)
+        }
+
+        // Get all images of product
+        const images = await ProductImage.findAll({
+            where: {
+                product_id: productId
+            }
+        })
+
+        // Delete each image of product from server and database
+        for (const image of images){
+            await this.deleteDatabaseProductImage(image.id)
+        }
+
+    } catch(error){
+        throw Error(`Error in productVariantIntegrationService.js function deleteAllDatabaseProductImages: ${error}`)
+    }
+}
