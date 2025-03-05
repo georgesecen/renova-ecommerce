@@ -11,7 +11,7 @@ import { useState, useEffect, useRef } from 'react';
 function ProductDetails() {
 
   const {state} = useLocation();
-  const { id, name, price } = state;
+  // const { id, name, price } = state;
 
   const [variants, setVariants] = useState([]);
   const [colour, setColour] = useState("")
@@ -20,13 +20,34 @@ function ProductDetails() {
   const cols = useRef(new Set()); 
   const sizes = useRef(new Set()); 
 
+  const sizesAvailable = useRef(new Set());   // Holds sizes available for currently selected colour
+
+  /**
+   * This function takes a string and sets it as the colour state +
+   * populates the sizesAvailable set to any sizes associated with
+   * the colour
+   * 
+   * @param {*} col colour to set as selected
+   */
+  function changeColour(col) {
+    sizesAvailable.current.clear()
+    
+    for(const v of variants){
+      if(v.color === col){
+        sizesAvailable.current.add(v.size)
+      }
+    }
+
+    setColour(col)
+  }
+
   /**
    * This method fetches all variants associated with the viewed product.
    */
     useEffect(() => {
           getVariants(state.id)
               .then((response) => {
-                  console.log(response);
+                  // console.log(response);
 
                   setVariants(response);  // Store items in state
                   cols.current = new Set(response.map(a => a.color))
@@ -35,7 +56,7 @@ function ProductDetails() {
                   setColour(response[0].color)
                   setSize(response[0].size)
 
-                  console.log("Variants: ", variants)
+                  // console.log("Variants: ", variants)
               })
               .catch((error) => {
                   console.error('Error fetching variants:', error);
@@ -67,12 +88,12 @@ function ProductDetails() {
             <div className='colour-container'>
 
               {Array.from(cols.current).map((col) => (
-                <div key={col} className={colour === col ? "colour-option active" : "colour-option"} onClick={() => setColour(col)}>
+                <div key={col} className={colour === col ? "colour-option active" : "colour-option"} onClick={() => changeColour(col)}>
                   <div style={{background: col}}></div>
                 </div>
               ))}
 
-                <div className={colour === "pink" ? "colour-option active" : "colour-option"} onClick={() => setColour("pink")}>
+                <div className={colour === "pink" ? "colour-option active" : "colour-option"} onClick={() => changeColour("pink")}>
                   <div style={{background: "darkgreen"}}></div>
                 </div>
             </div>
@@ -81,7 +102,7 @@ function ProductDetails() {
             <div className='size-container'>
 
               {Array.from(sizes.current).map((s) => (
-                <div key={s} className={size === s ? "size-option active" : "size-option"} onClick={() => setSize(s)}>
+                <div key={s} className={size === s ? "size-option active" : "size-option"} onClick={sizes.current.has(s) ? () => setSize(s) : () => console.log("opopop")}>
                   <div>{s}</div>
                 </div>
               ))}
