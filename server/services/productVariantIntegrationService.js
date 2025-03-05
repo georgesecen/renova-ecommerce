@@ -5,7 +5,7 @@ const StripePrice = require("../models/stripePriceModel")
 const StripeProduct = require("../models/stripeProductModel")
 const path = require('path')
 const fs = require('fs')
-const { createProductImage, deleteDatabaseProductImage, deleteImage } = require("../services/productService")
+const { createProductImage, deleteDatabaseProductImage, deleteImages } = require("../services/productService")
 
 /**
  * Creates a product variant in the database and on Stripe with the specified details.
@@ -255,5 +255,38 @@ exports.updateProductVariantAndStripePrice = async (productVariantId, price) => 
 
     } catch(error){
         throw new Error(`Error in productVariantIntegrationService.js function updateProductVariantAndStripePrice: ${error}`)
+    }
+}
+
+/**
+ * Deletes all product variants in productVariantIds in the database and on Stripe. All images
+ * of product variants will also be deleted from the database and on the server itself.
+ * @param {Array<number>} productVariantIds IDs of product variants to be deleted.
+ */
+exports.deleteProductVariantGroup = async (productVariantIds) => {
+    try{
+
+        // Get all image files used by product variants
+        const fileNames = []
+        for (const id of productVariantIds){
+            const images = await ProductImage.findAll({
+                where: {
+                    product_variant_id: id
+                },
+                attributes: ["image_url"]
+            })
+            fileNames.push(...images.map(image => image.image_url))
+        }
+
+        // Delete all product variants (and their images in database)
+        for (const id of productVariantIds){
+            await this.deleteDatabaseAndStripeProductVariant(id)
+        }
+
+        // Delete all images from server
+        await deleteImages(fileNames)
+
+    } catch(error){
+        throw new Error(`Error in productVariantIntegrationService.js function deleteProductVariantGroup: ${error}`)
     }
 }
