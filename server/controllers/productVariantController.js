@@ -1,5 +1,9 @@
 const ProductVariant = require("../models/productVariantModel")
-const { createDatabaseAndStripeProductVariant, deleteDatabaseAndStripeProductVariant } = require("../services/productVariantIntegrationService")
+const { 
+    createDatabaseAndStripeProductVariant, 
+    deleteDatabaseAndStripeProductVariant, 
+    deleteProductVariantGroup
+ } = require("../services/productVariantIntegrationService")
 
 /**
  * Creates a product variant in database and on Stripe.
@@ -83,6 +87,30 @@ exports.deleteProductVariant = async (request, response) => {
     } 
     catch (error){
         console.log(`Error in productVariantController.js function updateProductVariant: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+}
+
+/**
+ * Deletes product variant group in the database and on Stripe.
+ * @param {Object} request Express js request object.
+ * @param {Object} response Express js response object.
+ */
+exports.deleteProductVariantGroup = async (request, response) => {
+
+    const {ids} = request.body
+
+    try{
+
+        await deleteProductVariantGroup(ids)
+
+        console.log("Product variant group deleted successfully in database and on Stripe.")
+        response.status(200).json({
+            message: "Product variant group deleted successfully in database and on Stripe.",
+        })
+    } 
+    catch (error){
+        console.log(`Error in productVariantController.js function deleteProductVariantGroup: ${error.message}`)
         response.status(500).json({error: error.message})
     }
 }
