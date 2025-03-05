@@ -7,7 +7,7 @@ const { deleteProductVariant } = require("../services/productVariantIntegrationS
 
 /**
  * Downloads an image file to the server itself.
- * @param {string} fileName Original name of image file which will be uploaded. (Name will be different on server)
+ * @param {string} fileName Original name of image file which will be downloaded. (Name will be different on server)
  * @param {Buffer} buffer The file data as a buffer.
  * @returns {Promise<string>} Image name on server.
  */
@@ -31,6 +31,25 @@ exports.downloadImage = async (fileName, buffer) => {
 
     } catch(error){
         throw new Error(`Error in productService.js function downloadImage: ${error}`)
+    }
+}
+
+/**
+ * Deletes an image file on the server itself.
+ * @param {string} fileName Image name on server to be delete.
+ */
+exports.deleteImage = async (fileName) => {
+    try{
+
+        // Get path to image on server
+        const serverPath = path.dirname(__dirname)
+        const imagePath = path.join(serverPath, "public", "images", fileName)   
+
+        // Delete image on server
+        await fs.promises.rm(imagePath)
+
+    } catch(error){
+        throw new Error(`Error in productService.js function deleteImage: ${error}`)
     }
 }
 
