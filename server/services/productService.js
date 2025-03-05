@@ -3,7 +3,7 @@ const ProductVariant = require("../models/productVariantModel")
 const Product = require("../models/productModel")
 const path = require('path')
 const fs = require('fs')
-const { deleteProductVariant } = require("../services/productVariantIntegrationService")
+const { deleteProductVariantGroup } = require("../services/productVariantIntegrationService")
 
 /**
  * Downloads an image file to the server itself.
@@ -141,36 +141,42 @@ exports.deleteDatabaseProductImage = async (imageId) => {
 }
 
 /**
- * Deletes product and all images associated with product, and any product variants belonging to product, in 
- * the database and on the server.
+ * Deletes product and all product variants associated with product. All product variants are also removed
+ * from Stripe. All images associated with product and all product variants are deleted in the database and
+ * on the server itself.
  * @param {number} productId ID of product to delete.
  */
 exports.deleteProduct = async (productId) => {
     try{
 
-        // Get all product variants belonging to product
-        const productVariants = await ProductVariant.findAll({
+        // Get all product variant ids belonging to product
+        const productVariantIds = (await ProductVariant.findAll({
+            where: {
+                product_id: productId
+            }, 
+            attributes: ["id"]
+        })).map(productVariant => productVariant.id)
+        
+
+        // Delete all product variants from database and Stripe. Also deleting their images from database
+        // and server.
+        await deleteProductVariantGroup(productVariantIds)
+
+        // Get all image files used by product
+        const fileNames = (await ProductImage.findAll({
+            where: {
+                product_id: productId
+            }, 
+            attributes: ["image_url"]
+        })).map(image => image.image_url)
+
+        // Delete all images from server and database
+        await this.deleteImages(fileNames)
+        await ProductImage.destroy({
             where: {
                 product_id: productId
             }
         })
-
-        // Delete all product variants
-        for (const productVariant of productVariants){
-            await deleteProductVariant(productVariant.id)
-        }
-
-        // Get all images of product
-        const images = await ProductImage.findAll({
-            where: {
-                product_id: productId
-            }
-        })
-
-        // Delete each image of product from server and database
-        for (const image of images){
-            await this.deleteDatabaseProductImage(image.id)
-        }
 
         // Delete product
         await Product.destroy({
