@@ -2,7 +2,8 @@ const ProductVariant = require("../models/productVariantModel")
 const { 
     createDatabaseAndStripeProductVariant, 
     deleteDatabaseAndStripeProductVariant, 
-    deleteProductVariantGroup
+    deleteProductVariantGroup,
+    updateProductVariantAndStripePrice
  } = require("../services/productVariantIntegrationService")
 
 /**
@@ -92,7 +93,7 @@ exports.deleteProductVariant = async (request, response) => {
 }
 
 /**
- * Deletes product variant group in the database and on Stripe.
+ * Deletes every product variant in the group in the database and on Stripe.
  * @param {Object} request Express js request object.
  * @param {Object} response Express js response object.
  */
@@ -111,6 +112,33 @@ exports.deleteProductVariantGroup = async (request, response) => {
     } 
     catch (error){
         console.log(`Error in productVariantController.js function deleteProductVariantGroup: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+}
+
+/**
+ * Updates every product variants price in the group in the database and on Stripe.
+ * @param {Object} request Express js request object.
+ * @param {Object} response Express js response object.
+ */
+exports.updateProductVariantGroupPrice = async (request, response) => {
+
+    const {ids, price} = request.body
+
+    try{
+
+        // Update price for every product variant in group
+        for (const id in ids){
+            await updateProductVariantAndStripePrice(id, price)
+        }
+
+        console.log("Product variant group price updated successfully in database and on Stripe.")
+        response.status(200).json({
+            message: "Product variant group price updated successfully in database and on Stripe.",
+        })
+    } 
+    catch (error){
+        console.log(`Error in productVariantController.js function updateProductVariantGroupPrice: ${error.message}`)
         response.status(500).json({error: error.message})
     }
 }
