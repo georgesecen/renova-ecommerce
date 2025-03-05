@@ -6,16 +6,16 @@ const fs = require('fs')
 const { deleteProductVariant } = require("../services/productVariantIntegrationService")
 
 /**
- * Creates an image for product/product variant in the database and on the server itself. (Name 
- * of image on server is primary key of corresponding image in database)
+ * Creates an image for product/product variant in the database. If there exists a buffer, image will also be 
+ * stored on the server itself.
  * @param {number} productId ID of product that image will belong to.
  * @param {number} productVariantId ID of product variant that image will belong to.
  * @param {number} isPrimary 1 if the image is the primary image for the product/product variant, otherwise 0.
- * @param {string} fileName Name of image file which will be uploaded. (Name will be different on server)
- * @param {Buffer} buffer The file data as a buffer.
- * @returns {Promise<string>} Image name of file on server.
+ * @param {string} fileName Name of image file which will be uploaded. (If buffer exists name on server will be image primary key)
+ * @param {Buffer} buffer The file data as a buffer. Defaults to null.
+ * @returns {Promise<string>} Image url in database.
  */
-exports.createDatabaseProductImage = async (productId, productVariantId, isPrimary, fileName, buffer) => {
+exports.createProductImage = async (productId, productVariantId, isPrimary, fileName, buffer = null) => {
     try{
 
         // Add image details to database
@@ -23,29 +23,36 @@ exports.createDatabaseProductImage = async (productId, productVariantId, isPrima
             product_id: productId,
             product_variant_id: productVariantId,
             is_primary: isPrimary,
+            image_url: fileName
         })
 
-        // Note: When working with paths avoid using slashes at all costs as different operating 
-        // systems use different slashes
+        // If there is an image to be uploaded to the server
+        if (buffer !== null){
 
-        // Get path to images folder on server
-        const serverPath = path.dirname(__dirname)
-        const imagesPath = path.join(serverPath, "public", "images") 
-        
-        // Image name on server will be primary key of corresponding image in database followed by
-        // the image extension
-        const imageName = `${image.id}${path.extname(fileName)}`
+            // Note: When working with paths avoid using slashes at all costs as different operating 
+            // systems use different slashes
 
-        // Add image to server
-        // Note: Images with same name will be overwritten.
-        await fs.promises.writeFile(path.join(imagesPath, imageName), buffer)
+            // Get path to images folder on server
+            const serverPath = path.dirname(__dirname)
+            const imagesPath = path.join(serverPath, "public", "images") 
+            
+            // Image name on server will be primary key of corresponding image in database followed by
+            // the image extension
+            const imageName = `${image.id}${path.extname(fileName)}`
 
-        // Update image_url to the image added to server
-        await image.update({
-            image_url: imageName
-        })
+            // Add image to server
+            // Note: Images with same name will be overwritten.
+            await fs.promises.writeFile(path.join(imagesPath, imageName), buffer)
 
-        return imageName
+            // Update image_url to the image added to server
+            await image.update({
+                image_url: imageName
+            })
+
+            return imageName
+        }
+
+        return fileName
 
     } catch(error){
         throw new Error(`Error in productService.js function createDatabaseProductImage: ${error}`)
