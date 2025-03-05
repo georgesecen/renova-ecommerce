@@ -6,6 +6,35 @@ const fs = require('fs')
 const { deleteProductVariant } = require("../services/productVariantIntegrationService")
 
 /**
+ * Downloads an image file to the server itself.
+ * @param {string} fileName Original name of image file which will be uploaded. (Name will be different on server)
+ * @param {Buffer} buffer The file data as a buffer.
+ * @returns {Promise<string>} Image name on server.
+ */
+exports.downloadImage = async (fileName, buffer) => {
+    try{
+
+        // Note: When working with paths avoid using slashes at all costs as different operating 
+        // systems use different slashes
+
+        // Get path to images folder on server
+        const serverPath = path.dirname(__dirname)
+        const imagesPath = path.join(serverPath, "public", "images") 
+        
+        // Image name on server will be time image was created at
+        const imageName = `${new Date().getTime()}${path.extname(fileName)}`
+
+        // Add image to server
+        await fs.promises.writeFile(path.join(imagesPath, imageName), buffer)
+
+        return imageName
+
+    } catch(error){
+        throw new Error(`Error in productService.js function downloadImage: ${error}`)
+    }
+}
+
+/**
  * Creates an image for product/product variant in the database. If there exists a buffer, image will also be 
  * stored on the server itself.
  * @param {number} productId ID of product that image will belong to.
