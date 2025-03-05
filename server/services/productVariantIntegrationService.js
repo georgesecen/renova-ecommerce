@@ -127,32 +127,36 @@ exports.addDatabaseAndStripeProductVariantImage = async (productId, productVaria
 }
 
 /**
- * Deletes an image for a product variant in the database, on the server itself, and on Stripe.
+ * Removes an image for a product variant in the database and on Stripe.
  * @param {number} productVariantId ID of product variant which image belongs to.
- * @param {number} imageId ID of image to be deleted.
+ * @param {number} fileName Name of image file on server.
  */
-exports.deleteDatabaseAndStripeProductVariantImage = async (productVariantId, imageId) => {
+exports.removeDatabaseAndStripeProductVariantImage = async (productVariantId, fileName) => {
     try{
 
-        // Get name of image file deleted from server
-        const name = await deleteDatabaseProductImage(imageId)
+        // Delete image record for product variant in the database
+        await ProductImage.destroy({
+            where: {
+                product_variant_id: productVariantId,
+                image_url: fileName
+            }
+        })
 
         // Get product variant from Stripe
         const product = await StripeProduct.findById(`${productVariantId}`)
 
-        // Get path to where image was on server
+        // Get path to where image was is on server
         const serverPath = path.dirname(__dirname)
-        const imagePath = path.join(serverPath, "public", "images", name) 
+        const imagePath = path.join(serverPath, "public", "images", fileName) 
 
         // Remove image from Stripe product variant
-        // TODO: Uncomment next lines which removes actual image url (server cannot be localhost)
-        // if (product.images.includes(imagePath)){
-        //     product.images.splice(product.images.indexOf(imagePath), 1)
-        //     await product.update()
-        // } 
+        if (product.images.includes(imagePath)){
+            product.images.splice(product.images.indexOf(imagePath), 1)
+            await product.update()
+        } 
 
     } catch(error){
-        throw new Error(`Error in productVariantIntegrationService.js function deleteDatabaseAndStripeProductVariantImage: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function removeDatabaseAndStripeProductVariantImage: ${error}`)
     }
 }
 
