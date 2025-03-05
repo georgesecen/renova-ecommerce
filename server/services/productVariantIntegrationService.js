@@ -5,7 +5,7 @@ const StripePrice = require("../models/stripePriceModel")
 const StripeProduct = require("../models/stripeProductModel")
 const path = require('path')
 const fs = require('fs')
-const { createDatabaseProductImage, deleteDatabaseProductImage } = require("../services/productService")
+const { createProductImage, deleteDatabaseProductImage } = require("../services/productService")
 
 /**
  * Creates a product variant in the database and on Stripe with the specified details.
@@ -104,7 +104,7 @@ exports.createDatabaseAndStripeProductVariantImage = async (productId, productVa
     try{
 
         // Get name of image file added to server for product variant
-        const name = await createDatabaseProductImage(productId, productVariantId, isPrimary, fileName, buffer)
+        const name = await createProductImage(productId, productVariantId, isPrimary, fileName, buffer)
 
         // Get product variant from Stripe
         const product = await StripeProduct.findById(`${productVariantId}`)
@@ -157,7 +157,7 @@ exports.deleteDatabaseAndStripeProductVariantImage = async (productVariantId, im
 /**
  * Clones the images which belong to the source product variant and adds them to the product variant. Product variants cloned images
  * will be added to the database and Stripe. (Product variant should have 0 images belonging to it, function does not remove current 
- * images belonging to product variant before adding clonded images)
+ * images belonging to product variant before adding cloned images)
  * @param {number} productId ID of product that product variant belongs to.
  * @param {number} productVariantId ID of product variant which images will be added to.
  * @param {number} sourceProductVariantId ID of product variant containing the images to be cloned.
@@ -173,19 +173,13 @@ exports.cloneProductVariantImages = async (productId, productVariantId, sourcePr
             attributes: ["is_primary", "image_url"]
         })
 
-        // Get path to images folder on server
-        const serverPath = path.dirname(__dirname)
-        const imagesPath = path.join(serverPath, "public", "images") 
-
         // Store all urls of newly created images for product variant
         const imageUrls = []
 
         for (const image of images){
-            // Get buffer of image file
-            const buffer = await fs.promises.readFile(path.join(imagesPath, image.image_url))
             
             // Copy exact same image from source product variant to product variant
-            imageUrls.push(await createDatabaseProductImage(productId, productVariantId, image.is_primary, image.image_url, buffer))
+            imageUrls.push(await createProductImage(productId, productVariantId, image.is_primary, image.image_url))
         }
         
         // Get product variant from Stripe
