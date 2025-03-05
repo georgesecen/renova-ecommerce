@@ -35,21 +35,23 @@ exports.downloadImage = async (fileName, buffer) => {
 }
 
 /**
- * Deletes an image file on the server itself.
- * @param {string} fileName Image name on server to be delete.
+ * Deletes all image files in fileNames on the server itself.
+ * @param {Array<string>} fileNames Image names on server to be deleted.
  */
-exports.deleteImage = async (fileName) => {
+exports.deleteImages = async (fileNames) => {
     try{
 
-        // Get path to image on server
+        // Get path to images folder on server
         const serverPath = path.dirname(__dirname)
-        const imagePath = path.join(serverPath, "public", "images", fileName)   
+        const imagesPath = path.join(serverPath, "public", "images")   
 
-        // Delete image on server
-        await fs.promises.rm(imagePath)
+        // Delete every file in fileNames on server
+        for (const fileName of new Set(fileNames)){
+            await fs.promises.rm(path.join(imagesPath, fileName))
+        }
 
     } catch(error){
-        throw new Error(`Error in productService.js function deleteImage: ${error}`)
+        throw new Error(`Error in productService.js function deleteImages: ${error}`)
     }
 }
 
