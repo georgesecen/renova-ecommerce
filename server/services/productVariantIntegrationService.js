@@ -93,25 +93,27 @@ exports.deleteDatabaseAndStripeProductVariant = async (productVariantId) => {
 }
 
 /**
- * Creates an image for a product variant in the database, on the server itself, and on Stripe.
+ * Adds an image for a product variant in the database and on Stripe.
  * @param {number} productId ID of product that image will belong to.
  * @param {number} productVariantId ID of product variant that image will belong to.
- * @param {number} isPrimary 1 if the image is the primary image for the product/product variant, otherwise 0.
- * @param {string} fileName Name of image file which will be uploaded. (Name will be different on server)
- * @param {Buffer} buffer The file data as a buffer.
+ * @param {string} fileName Name of image file on server to be used.
  */
-exports.createDatabaseAndStripeProductVariantImage = async (productId, productVariantId, isPrimary, fileName, buffer) => {
+exports.addDatabaseAndStripeProductVariantImage = async (productId, productVariantId, fileName) => {
     try{
 
-        // Get name of image file added to server for product variant
-        const name = await createProductImage(productId, productVariantId, isPrimary, fileName, buffer)
+        // Add image for product variant in database
+        await ProductImage.create({
+            product_id: productId,
+            product_variant_id: productVariantId,
+            image_url: fileName
+        })
 
         // Get product variant from Stripe
         const product = await StripeProduct.findById(`${productVariantId}`)
 
         // Get path to image on server
         const serverPath = path.dirname(__dirname)
-        const imagePath = path.join(serverPath, "public", "images", name) 
+        const imagePath = path.join(serverPath, "public", "images", fileName) 
 
         // Add image to Stripe product variant
         // TODO: Uncomment next line which adds actual image url (server cannot be localhost)
@@ -120,7 +122,7 @@ exports.createDatabaseAndStripeProductVariantImage = async (productId, productVa
         await product.update()
 
     } catch(error){
-        throw new Error(`Error in productVariantIntegrationService.js function createDatabaseAndStripeProductVariantImage: ${error}`)
+        throw new Error(`Error in productVariantIntegrationService.js function addDatabaseAndStripeProductVariantImage: ${error}`)
     }
 }
 
