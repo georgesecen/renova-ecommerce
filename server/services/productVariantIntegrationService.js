@@ -5,7 +5,7 @@ const StripePrice = require("../models/stripePriceModel")
 const StripeProduct = require("../models/stripeProductModel")
 const path = require('path')
 const fs = require('fs')
-const { createProductImage, deleteDatabaseProductImage } = require("../services/productService")
+const { createProductImage, deleteDatabaseProductImage, deleteImage } = require("../services/productService")
 
 /**
  * Creates a product variant in the database and on Stripe with the specified details.
@@ -164,11 +164,10 @@ exports.removeDatabaseAndStripeProductVariantImage = async (productVariantId, fi
  * Clones the images which belong to the source product variant and adds them to the product variant. Product variants cloned images
  * will be added to the database and Stripe. (Product variant should have 0 images belonging to it, function does not remove current 
  * images belonging to product variant before adding cloned images)
- * @param {number} productId ID of product that product variant belongs to.
  * @param {number} productVariantId ID of product variant which images will be added to.
  * @param {number} sourceProductVariantId ID of product variant containing the images to be cloned.
  */
-exports.cloneProductVariantImages = async (productId, productVariantId, sourceProductVariantId) => {
+exports.cloneProductVariantImages = async (productVariantId, sourceProductVariantId) => {
     try{
 
         // Get all the images of the source product variant
@@ -176,7 +175,6 @@ exports.cloneProductVariantImages = async (productId, productVariantId, sourcePr
             where: {
                 product_variant_id: sourceProductVariantId
             },
-            attributes: ["is_primary", "image_url"]
         })
 
         // Store all urls of newly created images for product variant
@@ -185,7 +183,15 @@ exports.cloneProductVariantImages = async (productId, productVariantId, sourcePr
         for (const image of images){
             
             // Copy exact same image from source product variant to product variant
-            imageUrls.push(await createProductImage(productId, productVariantId, image.is_primary, image.image_url))
+            const copiedImage = await ProductImage.create({
+                product_id: image.product_id,
+                product_variant_id: productVariantId,
+                image_url: image.image_url,
+                is_primary: image.is_primary
+            })
+
+            // TODO: Add image path before image name
+            imageUrls.push(copiedImage.image_url)
         }
         
         // Get product variant from Stripe
