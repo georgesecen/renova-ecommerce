@@ -1,5 +1,6 @@
 const Product = require('../models/productModel');
 const Image = require('../models/productImageModel');
+const { deleteProduct } = require("../services/productService")
 
 //Fetch all products
 exports.getAllProducts = async (req, res) => {
@@ -73,24 +74,23 @@ exports.createProduct = async (request, response) => {
  */
 exports.updateProduct = async (request, response) => {
 
-    const {id, name, description, price} = request.body
+    const {productId, name, description, price} = request.body
 
     try{
 
-        // Get product
-        const product = await Product.findByPk(id)
-
-        // If product does not exist
-        if (product == null){
-            throw new Error(`Product with ID ${id} does not exist in database.`)
-        }
-
         // Update product
-        await product.update({
-            name: name,
-            description: description,
-            price: price,
-        })
+        await Product.update(
+            {
+                name: name,
+                description: description,
+                price: price
+            },
+            {
+                where: {
+                    id: productId
+                }
+            }
+        )
 
         console.log("Product updated successfully in database.")
         response.status(200).json({
@@ -104,26 +104,18 @@ exports.updateProduct = async (request, response) => {
 }
 
 /**
- * Deletes a product in the database.
+ * Deletes product and all associated product variants and images from database, server
+ * and Stripe.
  * @param {Object} request Express js request object.
  * @param {Object} response Express js response object.
  */
 exports.deleteProduct = async (request, response) => {
 
-    const {id} = request.body
+    const {productId} = request.body
 
     try{
 
-        // Get product
-        const product = await Product.findByPk(id)
-
-        // If product does not exist
-        if (product == null){
-            throw new Error(`Product with ID ${id} does not exist in database.`)
-        }
-
-        // Delete product
-        await product.destroy()
+        await deleteProduct(productId)
 
         console.log("Product deleted successfully in database.")
         response.status(200).json({
