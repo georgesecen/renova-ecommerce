@@ -5,7 +5,8 @@ const {
     deleteProductVariant,
     deleteProductVariantGroup,
     updateProductVariantGroupPrice,
-    addProductVariantGroupImage
+    addProductVariantGroupImage,
+    removeProductVariantGroupImage
  } = require('../controllers/productVariantController');
 const adminAuthentication = require('../middleware/adminMiddleware');
 const router = express.Router();
@@ -23,5 +24,6 @@ router.post("/delete", adminAuthentication, deleteProductVariant)
 router.post("/delete-group", adminAuthentication, deleteProductVariantGroup)
 router.post("/update-group-price", adminAuthentication, updateProductVariantGroupPrice)
 router.post("/add-group-image", [imageMiddleware.single("image"), adminAuthentication], addProductVariantGroupImage)
+router.post("/remove-group-image", adminAuthentication, removeProductVariantGroupImage)
 
 module.exports = router;

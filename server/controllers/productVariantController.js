@@ -5,9 +5,10 @@ const {
     deleteProductVariantGroup,
     updateProductVariantAndStripePrice,
     cloneProductVariantImages,
-    addDatabaseAndStripeProductVariantImage
+    addDatabaseAndStripeProductVariantImage,
+    removeDatabaseAndStripeProductVariantImage
  } = require("../services/productVariantIntegrationService")
-const { downloadImage } = require("../services/productService")
+const { downloadImage, deleteImages } = require("../services/productService")
 
 /**
  * Creates a product variant in the database and on Stripe.
@@ -185,6 +186,36 @@ exports.addProductVariantGroupImage = async (request, response) => {
     } 
     catch (error){
         console.log(`Error in productVariantController.js function addProductVariantGroupImage: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+}
+
+/**
+ * Removes image from every product variant in the group in the database and on Stripe.
+ * @param {Object} request Express js request object.
+ * @param {Object} response Express js response object.
+ */
+exports.removeProductVariantGroupImage = async (request, response) => {
+
+    const {productVariantIds, fileName} = request.body
+
+    try{
+
+        // Remove image for every product variant in group
+        for (const id of productVariantIds){
+            await removeDatabaseAndStripeProductVariantImage(id, fileName)
+        }
+
+        // Delete image off of server as it is no longer being used by anything
+        await deleteImages([fileName])
+
+        console.log("Product variant group image removed successfully in database and on Stripe.")
+        response.status(200).json({
+            message: "Product variant group image removed successfully in database and on Stripe.",
+        })
+    } 
+    catch (error){
+        console.log(`Error in productVariantController.js function removeProductVariantGroupImage: ${error.message}`)
         response.status(500).json({error: error.message})
     }
 }
