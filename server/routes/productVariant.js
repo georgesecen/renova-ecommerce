@@ -1,7 +1,7 @@
 const express = require('express');
 const { 
     createProductVariant, 
-    updateProductVariant, 
+    updateProductVariantQuantity, 
     deleteProductVariant,
     deleteProductVariantGroup,
     updateProductVariantGroupPrice,
@@ -19,7 +19,7 @@ const multer = require('multer');
 const imageMiddleware = multer({storage: multer.memoryStorage()});
 
 router.post("/create", adminAuthentication, createProductVariant)
-router.post("/update", adminAuthentication, updateProductVariant)
+router.post("/update-quantity", adminAuthentication, updateProductVariantQuantity)
 router.post("/delete", adminAuthentication, deleteProductVariant)
 router.post("/delete-group", adminAuthentication, deleteProductVariantGroup)
 router.post("/update-group-price", adminAuthentication, updateProductVariantGroupPrice)

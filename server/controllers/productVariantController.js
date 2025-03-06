@@ -42,39 +42,35 @@ exports.createProductVariant = async (request, response) => {
 }
 
 /**
- * Updates a product variant in the database.
+ * Updates a product variants quantity in the database.
  * @param {Object} request Express js request object.
  * @param {Object} response Express js response object.
  */
-exports.updateProductVariant = async (request, response) => {
+exports.updateProductVariantQuantity = async (request, response) => {
 
-    const {id, color, size, quantity, price} = request.body
+    const {productVariantId, quantity} = request.body
 
     try{
 
-        // Get product variant
-        const productVariant = await ProductVariant.findByPk(id)
+        // Update quantity
+        await ProductVariant.update(
+            {
+                quantity: quantity
+            },
+            {
+                where: {
+                    id: productVariantId
+                }
+            }
+        )
 
-        // If product variant  does not exist
-        if (productVariant == null){
-            throw new Error(`Product variant with ID ${id} does not exist in database.`)
-        }
-
-        // Update product variant
-        await productVariant.update({
-            color: color,
-            size: size,
-            stock_quantity: quantity,
-            price: price
-        })
-
-        console.log("Product variant updated successfully in database.")
+        console.log("Product variant quantity updated successfully in database.")
         response.status(200).json({
-            message: "Product variant updated successfully in database.",
+            message: "Product variant quantity updated successfully in database.",
         })
     } 
     catch (error){
-        console.log(`Error in productVariantController.js function updateProductVariant: ${error.message}`)
+        console.log(`Error in productVariantController.js function updateProductVariantQuantity: ${error.message}`)
         response.status(500).json({error: error.message})
     }
 }
