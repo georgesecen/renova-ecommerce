@@ -6,7 +6,8 @@ const {
     updateProduct, 
     deleteProduct,
     addProductImage,
-    removeProductImage
+    removeProductImage,
+    getAllProductsV2
  } = require('../controllers/productController');
 const adminAuthentication = require('../middleware/adminMiddleware');
 const router = express.Router();
@@ -26,5 +27,6 @@ router.post("/update", adminAuthentication, updateProduct)
 router.post("/delete", adminAuthentication, deleteProduct)
 router.post("/add-image", [imageMiddleware.single("image"), adminAuthentication], addProductImage)
 router.post("/remove-image", adminAuthentication, removeProductImage)
+router.post("/index", adminAuthentication, getAllProductsV2)
 
 module.exports = router;

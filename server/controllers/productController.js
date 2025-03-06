@@ -1,6 +1,8 @@
 const Product = require('../models/productModel');
 const Image = require('../models/productImageModel');
-const { deleteProduct, downloadImage, deleteImages } = require("../services/productService")
+const { deleteProduct, downloadImage, deleteImages } = require("../services/productService");
+const ProductVariant = require('../models/productVariantModel');
+const ProductImage = require('../models/productImageModel');
 
 //Fetch all products
 exports.getAllProducts = async (req, res) => {
@@ -191,3 +193,56 @@ exports.removeProductImage = async (request, response) => {
         response.status(500).json({error: error.message})
     }
 }
+
+
+// TODO: Change name of function
+/**
+ * Get all products. Every product will also have all product variants included and their images. As well
+ * as the product images.
+ * @param {Object} request Express js request object.
+ * @param {Object} response Express js response object.
+ */
+exports.getAllProductsV2 = async (request, response) => {
+
+    try{
+
+        const products = await Product.findAll({
+            // Join tables
+            include: [
+                {
+                    model: ProductVariant,
+                    as: "product_variants",
+                    include: [
+                        {
+                            model: ProductImage,
+                            as: "images"
+                        }
+                    ]
+                },
+
+                // Get images which only belong to the product itself no product variants
+                {
+                    model: ProductImage,
+
+                    // TODO: Change relationship name from image singular to images plural (Makes more sense)
+                    as: "image",
+                    required: false,
+                    where: {
+                        product_variant_id: null
+                    }
+                }
+            ],
+        })
+
+        console.log("Products queried successfully in database.")
+        response.status(200).json({
+            message: "Products queried successfully in database.",
+            data: products
+        })
+    } 
+    catch (error){
+        console.log(`Error in productController.js function getAllProductsV2: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+}
+
