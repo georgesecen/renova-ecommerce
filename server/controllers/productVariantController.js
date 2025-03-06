@@ -4,8 +4,10 @@ const {
     deleteDatabaseAndStripeProductVariant, 
     deleteProductVariantGroup,
     updateProductVariantAndStripePrice,
-    cloneProductVariantImages
+    cloneProductVariantImages,
+    addDatabaseAndStripeProductVariantImage
  } = require("../services/productVariantIntegrationService")
+const { downloadImage } = require("../services/productService")
 
 /**
  * Creates a product variant in the database and on Stripe.
@@ -112,11 +114,11 @@ and color.
  */
 exports.deleteProductVariantGroup = async (request, response) => {
 
-    const {ids} = request.body
+    const {productVariantIds} = request.body
 
     try{
 
-        await deleteProductVariantGroup(ids)
+        await deleteProductVariantGroup(productVariantIds)
 
         console.log("Product variant group deleted successfully in database and on Stripe.")
         response.status(200).json({
@@ -136,12 +138,12 @@ exports.deleteProductVariantGroup = async (request, response) => {
  */
 exports.updateProductVariantGroupPrice = async (request, response) => {
 
-    const {ids, price} = request.body
+    const {productVariantIds, price} = request.body
 
     try{
 
         // Update price for every product variant in group
-        for (const id in ids){
+        for (const id in productVariantIds){
             await updateProductVariantAndStripePrice(id, price)
         }
 
@@ -152,6 +154,37 @@ exports.updateProductVariantGroupPrice = async (request, response) => {
     } 
     catch (error){
         console.log(`Error in productVariantController.js function updateProductVariantGroupPrice: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+}
+
+/**
+ * Adds image to every product variant in the group in the database and on Stripe.
+ * @param {Object} request Express js request object.
+ * @param {Object} response Express js response object.
+ */
+exports.addProductVariantGroupImage = async (request, response) => {
+
+    const {productVariantIds, productId} = request.body
+    const {originalname, buffer} = request.file
+
+    try{
+
+        // Download image to server and get file name
+        const fileName = await downloadImage(originalname, buffer)
+
+        // Add image to every product variant in group
+        for (const id of productVariantIds){
+            await addDatabaseAndStripeProductVariantImage(productId, id, fileName)
+        }
+
+        console.log("Product variant group image added successfully in database and on Stripe.")
+        response.status(200).json({
+            message: "Product variant group image added successfully in database and on Stripe.",
+        })
+    } 
+    catch (error){
+        console.log(`Error in productVariantController.js function addProductVariantGroupImage: ${error.message}`)
         response.status(500).json({error: error.message})
     }
 }
