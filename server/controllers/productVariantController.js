@@ -175,9 +175,9 @@ exports.addProductVariantGroupImage = async (request, response) => {
             await addDatabaseAndStripeProductVariantImage(productId, id, fileName)
         }
 
-        console.log("Product variant group image added successfully in database and on Stripe.")
+        console.log("Product variant group image added successfully in database, on Stripe, and on server.")
         response.status(200).json({
-            message: "Product variant group image added successfully in database and on Stripe.",
+            message: "Product variant group image added successfully in database, on Stripe, and on server.",
         })
     } 
     catch (error){
@@ -205,9 +205,9 @@ exports.removeProductVariantGroupImage = async (request, response) => {
         // Delete image off of server as it is no longer being used by anything
         await deleteImages([fileName])
 
-        console.log("Product variant group image removed successfully in database and on Stripe.")
+        console.log("Product variant group image removed successfully in database, on Stripe, and on server.")
         response.status(200).json({
-            message: "Product variant group image removed successfully in database and on Stripe.",
+            message: "Product variant group image removed successfully in database, on Stripe, and on server.",
         })
     } 
     catch (error){
