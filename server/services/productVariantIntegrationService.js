@@ -14,6 +14,7 @@ const { createProductImage, deleteDatabaseProductImage, deleteImages } = require
  * @param {string} size Size of product variant. (XL, S, M etc)
  * @param {number} quantity Quantity of product variant.
  * @param {number} price Price of product variant.
+ * @returns {Promise<number>} ID of product variant created.
  */
 exports.createDatabaseAndStripeProductVariant = async (productId, color, size, quantity, price) => {
     try{
@@ -41,6 +42,8 @@ exports.createDatabaseAndStripeProductVariant = async (productId, color, size, q
         // Set the price of Stripe product
         stripeProduct.defaultPriceId = stripePrice.id
         await stripeProduct.update()
+
+        return productVariant.id
 
     } catch(error){
         throw new Error(`Error in productVariantIntegrationService.js function createDatabaseAndStripeProductVariant: ${error}`)
@@ -257,6 +260,11 @@ exports.updateProductVariantAndStripePrice = async (productVariantId, price) => 
         throw new Error(`Error in productVariantIntegrationService.js function updateProductVariantAndStripePrice: ${error}`)
     }
 }
+
+/*
+Product variant groups are treated as all product variants which share the same product id
+and color. 
+*/
 
 /**
  * Deletes all product variants in productVariantIds in the database and on Stripe. All images

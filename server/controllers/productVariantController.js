@@ -3,21 +3,29 @@ const {
     createDatabaseAndStripeProductVariant, 
     deleteDatabaseAndStripeProductVariant, 
     deleteProductVariantGroup,
-    updateProductVariantAndStripePrice
+    updateProductVariantAndStripePrice,
+    cloneProductVariantImages
  } = require("../services/productVariantIntegrationService")
 
 /**
- * Creates a product variant in database and on Stripe.
+ * Creates a product variant in the database and on Stripe.
  * @param {Object} request Express js request object.
  * @param {Object} response Express js response object.
  */
 exports.createProductVariant = async (request, response) => {
 
-    const {productId, color, size, quantity, price} = request.body
+    const {productId, color, size, quantity, price, sourceProductVariantId} = request.body
 
     try{
 
-        await createDatabaseAndStripeProductVariant(productId, color, size, quantity, price)
+        // Create product variant and get its id
+        const id = await createDatabaseAndStripeProductVariant(productId, color, size, quantity, price)
+
+        // If there exists a source product variant in the request, clone images of source product variant
+        // to newly created product variant
+        if (sourceProductVariantId !== null){
+            await cloneProductVariantImages(id, sourceProductVariantId)
+        }
 
         console.log("Product variant created successfully in database and on Stripe.")
         response.status(200).json({
@@ -91,6 +99,11 @@ exports.deleteProductVariant = async (request, response) => {
         response.status(500).json({error: error.message})
     }
 }
+
+/*
+Product variant groups are treated as all product variants which share the same product id
+and color. 
+*/
 
 /**
  * Deletes every product variant in the group in the database and on Stripe.
