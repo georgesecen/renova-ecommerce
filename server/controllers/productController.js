@@ -1,6 +1,6 @@
 const Product = require('../models/productModel');
 const Image = require('../models/productImageModel');
-const { deleteProduct, downloadImage } = require("../services/productService")
+const { deleteProduct, downloadImage, deleteImages } = require("../services/productService")
 
 //Fetch all products
 exports.getAllProducts = async (req, res) => {
@@ -156,6 +156,38 @@ exports.addProductImage = async (request, response) => {
     } 
     catch (error){
         console.log(`Error in productController.js function addProductImage: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+}
+
+/**
+ * Removes product image from database and server itself.
+ * @param {Object} request Express js request object.
+ * @param {Object} response Express js response object.
+ */
+exports.removeProductImage = async (request, response) => {
+
+    const {fileName} = request.body
+
+    try{
+
+        // Remove image file from server
+        await deleteImages([fileName])
+
+        // Remove image from database
+        await Image.destroy({
+            where: {
+                image_url: fileName
+            }
+        })
+
+        console.log("Product image removed successfully in database and on server.")
+        response.status(200).json({
+            message: "Product image removed successfully in database and on server.",
+        })
+    } 
+    catch (error){
+        console.log(`Error in productController.js function removeProductImage: ${error.message}`)
         response.status(500).json({error: error.message})
     }
 }
