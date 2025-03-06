@@ -23,23 +23,33 @@ function ProductDetails() {
   const sizesAvailable = useRef(new Set());   // Holds sizes available for currently selected colour
 
   /**
-   * This function takes a string and sets it as the colour state +
-   * populates the sizesAvailable set to any sizes associated with
-   * the colour
+   * This function takes a string and sets it as the colour state,
+   * then populates the sizesAvailable set to any sizes associated with
+   * the colour, and lastly current size to first in sizesAvailable or
+   * null if empty
    * 
    * @param {*} col colour to set as selected
    */
   function changeColour(col) {
     sizesAvailable.current.clear()
-    
     for(const v of variants){
       if(v.color === col){
         sizesAvailable.current.add(v.size)
       }
     }
-
+    // Set states
     setColour(col)
+    sizesAvailable.current.size > 0 ? setSize([...sizesAvailable.current][0]) : setSize(null);
   }
+
+  function selectSize(s){
+    if(sizesAvailable.current.has(s)){
+      setSize(s)
+    }
+  }
+  console.log(sizesAvailable.current)
+  console.log(size)
+
 
   /**
    * This method fetches all variants associated with the viewed product.
@@ -47,7 +57,7 @@ function ProductDetails() {
     useEffect(() => {
           getVariants(state.id)
               .then((response) => {
-                  // console.log(response);
+                  console.log(response);
 
                   setVariants(response);  // Store items in state
                   cols.current = new Set(response.map(a => a.color))
@@ -92,17 +102,13 @@ function ProductDetails() {
                   <div style={{background: col}}></div>
                 </div>
               ))}
-
-                <div className={colour === "pink" ? "colour-option active" : "colour-option"} onClick={() => changeColour("pink")}>
-                  <div style={{background: "darkgreen"}}></div>
-                </div>
             </div>
 
             <h5>SIZE</h5>
             <div className='size-container'>
 
               {Array.from(sizes.current).map((s) => (
-                <div key={s} className={size === s ? "size-option active" : "size-option"} onClick={sizes.current.has(s) ? () => setSize(s) : () => console.log("opopop")}>
+                <div key={s} className={size === s ? "size-option active" : "size-option"} onClick={() => selectSize(s)}>
                   <div>{s}</div>
                 </div>
               ))}

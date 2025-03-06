@@ -11,7 +11,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    color: var(--text);
+    /* color: var(--text); */
 }
 
 :root {
@@ -26,4 +26,5 @@ div.App {
     background-size: cover;
     background-position: center;
     font-family: Quicksand;
+    color: var(--text);
 }
