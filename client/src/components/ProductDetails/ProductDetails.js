@@ -30,7 +30,7 @@ function ProductDetails() {
    * 
    * @param {*} col colour to set as selected
    */
-  function changeColour(col) {
+  function selectColour(col) {
     sizesAvailable.current.clear()
     for(const v of variants){
       if(v.color === col){
@@ -47,12 +47,11 @@ function ProductDetails() {
       setSize(s)
     }
   }
-  console.log(sizesAvailable.current)
-  console.log(size)
-
 
   /**
-   * This method fetches all variants associated with the viewed product.
+   * This method on page load fetches all variants associated with the
+   * viewed product, gets all sizes and colours available for viewed product, 
+   * and sets initial selected colour and size
    */
     useEffect(() => {
           getVariants(state.id)
@@ -63,10 +62,8 @@ function ProductDetails() {
                   cols.current = new Set(response.map(a => a.color))
                   sizes.current = new Set(response.map(a => a.size))
 
-                  setColour(response[0].color)
+                  selectColour(response[0].color)
                   setSize(response[0].size)
-
-                  // console.log("Variants: ", variants)
               })
               .catch((error) => {
                   console.error('Error fetching variants:', error);
@@ -98,7 +95,7 @@ function ProductDetails() {
             <div className='colour-container'>
 
               {Array.from(cols.current).map((col) => (
-                <div key={col} className={colour === col ? "colour-option active" : "colour-option"} onClick={() => changeColour(col)}>
+                <div key={col} className={colour === col ? "colour-option active" : "colour-option"} onClick={() => selectColour(col)}>
                   <div style={{background: col}}></div>
                 </div>
               ))}
