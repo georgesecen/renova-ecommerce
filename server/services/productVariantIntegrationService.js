@@ -4,8 +4,7 @@ const ProductVariant = require("../models/productVariantModel")
 const StripePrice = require("../models/stripePriceModel")
 const StripeProduct = require("../models/stripeProductModel")
 const path = require('path')
-const fs = require('fs')
-const { createProductImage, deleteDatabaseProductImage, deleteImages } = require("../services/productService")
+const { deleteImages } = require("../services/productService")
 
 /**
  * Creates a product variant in the database and on Stripe with the specified details.

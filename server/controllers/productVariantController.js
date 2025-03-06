@@ -82,11 +82,11 @@ exports.updateProductVariantQuantity = async (request, response) => {
  */
 exports.deleteProductVariant = async (request, response) => {
 
-    const {id} = request.body
+    const {productVariantId} = request.body
 
     try{
 
-        await deleteDatabaseAndStripeProductVariant(id)
+        await deleteDatabaseAndStripeProductVariant(productVariantId)
 
         console.log("Product variant deleted successfully in database and on Stripe.")
         response.status(200).json({
