@@ -62,13 +62,41 @@ function ProductDetails() {
                   cols.current = new Set(response.map(a => a.color))
                   sizes.current = new Set(response.map(a => a.size))
 
-                  selectColour(response[0].color)
+                  setColour(response[0].color)
+
+                  for(const v of response){
+                    if(v.color === response[0].color){
+                      sizesAvailable.current.add(v.size)
+                    }
+                  }
                   setSize(response[0].size)
               })
               .catch((error) => {
                   console.error('Error fetching variants:', error);
               });
     }, []);
+
+    /**
+     * This function takes in a string size and returns the class names
+     * to be associated with it. By default, all available sizes for
+     * a product have a className 'size-option'
+     * 
+     * If a size is currently selected, it should have an additional
+     * className of 'active'
+     * 
+     * If a size is unavailable for the currently selected colour,
+     * it should have an additional className of 'unavailable'
+     * 
+     * @param {*} s size
+     * @returns string containing all appropriate class names
+     */
+    function getSizeClasses(s){
+      let classes = "size-option"
+      if (size === s) { classes += " active" }
+      else if (sizesAvailable.current.has(s) == false) {classes += " unavailable"}
+
+      return classes
+    }
   
     return (
       <div className="detailsPage">
@@ -105,7 +133,7 @@ function ProductDetails() {
             <div className='size-container'>
 
               {Array.from(sizes.current).map((s) => (
-                <div key={s} className={size === s ? "size-option active" : "size-option"} onClick={() => selectSize(s)}>
+                <div key={s} className={getSizeClasses(s)} onClick={() => selectSize(s)}>
                   <div>{s}</div>
                 </div>
               ))}

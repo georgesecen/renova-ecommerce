@@ -19,3 +19,12 @@
 .size-option:hover, .size-option.active {
     border: .8px solid rgb(188, 188, 188);
 }
+
+.size-option.unavailable {
+    cursor: default;
+    color: #888888;
+}
+
+.size-option.unavailable:hover{
+    border: none;
+}
