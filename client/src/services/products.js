@@ -4,6 +4,21 @@ export const getProducts = () => {
     return API.get("/products", {withCredentials: true});
 }
 
+// TODO: Change function name
+/**
+ * Gets all products with their details from the database.
+ * @returns {Promise<AxiosResponse>} AxiosResponse object.
+ */
+export const getProductsV2 = async () => {
+    try {
+        return await API.post(`/products/index`, {
+            adminPassword: sessionStorage.getItem("key")
+        });
+    } catch(error){
+        console.log(error)
+    }
+}
+
 /**
  * Creates a product in the database.
  * @param {string} name Name of product.
