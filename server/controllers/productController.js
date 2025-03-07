@@ -76,14 +76,13 @@ exports.createProduct = async (request, response) => {
  */
 exports.updateProduct = async (request, response) => {
 
-    const {productId, name, description, price} = request.body
+    const {productId, description, price} = request.body
 
     try{
 
         // Update product
         await Product.update(
             {
-                name: name,
                 description: description,
                 price: price
             },
