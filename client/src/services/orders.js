@@ -1,8 +1,8 @@
 import API from "./axiosInstance";
 
 /**
- * Gets orders from server.
- * @returns {Object} AxiosResponse object.
+ * Gets orders from database.
+ * @returns {Promise<AxiosResponse>} AxiosResponse object.
  */
 export const getOrders = async () => {
     try {
@@ -13,10 +13,10 @@ export const getOrders = async () => {
 }
 
 /**
- * Update order status.
+ * Updates order status.
  * @param {number} id ID of order to be updated.
  * @param {string} status Order status to be updated to.
- * @returns 
+ * @returns {Promise<AxiosResponse>} AxiosResponse object.
  */
 export const updateOrderStatus = async (id, status) => {
     try {
