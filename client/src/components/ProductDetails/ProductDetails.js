@@ -11,15 +11,14 @@ import { useState, useEffect, useRef } from 'react';
 function ProductDetails() {
 
   const {state} = useLocation();
-  // const { id, name, price } = state;
 
+  const sizeOrder = ['XS', 'S', 'M', 'L', 'XL'];
   const [variants, setVariants] = useState([]);
   const [colour, setColour] = useState("")
   const [size, setSize] = useState("")
 
   const cols = useRef(new Set()); 
   const sizes = useRef(new Set()); 
-
   const sizesAvailable = useRef(new Set());   // Holds sizes available for currently selected colour
 
   /**
@@ -42,6 +41,12 @@ function ProductDetails() {
     sizesAvailable.current.size > 0 ? setSize([...sizesAvailable.current][0]) : setSize(null);
   }
 
+  /**
+   * Sets size given only if it is available
+   * for the selected colour
+   * 
+   * @param {*} s size
+   */
   function selectSize(s){
     if(sizesAvailable.current.has(s)){
       setSize(s)
@@ -60,7 +65,9 @@ function ProductDetails() {
 
                   setVariants(response);  // Store items in state
                   cols.current = new Set(response.map(a => a.color))
-                  sizes.current = new Set(response.map(a => a.size))
+                  sizes.current = new Set(response.map(a => a.size).sort(function(a,b) { // Sort sizes in appropriate order
+                    return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
+                  }));
 
                   setColour(response[0].color)
 
