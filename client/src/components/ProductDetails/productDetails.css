@@ -1,12 +1,12 @@
 .detailsPage {
-    height: calc(100vh - 80px);
+    min-height: calc(100vh - 80px);
     display: flex;
     justify-content: space-between;
     flex-wrap: nowrap;
 }
 
 .detailsPage {
-    margin-top: 50px;
+    padding-top: 80px;
 }
 
 /* Images list styles  */
@@ -27,7 +27,7 @@
 }
 
 .selectedImg .carousel img {
-    max-width: 100%;
+    max-width: 34em;
     max-height: 27em;
     width: auto;
     height: auto;
@@ -51,8 +51,8 @@
 /* Text + form container styles */
 .details {
     font-size: 14px;
-    width: 35%;
-    min-width: 330px;
+    width: 30em;
+    margin: 0 4em;
 }
 
 .details > h4 {
@@ -62,8 +62,7 @@
 
 .details > h6 {
     font-size: 1.5em;
-    font-weight: 400;
-    width: 80%;
+    font-weight: 400;   
     padding: 0 0 40px;
     border-bottom: .3px solid rgb(131, 131, 131);
 }
@@ -79,20 +78,19 @@
 .details .colour-container, .details .size-container {
     display: flex;
     height: 70px;
-    width: 80%;
     border-bottom: .3px solid rgb(131, 131, 131);
     margin-bottom: 10px;
 }
 
 /* Add to cart button  */
 .details .addToCart {
-    width: 80%;
+    width: 100%;
     color: var(--text);
     text-decoration: none;
     border: .8px solid var(--text);
     border-radius: 1px;
-    padding: 2px;
-    margin: 10px 0;
+    padding: 6px;
+    margin: 12px 0;
     background: none;
 
     transition-duration: 400ms;
@@ -100,24 +98,26 @@
 
 .details .addToCart:hover {
     color: black;
-    border-color: black;
     background-color: rgb(231, 234, 237);
 }
 
 @media screen and (max-width: 780px) {
     .detailsPage {
-        height: 110vh;
         justify-content: flex-start;
         flex-wrap: wrap;
         align-content: flex-start;
     }
-    .detailsPage div {
-        margin: 0;
+    .detailsPage {
+        padding-top: 20px;
     }
     .productImages {
         display: none;
     }
-    .selectedImg, .details {
+    .selectedImg {
+        font-size: 12px;
+    }
+    .details {
         width: 100%;
+        margin: 0 10px;
     }
 }
