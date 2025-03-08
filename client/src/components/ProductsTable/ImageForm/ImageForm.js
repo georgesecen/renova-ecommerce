@@ -20,7 +20,7 @@ const ImageForm = ({productImages}) => {
   
 
   return (
-    <Modal show={true} centered>
+    <Modal dialogClassName='image-form-container' show={true} centered>
       <Modal.Body>
         <div className='image-form'>
           {
@@ -30,7 +30,9 @@ const ImageForm = ({productImages}) => {
               )
             })
           }
-          <input type="file" name="myImage" accept="image/*" onChange={(event) => addImage(event.target.files[0])} />
+
+          {/* There can only be a max of 8 images. Do not display add button if there are already 8 images. */}
+          {productImages.length < 1 && <input type="file" name="myImage" accept="image/*" onChange={(event) => addImage(event.target.files[0])} />}
         </div>
       </Modal.Body>
     </Modal>

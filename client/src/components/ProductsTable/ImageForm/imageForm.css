@@ -1,4 +1,12 @@
 
+/* Modal containing everything */
+.image-form-container{
+    width: fit-content;
+}
+
+.image-form{
+    width: fit-content;
+}
 
 /* Product images */
 .image-form > img{
