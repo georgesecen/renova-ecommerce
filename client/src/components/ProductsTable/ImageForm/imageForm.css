@@ -16,6 +16,7 @@
     border-radius: 0.9em;
     overflow: hidden;
     background-color: rgb(61, 61, 61);
+    cursor: pointer;
 }
 
 /* Product images */
@@ -30,6 +31,7 @@
     position: absolute;
     left: 0; 
     right: 0; 
+    top: 0;
     margin: auto; 
     background-color: transparent;
     border: none;
@@ -48,4 +50,23 @@
 }
 .image-container.show > button{
     transform: translateY(1em);
+}
+
+/* Image input label */
+.image-form > label{
+    width: 10em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 3px dashed #acacac;
+    border-radius: 0.9em;
+    cursor: pointer;
+}
+.image-form > label > img{
+    width: 5em;
+}
+/* Actual image input */
+#image-uploader{
+    display: none;
 }
