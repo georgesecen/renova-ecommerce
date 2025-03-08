@@ -7,6 +7,7 @@
 .image-form{
     width: fit-content;
     display: flex;
+    gap: 0.5em;
 }
 
 /* Container holds image and button to delete image */
@@ -30,11 +31,16 @@
     left: 0; 
     right: 0; 
     margin: auto; 
+    background-color: transparent;
+    border: none;
     width: fit-content;
 
     /* For slide down effect */
-    transform: translateY(-2em);
+    transform: translateY(-3em);
     transition: transform 0.2s ease-in-out;
+}
+.image-container > button > img{
+    width: 3em;
 }
 /* When image is selected to be deleted */
 .image-container.show > img{
