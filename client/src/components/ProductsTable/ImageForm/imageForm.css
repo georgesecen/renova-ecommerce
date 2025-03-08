@@ -6,10 +6,40 @@
 
 .image-form{
     width: fit-content;
+    display: flex;
+}
+
+/* Container holds image and button to delete image */
+.image-container{
+    position: relative;
+    border-radius: 0.9em;
+    overflow: hidden;
+    background-color: rgb(61, 61, 61);
 }
 
 /* Product images */
-.image-form > img{
-    width: 5em;
-    border-radius: 0.9em;
+.image-container > img{
+    width: 7em;
+
+    /* For darkening effect */
+    transition: opacity 0.2s ease-in-out;
+}
+/* Delete image button */
+.image-container > button{
+    position: absolute;
+    left: 0; 
+    right: 0; 
+    margin: auto; 
+    width: fit-content;
+
+    /* For slide down effect */
+    transform: translateY(-2em);
+    transition: transform 0.2s ease-in-out;
+}
+/* When image is selected to be deleted */
+.image-container.show > img{
+    opacity: 0.3;
+}
+.image-container.show > button{
+    transform: translateY(1em);
 }
