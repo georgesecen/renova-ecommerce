@@ -23,9 +23,16 @@ export const adminProductsService = async (operation, requestData) => {
         // Add admin password to the request data being sent to server
         requestData.adminPassword = sessionStorage.getItem("key")
 
-        return await API.post(`/products/${operation}`, {
-            requestData
-        });
+        // Make sure correct headers are set when sending file data to server
+        const contentType = (operation === "add-image") ? {"Content-Type": "multipart/form-data"} : {}
+
+        return await API.post(
+            `/products/${operation}`, 
+            requestData,
+            {
+                headers: contentType
+            }
+        )
     } catch(error){
         console.log(error)
     }

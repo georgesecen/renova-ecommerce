@@ -14,7 +14,7 @@ const Admin = () => {
     toastsRef.current.addToast(title, message, type)
   }
 
-  // Get key for admin routes
+  // // Get key for admin routes
   // useEffect(() => {
 
   //   // Store key in session storage for better security

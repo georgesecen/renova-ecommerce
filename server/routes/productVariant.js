@@ -23,6 +23,8 @@ router.post("/update-quantity", adminAuthentication, updateProductVariantQuantit
 router.post("/delete", adminAuthentication, deleteProductVariant)
 router.post("/delete-group", adminAuthentication, deleteProductVariantGroup)
 router.post("/update-group-price", adminAuthentication, updateProductVariantGroupPrice)
+
+// image is the field name that Multer expects to find in the multipart/form-data request
 router.post("/add-group-image", [imageMiddleware.single("image"), adminAuthentication], addProductVariantGroupImage)
 router.post("/remove-group-image", adminAuthentication, removeProductVariantGroupImage)
 

@@ -25,6 +25,8 @@ router.post('/', addProduct);  // This would require authentication and authoriz
 router.post("/create", adminAuthentication, createProduct)
 router.post("/update", adminAuthentication, updateProduct)
 router.post("/delete", adminAuthentication, deleteProduct)
+
+// image is the field name that Multer expects to find in the multipart/form-data request
 router.post("/add-image", [imageMiddleware.single("image"), adminAuthentication], addProductImage)
 router.post("/remove-image", adminAuthentication, removeProductImage)
 router.post("/index", adminAuthentication, getAllProductsV2)
