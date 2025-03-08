@@ -30,7 +30,7 @@ const Admin = () => {
 
       {/* To make sure key is set before rendering components */}
       {/* {key && <OrdersTable displayNotification={displayNotification} />} */}
-      <ImageForm />
+      <ImageForm productImages={["26.jpg", "27.jpg"]}/>
 
     </div>
   )
