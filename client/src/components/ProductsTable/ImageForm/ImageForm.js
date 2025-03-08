@@ -1,26 +1,43 @@
 import React, { useState } from 'react'
 import "./imageForm.css"
 import { adminProductsService } from '../../../services/products';
+import { adminProductVariantsService } from '../../../services/productVariants';
 import Modal from 'react-bootstrap/Modal';
 const trashIcon = require("../../../assets/icons/trash.png")
 const imageUploadIcon = require("../../../assets/icons/image-upload.png")
 
 
-const ImageForm = ({productImages, productType, productIds, show, setShow}) => {
+const ImageForm = ({productImages, productType, productId, productVariantIds, show, setShow}) => {
 
   // Keep track of image name for image which is currently selected to be deleted
   const [imageToDelete, setImageToDelete] = useState()
 
-  function addImage(file){
+  // Function uploads image to server for product or product variant group
+  function uploadImage(file){
 
     const data = {
-      productId: 1,
+      productId: productId,
       image: file
     }
 
-    adminProductsService("add-image", data)
-      .then((response) => console.log(response.data))
-      .catch((error) => console.log(error))
+    // If image form is for a product
+    if (productType === 0){
+
+      // Add image to product
+      adminProductsService("add-image", data)
+        .then((response) => console.log(response.data))
+        .catch((error) => console.log(error))
+    }
+
+    // If image form is for product variants
+    else{
+      data.productVariantIds = productVariantIds
+
+      // Add image to product variant group
+      adminProductVariantsService("add-group-image", data)
+        .then((response) => console.log(response.data))
+        .catch((error) => console.log(error))
+    }
   }
   
 
@@ -55,7 +72,7 @@ const ImageForm = ({productImages, productType, productIds, show, setShow}) => {
                 <img alt='upload' src={imageUploadIcon}/>
                 Upload Image
               </label>
-              <input type="file" id='image-uploader' ccept="image/*" onChange={(event) => addImage(event.target.files[0])} />
+              <input type="file" id='image-uploader' accept="image/*" onChange={(event) => uploadImage(event.target.files[0])} />
             </>
           }
         </div>
