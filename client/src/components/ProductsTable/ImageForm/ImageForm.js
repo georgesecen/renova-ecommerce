@@ -6,7 +6,7 @@ const trashIcon = require("../../../assets/icons/trash.png")
 const imageUploadIcon = require("../../../assets/icons/image-upload.png")
 
 
-const ImageForm = ({productImages}) => {
+const ImageForm = ({productImages, productType, productIds, show, setShow}) => {
 
   // Keep track of image name for image which is currently selected to be deleted
   const [imageToDelete, setImageToDelete] = useState()
@@ -25,7 +25,10 @@ const ImageForm = ({productImages}) => {
   
 
   return (
-    <Modal dialogClassName='image-form-container' show={true} centered>
+    <Modal show={show} onHide={() => setShow(false)} dialogClassName='image-form-container' centered>
+      <Modal.Header closeButton>
+            <Modal.Title>Edit Images</Modal.Title>
+        </Modal.Header>
       <Modal.Body>
         <div className='image-form'>
           {
