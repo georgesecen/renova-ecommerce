@@ -68,11 +68,11 @@ const ImageForm = ({productImages, productType, productId, productVariantIds, sh
   }
 
   return (
-    <Modal show={show} onHide={() => setShow(false)} dialogClassName='image-form-container' centered>
+    <Modal dialogClassName="modal-90w" show={show} onHide={() => setShow(false)}>
       <Modal.Header closeButton>
             <Modal.Title>Edit Images</Modal.Title>
-        </Modal.Header>
-      <Modal.Body>
+      </Modal.Header>
+      <Modal.Body className='modal-body'>
         <div className='image-form'>
           {
             productImages.map((image, index) => {

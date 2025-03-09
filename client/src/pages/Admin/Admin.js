@@ -31,7 +31,7 @@ const Admin = () => {
       {/* To make sure key is set before rendering components */}
       {/* {key && <OrdersTable displayNotification={displayNotification} />} */}
       <ImageForm 
-        productImages={["1741473457966.png"]} 
+        productImages={["28.jpg", "28.jpg", "28.jpg", "28.jpg"]} 
         productType={0} 
         productId={6} 
         productVariantIds={[]} 
