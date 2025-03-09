@@ -50,3 +50,9 @@
     align-content: flex-start;
     overflow: scroll;
 }
+
+@media screen and (max-width: 700px){
+    .products-page .side-nav {
+        display: none;
+    }
+}
