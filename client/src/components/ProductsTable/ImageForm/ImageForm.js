@@ -12,8 +12,8 @@ const ImageForm = ({productImages, productType, productId, productVariantIds, sh
   // Keep track of image name for image which is currently selected to be deleted
   const [imageToDelete, setImageToDelete] = useState()
 
-  // Function uploads image to server for product or product variant group
-  function uploadImage(file){
+  // Function adds image to product or product variant group
+  function addImage(file){
 
     const data = {
       productId: productId,
@@ -39,7 +39,33 @@ const ImageForm = ({productImages, productType, productId, productVariantIds, sh
         .catch((error) => console.log(error))
     }
   }
-  
+
+  // Function removes image from product or product variant group
+  function removeImage(fileName){
+
+    const data = {
+      fileName: fileName
+    }
+
+    // If image form is for a product
+    if (productType === 0){
+
+      // Add remove product
+      adminProductsService("remove-image", data)
+        .then((response) => console.log(response.data))
+        .catch((error) => console.log(error))
+    }
+
+    // If image form is for product variants
+    else{
+      data.productVariantIds = productVariantIds
+
+      // Remove image from product variant group
+      adminProductVariantsService("remove-group-image", data)
+        .then((response) => console.log(response.data))
+        .catch((error) => console.log(error))
+    }
+  }
 
   return (
     <Modal show={show} onHide={() => setShow(false)} dialogClassName='image-form-container' centered>
@@ -55,8 +81,7 @@ const ImageForm = ({productImages, productType, productId, productVariantIds, sh
                   <img src={`http://localhost:3306/static/images/${image}`} alt='product'/>
                   <button onClick={(event) => {
                     event.stopPropagation() // To prevent unshowing the image delete class
-                    // TODO: Add delete image function
-                    console.log("Deleted")
+                    removeImage(imageToDelete)
                   }}>
                     <img alt='delete' src={trashIcon}/>
                   </button>
@@ -72,7 +97,7 @@ const ImageForm = ({productImages, productType, productId, productVariantIds, sh
                 <img alt='upload' src={imageUploadIcon}/>
                 Upload Image
               </label>
-              <input type="file" id='image-uploader' accept="image/*" onChange={(event) => uploadImage(event.target.files[0])} />
+              <input type="file" id='image-uploader' accept="image/*" onChange={(event) => addImage(event.target.files[0])} />
             </>
           }
         </div>
