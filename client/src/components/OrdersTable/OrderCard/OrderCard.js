@@ -6,21 +6,34 @@ import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 const editIcon = require("../../../assets/icons/edit.png")
 const arrowIcon = require("../../../assets/icons/arrow.png")
 
-// Card item is every label with value below it
-const LabelValue = ({label, value}) => {
-
-  return (
-    <div className='order-card-label-value-container'> 
-      <h6>{label}</h6>
-      <p>{value ? value : "N/A"}</p>
-    </div>
-  )
-}
-
+/**
+ * Displays order details and order items which are apart of the order.
+ * @param {object} order Order object which contains all information about the order.
+ * @param {function} update Function which updates the order status.
+ * @returns {React.JSX.Element} OrderCard React component.
+ */
 const OrderCard = ({order, update}) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
   const [showOrderForm, setShowOrderForm] = useState(false)
+
+  // Pending, completed, shipped button
+  const UpdateOrderButton = () => {
+    return (
+      <button 
+        onClick={(event)=>{
+          event.stopPropagation() // To prevent sub menu showing
+          setShowOrderForm(!showOrderForm)
+        }} 
+        className='update-order-button'
+        style={{"backgroundColor": colors[status]}}
+      >
+        <p>{status}</p>
+        <img src={editIcon} alt='Edit'/>
+      </button>
+    )
+  }
+  
 
   // Get order details
   const {
@@ -57,40 +70,23 @@ const OrderCard = ({order, update}) => {
 
       <OrderForm show={showOrderForm} setShow={setShowOrderForm} update={update} orderStatus={status} orderId={id}/>
 
+      {/* Order card which shows order details */}
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='order-card-header-container'>
-        
-        <LabelValue label={"Order ID"} value={`#${id}`}></LabelValue>
-        <button 
-          onClick={(event)=>{
-            event.stopPropagation() // To prevent sub menu showing
-            setShowOrderForm(!showOrderForm)
-          }} 
-          style={{"backgroundColor": colors[status]}}
-        >
-          <p>{status}</p>
-          <img src={editIcon} alt='Edit'/>
-        </button>
-        <div className='seperator'></div>
 
-        <LabelValue label={"Total"} value={`$${total}`}></LabelValue>
-        <div className='seperator'></div>
-        <LabelValue label={"Time"} value={new Date(createdAt).toLocaleString("en-US")}></LabelValue>
-        <div className='seperator'></div>
-        <LabelValue label={"Name"} value={name}></LabelValue>
-        <div className='seperator'></div>
-        <LabelValue label={"Phone"} value={phone}></LabelValue>
-        <div className='seperator'></div>
-        <LabelValue label={"Country"} value={country}></LabelValue>
-        <div className='seperator'></div>
-        <LabelValue label={"City"} value={city}></LabelValue>
-        <div className='seperator'></div>
-        <LabelValue label={"State"} value={state}></LabelValue>
-        <div className='seperator'></div>
-        <LabelValue label={"Postal Code"} value={postalCode}></LabelValue>
-        <div className='seperator'></div>
-        <LabelValue label={"Line 1"} value={line1}></LabelValue>
-        <div className='seperator'></div>
-        <LabelValue label={"Line 2"} value={line2}></LabelValue>
+        <LabelValueDisplay labelValues={[
+          ["Order ID", `#${id}`, false],
+          ["", UpdateOrderButton(), true],
+          ["Total", `$${total}`, true],
+          ["Time", new Date(createdAt).toLocaleString("en-US"), true],
+          ["Name", name, true],
+          ["Phone", phone, true],
+          ["Country", country, true],
+          ["City", city, true],
+          ["State", state, true],
+          ["Postal Code", postalCode, true],
+          ["Line 1", line1, true],
+          ["Line 2", line2, false],
+        ]}></LabelValueDisplay>
 
         {/* Arrow icon which shows sub menu is open */}
         <img src={arrowIcon} alt='Edit' className={showDropdown ? "show" : ""}/>
@@ -121,14 +117,14 @@ const OrderCard = ({order, update}) => {
                 <li key={index}>
                   <div className='order-item-container'>
                     <LabelValueDisplay labelValues={[
-                      ["Product Variant ID", id],
-                      ["Name", productName],
-                      ["Size", size],
-                      ["Color", color],
-                      ["Price At Purchase", priceAtPurchase],
-                      ["Quantity", quantity],
-                      ["Color", color],
-                      ["Gender", gender],
+                      ["Product Variant ID", id, true],
+                      ["Name", productName, true],
+                      ["Size", size, true],
+                      ["Color", color, true],
+                      ["Price At Purchase", priceAtPurchase, true],
+                      ["Quantity", quantity, true],
+                      ["Color", color, true],
+                      ["Gender", gender, false],
                     ]}></LabelValueDisplay>
                   </div>
                 </li>

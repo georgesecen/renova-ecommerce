@@ -32,7 +32,7 @@
 }
 
 /* Pending, completed, shipped button */
-.order-card-header-container > button{
+.update-order-button{
     border: none;
     background-color: aquamarine;
     display: flex;
@@ -40,45 +40,17 @@
     border-radius: 2em;
     padding: 0.2em 0.7em 0.2em 0.7em;
     height: fit-content;
-    margin-right: 0.9em;
     align-items: center;
 }
-.order-card-header-container > button > p{
+.update-order-button > p{
     margin: 0;
     font-size: 0.9em;
     color: white;
 }
-.order-card-header-container > button > img{
+.update-order-button > img{
     width: 1em;
     height: 1em;
     transform: translateY(-0.1em);
-}
-
-.order-card-label-value-container{
-    text-align: left;
-    width: fit-content;
-    padding: 0em 0.5em 0em 0.5em;
-}
-/* Label */
-.order-card-label-value-container > h6{
-    font-size: 0.7em;
-    margin: 0;
-    margin-bottom: 0.3em;
-    color: #6E6E6E;
-    text-wrap: nowrap;
-}
-/* Value */
-.order-card-label-value-container > p{
-    font-size: 0.9em;
-    margin: 0;
-    text-wrap: nowrap;
-}
-
-/* Lines which divides labels and values */
-.order-card-container .seperator{
-    min-height: 2.3em;
-    min-width: 0.05em;
-    background-color: #CDCDCD;
 }
 
 .order-item-container{

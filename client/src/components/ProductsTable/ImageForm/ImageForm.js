@@ -68,7 +68,7 @@ const ImageForm = ({productImages, productType, productId, productVariantIds, sh
   }
 
   return (
-    <Modal dialogClassName="modal-90w" show={show} onHide={() => setShow(false)}>
+    <Modal dialogClassName="modal-90w" show={show} onHide={() => setShow(false)} centered>
       <Modal.Header closeButton>
             <Modal.Title>Edit Images</Modal.Title>
       </Modal.Header>

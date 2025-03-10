@@ -3,6 +3,7 @@ import "./admin.css"
 import OrdersTable from '../../components/OrdersTable/OrdersTable'
 import ImageForm from '../../components/ProductsTable/ImageForm/ImageForm'
 import Toasts from '../../components/Toasts/Toasts'
+import LabelValueDisplay from '../../components/LabelValueDisplay/LabelValueDisplay'
 
 const Admin = () => {
 
@@ -29,14 +30,7 @@ const Admin = () => {
       <Toasts ref={toastsRef} />
 
       {/* To make sure key is set before rendering components */}
-      {/* {key && <OrdersTable displayNotification={displayNotification} />} */}
-      <ImageForm 
-        productImages={["28.jpg", "28.jpg", "28.jpg", "28.jpg"]} 
-        productType={0} 
-        productId={6} 
-        productVariantIds={[]} 
-        show={true}
-      />
+      {key && <OrdersTable displayNotification={displayNotification} />}
 
     </div>
   )

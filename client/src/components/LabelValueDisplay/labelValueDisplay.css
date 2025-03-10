@@ -25,5 +25,8 @@
 .seperator{
     min-height: 2.3em;
     min-width: 0.05em;
-    background-color: #CDCDCD;
+
+    /* More consistent than background color as width is so small it is not the same size
+    for every seperator and looks weird if background color is used instead of box shadow. */
+    box-shadow: 0.05em 0px 0px #CDCDCD;
 }
