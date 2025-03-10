@@ -1,9 +1,8 @@
 import {React, useEffect, useState, useRef} from 'react'
 import "./admin.css"
 import OrdersTable from '../../components/OrdersTable/OrdersTable'
-import ImageForm from '../../components/ProductsTable/ImageForm/ImageForm'
+import ProductsTable from '../../components/ProductsTable/ProductsTable'
 import Toasts from '../../components/Toasts/Toasts'
-import LabelValueDisplay from '../../components/LabelValueDisplay/LabelValueDisplay'
 
 const Admin = () => {
 
@@ -30,7 +29,8 @@ const Admin = () => {
       <Toasts ref={toastsRef} />
 
       {/* To make sure key is set before rendering components */}
-      {key && <OrdersTable displayNotification={displayNotification} />}
+      {/* {key && <OrdersTable displayNotification={displayNotification} />} */}
+      {key && <ProductsTable displayNotification={displayNotification} />}
 
     </div>
   )

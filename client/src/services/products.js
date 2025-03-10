@@ -14,10 +14,10 @@ export const getProducts = () => {
  * - add-image
  * - remove-image
  * - index
- * @param {object} requestData Data to send in the request.
+ * @param {object} requestData Data to send in the request. Defaults to an empty object.
  * @returns {Promise<AxiosResponse>} AxiosResponse object.
  */
-export const adminProductsService = async (operation, requestData) => {
+export const adminProductsService = async (operation, requestData = {}) => {
     try {
 
         // Add admin password to the request data being sent to server
