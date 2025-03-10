@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import "./orderCard.css"
 import OrderForm from '../OrderForm/OrderForm'
+import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 
 const editIcon = require("../../../assets/icons/edit.png")
 const arrowIcon = require("../../../assets/icons/arrow.png")
@@ -12,28 +13,6 @@ const LabelValue = ({label, value}) => {
     <div className='order-card-label-value-container'> 
       <h6>{label}</h6>
       <p>{value ? value : "N/A"}</p>
-    </div>
-  )
-}
-
-
-// Order item is every order item in the dropdown of the order
-const OrderItem = ({productVariantId, name, priceAtPurchase, quantity, size, color, gender}) => {
-  return (
-    <div className='order-item-container'>
-      <LabelValue label={"Product Variant Id"} value={productVariantId}></LabelValue>
-      <div className='seperator'></div>
-      <LabelValue label={"Name"} value={name}></LabelValue>
-      <div className='seperator'></div>
-      <LabelValue label={"Price At Purchase"} value={`$${priceAtPurchase}`}></LabelValue>
-      <div className='seperator'></div>
-      <LabelValue label={"Quantity"} value={quantity}></LabelValue>
-      <div className='seperator'></div>
-      <LabelValue label={"Size"} value={size}></LabelValue>
-      <div className='seperator'></div>
-      <LabelValue label={"Color"} value={color}></LabelValue>
-      <div className='seperator'></div>
-      <LabelValue label={"Gender"} value={gender}></LabelValue>
     </div>
   )
 }
@@ -118,6 +97,7 @@ const OrderCard = ({order, update}) => {
 
       </div>
 
+      {/* Dropdown which displays order items for order */}
       <ul className={`order-card-items-container ${showDropdown ? "show" : ""}`}>
           {
             orderItems.map((orderItem, index) => {
@@ -136,17 +116,21 @@ const OrderCard = ({order, update}) => {
               } = orderItem.product_variant
               const {name: productName} = orderItem.product_variant.product
 
+              // Order item
               return (
                 <li key={index}>
-                  <OrderItem
-                    productVariantId={id}
-                    name={productName}
-                    size={size}
-                    priceAtPurchase={priceAtPurchase}
-                    quantity={quantity}
-                    color={color}
-                    gender={gender}
-                  ></OrderItem>
+                  <div className='order-item-container'>
+                    <LabelValueDisplay labelValues={[
+                      ["Product Variant ID", id],
+                      ["Name", productName],
+                      ["Size", size],
+                      ["Color", color],
+                      ["Price At Purchase", priceAtPurchase],
+                      ["Quantity", quantity],
+                      ["Color", color],
+                      ["Gender", gender],
+                    ]}></LabelValueDisplay>
+                  </div>
                 </li>
               )
             })
