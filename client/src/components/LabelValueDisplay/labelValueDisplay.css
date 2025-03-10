@@ -1,0 +1,29 @@
+
+/* Container containing label value */
+.label-value{
+    text-align: left;
+    width: fit-content;
+    padding: 0em 0.5em 0em 0.5em;
+}
+
+/* Label */
+.label-value > h6{
+    font-size: 0.7em;
+    margin: 0;
+    margin-bottom: 0.3em;
+    color: #6E6E6E;
+    text-wrap: nowrap;
+}
+/* Value */
+.label-value > div{
+    font-size: 0.9em;
+    margin: 0;
+    text-wrap: nowrap;
+}
+
+/* Line between label values */
+.seperator{
+    min-height: 2.3em;
+    min-width: 0.05em;
+    background-color: #CDCDCD;
+}
