@@ -12,8 +12,8 @@ const { downloadImage, deleteImages } = require("../services/productService")
 
 /**
  * Creates a product variant in the database and on Stripe.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.createProductVariant = async (request, response) => {
 
@@ -43,8 +43,8 @@ exports.createProductVariant = async (request, response) => {
 
 /**
  * Updates a product variants quantity in the database.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.updateProductVariantQuantity = async (request, response) => {
 
@@ -77,8 +77,8 @@ exports.updateProductVariantQuantity = async (request, response) => {
 
 /**
  * Deletes a product variant in the database and on Stripe.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.deleteProductVariant = async (request, response) => {
 
@@ -106,8 +106,8 @@ and color.
 
 /**
  * Deletes every product variant in the group in the database and on Stripe.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.deleteProductVariantGroup = async (request, response) => {
 
@@ -130,8 +130,8 @@ exports.deleteProductVariantGroup = async (request, response) => {
 
 /**
  * Updates every product variants price in the group in the database and on Stripe.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.updateProductVariantGroupPrice = async (request, response) => {
 
@@ -157,8 +157,8 @@ exports.updateProductVariantGroupPrice = async (request, response) => {
 
 /**
  * Adds image to every product variant in the group in the database and on Stripe.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.addProductVariantGroupImage = async (request, response) => {
 
@@ -188,8 +188,8 @@ exports.addProductVariantGroupImage = async (request, response) => {
 
 /**
  * Removes image from every product variant in the group in the database and on Stripe.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.removeProductVariantGroupImage = async (request, response) => {
 

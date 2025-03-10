@@ -14,7 +14,7 @@ export const getProducts = () => {
  * - add-image
  * - remove-image
  * - index
- * @param {Object} requestData Data to send in the request.
+ * @param {object} requestData Data to send in the request.
  * @returns {Promise<AxiosResponse>} AxiosResponse object.
  */
 export const adminProductsService = async (operation, requestData) => {

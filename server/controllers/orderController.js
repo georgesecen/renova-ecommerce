@@ -32,8 +32,8 @@ exports.getUserOrders = (req, res) => {
 
 /**
  * Updates an orders status in the database.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.updateOrderStatus = async (request, response) => {
 
@@ -72,8 +72,8 @@ exports.updateOrderStatus = async (request, response) => {
 
 /**
  * Gets all orders from the database.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.getOrders = async (request, response) => {
 

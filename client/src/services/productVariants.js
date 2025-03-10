@@ -11,7 +11,7 @@ import API from './axiosInstance'
  * - update-group-price
  * - add-group-image
  * - remove-group-image
- * @param {Object} requestData Data to send in the request.
+ * @param {object} requestData Data to send in the request.
  * @returns {Promise<AxiosResponse>} AxiosResponse object.
  */
 export const adminProductVariantsService = async (operation, requestData) => {

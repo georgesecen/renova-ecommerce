@@ -42,8 +42,8 @@ exports.addProduct = async (req, res) => {
 
 /**
  * Creates a product in the database.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.createProduct = async (request, response) => {
 
@@ -71,8 +71,8 @@ exports.createProduct = async (request, response) => {
 
 /**
  * Updates a product in the database.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.updateProduct = async (request, response) => {
 
@@ -107,8 +107,8 @@ exports.updateProduct = async (request, response) => {
 /**
  * Deletes product and all associated product variants and images from database, server
  * and Stripe.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.deleteProduct = async (request, response) => {
 
@@ -131,8 +131,8 @@ exports.deleteProduct = async (request, response) => {
 
 /**
  * Adds image to product in database and on the server itself.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.addProductImage = async (request, response) => {
 
@@ -163,8 +163,8 @@ exports.addProductImage = async (request, response) => {
 
 /**
  * Removes product image from database and server itself.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.removeProductImage = async (request, response) => {
 
@@ -198,8 +198,8 @@ exports.removeProductImage = async (request, response) => {
 /**
  * Get all products. Every product will also have all product variants included and their images. As well
  * as the product images.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.getAllProductsV2 = async (request, response) => {
 

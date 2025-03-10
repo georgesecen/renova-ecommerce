@@ -2,8 +2,8 @@ const { createDatabaseProductImage, deleteDatabaseProductImage } = require('../s
 
 /**
  * Creates an image in the database and adds image to the server.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.createImage = async (request, response) => {
 
@@ -27,8 +27,8 @@ exports.createImage = async (request, response) => {
 
 /**
  * Deletes an image in the database and on the server.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.deleteImage = async (request, response) => {
 

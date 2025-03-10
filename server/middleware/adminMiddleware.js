@@ -3,8 +3,8 @@
  * Middleware function checks if the user attempting to access the route is an admin. If they are an 
  * admin the request will proceed otherwise it will respond with an error. Middleware is to be used on
  * all /admin routes.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  * @param {function} next The next middleware function in the chain.
  * @returns {void}
  */
