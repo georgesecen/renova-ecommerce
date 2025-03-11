@@ -2,12 +2,14 @@ import { useState } from "react"
 import "./productCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 import ImageForm from "../ImageForm/ImageForm"
+import ProductForm from "../ProductForm/ProductForm"
 const arrowIcon = require("../../../assets/icons/arrow.png")
 
 const ProductCard = ({product, addImage, removeImage}) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
   const [showImageForm, setShowImageForm] = useState(false)
+  const [showProductForm, setShowProductForm] = useState(false)
 
   // Get product details
   const {
@@ -47,11 +49,14 @@ const ProductCard = ({product, addImage, removeImage}) => {
         >
       </ImageForm>
 
+      <ProductForm show={showProductForm} setShow={setShowProductForm}/>
+
       {/* Product card which shows the product details */}
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='card-header-container'>
 
         <LabelValueDisplay labelValues={[
-          ["Product ID", productId, true],
+          ["Product ID", productId, false],
+          ["", <button onClick={() => setShowProductForm(!showProductForm)}>edit</button>, true],
           ["Name", name, true],
           ["Description", description, true],
           ["Images", ImageDisplay(), false],

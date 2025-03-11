@@ -34,7 +34,7 @@
 
 /* Product images */
 .image-container > img{
-    width: 7em;
+    height: 10em;
 
     /* For darkening effect */
     transition: opacity 0.2s ease-in-out;
