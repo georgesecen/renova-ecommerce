@@ -11,7 +11,7 @@ const ProductForm = ({productId, update, show, setShow, description, price}) => 
     const entries = Object.fromEntries(formData.entries()) // Get key value pairs (Keys being form feild names)
 
     // Only if description or price was changed update product
-    if (entries.description !== description || Number(entries.price) !== price){
+    if (entries.description !== description || entries.price !== price){
         update(productId, entries.description, Number(entries.price))
     }
   }
@@ -23,8 +23,8 @@ const ProductForm = ({productId, update, show, setShow, description, price}) => 
         </Modal.Header>
         <Modal.Body>
             <form id='product-form'>
-                <textarea name='description' defaultValue={"textAreaDescription"}></textarea>
-                <input name='price' defaultValue={10.92} step={1} type='number' />
+                <textarea name='description' defaultValue={description}></textarea>
+                <input name='price' defaultValue={price} step={1} type='number' />
             </form>
         </Modal.Body>
         <Modal.Footer>

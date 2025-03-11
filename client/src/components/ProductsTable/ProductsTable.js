@@ -45,6 +45,20 @@ const ProductsTable = ({displayNotification}) => {
       .finally(() => {setLoading(false); setLoadProducts(true)})  
   }
 
+  // Function updates product description and price
+  function updateProduct(productId, description, price){
+    setLoading(true)
+    const data = {
+      productId: productId,
+      description: description,
+      price: price
+    }
+    adminProductsService("update", data)
+      .then((response) => displayNotification("Update", response.data.message))
+      .catch((error) => displayNotification("Update", `${error}`, "danger"))
+      .finally(() => {setLoading(false); setLoadProducts(true)})  
+  }
+
   
   return (
     <div className='table-container'>
@@ -57,6 +71,7 @@ const ProductsTable = ({displayNotification}) => {
                 product={product} 
                 addImage={addProductImage} 
                 removeImage={removeProductImage}
+                update={updateProduct}
                 >
               </ProductCard>
             })

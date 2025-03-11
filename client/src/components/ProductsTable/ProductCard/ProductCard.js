@@ -5,7 +5,7 @@ import ImageForm from "../ImageForm/ImageForm"
 import ProductForm from "../ProductForm/ProductForm"
 const arrowIcon = require("../../../assets/icons/arrow.png")
 
-const ProductCard = ({product, addImage, removeImage}) => {
+const ProductCard = ({product, addImage, removeImage, update}) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
   const [showImageForm, setShowImageForm] = useState(false)
@@ -49,7 +49,15 @@ const ProductCard = ({product, addImage, removeImage}) => {
         >
       </ImageForm>
 
-      <ProductForm show={showProductForm} setShow={setShowProductForm}/>
+      <ProductForm
+        show={showProductForm} 
+        setShow={setShowProductForm}
+        productId={productId}
+        description={description}
+        price={price}
+        update={update}
+        >
+      </ProductForm>
 
       {/* Product card which shows the product details */}
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='card-header-container'>
