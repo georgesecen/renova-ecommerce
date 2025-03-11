@@ -7,38 +7,46 @@ const trashIcon = require("../../../assets/icons/trash.png")
 const imageUploadIcon = require("../../../assets/icons/image-upload.png")
 
 
-const ImageForm = ({productImages, productType, productId, productVariantIds, show, setShow}) => {
+const ImageForm = ({
+  productImages, 
+  productType, 
+  productId, 
+  productVariantIds, 
+  show, 
+  setShow,
+  addImage
+}) => {
 
   // Keep track of image name for image which is currently selected to be deleted
   const [imageToDelete, setImageToDelete] = useState()
 
   // Function adds image to product or product variant group
-  function addImage(file){
+  // function addImage(file){
 
-    const data = {
-      productId: productId,
-      image: file
-    }
+  //   const data = {
+  //     productId: productId,
+  //     image: file
+  //   }
 
-    // If image form is for a product
-    if (productType === 0){
+  //   // If image form is for a product
+  //   if (productType === 0){
 
-      // Add image to product
-      adminProductsService("add-image", data)
-        .then((response) => console.log(response.data))
-        .catch((error) => console.log(error))
-    }
+  //     // Add image to product
+  //     adminProductsService("add-image", data)
+  //       .then((response) => console.log(response.data))
+  //       .catch((error) => console.log(error))
+  //   }
 
-    // If image form is for product variants
-    else{
-      data.productVariantIds = productVariantIds
+  //   // If image form is for product variants
+  //   else{
+  //     data.productVariantIds = productVariantIds
 
-      // Add image to product variant group
-      adminProductVariantsService("add-group-image", data)
-        .then((response) => console.log(response.data))
-        .catch((error) => console.log(error))
-    }
-  }
+  //     // Add image to product variant group
+  //     adminProductVariantsService("add-group-image", data)
+  //       .then((response) => console.log(response.data))
+  //       .catch((error) => console.log(error))
+  //   }
+  // }
 
   // Function removes image from product or product variant group
   function removeImage(fileName){
@@ -78,7 +86,7 @@ const ImageForm = ({productImages, productType, productId, productVariantIds, sh
             productImages.map((image, index) => {
               return (
                 <div key={index} onClick={() => setImageToDelete(imageToDelete === image ? null : image)} className={`image-container ${image === imageToDelete ? "show" : ""}`}>
-                  <img src={`http://localhost:3306/static/images/${image}`} alt='product'/>
+                  <img src={`http://localhost:3306/static/images/${image.image_url}`} alt='product'/>
                   <button onClick={(event) => {
                     event.stopPropagation() // To prevent unshowing the image delete class
                     removeImage(imageToDelete)
@@ -97,7 +105,7 @@ const ImageForm = ({productImages, productType, productId, productVariantIds, sh
                 <img alt='upload' src={imageUploadIcon}/>
                 Upload Image
               </label>
-              <input type="file" id='image-uploader' accept="image/*" onChange={(event) => addImage(event.target.files[0])} />
+              <input type="file" id='image-uploader' accept="image/*" onChange={(event) => addImage(productId, event.target.files[0])} />
             </>
           }
         </div>

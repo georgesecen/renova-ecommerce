@@ -20,6 +20,19 @@ const ProductsTable = ({displayNotification}) => {
     }
   }, [loadProducts])
 
+  // Function adds image to product
+  function addProductImage(productId, file){
+    setLoading(true)
+    const data = {
+      productId: productId,
+      image: file
+    }
+    adminProductsService("add-image", data)
+      .then((response) => displayNotification("Added Image", response.data.message))
+      .catch((error) => displayNotification("Added Image", `${error}`, "danger"))
+      .finally(() => {setLoading(false); setLoadProducts(true)})  
+  }
+
   
   return (
     <div className='table-container'>
@@ -27,7 +40,7 @@ const ProductsTable = ({displayNotification}) => {
       <ul>
           {
             products.map((product, index) => {
-              return <ProductCard key={index} product={product}/>
+              return <ProductCard key={index} product={product} addImage={addProductImage}/>
             })
           }
       </ul>

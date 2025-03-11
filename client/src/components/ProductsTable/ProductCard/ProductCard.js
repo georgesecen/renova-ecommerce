@@ -1,11 +1,13 @@
 import { useState } from "react"
 import "./productCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
+import ImageForm from "../ImageForm/ImageForm"
 const arrowIcon = require("../../../assets/icons/arrow.png")
 
-const ProductCard = ({product}) => {
+const ProductCard = ({product, addImage}) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
+  const [showImageForm, setShowImageForm] = useState(false)
 
   // Get product details
   const {
@@ -15,8 +17,6 @@ const ProductCard = ({product}) => {
     price, 
     image: images
   } = product ?? {}
-
-  console.log(images)
 
   // Displays images for product
   const ImageDisplay = () => {
@@ -37,6 +37,15 @@ const ProductCard = ({product}) => {
   return (
     <li className='cards-container'>
 
+      <ImageForm
+        show={showImageForm} 
+        setShow={setShowImageForm} 
+        addImage={addImage} 
+        productId={productId}
+        productImages={images}
+        >
+      </ImageForm>
+
       {/* Product card which shows the product details */}
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='card-header-container'>
 
@@ -44,7 +53,8 @@ const ProductCard = ({product}) => {
           ["Product ID", productId, true],
           ["Name", name, true],
           ["Description", description, true],
-          ["Images", ImageDisplay(), true],
+          ["Images", ImageDisplay(), false],
+          ["", <button onClick={() => setShowImageForm(!showImageForm)}>edit</button>, true],
           ["Price", price, false],
         ]}></LabelValueDisplay>
 
