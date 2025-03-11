@@ -3,6 +3,7 @@ import "./productCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 import ImageForm from "../ImageForm/ImageForm"
 import ProductForm from "../ProductForm/ProductForm"
+import ProductVariantCard from "../ProductVariantCard/ProductVariantCard"
 const arrowIcon = require("../../../assets/icons/arrow.png")
 
 const ProductCard = ({product, addImage, removeImage, update}) => {
@@ -17,8 +18,22 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
     name,
     description,
     price, 
-    image: images
+    image: images,
+    product_variants: productVariants
   } = product ?? {}
+  
+  // Get all product variant groups (product variants which share the same color)
+  const productVariantGroups = {}
+  productVariants.forEach(productVariant => {
+    
+    // If variant color does not exist add it
+    if (!(productVariant.color in productVariantGroups)){
+      productVariantGroups[productVariant.color] = []
+    }
+
+    // Add product variant to its group based on color
+    productVariantGroups[productVariant.color].push(productVariant)
+  });
 
   // Displays images for product
   const ImageDisplay = () => {
@@ -76,6 +91,17 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
         <img src={arrowIcon} alt='Edit' className={showDropdown ? "show" : ""}/>
 
       </div>
+
+      {/* Dropdown which displays product variants (product variant groups) for product */}
+      <ul>
+        {
+          Object.entries(productVariantGroups).map(([color, productVariants], index) => {
+            return (
+              <ProductVariantCard key={index}/>
+            )
+          })
+        }
+      </ul>
 
     </li>
   )
