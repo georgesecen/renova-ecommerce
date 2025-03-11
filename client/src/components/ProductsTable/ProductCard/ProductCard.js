@@ -16,6 +16,24 @@ const ProductCard = ({product}) => {
     image: images
   } = product ?? {}
 
+  console.log(images)
+
+  // Displays images for product
+  const ImageDisplay = () => {
+      return (
+        <div className="image-display">
+          {
+            images.map((image, index) => {
+              return (
+                // TODO: Change to actual server url
+                <img alt="product" key={index} src={`http://localhost:3306/static/images/${image.image_url}`}/>
+              )
+            })
+          }
+        </div>
+      )
+    }
+
   return (
     <li className='cards-container'>
 
@@ -23,11 +41,11 @@ const ProductCard = ({product}) => {
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='card-header-container'>
 
         <LabelValueDisplay labelValues={[
-          ["Product ID", productId],
-          ["Name", name],
-          ["Description", description],
-          ["Images", "images"],
-          ["Price", price],
+          ["Product ID", productId, true],
+          ["Name", name, true],
+          ["Description", description, true],
+          ["Images", ImageDisplay(), true],
+          ["Price", price, false],
         ]}></LabelValueDisplay>
 
         {/* Arrow icon which shows sub menu is open */}
