@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "./productsTable.css"
 import ModalSpinner from '../ModalSpinner/ModalSpinner'
+import ProductCard from './ProductCard/ProductCard'
 import { adminProductsService } from '../../services/products'
 
 const ProductsTable = ({displayNotification}) => {
@@ -19,12 +20,17 @@ const ProductsTable = ({displayNotification}) => {
     }
   }, [loadProducts])
 
-  console.log(products)
-
+  
   return (
     <div>
       {loading && <ModalSpinner />}
-      ProductsTable
+      <ul>
+          {
+            products.map((product, index) => {
+              return <ProductCard key={index} product={product}/>
+            })
+          }
+      </ul>
     </div>
   )
 }
