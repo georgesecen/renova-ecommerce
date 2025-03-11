@@ -1,9 +1,11 @@
-import React from 'react'
+import { useState } from "react"
 import "./productCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
+const arrowIcon = require("../../../assets/icons/arrow.png")
 
 const ProductCard = ({product}) => {
 
+  const [showDropdown, setShowDropdown] = useState(false)
 
   // Get product details
   const {
@@ -18,7 +20,7 @@ const ProductCard = ({product}) => {
     <li className='cards-container'>
 
       {/* Product card which shows the product details */}
-      <div className='card-header-container'>
+      <div onClick={()=>{setShowDropdown(!showDropdown)}} className='card-header-container'>
 
         <LabelValueDisplay labelValues={[
           ["Product ID", productId],
@@ -27,6 +29,9 @@ const ProductCard = ({product}) => {
           ["Images", "images"],
           ["Price", price],
         ]}></LabelValueDisplay>
+
+        {/* Arrow icon which shows sub menu is open */}
+        <img src={arrowIcon} alt='Edit' className={showDropdown ? "show" : ""}/>
 
       </div>
 

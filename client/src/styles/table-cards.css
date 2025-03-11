@@ -39,3 +39,15 @@
     cursor: pointer;
     scrollbar-width: thin;
 }
+
+/* For the arrow icon which shows dropdown is being displayed */
+.card-header-container > img{
+    width: 2.2em;
+    margin: 0em 0.7em 0em 0.7em;
+
+    /* For rotating effect */
+    transition: transform 0.5s;
+}
+.card-header-container > img.show{
+    transform: rotate(-90deg);
+}
