@@ -15,10 +15,10 @@ const ProductCard = ({product}) => {
   } = product ?? {}
 
   return (
-    <li>
+    <li className='cards-container'>
 
       {/* Product card which shows the product details */}
-      <div>
+      <div className='card-header-container'>
 
         <LabelValueDisplay labelValues={[
           ["Product ID", productId],

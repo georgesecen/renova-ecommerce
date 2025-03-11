@@ -22,7 +22,7 @@ const ProductsTable = ({displayNotification}) => {
 
   
   return (
-    <div>
+    <div className='table-container'>
       {loading && <ModalSpinner />}
       <ul>
           {

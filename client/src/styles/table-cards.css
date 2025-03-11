@@ -1,0 +1,41 @@
+/* Shared styles between orders and products tables */
+
+/* Ul which holds all of the cards */
+.table-container > ul{
+    margin: 0;
+    padding: 0;
+    border: 1px solid #B4B4B4;
+    border-radius: 1em;
+    width: 90%;
+    margin-left: 20px;
+    overflow: hidden;
+    max-width: 1100px;
+}
+.table-container > ul > li{
+    border-bottom: 1px solid #C1C1C1;
+}
+.table-container > ul > li:last-of-type{
+    /* So border does not show on last list item */
+    border-bottom: none;
+}
+
+/* List item which contains main card and all the dropdown cards */
+.cards-container{
+    width: 100%;
+}
+
+/* Div which contains main card to be seen before dropdown */
+.card-header-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow-x: auto;
+    width: 100%;
+    background-color: white;
+    padding: 0.7em 0.2em 0.7em 0.2em;
+    position: relative;
+    z-index: 2;
+    user-select: none;
+    cursor: pointer;
+    scrollbar-width: thin;
+}

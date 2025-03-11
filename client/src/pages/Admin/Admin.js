@@ -1,5 +1,6 @@
 import {React, useEffect, useState, useRef} from 'react'
 import "./admin.css"
+import "../../styles/table-cards.css"
 import OrdersTable from '../../components/OrdersTable/OrdersTable'
 import ProductsTable from '../../components/ProductsTable/ProductsTable'
 import Toasts from '../../components/Toasts/Toasts'
