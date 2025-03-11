@@ -4,7 +4,7 @@ import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 import ImageForm from "../ImageForm/ImageForm"
 const arrowIcon = require("../../../assets/icons/arrow.png")
 
-const ProductCard = ({product, addImage}) => {
+const ProductCard = ({product, addImage, removeImage}) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
   const [showImageForm, setShowImageForm] = useState(false)
@@ -41,6 +41,7 @@ const ProductCard = ({product, addImage}) => {
         show={showImageForm} 
         setShow={setShowImageForm} 
         addImage={addImage} 
+        removeImage={removeImage} 
         productId={productId}
         productImages={images}
         >

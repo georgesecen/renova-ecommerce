@@ -14,7 +14,8 @@ const ImageForm = ({
   productVariantIds, 
   show, 
   setShow,
-  addImage
+  addImage,
+  removeImage
 }) => {
 
   // Keep track of image name for image which is currently selected to be deleted
@@ -49,31 +50,31 @@ const ImageForm = ({
   // }
 
   // Function removes image from product or product variant group
-  function removeImage(fileName){
+  // function removeImage(fileName){
 
-    const data = {
-      fileName: fileName
-    }
+  //   const data = {
+  //     fileName: fileName
+  //   }
 
-    // If image form is for a product
-    if (productType === 0){
+  //   // If image form is for a product
+  //   if (productType === 0){
 
-      // Add remove product
-      adminProductsService("remove-image", data)
-        .then((response) => console.log(response.data))
-        .catch((error) => console.log(error))
-    }
+  //     // Add remove product
+  //     adminProductsService("remove-image", data)
+  //       .then((response) => console.log(response.data))
+  //       .catch((error) => console.log(error))
+  //   }
 
-    // If image form is for product variants
-    else{
-      data.productVariantIds = productVariantIds
+  //   // If image form is for product variants
+  //   else{
+  //     data.productVariantIds = productVariantIds
 
-      // Remove image from product variant group
-      adminProductVariantsService("remove-group-image", data)
-        .then((response) => console.log(response.data))
-        .catch((error) => console.log(error))
-    }
-  }
+  //     // Remove image from product variant group
+  //     adminProductVariantsService("remove-group-image", data)
+  //       .then((response) => console.log(response.data))
+  //       .catch((error) => console.log(error))
+  //   }
+  // }
 
   return (
     <Modal dialogClassName="modal-90w" show={show} onHide={() => setShow(false)} centered>
@@ -85,7 +86,7 @@ const ImageForm = ({
           {
             productImages.map((image, index) => {
               return (
-                <div key={index} onClick={() => setImageToDelete(imageToDelete === image ? null : image)} className={`image-container ${image === imageToDelete ? "show" : ""}`}>
+                <div key={index} onClick={() => setImageToDelete(imageToDelete === image.image_url ? null : image.image_url)} className={`image-container ${image.image_url === imageToDelete ? "show" : ""}`}>
                   <img src={`http://localhost:3306/static/images/${image.image_url}`} alt='product'/>
                   <button onClick={(event) => {
                     event.stopPropagation() // To prevent unshowing the image delete class

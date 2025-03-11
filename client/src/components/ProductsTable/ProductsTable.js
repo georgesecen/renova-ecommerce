@@ -33,6 +33,18 @@ const ProductsTable = ({displayNotification}) => {
       .finally(() => {setLoading(false); setLoadProducts(true)})  
   }
 
+  // Function removes image from product
+  function removeProductImage(fileName){
+    setLoading(true)
+    const data = {
+      fileName: fileName
+    }
+    adminProductsService("remove-image", data)
+      .then((response) => displayNotification("Removed Image", response.data.message))
+      .catch((error) => displayNotification("Removed Image", `${error}`, "danger"))
+      .finally(() => {setLoading(false); setLoadProducts(true)})  
+  }
+
   
   return (
     <div className='table-container'>
@@ -40,7 +52,13 @@ const ProductsTable = ({displayNotification}) => {
       <ul>
           {
             products.map((product, index) => {
-              return <ProductCard key={index} product={product} addImage={addProductImage}/>
+              return <ProductCard
+                key={index} 
+                product={product} 
+                addImage={addProductImage} 
+                removeImage={removeProductImage}
+                >
+              </ProductCard>
             })
           }
       </ul>
