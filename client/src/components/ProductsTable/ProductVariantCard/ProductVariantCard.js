@@ -23,7 +23,8 @@ const ProductVariantCard = ({productVariants, color}) => {
   return (
     <div>
        <LabelValueDisplay labelValues={[
-          ["Product Variant IDs", productVariantsIds, true],
+          ["Product Variant IDs", productVariantsIds, false],
+          ["", <button>edit</button>, true],
           ["Total Stock Quantity", totalQuantity, true],
         ]}></LabelValueDisplay>
     </div>

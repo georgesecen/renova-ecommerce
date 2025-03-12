@@ -93,7 +93,7 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
       </div>
 
       {/* Dropdown which displays product variants (product variant groups) for product */}
-      <ul>
+      <ul className={`card-items-container ${showDropdown ? "show" : ""}`}>
         {
           Object.entries(productVariantGroups).map(([color, productVariants], index) => {
             return (
