@@ -7,7 +7,6 @@ const imageUploadIcon = require("../../../assets/icons/image-upload.png")
 
 const ImageForm = ({
   productImages, 
-  productType, 
   productId, 
   productVariantIds, 
   show, 

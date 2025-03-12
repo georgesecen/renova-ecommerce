@@ -3,6 +3,7 @@ import "./productsTable.css"
 import ModalSpinner from '../ModalSpinner/ModalSpinner'
 import ProductCard from './ProductCard/ProductCard'
 import { adminProductsService } from '../../services/products'
+import { adminProductVariantsService } from '../../services/productVariants'
 import CreateProductForm from './CreateProductForm/CreateProductForm'
 
 const ProductsTable = ({displayNotification}) => {
@@ -74,6 +75,24 @@ const ProductsTable = ({displayNotification}) => {
       .catch((error) => displayNotification("Create", `${error}`, "danger"))
       .finally(() => {setLoading(false); setLoadProducts(true)})  
   }
+
+  // Function creates product variant for a product
+  function createProductVariant(productId, color, quantity, size, price, sourceProductVariantId){
+    setLoading(true)
+    const data = {
+      productId: productId,
+      color: color,
+      size: size,
+      quantity: quantity,
+      price: price, 
+      sourceProductVariantId: sourceProductVariantId
+    }
+    adminProductVariantsService("create", data)
+      .then((response) => displayNotification("Create", response.data.message))
+      .catch((error) => displayNotification("Create", `${error}`, "danger"))
+      .finally(() => {setLoading(false); setLoadProducts(true)})  
+  }
+
 
   
   return (
