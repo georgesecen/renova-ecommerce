@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import "./orderCard.css"
-import OrderForm from '../OrderForm/OrderForm'
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 
 const editIcon = require("../../../assets/icons/edit.png")
@@ -12,18 +11,20 @@ const arrowIcon = require("../../../assets/icons/arrow.png")
  * @param {function} update Function which updates the order status.
  * @returns {React.JSX.Element} OrderCard React component.
  */
-const OrderCard = ({order, update}) => {
+const OrderCard = ({order, setOrder, showOrderForm}) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
-  const [showOrderForm, setShowOrderForm] = useState(false)
 
   // Pending, completed, shipped button
   const UpdateOrderButton = () => {
     return (
       <button 
         onClick={(event)=>{
+
+          // Display the order form for order
           event.stopPropagation() // To prevent sub menu showing
-          setShowOrderForm(!showOrderForm)
+          setOrder(order)
+          showOrderForm(true)
         }} 
         className='update-order-button'
         style={{"backgroundColor": colors[status]}}
@@ -67,8 +68,6 @@ const OrderCard = ({order, update}) => {
 
   return (
     <li className='order-card-container'>
-
-      <OrderForm show={showOrderForm} setShow={setShowOrderForm} update={update} orderStatus={status} orderId={id}/>
 
       {/* Order card which shows order details */}
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='order-card-header-container'>
