@@ -25,7 +25,7 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
   // Get all product variant groups (product variants which share the same color)
   const productVariantGroups = {}
   productVariants.forEach(productVariant => {
-    
+
     // If variant color does not exist add it
     if (!(productVariant.color in productVariantGroups)){
       productVariantGroups[productVariant.color] = []
@@ -49,7 +49,7 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
           }
         </div>
       )
-    }
+  }
 
   return (
     <li className='cards-container'>
@@ -97,7 +97,9 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
         {
           Object.entries(productVariantGroups).map(([color, productVariants], index) => {
             return (
-              <ProductVariantCard key={index}/>
+              <li key={index}>
+                <ProductVariantCard productVariants={productVariants}/>
+              </li>
             )
           })
         }
