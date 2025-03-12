@@ -11,7 +11,8 @@ const ProductsTable = ({displayNotification}) => {
   const [products, setProducts] = useState([])
   const [loadProducts, setLoadProducts] = useState(true) // When set to true will trigger reload of products
   const [loading, setLoading] = useState(false)
-  const [showProductForm, setShowProductForm] = useState(false)
+  
+  const [showCreateProductForm, setShowCreateProductForm] = useState(false)
 
   // Get products
   useEffect(() => {
@@ -62,20 +63,6 @@ const ProductsTable = ({displayNotification}) => {
       .finally(() => {setLoading(false); setLoadProducts(true)})  
   }
 
-  // Function creates product
-  function createProduct(name, description, price){
-    setLoading(true)
-    const data = {
-      name: name,
-      description: description,
-      price: price
-    }
-    adminProductsService("create", data)
-      .then((response) => displayNotification("Create", response.data.message))
-      .catch((error) => displayNotification("Create", `${error}`, "danger"))
-      .finally(() => {setLoading(false); setLoadProducts(true)})  
-  }
-
   // Function creates product variant for a product
   function createProductVariant(productId, color, quantity, size, price, sourceProductVariantId){
     setLoading(true)
@@ -98,8 +85,16 @@ const ProductsTable = ({displayNotification}) => {
   return (
     <div className='table-container'>
       {loading && <ModalSpinner />}
-      <button onClick={() => setShowProductForm(!showProductForm)}>Create Product</button>
-      <CreateProductForm show={showProductForm} setShow={setShowProductForm} create={createProduct}/>
+      <button onClick={() => setShowCreateProductForm(!showCreateProductForm)}>Create Product</button>
+      
+      <CreateProductForm
+        show={showCreateProductForm} 
+        setShow={setShowCreateProductForm}
+        setLoading={setLoading}
+        setLoadProducts={setLoadProducts}
+        displayNotification={displayNotification}
+        >
+      </CreateProductForm>
       <ul>
           {
             products.map((product, index) => {

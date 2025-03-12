@@ -11,7 +11,7 @@ const OrdersTable = ({displayNotification}) => {
   const [loadOrders, setLoadOrders] = useState(true) // When set to true will trigger reload of orders
   const [loading, setLoading] = useState(false)
 
-  const [selectedOrder, setSelectedOrder] = useState(false)
+  const [selectedOrder, setSelectedOrder] = useState()
   const [showOrderForm, setShowOrderForm] = useState(false)
 
   // Get orders
@@ -28,18 +28,16 @@ const OrdersTable = ({displayNotification}) => {
   return (
     <div className='order-table-container'>
       {loading && <ModalSpinner />}
-      {
-        showOrderForm && 
-        <OrderForm
-          show={showOrderForm} 
-          setShow={setShowOrderForm} 
-          setLoading={setLoading}
-          setLoadOrders={setLoadOrders}
-          order={selectedOrder} 
-          displayNotification={displayNotification}
-          >
-        </OrderForm>
-      }
+      <OrderForm
+        show={showOrderForm} 
+        setShow={setShowOrderForm} 
+        setLoading={setLoading}
+        setLoadOrders={setLoadOrders}
+        order={selectedOrder} 
+        displayNotification={displayNotification}
+        >
+      </OrderForm>
+      
       <ul>
           {
             orders.map((order, index) => {

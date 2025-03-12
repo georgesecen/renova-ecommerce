@@ -18,7 +18,7 @@ import { updateOrderStatus } from "../../../services/orders";
 const OrderForm = ({ show, setShow, order, setLoading, setLoadOrders, displayNotification }) => {
 
   // Get order data
-  const {id, status: orderStatus} = order
+  const {id, status: orderStatus} = order ?? {}
 
   // Gets data from form and updates orders status
   function processFormData(){

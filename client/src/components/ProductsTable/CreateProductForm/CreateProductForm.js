@@ -2,22 +2,45 @@ import React from 'react'
 import "./createProductForm.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { adminProductsService } from '../../../services/products';
 
-const CreateProductForm = ({show, setShow, create}) => {
+/**
+ * Form which creates a product.
+ * @param {boolean} show True if the form is to be displayed, otherwise false.
+ * @param {function} setShow Function which handles displaying the form.
+ * @param {function} setLoading Function which handles displaying the modal spinner.
+ * @param {function} setLoadProducts Function which handles loading the products.
+ * @param {function} displayNotification Function which displays toast notifications.
+ * @returns {React.JSX.Element} CreateProductForm React component.
+ */
+const CreateProductForm = ({show, setShow, setLoading, setLoadProducts, displayNotification}) => {
 
   // Gets data from form and creates product
   function processFormData(){
     const formData = new FormData(document.getElementById("create-product-form"))
     const entries = Object.fromEntries(formData.entries()) // Get key value pairs (Keys being form feild names)
 
+    // TODO: Add better validation before creating product (Make sure inputs are not empty)
+
     // Create product
-    create(entries.name, entries.description, Number(entries.price))
+    setLoading(true)
+    const data = {
+        name: entries.name,
+        description: entries.description,
+        price: Number(entries.price)
+    }
+    adminProductsService("create", data)
+        .then((response) => displayNotification("Create", response.data.message))
+        .catch((error) => displayNotification("Create", `${error}`, "danger"))
+        .finally(() => {setLoading(false); setLoadProducts(true)})  
   }
+      
+  
 
   return (
     <Modal show={show} onHide={() => setShow(false)} centered>
         <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>Create Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <form id='create-product-form'>
