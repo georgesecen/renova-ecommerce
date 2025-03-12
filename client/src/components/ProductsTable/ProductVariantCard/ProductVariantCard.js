@@ -19,13 +19,30 @@ const ProductVariantCard = ({productVariants, color}) => {
     })
   });
 
+  // Displays images for product variant group
+  const ImageDisplay = () => {
+    return (
+      <div className="image-display">
+        {
+          [...images].map((image, index) => {
+            return (
+              // TODO: Change to actual server url
+              <img alt="product" key={index} src={`http://localhost:3306/static/images/${image}`}/>
+            )
+          })
+        }
+      </div>
+    )
+  }
 
   return (
-    <div>
+    <div className='card-item-container'>
        <LabelValueDisplay labelValues={[
           ["Product Variant IDs", productVariantsIds, false],
           ["", <button>edit</button>, true],
-          ["Total Stock Quantity", totalQuantity, true],
+          ["Color", color, true],
+          ["Images", ImageDisplay(), true],
+          ["Total Stock Quantity", totalQuantity, false],
         ]}></LabelValueDisplay>
     </div>
   )

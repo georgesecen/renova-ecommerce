@@ -51,6 +51,34 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
       )
   }
 
+  // Edit images button
+  const EditImagesButton = () => {
+    return (
+      <button 
+        onClick={(event)=>{
+          event.stopPropagation() // To prevent sub menu showing
+          setShowImageForm(!showImageForm)
+        }} 
+      >
+        Edit
+      </button>
+    )
+  }
+
+  // Edit product button
+  const EditProductButton = () => {
+    return (
+      <button 
+        onClick={(event)=>{
+          event.stopPropagation() // To prevent sub menu showing
+          setShowProductForm(!showProductForm)
+        }} 
+      >
+        Edit
+      </button>
+    )
+  }
+
   return (
     <li className='cards-container'>
 
@@ -79,11 +107,11 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
 
         <LabelValueDisplay labelValues={[
           ["Product ID", productId, false],
-          ["", <button onClick={() => setShowProductForm(!showProductForm)}>edit</button>, true],
+          ["", EditProductButton(), true],
           ["Name", name, true],
           ["Description", description, true],
           ["Images", ImageDisplay(), false],
-          ["", <button onClick={() => setShowImageForm(!showImageForm)}>edit</button>, true],
+          ["", EditImagesButton(), true],
           ["Price", price, false],
         ]}></LabelValueDisplay>
 
@@ -98,7 +126,7 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
           Object.entries(productVariantGroups).map(([color, productVariants], index) => {
             return (
               <li key={index}>
-                <ProductVariantCard productVariants={productVariants}/>
+                <ProductVariantCard productVariants={productVariants} color={color}/>
               </li>
             )
           })
