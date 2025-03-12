@@ -7,7 +7,7 @@ const ProductForm = ({productId, update, show, setShow, description, price}) => 
 
   // Gets data from form and updates product
   function processFormData(){
-    const formData = new FormData(document.getElementById("product-form"))
+    const formData = new FormData(document.getElementById("update-product-form"))
     const entries = Object.fromEntries(formData.entries()) // Get key value pairs (Keys being form feild names)
 
     // Only if description or price was changed update product
@@ -22,7 +22,7 @@ const ProductForm = ({productId, update, show, setShow, description, price}) => 
             <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <form id='product-form'>
+            <form id='update-product-form'>
                 <textarea name='description' defaultValue={description}></textarea>
                 <input name='price' defaultValue={price} step={1} type='number' />
             </form>

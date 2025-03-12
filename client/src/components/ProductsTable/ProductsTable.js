@@ -10,6 +10,7 @@ const ProductsTable = ({displayNotification}) => {
   const [products, setProducts] = useState([])
   const [loadProducts, setLoadProducts] = useState(true) // When set to true will trigger reload of products
   const [loading, setLoading] = useState(false)
+  const [showProductForm, setShowProductForm] = useState(false)
 
   // Get products
   useEffect(() => {
@@ -60,11 +61,26 @@ const ProductsTable = ({displayNotification}) => {
       .finally(() => {setLoading(false); setLoadProducts(true)})  
   }
 
+  // Function creates product
+  function createProduct(name, description, price){
+    setLoading(true)
+    const data = {
+      name: name,
+      description: description,
+      price: price
+    }
+    adminProductsService("create", data)
+      .then((response) => displayNotification("Create", response.data.message))
+      .catch((error) => displayNotification("Create", `${error}`, "danger"))
+      .finally(() => {setLoading(false); setLoadProducts(true)})  
+  }
+
   
   return (
     <div className='table-container'>
       {loading && <ModalSpinner />}
-      <CreateProductForm />
+      <button onClick={() => setShowProductForm(!showProductForm)}>Create Product</button>
+      <CreateProductForm show={showProductForm} setShow={setShowProductForm} create={createProduct}/>
       <ul>
           {
             products.map((product, index) => {
