@@ -111,6 +111,7 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
         show={showCreateProductVariantForm}
         setShow={setShowCreateProductVariantForm}
         productId={productId}
+        productVariantGroups={productVariantGroups}
         >
       </CreateProductVariantForm>
 
