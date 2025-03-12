@@ -3,6 +3,7 @@ import "./productCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 import ImageForm from "../ImageForm/ImageForm"
 import ProductForm from "../UpdateProductForm/UpdateProductForm"
+import CreateProductVariantForm from "../CreateProductVariantForm/CreateProductVariantForm"
 import ProductVariantCard from "../ProductVariantCard/ProductVariantCard"
 const arrowIcon = require("../../../assets/icons/arrow.png")
 
@@ -11,6 +12,7 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
   const [showDropdown, setShowDropdown] = useState(false)
   const [showImageForm, setShowImageForm] = useState(false)
   const [showProductForm, setShowProductForm] = useState(false)
+  const [showCreateProductVariantForm, setShowCreateProductVariantForm] = useState(false)
 
   // Get product details
   const {
@@ -105,12 +107,19 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
         update={update}
         >
       </ProductForm>
+      <CreateProductVariantForm
+        show={showCreateProductVariantForm}
+        setShow={setShowCreateProductVariantForm}
+        productId={productId}
+        >
+      </CreateProductVariantForm>
 
       {/* Product card which shows the product details */}
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='card-header-container'>
 
         <LabelValueDisplay labelValues={[
           ["Product ID", productId, false],
+          ["", <button onClick={() => setShowCreateProductVariantForm(!showCreateProductVariantForm)}>variant</button>, false],
           ["", EditProductButton(), true],
           ["Name", name, true],
           ["Description", description, true],
