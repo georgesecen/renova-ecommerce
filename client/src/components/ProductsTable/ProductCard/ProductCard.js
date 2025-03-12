@@ -21,6 +21,10 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
     image: images,
     product_variants: productVariants
   } = product ?? {}
+
+  // Get all image urls which belong to just product
+  const productImages = []
+  images.forEach((image) => productImages.push(image.image_url))
   
   // Get all product variant groups (product variants which share the same color)
   const productVariantGroups = {}
@@ -40,10 +44,10 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
       return (
         <div className="image-display">
           {
-            images.map((image, index) => {
+            productImages.map((image, index) => {
               return (
                 // TODO: Change to actual server url
-                <img alt="product" key={index} src={`http://localhost:3306/static/images/${image.image_url}`}/>
+                <img alt="product" key={index} src={`http://localhost:3306/static/images/${image}`}/>
               )
             })
           }
@@ -88,7 +92,7 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
         addImage={addImage} 
         removeImage={removeImage} 
         productId={productId}
-        productImages={images}
+        productImages={productImages}
         >
       </ImageForm>
 
