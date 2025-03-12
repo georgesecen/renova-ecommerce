@@ -1,9 +1,9 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
-import Home from "./pages/Home";
+import ProductDetails from "./components/ProductDetails/ProductDetails";
+import Home from "./components/HomePage/Home";
 import ProductsPage from "./components/ProductsPage/ProductsPage";
-// import ProductItem from "./components/ProductItem";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import TestStripe from './pages/TestStripe';
@@ -13,7 +13,6 @@ import SignUp from "./pages/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BottomNavBar from "./components/BottomNavBar";
 import { PageNotFound } from "./pages/PageNotFound";
-import ProductDetails from './pages/ProductDetails';
 
 function App() {
   return (

@@ -1,0 +1,123 @@
+.detailsPage {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+.detailsPage {
+    padding-top: 80px;
+}
+
+/* Images list styles  */
+.productImages {
+    width: 10%;
+}
+
+/* Selected image container styles */
+.selectedImg {
+    font-size: 20px;
+    width: 40em;
+    height: 30em;
+}
+
+.selectedImg .carousel, .carouselItem {
+    width: 100%;
+    height: 100%;
+}
+
+.selectedImg .carousel img {
+    max-width: 34em;
+    max-height: 27em;
+    width: auto;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+/* Carousel buttons  */
+.carousel-control-next, .carousel-control-prev {
+    display: none;
+}
+
+.carousel-indicators [data-bs-target] {
+    max-width: .3em;
+    min-height: .3em;
+    border-radius: 100%;
+}
+
+
+/* Text + form container styles */
+.details {
+    font-size: 14px;
+    width: 30em;
+    margin: 0 4em;
+}
+
+.details > h4 {
+    font-size: 2.4em;
+    font-weight: 400;
+}
+
+.details > h6 {
+    font-size: 1.5em;
+    font-weight: 400;   
+    padding: 0 0 40px;
+    border-bottom: .3px solid rgb(131, 131, 131);
+}
+
+.details > h5 {
+    margin: 14px 0;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+/* Variant selection containers  */
+.details .colour-container, .details .size-container {
+    display: flex;
+    height: 70px;
+    border-bottom: .3px solid rgb(131, 131, 131);
+    margin-bottom: 10px;
+}
+
+/* Add to cart button  */
+.details .addToCart {
+    width: 100%;
+    color: var(--text);
+    text-decoration: none;
+    border: .8px solid var(--text);
+    border-radius: 1px;
+    padding: 6px;
+    margin: 12px 0;
+    background: none;
+
+    transition-duration: 400ms;
+}
+
+.details .addToCart:hover {
+    color: black;
+    background-color: rgb(231, 234, 237);
+}
+
+@media screen and (max-width: 780px) {
+    .detailsPage {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        align-content: flex-start;
+    }
+    .detailsPage {
+        padding-top: 20px;
+    }
+    .productImages {
+        display: none;
+    }
+    .selectedImg {
+        font-size: 12px;
+    }
+    .details {
+        width: 100%;
+        margin: 0 10px;
+    }
+}
