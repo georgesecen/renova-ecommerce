@@ -35,10 +35,26 @@ const ProductVariantCard = ({productVariants, color}) => {
     )
   }
 
+  // Displays all IDs in product variant group
+  const ProductVariantIdsDisplay = () => {
+    return (
+      <div className='ids-display'>
+        {
+          productVariantsIds.map((productVariantId, index) => {
+            return (
+              // Display comma after every ID exept the last one
+              <p key={index}>{`${productVariantId}${index < productVariantsIds.length - 1 ? "," : ""}`}</p>
+            )
+          })
+        }
+      </div>
+    )
+  }
+
   return (
     <div className='card-item-container'>
        <LabelValueDisplay labelValues={[
-          ["Product Variant IDs", productVariantsIds, false],
+          ["Product Variant IDs", ProductVariantIdsDisplay(), false],
           ["", <button>edit</button>, true],
           ["Color", color, true],
           ["Images", ImageDisplay(), true],

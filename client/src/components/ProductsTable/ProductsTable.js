@@ -3,6 +3,7 @@ import "./productsTable.css"
 import ModalSpinner from '../ModalSpinner/ModalSpinner'
 import ProductCard from './ProductCard/ProductCard'
 import { adminProductsService } from '../../services/products'
+import CreateProductForm from './CreateProductForm/CreateProductForm'
 
 const ProductsTable = ({displayNotification}) => {
 
@@ -63,6 +64,7 @@ const ProductsTable = ({displayNotification}) => {
   return (
     <div className='table-container'>
       {loading && <ModalSpinner />}
+      <CreateProductForm />
       <ul>
           {
             products.map((product, index) => {

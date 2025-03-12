@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import "./productForm.css"
+import "./updateProductForm.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 

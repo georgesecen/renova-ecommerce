@@ -2,7 +2,7 @@ import { useState } from "react"
 import "./productCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 import ImageForm from "../ImageForm/ImageForm"
-import ProductForm from "../ProductForm/ProductForm"
+import ProductForm from "../UpdateProductForm/UpdateProductForm"
 import ProductVariantCard from "../ProductVariantCard/ProductVariantCard"
 const arrowIcon = require("../../../assets/icons/arrow.png")
 
@@ -112,7 +112,7 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
           ["Description", description, true],
           ["Images", ImageDisplay(), false],
           ["", EditImagesButton(), true],
-          ["Price", price, false],
+          ["Price", `$${price}`, false],
         ]}></LabelValueDisplay>
 
         {/* Arrow icon which shows sub menu is open */}
