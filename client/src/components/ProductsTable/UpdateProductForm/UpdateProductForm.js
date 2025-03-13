@@ -16,6 +16,9 @@ import { adminProductsService } from '../../../services/products';
  */
 const UpdateProductForm = ({ show, setShow, product, setLoading, setLoadProducts, displayNotification }) => {
 
+  // If there is no selected product yet
+  if (product === null) return
+
   // Get product details
   const {id: productId, price, description} = product ?? {}
 

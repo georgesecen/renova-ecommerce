@@ -14,7 +14,7 @@ const ProductsTable = ({displayNotification}) => {
   const [loadProducts, setLoadProducts] = useState(true) // When set to true will trigger reload of products
   const [loading, setLoading] = useState(false)
 
-  const [selectedProduct, setSelectedProduct] = useState()
+  const [selectedProduct, setSelectedProduct] = useState(null)
   const [showCreateProductForm, setShowCreateProductForm] = useState(false)
   const [showUpdateProductForm, setShowUpdateProductForm] = useState(false)
   const [showCreateProductVariantForm, setShowCreateProductVariantForm] = useState(false)
@@ -70,8 +70,6 @@ const ProductsTable = ({displayNotification}) => {
       .catch((error) => displayNotification("Create", `${error}`, "danger"))
       .finally(() => {setLoading(false); setLoadProducts(true)})  
   }
-
-  console.log(products)
   
   return (
     <div className='table-container'>

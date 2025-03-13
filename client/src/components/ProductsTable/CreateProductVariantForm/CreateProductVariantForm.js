@@ -5,8 +5,29 @@ import Button from 'react-bootstrap/Button';
 
 const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadProducts, displayNotification }) => {
 
+  // If there is no selected product yet
+  if (product === null) return
+
   // Get product details
-  
+  const {
+    id: productId,
+    product_variants: productVariants
+  } = product ?? {}
+
+  // Get all product variant group sizes (product variants groups are product variants which share the same color)
+  const productVariantGroups = {} // {color: {S, XL, L}}
+  productVariants.forEach(productVariant => {
+
+    // If variant color does not exist add it
+    if (!(productVariant.color in productVariantGroups)){
+      productVariantGroups[productVariant.color] = new Set()
+    }
+
+    // Add product variant size to its group
+    productVariantGroups[productVariant.color].add(productVariant.size)
+  });
+
+  console.log(productVariantGroups)
 
 
   return (

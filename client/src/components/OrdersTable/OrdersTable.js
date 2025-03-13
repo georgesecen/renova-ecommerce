@@ -11,7 +11,7 @@ const OrdersTable = ({displayNotification}) => {
   const [loadOrders, setLoadOrders] = useState(true) // When set to true will trigger reload of orders
   const [loading, setLoading] = useState(false)
 
-  const [selectedOrder, setSelectedOrder] = useState()
+  const [selectedOrder, setSelectedOrder] = useState(null)
   const [showOrderForm, setShowOrderForm] = useState(false)
 
   // Get orders

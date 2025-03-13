@@ -17,6 +17,9 @@ import { updateOrderStatus } from "../../../services/orders";
  */
 const OrderForm = ({ show, setShow, order, setLoading, setLoadOrders, displayNotification }) => {
 
+// If there is no selected order yet
+  if (order === null) return
+
   // Get order data
   const {id, status: orderStatus} = order ?? {}
 
