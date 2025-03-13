@@ -14,21 +14,25 @@ const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadP
     product_variants: productVariants
   } = product ?? {}
 
-  // Get all product variant group sizes (product variants groups are product variants which share the same color)
-  const productVariantGroups = {} // {color: {S, XL, L}}
+  // Get all product variant groups (product variants which share the same color)
+  const productVariantGroups = {} // {color: [product variants]}
   productVariants.forEach(productVariant => {
 
     // If variant color does not exist add it
     if (!(productVariant.color in productVariantGroups)){
-      productVariantGroups[productVariant.color] = new Set()
+      productVariantGroups[productVariant.color] = []
     }
 
-    // Add product variant size to its group
-    productVariantGroups[productVariant.color].add(productVariant.size)
+    // Add product variant to its group based on color
+    productVariantGroups[productVariant.color].push(productVariant)
   });
 
-  console.log(productVariantGroups)
-
+  // Get all product variant group sizes
+  const groupSizes = {} // {color: {S, XL, L}}
+  Object.entries(productVariantGroups).map(([color, productVariants]) => {
+    groupSizes[color] = new Set()
+    productVariants.forEach((productVariant) => groupSizes[color].add(productVariant.size))
+  })
 
   return (
     <Modal show={show} onHide={() => setShow(false)} centered>
