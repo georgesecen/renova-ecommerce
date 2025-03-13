@@ -5,14 +5,17 @@ import ProductCard from './ProductCard/ProductCard'
 import { adminProductsService } from '../../services/products'
 import { adminProductVariantsService } from '../../services/productVariants'
 import CreateProductForm from './CreateProductForm/CreateProductForm'
+import UpdateProductForm from './UpdateProductForm/UpdateProductForm'
 
 const ProductsTable = ({displayNotification}) => {
 
   const [products, setProducts] = useState([])
   const [loadProducts, setLoadProducts] = useState(true) // When set to true will trigger reload of products
   const [loading, setLoading] = useState(false)
-  
+
+  const [selectedProduct, setSelectedProduct] = useState()
   const [showCreateProductForm, setShowCreateProductForm] = useState(false)
+  const [showUpdateProductForm, setShowUpdateProductForm] = useState(false)
 
   // Get products
   useEffect(() => {
@@ -49,20 +52,6 @@ const ProductsTable = ({displayNotification}) => {
       .finally(() => {setLoading(false); setLoadProducts(true)})  
   }
 
-  // Function updates product description and price
-  function updateProduct(productId, description, price){
-    setLoading(true)
-    const data = {
-      productId: productId,
-      description: description,
-      price: price
-    }
-    adminProductsService("update", data)
-      .then((response) => displayNotification("Update", response.data.message))
-      .catch((error) => displayNotification("Update", `${error}`, "danger"))
-      .finally(() => {setLoading(false); setLoadProducts(true)})  
-  }
-
   // Function creates product variant for a product
   function createProductVariant(productId, color, quantity, size, price, sourceProductVariantId){
     setLoading(true)
@@ -95,6 +84,17 @@ const ProductsTable = ({displayNotification}) => {
         displayNotification={displayNotification}
         >
       </CreateProductForm>
+
+      <UpdateProductForm
+        show={showUpdateProductForm} 
+        setShow={setShowUpdateProductForm}
+        setLoading={setLoading}
+        setLoadProducts={setLoadProducts}
+        product={selectedProduct}
+        displayNotification={displayNotification}
+        >
+      </UpdateProductForm>
+
       <ul>
           {
             products.map((product, index) => {
@@ -103,7 +103,8 @@ const ProductsTable = ({displayNotification}) => {
                 product={product} 
                 addImage={addProductImage} 
                 removeImage={removeProductImage}
-                update={updateProduct}
+                setShowUpdateProductForm={setShowUpdateProductForm}
+                setProduct={setSelectedProduct}
                 >
               </ProductCard>
             })

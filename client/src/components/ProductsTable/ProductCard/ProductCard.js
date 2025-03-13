@@ -2,16 +2,14 @@ import { useState } from "react"
 import "./productCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 import ImageForm from "../ImageForm/ImageForm"
-import ProductForm from "../UpdateProductForm/UpdateProductForm"
 import CreateProductVariantForm from "../CreateProductVariantForm/CreateProductVariantForm"
 import ProductVariantCard from "../ProductVariantCard/ProductVariantCard"
 const arrowIcon = require("../../../assets/icons/arrow.png")
 
-const ProductCard = ({product, addImage, removeImage, update}) => {
+const ProductCard = ({product, addImage, removeImage, setProduct, setShowUpdateProductForm}) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
   const [showImageForm, setShowImageForm] = useState(false)
-  const [showProductForm, setShowProductForm] = useState(false)
   const [showCreateProductVariantForm, setShowCreateProductVariantForm] = useState(false)
 
   // Get product details
@@ -76,8 +74,11 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
     return (
       <button 
         onClick={(event)=>{
+
+          // Display the update product form for product
           event.stopPropagation() // To prevent sub menu showing
-          setShowProductForm(!showProductForm)
+          setProduct(product)
+          setShowUpdateProductForm(true)
         }} 
       >
         Edit
@@ -98,15 +99,6 @@ const ProductCard = ({product, addImage, removeImage, update}) => {
         >
       </ImageForm>
 
-      <ProductForm
-        show={showProductForm} 
-        setShow={setShowProductForm}
-        productId={productId}
-        description={description}
-        price={price}
-        update={update}
-        >
-      </ProductForm>
       <CreateProductVariantForm
         show={showCreateProductVariantForm}
         setShow={setShowCreateProductVariantForm}

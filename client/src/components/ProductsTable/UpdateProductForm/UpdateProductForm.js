@@ -1,9 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
 import "./updateProductForm.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { adminProductsService } from '../../../services/products';
 
-const ProductForm = ({productId, update, show, setShow, description, price}) => {
+/**
+ * Form which updates product description and price.
+ * @param {boolean} show True if the form is to be displayed, otherwise false.
+ * @param {function} setShow Function which handles displaying the form.
+ * @param {object} product Product to be updated in the form.
+ * @param {function} setLoading Function which handles displaying the modal spinner.
+ * @param {function} setLoadProducts Function which handles loading the products.
+ * @param {function} displayNotification Function which displays toast notifications.
+ * @returns {React.JSX.Element} UpdateProductForm React component.
+ */
+const UpdateProductForm = ({ show, setShow, product, setLoading, setLoadProducts, displayNotification }) => {
+
+  // Get product details
+  const {id: productId, price, description} = product ?? {}
 
   // Gets data from form and updates product
   function processFormData(){
@@ -12,7 +26,16 @@ const ProductForm = ({productId, update, show, setShow, description, price}) => 
 
     // Only if description or price was changed update product
     if (entries.description !== description || entries.price !== price){
-        update(productId, entries.description, Number(entries.price))
+        setLoading(true)
+        const data = {
+            productId: productId,
+            description: entries.description,
+            price: entries.price
+        }
+        adminProductsService("update", data)
+            .then((response) => displayNotification("Update", response.data.message))
+            .catch((error) => displayNotification("Update", `${error}`, "danger"))
+            .finally(() => {setLoading(false); setLoadProducts(true)})  
     }
   }
   
@@ -39,4 +62,4 @@ const ProductForm = ({productId, update, show, setShow, description, price}) => 
   )
 }
 
-export default ProductForm
+export default UpdateProductForm

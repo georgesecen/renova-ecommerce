@@ -15,7 +15,7 @@ const CreateProductVariantForm = ({show, setShow, productId, productVariantGroup
         groupDetails[color]["price"] = Number(productVariant.price)
     })
   })
-  console.log(groupDetails)
+//   console.log(groupDetails)
 
 
 

@@ -31,7 +31,7 @@ const OrderForm = ({ show, setShow, order, setLoading, setLoadOrders, displayNot
         updateOrderStatus(id, entries.status)
         .then((response) => displayNotification("Update", response.data.message))
         .catch((error) => displayNotification("Update", `${error}`, "danger"))
-        .finally(() => {setLoading(false); setLoadOrders(true); setShow(false)})
+        .finally(() => {setLoading(false); setLoadOrders(true)})
     }
   }
   
