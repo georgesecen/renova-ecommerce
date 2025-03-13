@@ -6,6 +6,7 @@ import { useUser } from "../providers/UserContext";
 import { useCart } from "../providers/CartContext";
 import { logoutUser } from "../services/user";
 import { useNavigate } from "react-router-dom";
+import {getCartItemQuantity} from "../services/cart";
 
 function Header() {
   const { totalQuantity, updateCartQuantity } = useCart();
@@ -18,7 +19,9 @@ function Header() {
         try {
             await logoutUser();
             logout();
-            updateCartQuantity(0);
+            const res = await getCartItemQuantity()
+            const guestUserCartQuantity = localStorage.getItem("cartQuantity")
+            updateCartQuantity(res);
             localStorage.removeItem('cartQuantity');
             navigate('/');
         } catch (error) {

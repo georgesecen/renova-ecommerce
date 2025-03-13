@@ -19,9 +19,10 @@ function ProductsPage() {
     const [modalContent, setModalContent] = useState({});
     const [value, setValue] = useState(1);
     const { updateCartQuantity } = useCart();
-    const { user } = useUser();
+    const { user, isLoggedIn } = useUser();
 
     const user_id = user;
+    const guest_user_id = localStorage.getItem("guestUserId");
 
 
     useEffect(() => {
@@ -42,7 +43,8 @@ function ProductsPage() {
     //Function to add to cart - pass it through props
     const addToCartHandler = (product) => {
         const productData = {
-            user_id: user_id,
+            user_id,
+            guest_user_id,
             product_variant_id: product.id,
             quantity: value,
         };
@@ -50,7 +52,13 @@ function ProductsPage() {
         addProduct(productData)
             .then(() => {
                 // Update the cart quantity both in context and localStorage
-                let currentQuantity = parseInt(localStorage.getItem('cartQuantity'), 10) || 0;
+                let currentQuantity;
+                if(isLoggedIn) {
+                    currentQuantity = parseInt(localStorage.getItem('cartQuantity'), 10) || 0;
+                } else {
+                    //TODO change to userCartQuantity later
+                    currentQuantity = parseInt(localStorage.getItem('cartQuantity'), 10) || 0;
+                }
                 const newQuantity = currentQuantity + productData.quantity;
                 updateCartQuantity(newQuantity);  // Update context
                 // localStorage.setItem('cartQuantity', newQuantity);  // Persist in localStorage
