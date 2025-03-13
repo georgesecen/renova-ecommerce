@@ -57,8 +57,13 @@ function ProductsPage() {
      * 
      * @param {*} product 
      */
-    const toProductPage = (productId) => {
-        navigate('/products/' + (productId), {state: { id: productId } })
+    // const toProductPage = (productId) => {
+    //     navigate('/products/' + (productId), {state: { id: productId } })
+    // }
+
+    // Temporary method to pass in product details
+    const toProductPage = (product) => {
+        navigate('/products/' + (product.id), {state: { id: product.id, name: product.name, price: product.price, desc: product.desc } })
     }
 
     return (
@@ -76,7 +81,7 @@ function ProductsPage() {
 
                 <div className="products-list">
                 {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product.id)}
+                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
 
                     // img={`images/${product.image[0].image_url}`} 
                     name={product.name} 
