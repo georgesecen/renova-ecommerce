@@ -12,7 +12,15 @@ function ProductCard(props) {
                 <div className="name">{props.name}</div>
                 <div className="price">{props.price}</div>
             </div>
-            <button>ADD TO CART</button>
+            
+            <div className='colours'>
+                {props.cols && Array.from(props.cols).map((col) => (
+                    <div key={col} className="colour-option">
+                    <div style={{background: col}}></div>
+                    </div>
+                ))}
+            </div>
+            {/* <button>ADD TO CART</button> */}
         </div>
 
     )

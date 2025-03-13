@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './productsPage.css'
 import ProductCard from '../ProductCard/ProductCard';
 import { getProducts } from '../../services/products';
 import { useNavigate } from 'react-router-dom';
+import { getVariants } from '../../services/productVariants';
 
 
 function ProductsPage() {
@@ -12,13 +13,25 @@ function ProductsPage() {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const cols = useRef(new Map());
+
     useEffect(() => {
         console.log(products)
         getProducts()
             .then((response) => {
-                console.log(response.data[0].image[0]);
+                //console.log(response.data[0].image[0]);
                 setProducts(response.data);
                 setFilteredProducts(response.data)  // Populate filtering array
+
+                // Map all colour variants
+                for (const p in response.data){
+                    getVariants(p)
+                    .then((res) => {
+                        let colSet = new Set(res.map(a => a.color))
+                        cols.current.set(p, colSet);
+                    })
+                }
+
                 setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
             })
             .catch((error) => {
@@ -85,8 +98,9 @@ function ProductsPage() {
 
                     // img={`images/${product.image[0].image_url}`} 
                     name={product.name} 
-                    price={product.price}>
-                        
+                    price={product.price}
+                    cols={cols.current.get(String(product.id))}>
+
                     </ProductCard>
                 ))}
                 </div>

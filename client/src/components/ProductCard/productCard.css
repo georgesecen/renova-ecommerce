@@ -42,6 +42,7 @@
     position: absolute;
     bottom: 5%;
     font-size: 13px;
+    color: var(--text);
 }
 
 .product-card .card .name {
@@ -52,8 +53,21 @@
     right: 5%;
 }
 
+
+/* Colour option styles  */
+.product-card .colours {
+    display: flex;
+    padding-top: 4px;
+}
+.product-card .colours > .colour-option {
+    font-size: 9px;
+}
+.colour-option:hover {
+    border: none;
+}
+
 /* Add to card button styles  */
-.product-card button {
+/* .product-card button {
     display: none;
     position: absolute;
     bottom: 2%;
@@ -76,7 +90,7 @@
 .product-card button:hover {
     color: rgb(232, 232, 232);
     border-color: rgb(232, 232, 232);
-}
+} */
 
 @media screen and (max-width: 1000px){
     .product-card {
