@@ -6,6 +6,7 @@ import { adminProductsService } from '../../services/products'
 import { adminProductVariantsService } from '../../services/productVariants'
 import CreateProductForm from './CreateProductForm/CreateProductForm'
 import UpdateProductForm from './UpdateProductForm/UpdateProductForm'
+import CreateProductVariantForm from './CreateProductVariantForm/CreateProductVariantForm'
 
 const ProductsTable = ({displayNotification}) => {
 
@@ -16,6 +17,7 @@ const ProductsTable = ({displayNotification}) => {
   const [selectedProduct, setSelectedProduct] = useState()
   const [showCreateProductForm, setShowCreateProductForm] = useState(false)
   const [showUpdateProductForm, setShowUpdateProductForm] = useState(false)
+  const [showCreateProductVariantForm, setShowCreateProductVariantForm] = useState(false)
 
   // Get products
   useEffect(() => {
@@ -69,7 +71,7 @@ const ProductsTable = ({displayNotification}) => {
       .finally(() => {setLoading(false); setLoadProducts(true)})  
   }
 
-
+  console.log(products)
   
   return (
     <div className='table-container'>
@@ -95,6 +97,16 @@ const ProductsTable = ({displayNotification}) => {
         >
       </UpdateProductForm>
 
+      <CreateProductVariantForm
+        show={showCreateProductVariantForm} 
+        setShow={setShowCreateProductVariantForm}
+        setLoading={setLoading}
+        setLoadProducts={setLoadProducts}
+        product={selectedProduct}
+        displayNotification={displayNotification}
+        >
+      </CreateProductVariantForm>
+
       <ul>
           {
             products.map((product, index) => {
@@ -103,8 +115,9 @@ const ProductsTable = ({displayNotification}) => {
                 product={product} 
                 addImage={addProductImage} 
                 removeImage={removeProductImage}
-                setShowUpdateProductForm={setShowUpdateProductForm}
                 setProduct={setSelectedProduct}
+                setShowUpdateProductForm={setShowUpdateProductForm}
+                setShowCreateProductVariantForm={setShowCreateProductVariantForm}
                 >
               </ProductCard>
             })

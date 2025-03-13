@@ -2,15 +2,20 @@ import { useState } from "react"
 import "./productCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 import ImageForm from "../ImageForm/ImageForm"
-import CreateProductVariantForm from "../CreateProductVariantForm/CreateProductVariantForm"
 import ProductVariantCard from "../ProductVariantCard/ProductVariantCard"
 const arrowIcon = require("../../../assets/icons/arrow.png")
 
-const ProductCard = ({product, addImage, removeImage, setProduct, setShowUpdateProductForm}) => {
+const ProductCard = ({
+  product, 
+  addImage, 
+  removeImage, 
+  setProduct, 
+  setShowUpdateProductForm,
+  setShowCreateProductVariantForm
+}) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
   const [showImageForm, setShowImageForm] = useState(false)
-  const [showCreateProductVariantForm, setShowCreateProductVariantForm] = useState(false)
 
   // Get product details
   const {
@@ -86,6 +91,23 @@ const ProductCard = ({product, addImage, removeImage, setProduct, setShowUpdateP
     )
   }
 
+  // Create product variant button
+  const CreateProductVariantButton = () => {
+    return (
+      <button 
+        onClick={(event)=>{
+
+          // Display the create product variant form for product
+          event.stopPropagation() // To prevent sub menu showing
+          setProduct(product)
+          setShowCreateProductVariantForm(true)
+        }} 
+      >
+        Create Variant
+      </button>
+    )
+  }
+
   return (
     <li className='cards-container'>
 
@@ -99,20 +121,12 @@ const ProductCard = ({product, addImage, removeImage, setProduct, setShowUpdateP
         >
       </ImageForm>
 
-      <CreateProductVariantForm
-        show={showCreateProductVariantForm}
-        setShow={setShowCreateProductVariantForm}
-        productId={productId}
-        productVariantGroups={productVariantGroups}
-        >
-      </CreateProductVariantForm>
-
       {/* Product card which shows the product details */}
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='card-header-container'>
 
         <LabelValueDisplay labelValues={[
           ["Product ID", productId, false],
-          ["", <button onClick={() => setShowCreateProductVariantForm(!showCreateProductVariantForm)}>variant</button>, false],
+          ["", CreateProductVariantButton(), false],
           ["", EditProductButton(), true],
           ["Name", name, true],
           ["Description", description, true],

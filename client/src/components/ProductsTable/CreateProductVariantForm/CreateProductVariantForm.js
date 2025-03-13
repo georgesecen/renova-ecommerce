@@ -3,20 +3,10 @@ import "./createProductVariantForm.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-const CreateProductVariantForm = ({show, setShow, productId, productVariantGroups}) => {
+const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadProducts, displayNotification }) => {
 
-  // Get sizes and price for every product variant group
-  const groupDetails = {} // {color: {sizes: [S, M], price: 29,50}}
-  Object.entries(productVariantGroups).forEach(([color, productVariants], index) => {
-    groupDetails[color] = {}
-    groupDetails[color]["sizes"] = new Set()
-    productVariants.forEach((productVariant) => {
-        groupDetails[color]["sizes"].add(productVariant.size)
-        groupDetails[color]["price"] = Number(productVariant.price)
-    })
-  })
-//   console.log(groupDetails)
-
+  // Get product details
+  
 
 
   return (

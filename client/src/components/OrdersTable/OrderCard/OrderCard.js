@@ -8,7 +8,8 @@ const arrowIcon = require("../../../assets/icons/arrow.png")
 /**
  * Displays order details and order items which are apart of the order.
  * @param {object} order Order object which contains all information about the order.
- * @param {function} update Function which updates the order status.
+ * @param {function} setOrder Function which handles setting the order to be updated in the order form.
+ * @param {function} showOrderForm Function which handles displaying the order form for order.
  * @returns {React.JSX.Element} OrderCard React component.
  */
 const OrderCard = ({order, setOrder, showOrderForm}) => {
