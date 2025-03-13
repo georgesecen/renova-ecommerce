@@ -2,6 +2,7 @@ import React from 'react'
 import "./createProductVariantForm.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { adminProductVariantsService } from '../../../services/productVariants';
 
 const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadProducts, displayNotification }) => {
 
@@ -27,17 +28,67 @@ const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadP
     productVariantGroups[productVariant.color].push(productVariant)
   });
 
-  // Get all product variant group sizes
-  const groupSizes = {} // {color: {S, XL, L}}
+  // Get all product variant group sizes and price
+  const groupDetails = {} // {color: {sizes: {S, XL, L}, price: 49.44}}
   Object.entries(productVariantGroups).map(([color, productVariants]) => {
-    groupSizes[color] = new Set()
-    productVariants.forEach((productVariant) => groupSizes[color].add(productVariant.size))
+    groupDetails[color] = {"sizes": new Set(), "price": null}
+    productVariants.forEach((productVariant) => {
+      groupDetails[color]["sizes"].add(productVariant.size)
+      groupDetails[color]["price"] = productVariant.price
+    })
   })
+
+  // Gets data from form and creates product variant for product
+  function processFormData(){
+    const formData = new FormData(document.getElementById("create-product-variant-form"))
+    const entries = Object.fromEntries(formData.entries()) // Get key value pairs (Keys being form feild names)
+ 
+    // If product variant with color or size for color does not already exist create product variant
+    if (!(entries.color in productVariantGroups) || !(groupDetails[entries.color]["sizes"].has(entries.size))){
+      
+      // If product variant with color already exists we need to get a product variant id in that color group
+      // so we can copy the images to this product variant
+      let sourceProductVariantId = null
+      if (entries.color in productVariantGroups){
+        sourceProductVariantId = productVariantGroups[entries.color][0].id
+      }
+
+      // TODO: Add better filters and validation (Maybe do this on server instead)
+      // If product variant with color already exists we need to get the price used in that color group
+      // as product variant groups share the same price
+      let productVariantPrice = null
+      if (entries.color in groupDetails){
+        productVariantPrice = groupDetails[entries.color]["price"]
+      }
+      
+      setLoading(true)
+      const data = {
+        productId: productId,
+        color: entries.color,
+        size: entries.size,
+        quantity: Number(entries.quantity),
+
+        // Check if we must use price in existing product variant group
+        price: productVariantPrice === null ? Number(entries.price) : Number(productVariantPrice), 
+        sourceProductVariantId: sourceProductVariantId
+      }
+      adminProductVariantsService("create", data)
+        .then((response) => displayNotification("Create", response.data.message))
+        .catch((error) => displayNotification("Create", `${error}`, "danger"))
+        .finally(() => {setLoading(false); setLoadProducts(true)})  
+    }   
+    else{
+      displayNotification("Create", 
+        `Product variant for ${product.name} with size ${entries.size} and color ${entries.color} already exsits.`, 
+        "warning"
+      )
+    }   
+  }
 
   return (
     <Modal show={show} onHide={() => setShow(false)} centered>
         <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>Create Product Variant</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <form id='create-product-variant-form'>
@@ -51,15 +102,16 @@ const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadP
                 <input name="size" value="M" type="radio" />M <br></br>
                 <input name="size" value="L" type="radio" />L <br></br>
 
-                <input name='quantity' step={1} type='number' /> <br></br>
-                <input name='price' step={1} type='number' /> <br></br>
+                {/* TODO: Show group price if a existing group (color) is selected */}
+                <input name='quantity' step={1} type='number' /> quantity<br></br>
+                <input name='price' step={1} type='number' defaultValue={Number(product.price)} /> price<br></br>
             </form>
         </Modal.Body>
         <Modal.Footer>
             <Button variant="secondary" onClick={() => setShow(false)}>
                 Close
             </Button>
-            <Button variant="primary" onClick={() => {setShow(false)}}>
+            <Button variant="primary" onClick={() => {setShow(false); processFormData()}}>
                 Create
             </Button>
         </Modal.Footer>

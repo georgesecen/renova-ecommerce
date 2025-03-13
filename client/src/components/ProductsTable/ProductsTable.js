@@ -53,23 +53,6 @@ const ProductsTable = ({displayNotification}) => {
       .catch((error) => displayNotification("Removed Image", `${error}`, "danger"))
       .finally(() => {setLoading(false); setLoadProducts(true)})  
   }
-
-  // Function creates product variant for a product
-  function createProductVariant(productId, color, quantity, size, price, sourceProductVariantId){
-    setLoading(true)
-    const data = {
-      productId: productId,
-      color: color,
-      size: size,
-      quantity: quantity,
-      price: price, 
-      sourceProductVariantId: sourceProductVariantId
-    }
-    adminProductVariantsService("create", data)
-      .then((response) => displayNotification("Create", response.data.message))
-      .catch((error) => displayNotification("Create", `${error}`, "danger"))
-      .finally(() => {setLoading(false); setLoadProducts(true)})  
-  }
   
   return (
     <div className='table-container'>
