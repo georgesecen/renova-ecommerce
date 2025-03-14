@@ -70,7 +70,8 @@ exports.createProduct = async (request, response) => {
 }
 
 /**
- * Updates a product in the database.
+ * Updates a products description/price in the database and all product variant prices belonging to product 
+ * in the database and on Stripe.
  * @param {object} request Express js request object.
  * @param {object} response Express js response object.
  */
@@ -80,22 +81,43 @@ exports.updateProduct = async (request, response) => {
 
     try{
 
-        // Update product
-        await Product.update(
-            {
-                description: description,
-                price: price
-            },
-            {
-                where: {
-                    id: productId
-                }
-            }
-        )
+        // Get product
+        const product = await Product.findByPk(productId)
 
-        console.log("Product updated successfully in database.")
+        // If product description has been changed
+        if (description !== product.description){
+
+            // Update product description
+            await product.update({
+                description: description
+            })
+        }
+
+        // If product price has been changed
+        if (price !== product.price){
+
+            // Get all ids of product variants which belong to product
+            const productVariantIds = (await ProductVariant.findAll({
+                where: {
+                    product_id: productId
+                }, 
+                attributes: ["id"]
+            })).map(productVariant => productVariant.id)
+
+            // Update price for every product variant
+            for (const id in productVariantIds){
+                await updateProductVariantAndStripePrice(id, price)
+            }
+
+            // Update products price
+            await product.update({
+                price: price
+            })
+        }
+
+        console.log("Product updated successfully in database and product variants belonging to product updated successfully in database and on Stripe.")
         response.status(200).json({
-            message: "Product updated successfully in database.",
+            message: "Product updated successfully in database and product variants belonging to product updated successfully in database and on Stripe.",
         })
     } 
     catch (error){
