@@ -140,7 +140,7 @@ exports.updateProductVariantGroupPrice = async (request, response) => {
     try{
 
         // Update price for every product variant in group
-        for (const id in productVariantIds){
+        for (const id of productVariantIds){
             await updateProductVariantAndStripePrice(id, price)
         }
 

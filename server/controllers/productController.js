@@ -1,6 +1,7 @@
 const Product = require('../models/productModel');
 const Image = require('../models/productImageModel');
 const { deleteProduct, downloadImage, deleteImages } = require("../services/productService");
+const { updateProductVariantAndStripePrice } = require("../services/productVariantIntegrationService");
 const ProductVariant = require('../models/productVariantModel');
 const ProductImage = require('../models/productImageModel');
 
@@ -105,7 +106,7 @@ exports.updateProduct = async (request, response) => {
             })).map(productVariant => productVariant.id)
 
             // Update price for every product variant
-            for (const id in productVariantIds){
+            for (const id of productVariantIds){
                 await updateProductVariantAndStripePrice(id, price)
             }
 

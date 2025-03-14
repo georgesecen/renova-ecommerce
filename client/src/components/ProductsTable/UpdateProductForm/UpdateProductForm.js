@@ -33,7 +33,7 @@ const UpdateProductForm = ({ show, setShow, product, setLoading, setLoadProducts
         const data = {
             productId: productId,
             description: entries.description,
-            price: entries.price
+            price: Number(entries.price)
         }
         adminProductsService("update", data)
             .then((response) => displayNotification("Update", response.data.message))
@@ -45,7 +45,7 @@ const UpdateProductForm = ({ show, setShow, product, setLoading, setLoadProducts
   return (
     <Modal show={show} onHide={() => setShow(false)} centered>
         <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>Update Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <form id='update-product-form'>
