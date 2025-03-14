@@ -2,7 +2,15 @@ div.cart-page {
     padding: 0 80px;
     min-height: calc(100dvh - 80px);
 }
-.cart {
+
+div.cart-page h1 {
+    text-align: center;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+ul.productList {
+    list-style-type: none;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -11,16 +19,8 @@ div.cart-page {
     padding: 15px 10px 25px 10px;
 }
 
-.itemInfo {
-    display: flex;
-    flex-direction: row;
-}
-
-.productItem {
-    max-width: 304px;
-    margin: 10px;
-    border-radius: 10px;
-    box-shadow: 2px 3px 10px rgb(87, 85, 85);
+ul.productList li {
+    margin: 30px 45px;
 }
 
 .productItem img {
@@ -30,50 +30,6 @@ div.cart-page {
     border-top-left-radius: 10px;
 }
 
-
-div.productItem div.firstRow {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 10px 5px 10px;
-}
-div.productItem div.firstRow p {
-    margin: 0 10px;
-}
-
-.secondRow {
-    display: flex;
-    flex-direction: column;
-    text-align: end;
-    margin-top: 15px;
-    margin-right: 5px;
-    padding: 5px 10px 10px 10px;
-}
-
-.pricePerItem {
-    margin-top: 10px;
-}
-
-.itemAmount {
-    display: flex;
-    align-items: center;
-}
-
-.itemBtns {
-    margin-left: 5px;
-}
-
-.itemBtns button {
-    cursor: pointer;
-    border: none;
-    background-color: purple;
-    color: white;
-    padding: 5px 15px;
-    margin: 3px;
-    border-radius: 8px;
-    transition: 0.2s;
-}
-
-.itemBtns button:hover {
-    color: black;
+.productName {
+    margin-top: 1.5rem;
 }

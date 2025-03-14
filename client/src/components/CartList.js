@@ -4,6 +4,7 @@ import {getCartItems, removeCartItem} from "../services/cart";
 import Spinner from "./Spinner";
 import {useCart} from "../providers/CartContext";
 import ProductModal from "./ProductModal";
+import {Button} from "./Button";
 
 function CartList() {
     const [cartItems, setCartItems] = useState([]);
@@ -144,9 +145,10 @@ function CartList() {
                             <p>{item.product_description}</p>
                             <p>Quantity: {item.quantity}</p>
                         </div>
-                        <button className="add-to-cart-btn" onClick={() => removeFromCartHandler(item)}>
-                            Remove From Cart
-                        </button>
+                        <Button type={"submit"} onClick={() => removeFromCartHandler(item)}>Remove From Cart</Button>
+                        {/*<button className="add-to-cart-btn" onClick={() => removeFromCartHandler(item)}>*/}
+                        {/*    Remove From Cart*/}
+                        {/*</button>*/}
                     </li>
                 );
             })}
