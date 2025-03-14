@@ -4,6 +4,16 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { adminProductVariantsService } from '../../../services/productVariants';
 
+/**
+ * Form which creates a product variant for a product.
+ * @param {boolean} show True if the form is to be displayed, otherwise false.
+ * @param {function} setShow Function which handles displaying the form.
+ * @param {object} product Product to create product variant for.
+ * @param {function} setLoading Function which handles displaying the modal spinner.
+ * @param {function} setLoadProducts Function which handles loading the products.
+ * @param {function} displayNotification Function which displays toast notifications.
+ * @returns {React.JSX.Element} CreateProductVariantForm React component.
+ */
 const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadProducts, displayNotification }) => {
 
   // If there is no selected product yet
@@ -92,7 +102,6 @@ const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadP
                 <input name="size" value="M" type="radio" />M <br></br>
                 <input name="size" value="L" type="radio" />L <br></br>
 
-                {/* TODO: Show group price if a existing group (color) is selected */}
                 <input name='quantity' step={1} type='number' /> quantity<br></br>
             </form>
         </Modal.Body>
