@@ -21,8 +21,8 @@ function Header() {
             logout();
             const res = await getCartItemQuantity()
             const guestUserCartQuantity = localStorage.getItem("cartQuantity")
-            updateCartQuantity(res);
-            localStorage.removeItem('cartQuantity');
+            updateCartQuantity(guestUserCartQuantity);
+            // localStorage.removeItem('cartQuantity');
             navigate('/');
         } catch (error) {
             console.error("logoutUser");
