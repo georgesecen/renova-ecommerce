@@ -125,6 +125,9 @@ exports.updateProduct = async (request, response) => {
         console.log(`Error in productController.js function updateProduct: ${error.message}`)
         response.status(500).json({error: error.message})
     }
+
+    // Allow new operations to proceed
+    global.stripeOperationInProgress = false
 }
 
 /**
@@ -150,6 +153,9 @@ exports.deleteProduct = async (request, response) => {
         console.log(`Error in productController.js function deleteProduct: ${error.message}`)
         response.status(500).json({error: error.message})
     }
+
+    // Allow new operations to proceed
+    global.stripeOperationInProgress = false
 }
 
 /**

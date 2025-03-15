@@ -39,6 +39,9 @@ exports.createProductVariant = async (request, response) => {
         console.log(`Error in productVariantController.js function createProductVariant: ${error.message}`)
         response.status(500).json({error: error.message})
     }
+
+    // Allow new operations to proceed
+    global.stripeOperationInProgress = false
 }
 
 /**
@@ -97,6 +100,9 @@ exports.deleteProductVariant = async (request, response) => {
         console.log(`Error in productVariantController.js function updateProductVariant: ${error.message}`)
         response.status(500).json({error: error.message})
     }
+
+    // Allow new operations to proceed
+    global.stripeOperationInProgress = false
 }
 
 /*
@@ -126,6 +132,9 @@ exports.deleteProductVariantGroup = async (request, response) => {
         console.log(`Error in productVariantController.js function deleteProductVariantGroup: ${error.message}`)
         response.status(500).json({error: error.message})
     }
+
+    // Allow new operations to proceed
+    global.stripeOperationInProgress = false
 }
 
 /**
@@ -153,6 +162,9 @@ exports.updateProductVariantGroupPrice = async (request, response) => {
         console.log(`Error in productVariantController.js function updateProductVariantGroupPrice: ${error.message}`)
         response.status(500).json({error: error.message})
     }
+
+    // Allow new operations to proceed
+    global.stripeOperationInProgress = false
 }
 
 /**
@@ -184,6 +196,9 @@ exports.addProductVariantGroupImage = async (request, response) => {
         console.log(`Error in productVariantController.js function addProductVariantGroupImage: ${error.message}`)
         response.status(500).json({error: error.message})
     }
+
+    // Allow new operations to proceed
+    global.stripeOperationInProgress = false
 }
 
 /**
@@ -214,4 +229,7 @@ exports.removeProductVariantGroupImage = async (request, response) => {
         console.log(`Error in productVariantController.js function removeProductVariantGroupImage: ${error.message}`)
         response.status(500).json({error: error.message})
     }
+
+    // Allow new operations to proceed
+    global.stripeOperationInProgress = false
 }

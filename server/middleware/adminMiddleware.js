@@ -6,7 +6,7 @@
  * @param {object} request Express js request object.
  * @param {object} response Express js response object.
  * @param {function} next The next middleware function in the chain.
- * @returns {void}
+ * @returns {Promise<void>}
  */
 const adminAuthentication = async (request, response, next) => {
 

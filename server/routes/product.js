@@ -10,6 +10,7 @@ const {
     getAllProductsV2
  } = require('../controllers/productController');
 const adminAuthentication = require('../middleware/adminMiddleware');
+const limitStripe = require('../middleware/stripeLimitMiddleware');
 const router = express.Router();
 
 // Multer is middleware used for handling multipart/form-data
@@ -23,8 +24,8 @@ router.get('/', getAllProducts);
 router.post('/', addProduct);  // This would require authentication and authorization in a real app
 
 router.post("/create", adminAuthentication, createProduct)
-router.post("/update", adminAuthentication, updateProduct)
-router.post("/delete", adminAuthentication, deleteProduct)
+router.post("/update", [adminAuthentication, limitStripe], updateProduct)
+router.post("/delete", [adminAuthentication, limitStripe], deleteProduct)
 
 // image is the field name that Multer expects to find in the multipart/form-data request
 router.post("/add-image", [imageMiddleware.single("image"), adminAuthentication], addProductImage)
