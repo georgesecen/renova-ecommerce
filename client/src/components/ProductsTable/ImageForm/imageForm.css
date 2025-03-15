@@ -1,0 +1,87 @@
+/* Container holding entire modal */
+/* https://react-bootstrap.netlify.app/docs/components/modal/#sizing-modals-using-custom-css */
+.modal-90w {
+    max-width: 1100px !important;
+    width: fit-content;
+}
+
+/* Container holding image form */
+.modal-body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-form{
+    width: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    padding: 1em;
+}
+
+/* Container holds image and button to delete image */
+.image-container{
+    position: relative;
+    border-radius: 0.9em;
+    overflow: hidden;
+    background-color: rgb(61, 61, 61);
+    cursor: pointer;
+    max-height: 10em;
+}
+
+/* Product images */
+.image-container > img{
+    height: 10em;
+
+    /* For darkening effect */
+    transition: opacity 0.2s ease-in-out;
+}
+/* Delete image button */
+.image-container > button{
+    position: absolute;
+    left: 0; 
+    right: 0; 
+    top: 0;
+    margin: auto; 
+    background-color: transparent;
+    border: none;
+    width: fit-content;
+
+    /* For slide down effect */
+    transform: translateY(-3em);
+    transition: transform 0.2s ease-in-out;
+}
+.image-container > button > img{
+    width: 3em;
+}
+/* When image is selected to be deleted */
+.image-container.show > img{
+    opacity: 0.3;
+}
+.image-container.show > button{
+    transform: translateY(1em);
+}
+
+/* Image input label */
+.image-form > label{
+    width: 10em;
+    height: 10em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 3px dashed #acacac;
+    border-radius: 0.9em;
+    cursor: pointer;
+    text-align: center;
+}
+.image-form > label > img{
+    width: 5em;
+}
+/* Actual image input */
+#image-uploader{
+    display: none;
+}
