@@ -24,6 +24,9 @@ require('dotenv').config();
 
 const app = express();
 
+// To make sure there is only 1 Stripe operation in progress at any given time
+global.stripeOperationInProgress = false
+
 // db.connect();
 
 // Middleware

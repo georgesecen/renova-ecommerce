@@ -1,0 +1,6 @@
+.toast-container{
+    position: fixed;
+}
+.toast{
+    background-color: white;
+}

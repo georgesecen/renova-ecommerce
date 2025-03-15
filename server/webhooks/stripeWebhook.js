@@ -14,8 +14,8 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 /**
  * Webhook which listens to Stripe events.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  * @returns {void}
  */
 exports.webhook = async (request, response) => {

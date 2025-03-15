@@ -31,10 +31,16 @@ const Product = sequelize.define(
 )
 //Make sure image is loaded after products are grabbed
 const Image = require('./productImageModel');
+
 //Define relationships
 Product.hasMany(Image,{foreignKey:'product_id', as: 'image', onDelete: 'CASCADE'});
 Image.belongsTo(Product, {foreignKey:'product_id', as: 'productVariant'});
 ProductVariant.belongsTo(Product, {foreignKey:'product_id', as: 'product'});
+
+Product.hasMany(ProductVariant, {
+    foreignKey: "product_id",
+    as: "product_variants"
+})
 
 
 module.exports = Product;

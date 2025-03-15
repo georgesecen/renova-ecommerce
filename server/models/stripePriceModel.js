@@ -1,3 +1,6 @@
+const { setTimeout }  = require("node:timers/promises")
+
+// TODO: Import specific stripe api version
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 class StripePrice{
@@ -30,11 +33,17 @@ class StripePrice{
     static async create(unitAmount, productId){
         try{
 
+            // To not exceed Stripe rate limit
+            await setTimeout(1000 / process.env.STRIPE_RATE_LIMIT)
+
+            // Round unit amount to 2 decimal places
+            unitAmount = parseFloat((unitAmount).toFixed(2))
+
             // Create Stripe price object
             const price = await stripe.prices.create({
                 // TODO: Add support for multiple currencies 
                 currency: "cad",
-                unit_amount: unitAmount * 100, // Convert price from dollars to cents
+                unit_amount: Math.round(unitAmount * 100), // Convert price from dollars to cents
                 product: productId
             })
 
@@ -53,6 +62,9 @@ class StripePrice{
      */
     static async findById(id){
         try{
+
+            // To not exceed Stripe rate limit
+            await setTimeout(1000 / process.env.STRIPE_RATE_LIMIT)
 
             // Get price object from Stripe
             const price = await stripe.prices.retrieve(id);
@@ -76,6 +88,9 @@ class StripePrice{
      */
     async update(){
         try{
+
+            // To not exceed Stripe rate limit
+            await setTimeout(1000 / process.env.STRIPE_RATE_LIMIT)
 
             // The only property which the api allows for updating is weather the price is active or not
             // Update active property of price

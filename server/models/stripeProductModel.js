@@ -1,3 +1,6 @@
+const { setTimeout }  = require("node:timers/promises")
+
+// TODO: Import specific stripe api version
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 class StripeProduct{
@@ -43,6 +46,9 @@ class StripeProduct{
     static async create(id, name, description, images, url){
         try{
 
+            // To not exceed Stripe rate limit
+            await setTimeout(1000 / process.env.STRIPE_RATE_LIMIT)
+
             // Create Stripe product
             await stripe.products.create({
                 id: id,
@@ -67,6 +73,9 @@ class StripeProduct{
      */
     static async findById(id){
         try{
+
+            // To not exceed Stripe rate limit
+            await setTimeout(1000 / process.env.STRIPE_RATE_LIMIT)
 
             // Get product from Stripe
             const product = await stripe.products.retrieve(id);
@@ -93,6 +102,9 @@ class StripeProduct{
      */
     async update(){
         try{
+
+            // To not exceed Stripe rate limit
+            await setTimeout(1000 / process.env.STRIPE_RATE_LIMIT)
 
             // Update product
             await stripe.products.update(
