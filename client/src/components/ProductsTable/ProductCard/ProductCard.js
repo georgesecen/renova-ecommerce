@@ -7,6 +7,7 @@ const arrowIcon = require("../../../assets/icons/arrow.png")
 const ProductCard = ({
   product, 
   setProduct, 
+  setProductVariantGroup,
   setShowUpdateProductForm,
   setShowCreateProductVariantForm,
   setShowImageForm
@@ -136,7 +137,15 @@ const ProductCard = ({
           Object.entries(productVariantGroups).map(([color, productVariants], index) => {
             return (
               <li key={index}>
-                <ProductVariantCard productVariants={productVariants} color={color}/>
+                <ProductVariantCard
+                  productVariants={productVariants} 
+                  color={color}
+                  setProductVariantGroup={setProductVariantGroup}
+                  setShowImageForm={setShowImageForm}
+                  product={product}
+                  setProduct={setProduct}
+                  >
+                </ProductVariantCard>
               </li>
             )
           })

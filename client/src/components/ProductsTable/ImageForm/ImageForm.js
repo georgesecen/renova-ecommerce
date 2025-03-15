@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { adminProductsService } from '../../../services/products';
+import { adminProductVariantsService } from '../../../services/productVariants';
 import "./imageForm.css"
 import Modal from 'react-bootstrap/Modal';
 const trashIcon = require("../../../assets/icons/trash.png")
 const imageUploadIcon = require("../../../assets/icons/image-upload.png")
-
 
 const ImageForm = ({
   show,
@@ -12,6 +12,8 @@ const ImageForm = ({
   setLoading,
   setLoadProducts,
   product,
+  productVariantGroup,
+  setProductVariantGroup,
   displayNotification
 }) => {
 
@@ -22,25 +24,71 @@ const ImageForm = ({
   if (product === null) return 
 
   // Get product details
-  const {id: productId, image: images} = product ?? {}
+  const {id: productId, image: images, product_variants: productVariants} = product ?? {}
 
-  // Get all image urls for product
-  const productImages = images.map(image => image.image_url)
+  let productImages = [] // Will store product and product variant group images
+  let productVariantIds = []
 
-  // Function adds an image to product
-  function addImage(file){
-    setLoading(true)
-    const data = {
-      productId: productId,
-      image: file
-    }
-    adminProductsService("add-image", data)
-      .then((response) => displayNotification("Add Image", response.data.message))
-      .catch((error) => displayNotification("Add Image", `${error}`, "danger"))
-      .finally(() => {setLoading(false); setLoadProducts(true)})  
+  // If image form is for product
+  if (productVariantGroup === null){
+
+    // Get all image urls for product
+    productImages = images.map(image => image.image_url)
   }
 
-  // Function removes image from product
+  // If image form is for product variant group
+  else{
+
+    // Get all ids of product variants in product variant group
+    productVariants.forEach(productVariant => {
+      if (productVariant.color === productVariantGroup) {
+        productVariantIds.push(productVariant.id)
+      }
+    })
+
+    // Get all images of product variants in product variant group
+    productVariants.forEach(productVariant => {
+      productVariant.images.forEach(image => {
+        // If image is not already in the images add it (must check as products in same group share images)
+        if (!(productImages.includes(image.image_url))){
+          productImages.push(image.image_url)
+        }
+      })
+    });
+  }
+  
+  // Function adds an image to product/product variant group
+  function addImage(file){
+
+    // If image is too be added to product
+    if (productVariantGroup === null){
+      setLoading(true)
+      const data = {
+        productId: productId,
+        image: file
+      }
+      adminProductsService("add-image", data)
+        .then((response) => displayNotification("Add Image", response.data.message))
+        .catch((error) => displayNotification("Add Image", `${error}`, "danger"))
+        .finally(() => {setLoading(false); setLoadProducts(true)})  
+    }
+
+    // If image is too be added to product variant group
+    else{
+        setLoading(true)
+        const data = {
+          productId: productId,
+          productVariantIds: productVariantIds,
+          image: file
+        }
+        adminProductVariantsService("add-group-image", data)
+          .then((response) => displayNotification("Add Image", response.data.message))
+          .catch((error) => displayNotification("Add Image", `${error}`, "danger"))
+          .finally(() => {setLoading(false); setLoadProducts(true)})  
+    }
+  }
+
+  // Function removes image from product/product variant group
   function removeImage(){
     setLoading(true)
     const data = {
@@ -53,12 +101,14 @@ const ImageForm = ({
   }
 
   return (
-    <Modal dialogClassName="modal-90w" show={show} onHide={() => setShow(false)} centered>
+    <Modal dialogClassName="modal-90w" show={show} onHide={() => {setShow(false); setProductVariantGroup(null)}} centered>
       <Modal.Header closeButton>
             <Modal.Title>Edit Images</Modal.Title>
       </Modal.Header>
       <Modal.Body className='modal-body'>
         <div className='image-form'>
+
+          {/* Display all images for product */}
           {
             productImages.map((image, index) => {
               return (

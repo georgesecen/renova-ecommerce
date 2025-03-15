@@ -15,6 +15,8 @@ const ProductsTable = ({displayNotification}) => {
   const [loading, setLoading] = useState(false)
 
   const [selectedProduct, setSelectedProduct] = useState(null)
+  const [selectedProductVariantGroup, setSelectedProductVariantGroup] = useState(null) // Group for selected product
+
   const [showCreateProductForm, setShowCreateProductForm] = useState(false)
   const [showUpdateProductForm, setShowUpdateProductForm] = useState(false)
   const [showCreateProductVariantForm, setShowCreateProductVariantForm] = useState(false)
@@ -87,6 +89,8 @@ const ProductsTable = ({displayNotification}) => {
         setLoading={setLoading}
         setLoadProducts={setLoadProducts}
         product={selectedProduct}
+        productVariantGroup={selectedProductVariantGroup}
+        setProductVariantGroup={setSelectedProductVariantGroup}
         displayNotification={displayNotification}
         >
       </ImageForm>
@@ -98,6 +102,7 @@ const ProductsTable = ({displayNotification}) => {
                 key={index} 
                 product={product} 
                 setProduct={setSelectedProduct}
+                setProductVariantGroup={setSelectedProductVariantGroup}
                 setShowUpdateProductForm={setShowUpdateProductForm}
                 setShowCreateProductVariantForm={setShowCreateProductVariantForm}
                 setShowImageForm={setShowImageForm}

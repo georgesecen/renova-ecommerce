@@ -2,7 +2,14 @@ import React from 'react'
 import "./productVariantCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 
-const ProductVariantCard = ({productVariants, color}) => {
+const ProductVariantCard = ({
+  productVariants, 
+  color, 
+  setProductVariantGroup, 
+  setShowImageForm, 
+  product, 
+  setProduct
+}) => {
 
   // Get total stock quantity, ids and images used amongst all product variants
   let totalQuantity = 0
@@ -35,6 +42,24 @@ const ProductVariantCard = ({productVariants, color}) => {
     )
   }
 
+  // Edit images button
+  const EditImagesButton = () => {
+    return (
+      <button 
+        onClick={(event)=>{
+
+          // Display the images form for product variant group
+          event.stopPropagation() // To prevent sub menu showing
+          setProductVariantGroup(color)
+          setProduct(product)
+          setShowImageForm(true)
+        }} 
+      >
+        Edit
+      </button>
+    )
+  }
+
   // Displays all IDs in product variant group
   const ProductVariantIdsDisplay = () => {
     return (
@@ -57,7 +82,8 @@ const ProductVariantCard = ({productVariants, color}) => {
           ["Product Variant IDs", ProductVariantIdsDisplay(), false],
           ["", <button>edit</button>, true],
           ["Color", color, true],
-          ["Images", ImageDisplay(), true],
+          ["Images", ImageDisplay(), false],
+          ["", EditImagesButton(), true],
           ["Total Stock Quantity", totalQuantity, false],
         ]}></LabelValueDisplay>
     </div>
