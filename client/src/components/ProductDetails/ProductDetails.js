@@ -5,8 +5,8 @@ import Carousel from 'react-bootstrap/Carousel';
 import img1 from '../../assets/images/hoodie.png'
 import img2 from '../../assets/images/hoodie2.png'
 import { useLocation } from 'react-router-dom';
-import { getVariants } from '../../services/productVariants';
 import { useState, useEffect, useRef } from 'react';
+import { getProductInfo } from '../../services/products';
 
 function ProductDetails() {
 
@@ -54,33 +54,34 @@ function ProductDetails() {
   }
 
   /**
-   * This method on page load fetches all variants associated with the
-   * viewed product, gets all sizes and colours available for viewed product, 
-   * and sets initial selected colour and size
+   * This method on page load fetches the product information of the viewed product,
+   * stores all variants associated with it, stores all sizes and colours available,
+   * all images, and sets initial selected colour and size.
    */
     useEffect(() => {
-          getVariants(state.id)
-              .then((response) => {
-                  console.log(response);
+          getProductInfo(state.id)
+            .then((response) => {
+              // store variants, colours, and sizes (in defined order)
+              setVariants(response.data.data[0].product_variants);
+              cols.current = new Set(response.data.data[0].product_variants.map(a => a.color))
+              sizes.current = new Set(response.data.data[0].product_variants.map(a => a.size).sort(function(a,b) { // Sort sizes in appropriate order
+                return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
+              }));
 
-                  setVariants(response);  // Store items in state
-                  cols.current = new Set(response.map(a => a.color))
-                  sizes.current = new Set(response.map(a => a.size).sort(function(a,b) { // Sort sizes in appropriate order
-                    return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
-                  }));
+              // set initial colour, size, and sizesAvailable
+              setColour(response.data.data[0].product_variants[0].color)
 
-                  setColour(response[0].color)
-
-                  for(const v of response){
-                    if(v.color === response[0].color){
-                      sizesAvailable.current.add(v.size)
-                    }
-                  }
-                  setSize(response[0].size)
-              })
-              .catch((error) => {
-                  console.error('Error fetching variants:', error);
-              });
+              for(const v of response.data.data[0].product_variants){
+                if(v.color === response.data.data[0].product_variants[0].color){
+                  sizesAvailable.current.add(v.size)
+                }
+              }
+              
+              setSize(response.data.data[0].product_variants[0].size)
+            })
+            .catch((error) => {
+              console.error('Error fetching product:', error);
+          });
     }, []);
 
     /**
