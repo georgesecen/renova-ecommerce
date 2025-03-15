@@ -1,21 +1,18 @@
 import { useState } from "react"
 import "./productCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
-import ImageForm from "../ImageForm/ImageForm"
 import ProductVariantCard from "../ProductVariantCard/ProductVariantCard"
 const arrowIcon = require("../../../assets/icons/arrow.png")
 
 const ProductCard = ({
   product, 
-  addImage, 
-  removeImage, 
   setProduct, 
   setShowUpdateProductForm,
-  setShowCreateProductVariantForm
+  setShowCreateProductVariantForm,
+  setShowImageForm
 }) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
-  const [showImageForm, setShowImageForm] = useState(false)
 
   // Get product details
   const {
@@ -65,8 +62,11 @@ const ProductCard = ({
     return (
       <button 
         onClick={(event)=>{
+
+          // Display the images form for product
           event.stopPropagation() // To prevent sub menu showing
-          setShowImageForm(!showImageForm)
+          setProduct(product)
+          setShowImageForm(true)
         }} 
       >
         Edit
@@ -110,16 +110,6 @@ const ProductCard = ({
 
   return (
     <li className='cards-container'>
-
-      <ImageForm
-        show={showImageForm} 
-        setShow={setShowImageForm} 
-        addImage={addImage} 
-        removeImage={removeImage} 
-        productId={productId}
-        productImages={productImages}
-        >
-      </ImageForm>
 
       {/* Product card which shows the product details */}
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='card-header-container'>

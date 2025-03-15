@@ -3,10 +3,10 @@ import "./productsTable.css"
 import ModalSpinner from '../ModalSpinner/ModalSpinner'
 import ProductCard from './ProductCard/ProductCard'
 import { adminProductsService } from '../../services/products'
-import { adminProductVariantsService } from '../../services/productVariants'
 import CreateProductForm from './CreateProductForm/CreateProductForm'
 import UpdateProductForm from './UpdateProductForm/UpdateProductForm'
 import CreateProductVariantForm from './CreateProductVariantForm/CreateProductVariantForm'
+import ImageForm from './ImageForm/ImageForm'
 
 const ProductsTable = ({displayNotification}) => {
 
@@ -18,29 +18,34 @@ const ProductsTable = ({displayNotification}) => {
   const [showCreateProductForm, setShowCreateProductForm] = useState(false)
   const [showUpdateProductForm, setShowUpdateProductForm] = useState(false)
   const [showCreateProductVariantForm, setShowCreateProductVariantForm] = useState(false)
+  const [showImageForm, setShowImageForm] = useState(false)
+
+
+  // Function updates the currently selected product. This way in the image form, after adding an image
+  // the image form will get the updated product with the new image added. No need to close the form and 
+  // reopen it.
+  function updateSelectedProduct(products){
+    // If there is a selected product
+    if (selectedProduct !== null){
+
+      // Get updated version of current selected product
+      const selectedProductId = selectedProduct.id
+      const updatedProduct = products.find(product => product.id === selectedProductId)
+
+      // Update current selected product to its updated self
+      setSelectedProduct(updatedProduct)
+    }
+  }
 
   // Get products
   useEffect(() => {
     if (loadProducts){
       adminProductsService("index")
-        .then((response) => setProducts(response.data.data))
+        .then((response) => {setProducts(response.data.data); updateSelectedProduct(response.data.data)})
         .catch((error) => displayNotification("Get", `${error}`, "danger"))
-        .finally(() => setLoadProducts(false))
+        .finally(() => setLoadProducts(false))      
     }
   }, [loadProducts])
-
-  // Function adds image to product
-  function addProductImage(productId, file){
-    setLoading(true)
-    const data = {
-      productId: productId,
-      image: file
-    }
-    adminProductsService("add-image", data)
-      .then((response) => displayNotification("Added Image", response.data.message))
-      .catch((error) => displayNotification("Added Image", `${error}`, "danger"))
-      .finally(() => {setLoading(false); setLoadProducts(true)})  
-  }
 
   // Function removes image from product
   function removeProductImage(fileName){
@@ -88,17 +93,27 @@ const ProductsTable = ({displayNotification}) => {
         >
       </CreateProductVariantForm>
 
+      <ImageForm
+        show={showImageForm} 
+        setShow={setShowImageForm}
+        setLoading={setLoading}
+        setLoadProducts={setLoadProducts}
+        product={selectedProduct}
+        displayNotification={displayNotification}
+        >
+      </ImageForm>
+
       <ul>
           {
             products.map((product, index) => {
               return <ProductCard
                 key={index} 
                 product={product} 
-                addImage={addProductImage} 
                 removeImage={removeProductImage}
                 setProduct={setSelectedProduct}
                 setShowUpdateProductForm={setShowUpdateProductForm}
                 setShowCreateProductVariantForm={setShowCreateProductVariantForm}
+                setShowImageForm={setShowImageForm}
                 >
               </ProductCard>
             })
