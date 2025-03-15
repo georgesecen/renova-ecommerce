@@ -40,6 +40,18 @@ const ImageForm = ({
       .finally(() => {setLoading(false); setLoadProducts(true)})  
   }
 
+  // Function removes image from product
+  function removeImage(){
+    setLoading(true)
+    const data = {
+      fileName: imageToDelete
+    }
+    adminProductsService("remove-image", data)
+      .then((response) => displayNotification("Remove Image", response.data.message))
+      .catch((error) => displayNotification("Remove Image", `${error}`, "danger"))
+      .finally(() => {setLoading(false); setLoadProducts(true)})  
+  }
+
   return (
     <Modal dialogClassName="modal-90w" show={show} onHide={() => setShow(false)} centered>
       <Modal.Header closeButton>
@@ -56,7 +68,7 @@ const ImageForm = ({
                   {/* Image delete button */}
                   <button onClick={(event) => {
                     event.stopPropagation() // To prevent unshowing the image delete class
-                    // removeImage(imageToDelete)
+                    removeImage()
                   }}>
                     <img alt='delete' src={trashIcon}/>
                   </button>
