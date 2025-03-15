@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react'
-import '../styles/homePage.css'
-import '../assets/images/hoodie2.png'
-import '../assets/images/hoodie.png'
+import './homePage.css'
+import '../../assets/images/hoodie2.png'
+import '../../assets/images/hoodies.png'
 import { NavLink } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
-import { createGuestUser } from "../services/guest";
+import { createGuestUser } from "../../services/guest";
 
 function Home() {
-  const hoodieImg = require('../assets/images/hoodie.png')
-  const hoodieImg2 = require('../assets/images/hoodie2.png')
+  const hoodiesImg = require('../../assets/images/hoodies.png')
+  const hoodieImg2 = require('../../assets/images/hoodie2.png')
 
 //generate session function
   function generateGuestSession() {
@@ -53,6 +53,7 @@ useEffect(() => {
     window.removeEventListener('load', handleWindowLoad);
   };
 }, []);
+
   return (
     <div className="home-page">
         <div className="section a">
@@ -62,13 +63,13 @@ useEffect(() => {
             <NavLink to='/products' className="shop-now">SHOP NOW</NavLink>
           </div>
           <div className="image">
-            <img src={hoodieImg2} alt=""/>
-            <img src={hoodieImg} alt=""/>
+            <img src={hoodiesImg} alt=""/>
           </div>
         </div>
 
         <div className="section b">
-
+          <h1>SOME TEXT</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
         </div>
     </div>
   )
