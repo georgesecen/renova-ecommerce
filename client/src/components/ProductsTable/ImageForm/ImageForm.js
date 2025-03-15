@@ -90,14 +90,31 @@ const ImageForm = ({
 
   // Function removes image from product/product variant group
   function removeImage(){
-    setLoading(true)
-    const data = {
-      fileName: imageToDelete
+
+    // If image is too be added to product
+    if (productVariantGroup === null){
+      setLoading(true)
+      const data = {
+        fileName: imageToDelete
+      }
+      adminProductsService("remove-image", data)
+        .then((response) => displayNotification("Remove Image", response.data.message))
+        .catch((error) => displayNotification("Remove Image", `${error}`, "danger"))
+        .finally(() => {setLoading(false); setLoadProducts(true)})  
     }
-    adminProductsService("remove-image", data)
-      .then((response) => displayNotification("Remove Image", response.data.message))
-      .catch((error) => displayNotification("Remove Image", `${error}`, "danger"))
-      .finally(() => {setLoading(false); setLoadProducts(true)})  
+
+    // If image is too be removed from product variant group
+    else{
+      setLoading(true)
+      const data = {
+        productVariantIds: productVariantIds,
+        fileName: imageToDelete
+      }
+      adminProductVariantsService("remove-group-image", data)
+        .then((response) => displayNotification("Remove Image", response.data.message))
+        .catch((error) => displayNotification("Remove Image", `${error}`, "danger"))
+        .finally(() => {setLoading(false); setLoadProducts(true)})  
+    }
   }
 
   return (
