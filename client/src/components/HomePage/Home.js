@@ -70,8 +70,8 @@ useEffect(() => {
 
         <div className="section b">
           <img src={hoodieImg2} alt=""/>
-          <h2>MODERN DESIGNS</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
+          <h2>MODERN</h2>
+          <p>Cool amazing carefully designed </p>
         </div>
     </div>
   )
