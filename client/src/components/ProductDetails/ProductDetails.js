@@ -17,11 +17,12 @@ function ProductDetails() {
   const [variants, setVariants] = useState([]);
   const [colour, setColour] = useState("")
   const [size, setSize] = useState("")
+  const [images, setImages] = useState([]);
 
   const cols = useRef(new Set()); 
   const sizes = useRef(new Set()); 
   const sizesAvailable = useRef(new Set());   // Holds sizes available for currently selected colour
-  const images = useRef([]);
+  // const images = useRef([]);
   const info = useRef({name: "", price: "", desc: ""});
 
   /**
@@ -75,11 +76,11 @@ function ProductDetails() {
               sizes.current = new Set(response.data.data[0].product_variants.map(a => a.size).sort(function(a,b) { // Sort sizes in appropriate order
                 return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
               }));
-              images.current.concat(response.data.data[0].image)
-              images.current.concat(response.data.data[0].product_variants[0].images[0])
+              setImages(response.data.data[0].image)
+              setImages(images.concat(response.data.data[0].product_variants[0].images))
 
-              console.log(response.data.data[0].image);
-              console.log(response.data.data[0].product_variants[0].images);
+              // console.log(response.data.data[0].image);
+              // console.log(response.data.data[0].product_variants[0].images);
 
 
               // set initial colour, size, and sizesAvailable
@@ -119,12 +120,16 @@ function ProductDetails() {
 
       return classes
     }
-  
+
+    console.log(images);
     return (
       <div className="detailsPage">
         <div className="productImages">
-          <ImageOption imageUrl='../../../assets/images/hoodie.png'/>
+          {images.map((image, index) => (
+              <ImageOption key={index} imageUrl={require(`../../assets/images/${image.image_url}`)}/>
+            ))}
         </div>
+
         <div className="selectedImg">
           <Carousel activeIndex={1}>
             <Carousel.Item className="carouselItem">

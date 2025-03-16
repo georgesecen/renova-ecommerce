@@ -3,7 +3,7 @@ import './imageOption.css'
 function ImageOption(props) {
     return (
         <div className='image-option'>
-            <img src={require('../../../assets/images/hoodie2.png')} alt=""></img>
+            <img src={props.imageUrl} alt=""></img>
         </div>
     );
 }
