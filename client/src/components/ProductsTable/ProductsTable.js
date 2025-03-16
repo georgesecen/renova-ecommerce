@@ -7,6 +7,7 @@ import CreateProductForm from './CreateProductForm/CreateProductForm'
 import UpdateProductForm from './UpdateProductForm/UpdateProductForm'
 import CreateProductVariantForm from './CreateProductVariantForm/CreateProductVariantForm'
 import ImageForm from './ImageForm/ImageForm'
+import UpdateProductVariantForm from './UpdateProductVariantForm/UpdateProductVariantForm'
 
 const ProductsTable = ({displayNotification}) => {
 
@@ -21,7 +22,7 @@ const ProductsTable = ({displayNotification}) => {
   const [showUpdateProductForm, setShowUpdateProductForm] = useState(false)
   const [showCreateProductVariantForm, setShowCreateProductVariantForm] = useState(false)
   const [showImageForm, setShowImageForm] = useState(false)
-
+  const [showUpdateProductVariantForm, setShowUpdateProductVariantForm] = useState(true)
 
   // Function updates the currently selected product. This way in the image form, after adding an image
   // the image form will get the updated product with the new image added. No need to close the form and 
@@ -94,6 +95,12 @@ const ProductsTable = ({displayNotification}) => {
         displayNotification={displayNotification}
         >
       </ImageForm>
+
+      <UpdateProductVariantForm
+        show={showUpdateProductVariantForm}
+        setShow={setShowUpdateProductVariantForm}
+        >
+      </UpdateProductVariantForm>
 
       <ul>
           {
