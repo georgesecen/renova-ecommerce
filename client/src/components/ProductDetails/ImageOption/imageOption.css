@@ -6,7 +6,7 @@
 
 .image-option > img {
     width: 100%;
-    filter: brightness(40%);
+    filter: brightness(60%);
     -webkit-transition : -webkit-filter 200ms ease-in;
     cursor: pointer;
 }

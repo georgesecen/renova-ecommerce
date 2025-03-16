@@ -18,11 +18,11 @@ function ProductDetails() {
   const [colour, setColour] = useState("")
   const [size, setSize] = useState("")
   const [images, setImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   const cols = useRef(new Set()); 
   const sizes = useRef(new Set()); 
   const sizesAvailable = useRef(new Set());   // Holds sizes available for currently selected colour
-  // const images = useRef([]);
   const info = useRef({name: "", price: "", desc: ""});
 
   /**
@@ -121,27 +121,29 @@ function ProductDetails() {
       return classes
     }
 
+    const handleSelect = (selectedIndex) => {
+      setSelectedImage(selectedIndex);
+    };
+
     return (
       <div className="detailsPage">
         <div className="productImages">
           {images.map((image, index) => (
-              <ImageOption key={index} imageUrl={require(`../../assets/images/${image.image_url}`)}/>
+              <ImageOption 
+                key={index} 
+                imageUrl={require(`../../assets/images/${image.image_url}`)} 
+                clickEvent={() => setSelectedImage(index)}
+              />
             ))}
         </div>
 
         <div className="selectedImg">
-          <Carousel>
-            {images.map((image, index) => (
+          <Carousel activeIndex={selectedImage} onSelect={handleSelect}>
+            {images.map((image) => (
               <Carousel.Item> 
                 <img src={require(`../../assets/images/${image.image_url}`)} alt="" />
               </Carousel.Item>
             ))}
-            <Carousel.Item>
-              <img src={img1} alt=""/>
-            </Carousel.Item>
-            <Carousel.Item>
-            <img src={img2} alt=""/>
-            </Carousel.Item>
           </Carousel>
         </div>
 
