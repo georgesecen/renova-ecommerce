@@ -11,7 +11,8 @@ const ProductCard = ({
   setShowUpdateProductForm,
   setShowCreateProductVariantForm,
   setShowImageForm,
-  setShowUpdateProductVariantForm
+  setShowUpdateProductVariantForm,
+  setShowConfirmProductDelete
 }) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
@@ -110,6 +111,23 @@ const ProductCard = ({
     )
   }
 
+  // Delete product button
+  const DeleteProductButton = () => {
+    return (
+      <button 
+        onClick={(event)=>{
+
+          // Display the delete product confirmation modal
+          event.stopPropagation() // To prevent sub menu showing
+          setProduct(product)
+          setShowConfirmProductDelete(true)
+        }} 
+      >
+        Delete
+      </button>
+    )
+  }
+
   return (
     <li className='cards-container'>
 
@@ -119,6 +137,7 @@ const ProductCard = ({
         <LabelValueDisplay labelValues={[
           ["Product ID", productId, false],
           ["", CreateProductVariantButton(), false],
+          ["", DeleteProductButton(), false],
           ["", EditProductButton(), true],
           ["Name", name, true],
           ["Description", description, true],
