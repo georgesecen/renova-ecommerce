@@ -121,7 +121,6 @@ function ProductDetails() {
       return classes
     }
 
-    console.log(images);
     return (
       <div className="detailsPage">
         <div className="productImages">
