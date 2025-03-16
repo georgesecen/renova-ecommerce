@@ -1,27 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../styles/cartPage.css';
 import CartList from '../components/CartList';
 import {useCart} from '../providers/CartContext';
-import { Link, useNavigate } from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 function Cart() {
     const { totalQuantity } = useCart();
-    const navigate = useNavigate();
-    const clickHandler = () => {navigate('/test-stripe')}
-  //TODO only display checkout button when there are items in the cart
+    const [totalCost, setTotalCost] = useState(0);
   return (
     <div className="cart-page">
         <h1>Your Orders</h1>
-    <div>
-        <div>
           <div>
-              {totalQuantity === 0 && <p>No items to display. <br/>
-                  <Link to="/products">Click here</Link> to add items to your cart!</p>}
-              <CartList/>
-              <button onClick={clickHandler}>Checkout</button>
+              {totalQuantity === 0 ? (
+                  <p>
+                      No items to display. <br/>
+                      <Link to={"/products"}>Click here</Link> to add items to your cart!
+                  </p>
+              ) : (
+                  <>
+                      <CartList setTotalCost={setTotalCost} />
+                      <h3>Total Cost Before HST and Shipping: CAD ${totalCost.toFixed(2)}</h3>
+                      <NavLink to='/test-stripe' className="shop-now">Checkout</NavLink>
+                  </>
+              )}
           </div>
-        </div>
-    </div>
     </div>
   )
 }
