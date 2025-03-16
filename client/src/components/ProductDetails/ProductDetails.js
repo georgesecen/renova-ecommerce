@@ -130,10 +130,11 @@ function ProductDetails() {
         </div>
 
         <div className="selectedImg">
-          <Carousel >
+          <Carousel>
             {images.map((image, index) => (
-              <Carousel.Item> <img src={require(`../../assets/images/${image.image_url}`)} alt="" />
-                </Carousel.Item>
+              <Carousel.Item> 
+                <img src={require(`../../assets/images/${image.image_url}`)} alt="" />
+              </Carousel.Item>
             ))}
             <Carousel.Item>
               <img src={img1} alt=""/>
