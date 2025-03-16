@@ -1,7 +1,9 @@
 import React from 'react'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { adminProductVariantsService } from '../../../services/productVariants';
 import "./updateProductVariantForm.css"
+
 
 const UpdateProductVariantForm = ({
   show,
@@ -36,11 +38,44 @@ const UpdateProductVariantForm = ({
   const ProductVariantFormItem = ({id, name, quantity}) => {
     return (
       <div className='product-variant-form-item'>
-        <p>{name}</p>
+        <p>#{id}: {name}</p>
         Quanity: <input name={id} step={1} defaultValue={quantity} type='number' />
-        <button>Delete</button>
+        <button onClick={() => deleteProductVariant(id)}>Delete</button>
       </div>
     )
+  }
+
+  // Function deletes product variant with specified id
+  function deleteProductVariant(id){
+    setLoading(true)
+
+    // If product variant to delete is the last product variant remaining in group
+    if (productVariantDetails.length === 1){
+
+        // Delete product variant with its images
+        adminProductVariantsService("delete-group", {productVariantIds: [id]})
+          .then((response) => displayNotification("Delete", response.data.message))
+          .catch((error) => displayNotification("Delete", `${error}`, "danger"))
+          .finally(() => {
+            setLoading(false)
+            setLoadProducts(true)
+
+            // Unshow form as there are no more product variants in group
+            setShow(false)
+            setProductVariantGroup(null)
+          })  
+
+    }
+
+    // If there are other remaining product variants in the group
+    else{
+
+        // Just delete product variant
+        adminProductVariantsService("delete", {productVariantId: id})
+          .then((response) => displayNotification("Delete", response.data.message))
+          .catch((error) => displayNotification("Delete", `${error}`, "danger"))
+          .finally(() => {setLoading(false); setLoadProducts(true)})  
+    }
   }
   
   return (
@@ -55,6 +90,7 @@ const UpdateProductVariantForm = ({
                         return (
                             <ProductVariantFormItem
                                 key={index}
+                                id={productVariant.id}
                                 name={productVariant.name}
                                 quantity={productVariant.quantity}
                                 >
