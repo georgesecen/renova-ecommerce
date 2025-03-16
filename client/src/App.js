@@ -13,6 +13,7 @@ import SignUp from "./pages/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BottomNavBar from "./components/BottomNavBar";
 import { PageNotFound } from "./pages/PageNotFound";
+import UserDashboard from "./components/UserDashboard/UserDashboard";
 import Admin from "./pages/Admin/Admin";
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/signUp" element={<SignUp />} />
         <Route path='/test-stripe' element={<TestStripe />} />
+        <Route path='/dashboard' element={<UserDashboard />} />
         <Route path='/return' element={<Return />} />
         <Route path='/admin' element={<Admin />} />
       </Routes>

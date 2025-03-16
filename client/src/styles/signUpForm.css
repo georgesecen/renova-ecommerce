@@ -5,6 +5,16 @@ form.signUp-form {
   max-width: 445px;
   margin: 0 auto;
 }
+
+form.signUp-form input {
+  padding: 1.2rem;
+  height: 28px;
+  font-size: .9em;
+}
+form.signUp-form input:focus {
+  outline: 1px solid #f3f3f3;
+}
+
 form.signUp-form label.form-label {
   margin-top: 1rem;
 }

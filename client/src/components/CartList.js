@@ -4,8 +4,9 @@ import {getCartItems, removeCartItem} from "../services/cart";
 import Spinner from "./Spinner";
 import {useCart} from "../providers/CartContext";
 import ProductModal from "./ProductModal";
+import {Button} from "./Button";
 
-function CartList() {
+function CartList({ setTotalCost }) {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -41,6 +42,12 @@ function CartList() {
             });
     }, []);
 
+    useEffect(() => {
+        // Calculate total cost whenever cartItems change and update the parent state
+        const total = cartItems.reduce((sum, item) => sum + item.product_price * item.quantity, 0);
+        setTotalCost(total);
+    }, [cartItems, setTotalCost]);
+
     const removeFromCartHandler = (item) => {
         console.log(`removing item ${item}`);
         setShowModal(true);
@@ -52,17 +59,10 @@ function CartList() {
         // If the quantity is greater than 1, decrease the quantity
         if (item.quantity > 1) {
             const updatedQuantity = item.quantity - 1;
-            console.log(item)
-            console.log(item.quantity)
-            console.log(item.cart_item_id)
-            console.log(item.product_id)
-            // console.log(item.productVariant.id)
-            console.log(item.quantity)
 
             // Call the API to update the quantity
             removeCartItem({
                 cart_item_id: item.cart_item_id,
-                // product_id: item.cart_item_id,
                 product_id: item.productVariant?.id || item.product_id,
                 quantity: 1, // Decrease by 1
             })
@@ -144,16 +144,11 @@ function CartList() {
                             <p>{item.product_description}</p>
                             <p>Quantity: {item.quantity}</p>
                         </div>
-                        <button className="add-to-cart-btn" onClick={() => removeFromCartHandler(item)}>
-                            Remove From Cart
-                        </button>
+                        <Button type={"submit"} onClick={() => removeFromCartHandler(item)}>Remove From Cart</Button>
                     </li>
                 );
             })}
         </ul>
-            <div className="total-cost">
-                <h3>Total Cost Before HST and Shipping: CAD ${totalCost.toFixed(2)}</h3>
-            </div>
             <ProductModal
                 show={showModal}
                 onHide={() => setShowModal(false)}
