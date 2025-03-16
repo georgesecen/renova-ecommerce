@@ -13,8 +13,29 @@ const UpdateProductVariantForm = ({
   setProductVariantGroup,
   displayNotification
 }) => {
+
+  // If there is no selected product variant group yet
+  if (productVariantGroup === null) return 
+
+  // Get product details
+  const {product_variants: productVariants} = product ?? {}
+
+  // Get all product variant group ids, names, and stock quantities
+  const productVariantDetails = [] // [{id: 5, name: hoodie blue S, quantity: 32}]
+  productVariants.forEach(productVariant => {
+    if (productVariant.color === productVariantGroup){
+        productVariantDetails.push({
+            id: productVariant.id,
+            name: `${product.name} ${productVariant.color} ${productVariant.size}`,
+            quantity: productVariant.stock_quantity
+        })
+    }
+  });
+
+  console.log(productVariantDetails)
+  
   return (
-    <Modal show={show} onHide={() => setShow(false)} centered>
+    <Modal show={show} onHide={() => {setShow(false); setProductVariantGroup(null)}} centered>
         <Modal.Header closeButton>
             <Modal.Title>Update Product</Modal.Title>
         </Modal.Header>

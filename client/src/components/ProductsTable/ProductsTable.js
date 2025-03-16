@@ -22,7 +22,7 @@ const ProductsTable = ({displayNotification}) => {
   const [showUpdateProductForm, setShowUpdateProductForm] = useState(false)
   const [showCreateProductVariantForm, setShowCreateProductVariantForm] = useState(false)
   const [showImageForm, setShowImageForm] = useState(false)
-  const [showUpdateProductVariantForm, setShowUpdateProductVariantForm] = useState(true)
+  const [showUpdateProductVariantForm, setShowUpdateProductVariantForm] = useState(false)
 
   // Function updates the currently selected product. This way in the image form, after adding an image
   // the image form will get the updated product with the new image added. No need to close the form and 
