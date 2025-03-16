@@ -1,0 +1,9 @@
+.image-option {
+    font-size: 12px;
+    width: 7em;
+    margin: 2em 1em;
+}
+
+.image-option > img {
+    width: 100%;
+}

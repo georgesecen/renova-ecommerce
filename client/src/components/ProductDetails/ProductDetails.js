@@ -7,6 +7,7 @@ import img2 from '../../assets/images/hoodie2.png'
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { getProductInfo } from '../../services/products';
+import ImageOption from './ImageOption/ImageOption';
 
 function ProductDetails() {
 
@@ -109,7 +110,7 @@ function ProductDetails() {
     return (
       <div className="detailsPage">
         <div className="productImages">
-          
+          <ImageOption imageUrl='../../../assets/images/hoodie.png'/>
         </div>
         <div className="selectedImg">
           <Carousel activeIndex={1}>
