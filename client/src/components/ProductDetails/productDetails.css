@@ -63,8 +63,6 @@
 .details > h6 {
     font-size: 1.5em;
     font-weight: 400;   
-    padding: 0 0 40px;
-    border-bottom: .3px solid rgb(131, 131, 131);
 }
 
 .details > h5 {
@@ -74,6 +72,10 @@
     letter-spacing: 1px;
 }
 
+.details > p {
+    padding-bottom: 36px;
+    border-bottom: .3px solid rgb(131, 131, 131);
+}
 /* Variant selection containers  */
 .details .colour-container, .details .size-container {
     display: flex;

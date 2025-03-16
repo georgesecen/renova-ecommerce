@@ -63,7 +63,7 @@ function ProductsPage() {
 
     // Temporary method to pass in product details
     const toProductPage = (product) => {
-        navigate('/products/' + (product.id), {state: { id: product.id, name: product.name, price: product.price, desc: product.desc } })
+        navigate('/products/' + (product.id), {state: { id: product.id } })
     }
 
     return (

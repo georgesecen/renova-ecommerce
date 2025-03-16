@@ -21,6 +21,8 @@ function ProductDetails() {
   const cols = useRef(new Set()); 
   const sizes = useRef(new Set()); 
   const sizesAvailable = useRef(new Set());   // Holds sizes available for currently selected colour
+  const images = useRef([]);
+  const info = useRef({name: "", price: "", desc: ""});
 
   /**
    * This function takes a string and sets it as the colour state,
@@ -62,12 +64,23 @@ function ProductDetails() {
     useEffect(() => {
           getProductInfo(state.id)
             .then((response) => {
-              // store variants, colours, and sizes (in defined order)
+              console.log(response.data.data[0]);
+              // store info, variants, colours, sizes (in defined order), and images
+              info.current.name = response.data.data[0].name
+              info.current.price = response.data.data[0].price
+              info.current.desc = response.data.data[0].description
+              
               setVariants(response.data.data[0].product_variants);
               cols.current = new Set(response.data.data[0].product_variants.map(a => a.color))
               sizes.current = new Set(response.data.data[0].product_variants.map(a => a.size).sort(function(a,b) { // Sort sizes in appropriate order
                 return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
               }));
+              images.current.concat(response.data.data[0].image)
+              images.current.concat(response.data.data[0].product_variants[0].images[0])
+
+              // console.log(response.data.data[0].image);
+              console.log(response.data.data[0].product_variants[0].images);
+
 
               // set initial colour, size, and sizesAvailable
               setColour(response.data.data[0].product_variants[0].color)
@@ -85,6 +98,7 @@ function ProductDetails() {
           });
     }, []);
 
+    // console.log(images.current)
     /**
      * This function takes in a string size and returns the class names
      * to be associated with it. By default, all available sizes for
@@ -124,9 +138,9 @@ function ProductDetails() {
         </div>
 
         <div className="details">
-            <h4>{state.name}</h4>
-            <h6>${state.price}</h6>
-            <p>{state.desc}</p>
+            <h4>{info.current.name}</h4>
+            <h6>${info.current.price}</h6>
+            <p>{info.current.desc}</p>
 
             <h5>COLOUR: {colour.toUpperCase()}</h5>
             <div className='colour-container'>
