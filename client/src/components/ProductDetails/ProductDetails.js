@@ -138,7 +138,7 @@ function ProductDetails() {
         </div>
 
         <div className="selectedImg">
-          <Carousel activeIndex={selectedImage} onSelect={handleSelect}>
+          <Carousel activeIndex={selectedImage} onSelect={handleSelect} interval={null}>
             {images.map((image) => (
               <Carousel.Item> 
                 <img src={require(`../../assets/images/${image.image_url}`)} alt="" />
