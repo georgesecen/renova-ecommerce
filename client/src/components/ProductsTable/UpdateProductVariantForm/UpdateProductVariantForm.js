@@ -32,7 +32,16 @@ const UpdateProductVariantForm = ({
     }
   });
 
-  console.log(productVariantDetails)
+  // Displays product variant information. Also contains delete and update quantity options.
+  const ProductVariantFormItem = ({id, name, quantity}) => {
+    return (
+      <div className='product-variant-form-item'>
+        <p>{name}</p>
+        Quanity: <input name={id} step={1} defaultValue={quantity} type='number' />
+        <button>Delete</button>
+      </div>
+    )
+  }
   
   return (
     <Modal show={show} onHide={() => {setShow(false); setProductVariantGroup(null)}} centered>
@@ -41,7 +50,18 @@ const UpdateProductVariantForm = ({
         </Modal.Header>
         <Modal.Body>
             <form id='update-product-variant-form'>
-                
+                {
+                    productVariantDetails.map((productVariant, index) => {
+                        return (
+                            <ProductVariantFormItem
+                                key={index}
+                                name={productVariant.name}
+                                quantity={productVariant.quantity}
+                                >
+                            </ProductVariantFormItem>
+                        )
+                    })
+                }
             </form>
         </Modal.Body>
         <Modal.Footer>
