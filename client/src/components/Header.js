@@ -4,15 +4,19 @@ import { CgShoppingCart } from 'react-icons/cg'
 import '../assets/images/logo.png'
 import { useUser } from "../providers/UserContext";
 import { useCart } from "../providers/CartContext";
+<<<<<<< HEAD
 import { logoutUser } from "../services/user";
 import { useNavigate } from "react-router-dom";
 import {getCartItemQuantity} from "../services/cart";
+=======
+>>>>>>> development
 
 function Header() {
-  const { totalQuantity, updateCartQuantity } = useCart();
-  const { isLoggedIn, logout } = useUser();
+  const { totalQuantity } = useCart();
+  const { isLoggedIn } = useUser();
   const logo = require('../assets/images/logo.png');
 
+<<<<<<< HEAD
     const navigate = useNavigate();
     //Handle logout
     const logoutHandler = async () => {
@@ -43,7 +47,7 @@ function Header() {
             </div>
             <div className="headerNav2">
                 {isLoggedIn ? (
-                    <NavLink to="/" onClick={logoutHandler}>LOGOUT</NavLink>
+                    <NavLink to="/dashboard">PROFILE</NavLink>
                 ) : (
                     <NavLink to="/signIn">SIGN IN</NavLink>
                 )}

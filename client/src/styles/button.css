@@ -1,18 +1,27 @@
-button.button{
-    transition: 150ms ease-in;
-    background-color: #a9a9ab;
-    color: black;
-    font-weight: 600;
+button.button {
+    /*position: absolute;*/
+    /*bottom: 4px;*/
     width: 100%;
-    padding: .4rem 0rem;
-    border-radius: .5rem;
-    text-transform: uppercase;
+
+    color: rgb(200, 200, 200);
+    font-size: 1em;
+    text-decoration: none;
+    border: .5px solid rgb(200, 200, 200);
+    border-radius: 2px;
+    background: none;
+    /*font-size: 12px;*/
+    padding: 3px;
+    transition-duration: 150ms;
 }
 
-button.button:hover{
-    background-color: #dbdbdf;
+
+button.button:hover {
+    color: rgb(232, 232, 232);
+    border-color: rgb(232, 232, 232);
 }
 
-button.button:disabled{
-    background-color: #707076;
+form.signIn-form button.btn.btn-primary {
+    position: relative; /* Ensures it does not inherit absolute positioning */
+    margin-top: 15px;
+    font-size: 2em;
 }

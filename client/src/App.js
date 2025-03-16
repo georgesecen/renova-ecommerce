@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
@@ -13,11 +13,21 @@ import SignUp from "./pages/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BottomNavBar from "./components/BottomNavBar";
 import { PageNotFound } from "./pages/PageNotFound";
+import UserDashboard from "./components/UserDashboard/UserDashboard";
+import Admin from "./pages/Admin/Admin";
 
 function App() {
+
+  // Check if current route is the admin route
+  const location = useLocation();
+  const isAdminRoute = location.pathname === '/admin';
+
   return (
     <div className="App">
-      <Header />
+      
+      {/* Display header if not an admin route */}
+      {!isAdminRoute && <Header />}
+
       <Routes>
         <Route path="*" element={ <PageNotFound/>} />
         <Route path="/" element={<Home />} />
@@ -28,9 +38,13 @@ function App() {
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/signUp" element={<SignUp />} />
         <Route path='/test-stripe' element={<TestStripe />} />
+        <Route path='/dashboard' element={<UserDashboard />} />
         <Route path='/return' element={<Return />} />
+        <Route path='/admin' element={<Admin />} />
       </Routes>
-      <BottomNavBar />
+
+      {/* Display footer is not an admin route */}
+      {!isAdminRoute && <BottomNavBar />}
     </div>
   );
 }
