@@ -29,3 +29,15 @@
 .home-page .b p {
     font-size: .8em;
 }
+
+
+/* media queries  */
+@media screen and (max-width: 700px) {
+    .home-page .b {
+        padding: 0 20px;
+    }
+
+    .home-page .b img {
+        width: 18em;
+    }
+}

@@ -104,5 +104,6 @@
 
     .home-page .a .image img {
         max-width: 200px;
+        margin-left: auto;
     }
 }
