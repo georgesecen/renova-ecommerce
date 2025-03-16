@@ -58,7 +58,7 @@ exports.updateProductVariantQuantity = async (request, response) => {
         // Update quantity
         await ProductVariant.update(
             {
-                quantity: quantity
+                stock_quantity: quantity
             },
             {
                 where: {

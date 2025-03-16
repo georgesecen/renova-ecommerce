@@ -4,7 +4,18 @@ import Button from 'react-bootstrap/Button';
 import { adminProductVariantsService } from '../../../services/productVariants';
 import "./updateProductVariantForm.css"
 
-
+/**
+ * Form which deletes product variants and updates product variant stock quantities.
+ * @param {boolean} show True if the form is to be displayed, otherwise false.
+ * @param {function} setShow Function which handles displaying the form.
+ * @param {function} setLoading Function which handles displaying the modal spinner.
+ * @param {function} setLoadProducts Function which handles loading the products.
+ * @param {object} product Product which product variants belong to.
+ * @param {string} productVariantGroup Product variant group which contains product variants to update. (Color)
+ * @param {function} setProductVariantGroup Function which handles selecting the product variant group.
+ * @param {function} displayNotification Function which displays toast notifications.
+ * @returns {React.JSX.Element} UpdateProductVariantForm React component.
+ */
 const UpdateProductVariantForm = ({
   show,
   setShow,
@@ -77,6 +88,35 @@ const UpdateProductVariantForm = ({
           .finally(() => {setLoading(false); setLoadProducts(true)})  
     }
   }
+
+  // Gets data from form and updates all changed product variant stock quantities
+  async function processFormData(){
+      const formData = new FormData(document.getElementById("update-product-variant-form"))
+      const entries = Object.fromEntries(formData.entries()) // Get key value pairs (Keys being form feild names)
+  
+    //   setLoading(true)
+
+      for (const productVariant of productVariantDetails){
+
+        // Get product variants quantity from from
+        const newQuantity = Number(entries[productVariant.id])
+
+        // If product variants quantity has been changed
+        if (productVariant.quantity !== newQuantity){
+
+            // Update product variants quantity to the new quantity
+            const data = {
+                productVariantId: productVariant.id,
+                quantity: newQuantity
+            }
+            setLoading(true)
+            await adminProductVariantsService("update-quantity", data)
+              .then((response) => displayNotification("Update", response.data.message))
+              .catch((error) => displayNotification("Update", `${error}`, "danger"))
+              .finally(() => {setLoading(false); setLoadProducts(true)})  
+        }
+      }
+  }
   
   return (
     <Modal show={show} onHide={() => {setShow(false); setProductVariantGroup(null)}} centered>
@@ -101,10 +141,10 @@ const UpdateProductVariantForm = ({
             </form>
         </Modal.Body>
         <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShow(false)}>
+            <Button variant="secondary" onClick={() => {setShow(false); setProductVariantGroup(null)}}>
                 Close
             </Button>
-            <Button variant="primary" onClick={() => {setShow(false)}}>
+            <Button variant="primary" onClick={() => processFormData()}>
                 Save Changes
             </Button>
         </Modal.Footer>
