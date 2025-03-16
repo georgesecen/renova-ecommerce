@@ -1,5 +1,8 @@
 .detailsPage {
     min-height: calc(100vh - 80px);
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     justify-content: space-between;
     flex-wrap: nowrap;

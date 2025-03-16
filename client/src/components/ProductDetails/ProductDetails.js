@@ -64,12 +64,12 @@ function ProductDetails() {
     useEffect(() => {
           getProductInfo(state.id)
             .then((response) => {
-              console.log(response.data.data[0]);
+              // console.log(response.data.data[0]);
               // store info, variants, colours, sizes (in defined order), and images
               info.current.name = response.data.data[0].name
               info.current.price = response.data.data[0].price
               info.current.desc = response.data.data[0].description
-              
+
               setVariants(response.data.data[0].product_variants);
               cols.current = new Set(response.data.data[0].product_variants.map(a => a.color))
               sizes.current = new Set(response.data.data[0].product_variants.map(a => a.size).sort(function(a,b) { // Sort sizes in appropriate order
@@ -78,7 +78,7 @@ function ProductDetails() {
               images.current.concat(response.data.data[0].image)
               images.current.concat(response.data.data[0].product_variants[0].images[0])
 
-              // console.log(response.data.data[0].image);
+              console.log(response.data.data[0].image);
               console.log(response.data.data[0].product_variants[0].images);
 
 
@@ -98,7 +98,6 @@ function ProductDetails() {
           });
     }, []);
 
-    // console.log(images.current)
     /**
      * This function takes in a string size and returns the class names
      * to be associated with it. By default, all available sizes for
