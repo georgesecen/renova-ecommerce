@@ -7,6 +7,7 @@ const ProductVariantCard = ({
   color, 
   setProductVariantGroup, 
   setShowImageForm, 
+  setShowUpdateProductVariantForm,
   product, 
   setProduct
 }) => {
@@ -60,6 +61,24 @@ const ProductVariantCard = ({
     )
   }
 
+  // Edit product variants button
+  const EditProductVariantsButton = () => {
+    return (
+      <button 
+        onClick={(event)=>{
+
+          // Display the uodate product variants form for product variant group
+          event.stopPropagation() // To prevent sub menu showing
+          setProductVariantGroup(color)
+          setProduct(product)
+          setShowUpdateProductVariantForm(true)
+        }} 
+      >
+        Edit
+      </button>
+    )
+  }
+
   // Displays all IDs in product variant group
   const ProductVariantIdsDisplay = () => {
     return (
@@ -80,7 +99,7 @@ const ProductVariantCard = ({
     <div className='card-item-container'>
        <LabelValueDisplay labelValues={[
           ["Product Variant IDs", ProductVariantIdsDisplay(), false],
-          ["", <button>edit</button>, true],
+          ["", EditProductVariantsButton(), true],
           ["Color", color, true],
           ["Images", ImageDisplay(), false],
           ["", EditImagesButton(), true],

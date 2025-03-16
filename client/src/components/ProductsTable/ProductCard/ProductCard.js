@@ -10,7 +10,8 @@ const ProductCard = ({
   setProductVariantGroup,
   setShowUpdateProductForm,
   setShowCreateProductVariantForm,
-  setShowImageForm
+  setShowImageForm,
+  setShowUpdateProductVariantForm
 }) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
@@ -142,6 +143,7 @@ const ProductCard = ({
                   color={color}
                   setProductVariantGroup={setProductVariantGroup}
                   setShowImageForm={setShowImageForm}
+                  setShowUpdateProductVariantForm={setShowUpdateProductVariantForm}
                   product={product}
                   setProduct={setProduct}
                   >

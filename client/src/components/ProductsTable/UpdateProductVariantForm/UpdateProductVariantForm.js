@@ -4,8 +4,14 @@ import Button from 'react-bootstrap/Button';
 import "./updateProductVariantForm.css"
 
 const UpdateProductVariantForm = ({
-    show, 
-    setShow
+  show,
+  setShow,
+  setLoading,
+  setLoadProducts,
+  product,
+  productVariantGroup,
+  setProductVariantGroup,
+  displayNotification
 }) => {
   return (
     <Modal show={show} onHide={() => setShow(false)} centered>

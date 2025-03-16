@@ -99,6 +99,12 @@ const ProductsTable = ({displayNotification}) => {
       <UpdateProductVariantForm
         show={showUpdateProductVariantForm}
         setShow={setShowUpdateProductVariantForm}
+        setLoading={setLoading}
+        setLoadProducts={setLoadProducts}
+        product={selectedProduct}
+        productVariantGroup={selectedProductVariantGroup}
+        setProductVariantGroup={setSelectedProductVariantGroup}
+        displayNotification={displayNotification}
         >
       </UpdateProductVariantForm>
 
@@ -113,6 +119,7 @@ const ProductsTable = ({displayNotification}) => {
                 setShowUpdateProductForm={setShowUpdateProductForm}
                 setShowCreateProductVariantForm={setShowCreateProductVariantForm}
                 setShowImageForm={setShowImageForm}
+                setShowUpdateProductVariantForm={setShowUpdateProductVariantForm}
                 >
               </ProductCard>
             })
