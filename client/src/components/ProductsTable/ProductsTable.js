@@ -10,6 +10,13 @@ import ImageForm from './ImageForm/ImageForm'
 import UpdateProductVariantForm from './UpdateProductVariantForm/UpdateProductVariantForm'
 import ConfirmProductDelete from './ConfirmProductDelete/ConfirmProductDelete'
 
+/**
+ * Gets all of the products + product variants information in the database. Displays all the information
+ * in product/product variant card components. Gives the admin the ability to perform operations on all
+ * product/product variant related items. (CRUD operations etc)
+ * @param {function} displayNotification Function which handles displaying toast notifications.
+ * @returns {React.JSX.Element} ProductsTable React component.
+ */
 const ProductsTable = ({displayNotification}) => {
 
   const [products, setProducts] = useState([])
@@ -116,6 +123,7 @@ const ProductsTable = ({displayNotification}) => {
         setLoading={setLoading}
         setLoadProducts={setLoadProducts}
         product={selectedProduct}
+        setSelectedProduct={setSelectedProduct}
         displayNotification={displayNotification}
         >
       </ConfirmProductDelete>

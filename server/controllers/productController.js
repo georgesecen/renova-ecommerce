@@ -144,9 +144,9 @@ exports.deleteProduct = async (request, response) => {
 
         await deleteProduct(productId)
 
-        console.log("Product deleted successfully in database.")
+        console.log("Product and all associated product variants and images successfully deleted from database, server and Stripe.")
         response.status(200).json({
-            message: "Product deleted successfully in database.",
+            message: "Product and all associated product variants and images successfully deleted from database, server and Stripe.",
         })
     } 
     catch (error){
