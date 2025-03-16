@@ -4,14 +4,16 @@
     border-top: 1px solid rgb(70, 70, 70);
     position: sticky;
     bottom: 0;
-    background-color: var(--bg);
+    background-color: rgb(30, 30, 30);
+    font-size: 13px;
+    width: 100vw;
 }
 
 .bottomNav a {
     width: 100%;
     text-align: center;
     box-sizing: border-box;
-    padding-top: 15px;
+    padding-top: 18px;
 
     text-decoration: none;
     color: var(--text);

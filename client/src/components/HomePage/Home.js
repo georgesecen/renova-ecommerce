@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react'
 import './homePage.css'
+import './section2.css'
 import '../../assets/images/hoodie2.png'
 import '../../assets/images/hoodies.png'
 import { NavLink } from 'react-router-dom'
@@ -68,8 +69,9 @@ useEffect(() => {
         </div>
 
         <div className="section b">
-          <h1>SOME TEXT</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</p>
+          <img src={hoodieImg2} alt=""/>
+          <h2>MODERN</h2>
+          <p>Cool amazing carefully designed </p>
         </div>
     </div>
   )

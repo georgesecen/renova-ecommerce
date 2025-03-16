@@ -5,8 +5,8 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 /**
  * Creates product with price on Stripe server.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  * @returns {void}
  */
 exports.createProductAndPrice = async (request, response) => {
@@ -36,8 +36,8 @@ exports.createProductAndPrice = async (request, response) => {
 
 /**
  * Updates product and products price on Stripe server.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  * @returns {void}
  */
 exports.updateProductAndPrice = async (request, response) => {
@@ -88,8 +88,8 @@ exports.updateProductAndPrice = async (request, response) => {
 
 /**
  * Archives product and products price on Stripe server so product is not available at checkout.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  * @returns {void}
  */
 exports.archiveProductAndPrice = async (request, response) => {
@@ -127,8 +127,8 @@ exports.archiveProductAndPrice = async (request, response) => {
 
 /**
  * Gets product and products price details on Stripe server.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  * @returns {void}
  */
 exports.getProductAndPrice = async (request, response) => {
@@ -163,8 +163,8 @@ exports.getProductAndPrice = async (request, response) => {
 
 /**
  * Creates checkout session on Stripe server.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  * @returns {void}
  */
 exports.createCheckoutSession = async (request, response) => {
@@ -224,8 +224,8 @@ exports.createCheckoutSession = async (request, response) => {
 
 /**
  * Gets checkout session status on Stripe server.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  * @returns {void}
  */
 exports.getCheckoutSessionStatus = async (request, response) => {
