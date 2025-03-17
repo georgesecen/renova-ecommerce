@@ -47,6 +47,7 @@ EMAIL_HOST=smtp.ethereal.email
 # Stripe api rate limit per second (100 in livemode, 25 in testmode)
 STRIPE_RATE_LIMIT=25
 ```
+Test Email Login: https://ethereal.email/
 
 
 
