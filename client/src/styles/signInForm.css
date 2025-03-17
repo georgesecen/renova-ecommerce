@@ -24,7 +24,7 @@ form.signIn-form button.btn.btn-primary {
 }
 form.signIn-form span {
   display: block;
-  color: red;
+  color: rgb(207, 97, 97);
   font-family: sans-serif;
   height: 18px;
   transition: 150ms ease-in;
