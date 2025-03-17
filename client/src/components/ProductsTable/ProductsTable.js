@@ -3,12 +3,24 @@ import "./productsTable.css"
 import ModalSpinner from '../ModalSpinner/ModalSpinner'
 import ProductCard from './ProductCard/ProductCard'
 import { adminProductsService } from '../../services/products'
+import { adminProductCategoriesService } from '../../services/productCategories'
 import CreateProductForm from './CreateProductForm/CreateProductForm'
 import UpdateProductForm from './UpdateProductForm/UpdateProductForm'
 import CreateProductVariantForm from './CreateProductVariantForm/CreateProductVariantForm'
 import ImageForm from './ImageForm/ImageForm'
+import UpdateProductVariantForm from './UpdateProductVariantForm/UpdateProductVariantForm'
+import ConfirmProductDelete from './ConfirmProductDelete/ConfirmProductDelete'
 
+/**
+ * Gets all of the products + product variants information in the database. Displays all the information
+ * in product/product variant card components. Gives the admin the ability to perform operations on all
+ * product/product variant related items. (CRUD operations etc)
+ * @param {function} displayNotification Function which handles displaying toast notifications.
+ * @returns {React.JSX.Element} ProductsTable React component.
+ */
 const ProductsTable = ({displayNotification}) => {
+
+  const [categories, setCategories] = useState([])
 
   const [products, setProducts] = useState([])
   const [loadProducts, setLoadProducts] = useState(true) // When set to true will trigger reload of products
@@ -21,7 +33,8 @@ const ProductsTable = ({displayNotification}) => {
   const [showUpdateProductForm, setShowUpdateProductForm] = useState(false)
   const [showCreateProductVariantForm, setShowCreateProductVariantForm] = useState(false)
   const [showImageForm, setShowImageForm] = useState(false)
-
+  const [showUpdateProductVariantForm, setShowUpdateProductVariantForm] = useState(false)
+  const [showConfirmProductDelete, setShowConfirmProductDelete] = useState(false)
 
   // Function updates the currently selected product. This way in the image form, after adding an image
   // the image form will get the updated product with the new image added. No need to close the form and 
@@ -39,13 +52,17 @@ const ProductsTable = ({displayNotification}) => {
     }
   }
 
-  // Get products
+  // Get products and product categories
   useEffect(() => {
     if (loadProducts){
       adminProductsService("index")
         .then((response) => {setProducts(response.data.data); updateSelectedProduct(response.data.data)})
         .catch((error) => displayNotification("Get", `${error}`, "danger"))
-        .finally(() => setLoadProducts(false))      
+        .finally(() => setLoadProducts(false))     
+      
+      adminProductCategoriesService("index")
+        .then((response) => setCategories(response.data.data))
+        .catch((error) => displayNotification("Get", `${error}`, "danger"))
     }
   }, [loadProducts])
   
@@ -60,6 +77,7 @@ const ProductsTable = ({displayNotification}) => {
         setLoading={setLoading}
         setLoadProducts={setLoadProducts}
         displayNotification={displayNotification}
+        categories={categories}
         >
       </CreateProductForm>
 
@@ -95,6 +113,29 @@ const ProductsTable = ({displayNotification}) => {
         >
       </ImageForm>
 
+      <UpdateProductVariantForm
+        show={showUpdateProductVariantForm}
+        setShow={setShowUpdateProductVariantForm}
+        setLoading={setLoading}
+        setLoadProducts={setLoadProducts}
+        product={selectedProduct}
+        productVariantGroup={selectedProductVariantGroup}
+        setProductVariantGroup={setSelectedProductVariantGroup}
+        displayNotification={displayNotification}
+        >
+      </UpdateProductVariantForm>
+
+      <ConfirmProductDelete
+        show={showConfirmProductDelete} 
+        setShow={setShowConfirmProductDelete}
+        setLoading={setLoading}
+        setLoadProducts={setLoadProducts}
+        product={selectedProduct}
+        setSelectedProduct={setSelectedProduct}
+        displayNotification={displayNotification}
+        >
+      </ConfirmProductDelete>
+
       <ul>
           {
             products.map((product, index) => {
@@ -106,6 +147,8 @@ const ProductsTable = ({displayNotification}) => {
                 setShowUpdateProductForm={setShowUpdateProductForm}
                 setShowCreateProductVariantForm={setShowCreateProductVariantForm}
                 setShowImageForm={setShowImageForm}
+                setShowUpdateProductVariantForm={setShowUpdateProductVariantForm}
+                setShowConfirmProductDelete={setShowConfirmProductDelete}
                 >
               </ProductCard>
             })

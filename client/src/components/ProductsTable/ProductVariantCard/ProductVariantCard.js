@@ -2,11 +2,27 @@ import React from 'react'
 import "./productVariantCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 
+// Note: This component is really a product variant group card component. 
+// TODO: Change name to product variant group card
+
+/**
+ * Product variant group card which displays all product variant group information. Card also provides 
+ * the ability to perform various actions regarding the product variant group in this card. (CRUD operations etc)
+ * @param {Array<object>} productVariants All product variants which belong to product.
+ * @param {string} color Product variant group to parse from productVariants.
+ * @param {function} setProductVariantGroup Function handles setting the current selected product variant group for actions. (Color)
+ * @param {function} setShowImageForm Function which handles displaying the image form.
+ * @param {function} setShowUpdateProductVariantForm Function which handles displaying the update product variant form.
+ * @param {object} product Product which product variants belong to.
+ * @param {function} setProduct Function which handles setting the current selected product for actions.
+ * @returns {React.JSX.Element} ProductVariantCard React component.
+ */
 const ProductVariantCard = ({
   productVariants, 
   color, 
   setProductVariantGroup, 
   setShowImageForm, 
+  setShowUpdateProductVariantForm,
   product, 
   setProduct
 }) => {
@@ -60,6 +76,24 @@ const ProductVariantCard = ({
     )
   }
 
+  // Edit product variants button
+  const EditProductVariantsButton = () => {
+    return (
+      <button 
+        onClick={(event)=>{
+
+          // Display the uodate product variants form for product variant group
+          event.stopPropagation() // To prevent sub menu showing
+          setProductVariantGroup(color)
+          setProduct(product)
+          setShowUpdateProductVariantForm(true)
+        }} 
+      >
+        Edit
+      </button>
+    )
+  }
+
   // Displays all IDs in product variant group
   const ProductVariantIdsDisplay = () => {
     return (
@@ -80,7 +114,7 @@ const ProductVariantCard = ({
     <div className='card-item-container'>
        <LabelValueDisplay labelValues={[
           ["Product Variant IDs", ProductVariantIdsDisplay(), false],
-          ["", <button>edit</button>, true],
+          ["", EditProductVariantsButton(), true],
           ["Color", color, true],
           ["Images", ImageDisplay(), false],
           ["", EditImagesButton(), true],
