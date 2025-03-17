@@ -26,7 +26,7 @@ const Admin = () => {
   // }, [])
 
   return (
-    <div>
+    <div className='admin-dashboard-container'>
       <h1>Admin Page</h1>
       <Toasts ref={toastsRef} />
 
