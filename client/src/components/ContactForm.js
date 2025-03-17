@@ -1,10 +1,11 @@
 import '../styles/contactForm.css';
 import FormModal from "./FormModal";
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import { Form } from 'react-bootstrap';
 import { Input } from "./Input";
 import { Button } from "./Button";
 import Spinner from '../components/Spinner';
+import emailjs from '@emailjs/browser';
 
 
 export default function ContactForm() {
@@ -15,6 +16,7 @@ export default function ContactForm() {
         email: '',
         message: ''
     });
+    const form = useRef();
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -75,22 +77,32 @@ export default function ContactForm() {
     // Handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const form = event.currentTarget;
-
         if (validateForm()) {
             setIsLoading(true);
-            const response = await fetch("http://localhost:3306/api/send-email", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    to: formData.email,
-                    subject: `Message from ${formData.firstName} ${formData.lastName}`,
-                    text: formData.message,
-                }),
-            });
+            // const response = await fetch("http://localhost:3306/api/send-email", {
+            //     method: "POST",
+            //     headers: { "Content-Type": "application/json" },
+            //     body: JSON.stringify({
+            //         email: formData.email,
+            //         subject: `Message from ${formData.firstName} ${formData.lastName}`,
+            //         text: formData.message,
+            //     }),
+            // });
 
-            const data = await response.json();
-            setServerMessage(data.message);
+            // const data = await response.json();
+            // setServerMessage(data.message);
+            emailjs
+      .sendForm('service_g7pqxqe', 'template_kkb56pf', form.current, {
+        publicKey: 'xcxrC1TPmd1ivmMQY',
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+        },
+      );
             setShowModal(true);
             setFormData({ firstName: '', lastName: '', email: '', message: '' });
             setIsLoading(false);
@@ -101,7 +113,7 @@ export default function ContactForm() {
     };
     return (
         <div>
-            <Form className="contact-form" noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form ref={form} className="contact-form" noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group controlId="formFirstName">
                     <Input type={"text"} placeHolder={"first name"} name={"firstName"} value={formData.firstName} onChange={handleChange} />
                     <span className={`${errors.firstName ? '' : 'hidden'}`}>{errors.firstName}</span>

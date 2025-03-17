@@ -1,17 +1,17 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/userModel');
+const sendEmail = require("../mail/mailer");
 require('dotenv').config();
 
 exports.register = async (req, res) => {
-    const { email, password, username,uuid } = req.body;
-    console.log(email);
-    console.log(password);
-    console.log(username);
-    console.log(uuid);
+    const { email, password, username, uuid } = req.body;
+    console.log(email, password, username, uuid);
+
     if (!email || !password || !username) {
         return res.status(400).json({ error: 'Missing credentials' });
     }
+
     try {
         const foundUserByEmail = await userModel.findOne({ where: { email } });
         const foundUserByUsername = await userModel.findOne({ where: { username } });
@@ -23,15 +23,29 @@ exports.register = async (req, res) => {
         if (foundUserByUsername) {
             return res.status(400).json({ error: "Username is already registered" });
         }
+
         const hashedPassword = bcrypt.hashSync(password, 10);
         await userModel.create({
             uuid,
             username,
             email,
             password: hashedPassword,
-        })
-        return res.status(201).json({message:"User registered successfully"})
+        });
 
+        // Send confirmation registered email to the user
+    //     sendEmail(process.env.EMAIL_USER, email, "Thank you for registering", 
+      
+    // `
+    //             <h1>Welcome to Renova!</h1>
+    //             <p>Hi there,</p>
+    //             <p>Thank you for registering with Renova. We're excited to have you on board!</p>
+    //             <p>To get started, please click the link below to log in to your account:</p>
+    //             <p><a href="http://localhost:3000/signIn">Click here to log in</a></p> 
+    //             <p>Best regards,<br>Renova Team</p>
+    //         `
+    //     );
+
+        return res.status(201).json({ message: "User registered successfully" });
     } catch (e) {
         console.log(e);
         return res.status(500).json({ error: "Error registering user" });

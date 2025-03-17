@@ -1,5 +1,5 @@
 import "../styles/signUpForm.css";
-import { useState } from "react";
+import { useState,useRef } from "react";
 import { Form } from "react-bootstrap";
 import { Button } from "./Button";
 import { addUser } from "../services/user";
@@ -7,6 +7,7 @@ import { Input } from "./Input";
 import { Link } from "react-router";
 import Spinner from '../components/Spinner';
 import { v4 as uuidv4 } from 'uuid';
+import emailjs from '@emailjs/browser';
 
 export default function SignUpForm() {
   const [formData, setFormData] = useState({
@@ -25,6 +26,8 @@ export default function SignUpForm() {
     password: "",
     username: "",
   });
+
+  const form = useRef();
 
   function validateForm() {
     const newErrors = {};
@@ -62,6 +65,18 @@ export default function SignUpForm() {
         setFormData({ email: "", password: "", username: "" });
         setServerMessage(data.message);
         setIsLoading(false);
+        emailjs
+      .sendForm('service_g7pqxqe', 'template_j92hw2d', form.current, {
+        publicKey: 'xcxrC1TPmd1ivmMQY',
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+        },
+      );
       } catch (err) {
         setIsLoading(false);
         if (err.response) {
@@ -87,6 +102,7 @@ export default function SignUpForm() {
   return (
     <div>
       <Form
+        ref={form}
         method="POST"
         className="signUp-form"
         validated={validated}
