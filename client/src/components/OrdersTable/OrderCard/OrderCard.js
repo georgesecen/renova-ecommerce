@@ -68,10 +68,10 @@ const OrderCard = ({order, setOrder, showOrderForm}) => {
   }
 
   return (
-    <li className='order-card-container'>
+    <li className='cards-container'>
 
       {/* Order card which shows order details */}
-      <div onClick={()=>{setShowDropdown(!showDropdown)}} className='order-card-header-container'>
+      <div onClick={()=>{setShowDropdown(!showDropdown)}} className='card-header-container'>
 
         <LabelValueDisplay labelValues={[
           ["Order ID", `#${id}`, false],
@@ -94,7 +94,7 @@ const OrderCard = ({order, setOrder, showOrderForm}) => {
       </div>
 
       {/* Dropdown which displays order items for order */}
-      <ul className={`order-card-items-container ${showDropdown ? "show" : ""}`}>
+      <ul className={`card-items-container ${showDropdown ? "show" : ""}`}>
           {
             orderItems.map((orderItem, index) => {
               // Get order item details
@@ -115,7 +115,7 @@ const OrderCard = ({order, setOrder, showOrderForm}) => {
               // Order item
               return (
                 <li key={index}>
-                  <div className='order-item-container'>
+                  <div className='card-item-container'>
                     <LabelValueDisplay labelValues={[
                       ["Product Variant ID", id, true],
                       ["Name", productName, true],

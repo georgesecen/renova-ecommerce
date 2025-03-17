@@ -26,7 +26,7 @@ const OrdersTable = ({displayNotification}) => {
 
 
   return (
-    <div className='order-table-container'>
+    <div className='table-container'>
       {loading && <ModalSpinner />}
       <OrderForm
         show={showOrderForm} 
