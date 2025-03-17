@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { adminProductCategoriesService } from '../../services/productCategories'
 import CreateCategoryForm from './CreateCategoryForm/CreateCategoryForm'
+import CategoryCard from './CategoryCard/CategoryCard'
 import ModalSpinner from '../ModalSpinner/ModalSpinner'
 
 const CategoriesTable = ({ displayNotification }) => {
@@ -35,6 +36,18 @@ const CategoriesTable = ({ displayNotification }) => {
           displayNotification={displayNotification}
           >
         </CreateCategoryForm>
+
+        <ul>
+          {
+            categories.map((category, index) => {
+              return <CategoryCard
+                key={index} 
+                category={category} 
+                >
+              </CategoryCard>
+            })
+          }
+      </ul>
 
     </div>
   )
