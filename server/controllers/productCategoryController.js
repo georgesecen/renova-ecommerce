@@ -102,3 +102,26 @@ exports.deleteProductCategory = async (request, response) => {
         response.status(500).json({error: error.message})
     }
 }
+
+/**
+ * Gets all product categories from the database.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
+ */
+exports.getAllCategories = async (request, response) => {
+
+    try{
+
+        const categories = await ProductCategory.findAll()
+
+        console.log("Product categories queried successfully in database.")
+        response.status(200).json({
+            message: "Product categories queried successfully in database.",
+            data: categories
+        })
+    } 
+    catch (error){
+        console.log(`Error in productCategoryController.js function getAllCategories: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+}
