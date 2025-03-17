@@ -10,18 +10,18 @@ function Cart() {
   return (
     <div className="cart-page">
         <h1>Your Orders</h1>
-          <div>
+          <div className="cartCheckoutContainer">
               {totalQuantity === 0 ? (
                   <p>
                       No items to display. <br/>
                       <Link to={"/products"}>Click here</Link> to add items to your cart!
                   </p>
               ) : (
-                  <>
+                  <div className="cartCheckoutButton">
                       <CartList setTotalCost={setTotalCost} />
                       <h3>Total Cost Before HST and Shipping: CAD ${totalCost.toFixed(2)}</h3>
                       <NavLink to='/test-stripe' className="shop-now">Checkout</NavLink>
-                  </>
+                  </div>
               )}
           </div>
     </div>

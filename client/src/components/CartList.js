@@ -5,6 +5,7 @@ import Spinner from "./Spinner";
 import {useCart} from "../providers/CartContext";
 import ProductModal from "./ProductModal";
 import {Button} from "./Button";
+import {FaTrash} from "react-icons/fa";
 
 function CartList({ setTotalCost }) {
     const [cartItems, setCartItems] = useState([]);
@@ -27,10 +28,12 @@ function CartList({ setTotalCost }) {
                     product_name: item.productVariant.product.name,
                     product_price: parseFloat(item.productVariant.product.price),
                     product_description: item.productVariant.product.description,
-                    product_image: item.productVariant.product.image[0].image_url
+                    product_image: item.productVariant.product.image[0].image_url,
+                    total: parseFloat(item.productVariant.product.price) / item.quantity
                 }));
                 setCartItems(formattedItems);  // Store items in state
                 console.log(cartItems)
+
                 // Set a delay so the spinner stays visible for at least 1 second
                 setTimeout(() => {
                     setLoading(false);
@@ -50,11 +53,6 @@ function CartList({ setTotalCost }) {
 
     const removeFromCartHandler = (item) => {
         console.log(`removing item ${item}`);
-        setShowModal(true);
-        setModalContent({
-            title: `Removed ${item.product_name}`,
-            message: `Removed ${item.product_name} from cart`,
-        });
 
         // If the quantity is greater than 1, decrease the quantity
         if (item.quantity > 1) {
@@ -75,7 +73,6 @@ function CartList({ setTotalCost }) {
                                 : prevItem
                         )
                     );
-
                     // Update the cart quantity both in context and localStorage
                     let currentQuantity = parseInt(localStorage.getItem('cartQuantity'), 10) || 0;
                     const newQuantity = currentQuantity - 1;
@@ -89,7 +86,6 @@ function CartList({ setTotalCost }) {
             // If the quantity is 1, delete the item
             removeCartItem({
                 cart_item_id: item.cart_item_id,
-                // product_id: item.product_id,
                 quantity: 1, // Indicate that we're removing one
             })
                 .then(() => {
@@ -108,6 +104,11 @@ function CartList({ setTotalCost }) {
                     console.error('Error removing cart item:', error);
                 });
         }
+        setShowModal(true);
+        setModalContent({
+            title: `Removed ${item.product_name}`,
+            message: `Removed ${item.product_name} from cart`,
+        });
     };
     // Logic for spinner
     if (loading) {
@@ -135,16 +136,38 @@ function CartList({ setTotalCost }) {
             {cartItems.map((item) => {
                 return (
                     <li key={item.cart_item_id} className="productItem">
-                        <img src={`/images/${item.product_image}`} alt={item.product_name} />
+                        <img src={`/images/${item.product_image}`} alt={item.product_name}/>
                         <div className="productName">
                             <h3>{item.product_name}</h3>
                         </div>
                         <div className="productPrice">
+                            <p className="subtitleText">Price</p>
                             CAD ${item.product_price}
-                            <p>{item.product_description}</p>
-                            <p>Quantity: {item.quantity}</p>
                         </div>
-                        <Button type={"submit"} onClick={() => removeFromCartHandler(item)}>Remove From Cart</Button>
+                        <div className="productQuantity">
+                            <p className="subtitleText">Quantity</p>
+
+                            <div className="priceSelect">
+                                <select value={item.quantity}>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                    <option>10</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div className="productTotal">
+                            <p className="subtitleText">Total</p>
+                            <p>{`$${item.product_price * item.quantity}`}</p>
+                        </div>
+                        <FaTrash className="removeBtn" type={"submit"} onClick={() => removeFromCartHandler(item)}/>
                     </li>
                 );
             })}

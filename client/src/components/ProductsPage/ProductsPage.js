@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { addProduct } from "../../services/cart";
 import { useCart } from "../../providers/CartContext";
 import { useUser } from "../../providers/UserContext";
+import ProductModal from "../ProductModal";
 
 
 function ProductsPage() {
@@ -23,7 +24,6 @@ function ProductsPage() {
 
     const user_id = user;
     const guest_user_id = localStorage.getItem("guestUserId");
-
 
     useEffect(() => {
         console.log(products)
@@ -61,19 +61,20 @@ function ProductsPage() {
                 }
                 const newQuantity = currentQuantity + productData.quantity;
                 updateCartQuantity(newQuantity);  // Update context
-                // localStorage.setItem('cartQuantity', newQuantity);  // Persist in localStorage
                 //Set content for modal
                 console.log(product.image[0].image_url);
-                setModalContent({
-                    title: "Product Added to Cart",
-                    message: `${product.name} has been successfully added to your cart.`,
-                    image: `/images/${product.image[0].image_url}`,
-                });
-                setShowModal(true)
+
             })
             .catch((error) => {
                 console.error('Error adding product:', error);
             });
+        setModalContent({
+            title: "Product Added to Cart",
+            message: `${product.name} has been successfully added to your cart.`,
+            image: `/images/${product.image[0].image_url}`,
+        });
+        setShowModal(true)
+        console.log("Modal state:", showModal);
     };
 
     // Temporary filtering method
@@ -106,9 +107,6 @@ function ProductsPage() {
      * 
      * @param {*} product 
      */
-    // const toProductPage = (productId) => {
-    //     navigate('/products/' + (productId), {state: { id: productId } })
-    // }
 
     // Temporary method to pass in product details
     const toProductPage = (product) => {
@@ -131,20 +129,22 @@ function ProductsPage() {
                 <div className="products-list">
                 {filteredProducts.map((product) => (
                     <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
-
-                    // img={`images/${product.image[0].image_url}`} 
-                    name={product.name} 
-                    price={product.price}
-                    // image={product.image[0].image_url}
-                    image={`/images/${product.image[0].image_url}`}
-                                 // product_image: item.productVariant.product.image[0].image_url
-                    addToCart={() => addToCartHandler(product)}>
-                        
+                        name={product.name}
+                        price={product.price}
+                        image={`/images/${product.image[0].image_url}`}
+                        addToCart={() => addToCartHandler(product)}>
                     </ProductCard>
                 ))}
                 </div>
 
             </div>
+            <ProductModal
+                show={showModal}
+                onHide={() => setShowModal(false)}
+                title={modalContent.title}
+                message={modalContent.message}
+                image={modalContent.image}
+            />
         </div>
     );
 }

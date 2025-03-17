@@ -14,8 +14,7 @@ exports.getAllCartItems = async (req, res) => {
             return res.status(400).json({ error: 'User ID or Guest User ID is required' });
         }
 
-        const cartOwnerId = userId || guestUserId;
-        const whereClause = userId ? { user_id: cartOwnerId } : { guest_user_id: cartOwnerId };
+        const whereClause = userId ? { user_id: userId } : { guest_user_id: guestUserId };
 
         const cartItems = await Cart.findAll({
             where: whereClause,
@@ -107,7 +106,7 @@ exports.addCartItem = async (req, res) => {
 
         // Ensure we store user_id only for authenticated users, and guest_user_id only for guests
         const newItem = await Cart.create({
-            user_id: user_id ? user_id : null, // Store only if authenticated
+            user_id: user_id || null, // Store only if authenticated
             guest_user_id: user_id ? null : guest_user_id, // Store only if guest
             product_variant_id,
             quantity
@@ -127,16 +126,22 @@ exports.addCartItem = async (req, res) => {
 // Remove cart item or decrease quantity
 exports.removeCartItem = async (req, res) => {
     try {
-        const user_id = req.user.userId;
+        console.log("req user", req.user);
+        const guest_user_id = parseInt(req.user.guestUserId) || null;
+        const user_id = req.user.userId || null;
         const cart_item_id  = req.params.cart_item_id;  // Get from URL
+        console.log("guest user id on removal", guest_user_id)
+        console.log("user id on removal", user_id)
+        console.log("cart item id on removal", cart_item_id)
 
         const { product_id, quantity } = req.body;
 
-        if (!user_id || !product_id || !quantity) {
+        if ((!user_id && !guest_user_id) || !product_id || !quantity) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
-        const cartItem = await Cart.findOne({ where: { user_id, id: cart_item_id} });
+        const whereClause = user_id ? { user_id } : { guest_user_id };
+        const cartItem = await Cart.findOne({ where: { ...whereClause, id: cart_item_id} });
         console.log(cartItem);
         if (!cartItem) {
             return res.status(404).json({ error: 'Product not found in cart' });
