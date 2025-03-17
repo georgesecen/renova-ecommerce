@@ -4,12 +4,17 @@ import CreateCategoryForm from './CreateCategoryForm/CreateCategoryForm'
 import CategoryCard from './CategoryCard/CategoryCard'
 import ModalSpinner from '../ModalSpinner/ModalSpinner'
 
+/**
+ * Gets all of the product categories. Displays all of the information in category card components.
+ * Gives the admin the ability to create and delete categories.
+ * @param {function} displayNotification Function which handles displaying toast notifications.
+ * @returns {React.JSX.Element} CategoriesTable React component.
+ */
 const CategoriesTable = ({ displayNotification }) => {
 
   const [categories, setCategories] = useState([])
   const [loadCategories, setLoadCategories] = useState(true) // When set to true will trigger reload of products
 
-  const [selectedCategory, setSelectedCategory] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const [showCreateCategoryForm, setShowCreateCategoryForm] = useState(false)
@@ -27,6 +32,8 @@ const CategoriesTable = ({ displayNotification }) => {
   return (
     <div className='table-container'>
         {loading && <ModalSpinner />}
+
+        <button onClick={() => setShowCreateCategoryForm(true)}>Create Category</button>
         
         <CreateCategoryForm
           show={showCreateCategoryForm} 
@@ -43,6 +50,9 @@ const CategoriesTable = ({ displayNotification }) => {
               return <CategoryCard
                 key={index} 
                 category={category} 
+                setLoading={setLoading}
+                setLoadCategories={setLoadCategories}
+                displayNotification={displayNotification}
                 >
               </CategoryCard>
             })
