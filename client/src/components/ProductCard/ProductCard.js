@@ -6,13 +6,14 @@ function ProductCard(props) {
         <div className='product-card'>
             <div className='card' onClick={props.customClickEvent}>
                 <div className="image">
-                    <img src={img} alt=""/>
+                    <img src={props.image} alt={props.image}/>
+                    {/*<img src={img} alt=""/>*/}
                     {/* <img src={props.img} alt=""/> */}
                 </div>
                 <div className="name">{props.name}</div>
                 <div className="price">{props.price}</div>
             </div>
-            <button>ADD TO CART</button>
+            <button onClick={props.addToCart}>ADD TO CART</button>
         </div>
 
     )

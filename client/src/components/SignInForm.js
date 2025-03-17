@@ -67,7 +67,7 @@ export default function SignInForm() {
         setServerMessage(data.message);
         setIsLoading(false);
         //TODO change to user dashboard when user dashboard page is complete
-        navigate("/cart");
+        navigate("/dashboard");
       } catch (err) {
         setIsLoading(false);
         if (err.response) {

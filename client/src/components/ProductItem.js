@@ -46,7 +46,6 @@ function ProductItem() {
 
     const addToCartHandler = (product) => {
         const productData = {
-            //TODO grab from another way than from local storage??? for now store user_id in local storage on login/sign up
             user_id: user_id,
             product_variant_id: product.id,
             quantity: value,

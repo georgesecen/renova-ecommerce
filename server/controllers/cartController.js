@@ -5,23 +5,25 @@ const Image = require('../models/ProductImageModel');
 
 exports.getAllCartItems = async (req, res) => {
     try {
-        const userId = req.user.userId;
-        console.log(userId)
-        if (!userId) {
-            console.log("no user id")
-            return res.status(400).json({ error: 'User ID is required' });
+        const userId = req.user?.userId || null;
+        const guestUserId = req.user?.guestUserId || null;
+        console.log(`Authenticated User ID: ${userId}`);
+        console.log(`Guest User ID: ${guestUserId}`);
+
+        if (!userId && !guestUserId) {
+            return res.status(400).json({ error: 'User ID or Guest User ID is required' });
         }
 
-        console.log(`Fetching cart items for user ID: ${userId}`);
+        const cartOwnerId = userId || guestUserId;
+        const whereClause = userId ? { user_id: cartOwnerId } : { guest_user_id: cartOwnerId };
 
         const cartItems = await Cart.findAll({
-            where: { user_id: userId },
+            where: whereClause,
             include: [
                 {
                     model: ProductVariant,
                     as: 'productVariant',
                     attributes: ['id', 'product_id', 'color', 'size', 'stock_quantity', 'price'],
-                    //Join tables
                     include: [
                         {
                             model: Product,
@@ -40,17 +42,18 @@ exports.getAllCartItems = async (req, res) => {
             ],
             attributes: ['id', 'quantity', 'createdAt', 'updatedAt']
         });
-        //Check if cart is empty
+
         if (!cartItems.length) {
-            console.log('no items in the cart')
             return res.status(200).json([]);
         }
+
         res.status(200).json(cartItems);
     } catch (error) {
         console.error('Error fetching cart items:', error);
         res.status(500).json({ error: 'Error fetching cart items' });
     }
 };
+
 // Get a single cart item by ID
 exports.getCartItem = async (req, res) => {
     try {
@@ -74,14 +77,27 @@ exports.getCartItem = async (req, res) => {
 // Add or update a cart item
 exports.addCartItem = async (req, res) => {
     try {
-        const user_id = req.user.userId;
-        console.log("User ID from addCartItem method:", user_id);
-        const { product_variant_id, quantity } = req.body;
-        if (!user_id || !product_variant_id || !quantity) {
+        const { guest_user_id, product_variant_id, quantity } = req.body;
+        const user_id = req.user?.userId || null; // Only set if authenticated
+
+        console.log("Authenticated User ID:", user_id);
+        console.log("Guest User ID:", guest_user_id);
+
+        if (!product_variant_id || !quantity) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
-        const existingItem = await Cart.findOne({ where: { user_id, product_variant_id } });
+        let existingItem;
+
+        if (user_id) {
+            // Authenticated user: Look for cart item using user_id
+            existingItem = await Cart.findOne({ where: { user_id, product_variant_id } });
+        } else if (guest_user_id) {
+            // Guest user: Look for cart item using guest_user_id
+            existingItem = await Cart.findOne({ where: { guest_user_id, product_variant_id } });
+        } else {
+            return res.status(400).json({ error: 'User ID or Guest User ID is required' });
+        }
 
         if (existingItem) {
             existingItem.quantity += quantity;
@@ -89,13 +105,24 @@ exports.addCartItem = async (req, res) => {
             return res.status(200).json({ message: 'Item quantity updated', cartItemId: existingItem.id });
         }
 
-        const newItem = await Cart.create({ user_id, product_variant_id, quantity });
+        // Ensure we store user_id only for authenticated users, and guest_user_id only for guests
+        const newItem = await Cart.create({
+            user_id: user_id ? user_id : null, // Store only if authenticated
+            guest_user_id: user_id ? null : guest_user_id, // Store only if guest
+            product_variant_id,
+            quantity
+        });
+
+        console.log("Cart Item Created:", newItem);
         res.status(201).json({ message: 'Item added to cart', cartItemId: newItem.id });
     } catch (error) {
         console.error('Error adding item to cart:', error);
         res.status(500).json({ error: 'Error adding item to cart' });
     }
 };
+
+
+
 
 // Remove cart item or decrease quantity
 exports.removeCartItem = async (req, res) => {
