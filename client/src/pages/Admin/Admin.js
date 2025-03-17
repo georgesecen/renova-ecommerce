@@ -3,6 +3,7 @@ import "./admin.css"
 import "../../styles/table-cards.css"
 import OrdersTable from '../../components/OrdersTable/OrdersTable'
 import ProductsTable from '../../components/ProductsTable/ProductsTable'
+import CategoriesTable from '../../components/CategoriesTable/CategoriesTable'
 import Toasts from '../../components/Toasts/Toasts'
 
 const Admin = () => {
@@ -31,7 +32,8 @@ const Admin = () => {
 
       {/* To make sure key is set before rendering components */}
       {/* {key && <OrdersTable displayNotification={displayNotification} />} */}
-      {key && <ProductsTable displayNotification={displayNotification} />}
+      {/* {key && <ProductsTable displayNotification={displayNotification} />} */}
+      {key && <CategoriesTable displayNotification={displayNotification} />}
 
     </div>
   )
