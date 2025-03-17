@@ -11,9 +11,10 @@ import { adminProductsService } from '../../../services/products';
  * @param {function} setLoading Function which handles displaying the modal spinner.
  * @param {function} setLoadProducts Function which handles loading the products.
  * @param {function} displayNotification Function which displays toast notifications.
+ * @param {Array<object>} categories All available product categories.
  * @returns {React.JSX.Element} CreateProductForm React component.
  */
-const CreateProductForm = ({show, setShow, setLoading, setLoadProducts, displayNotification}) => {
+const CreateProductForm = ({show, setShow, setLoading, setLoadProducts, displayNotification, categories}) => {
 
   // Gets data from form and creates product
   function processFormData(){
@@ -27,7 +28,8 @@ const CreateProductForm = ({show, setShow, setLoading, setLoadProducts, displayN
     const data = {
         name: entries.name,
         description: entries.description,
-        price: Number(entries.price)
+        price: Number(entries.price),
+        categoryId: Number(entries.category)
     }
     adminProductsService("create", data)
         .then((response) => displayNotification("Create", response.data.message))
@@ -47,6 +49,17 @@ const CreateProductForm = ({show, setShow, setLoading, setLoadProducts, displayN
                 <input name='name' type='text' placeholder='Product Name'/>
                 <textarea name='description' placeholder='Product Description'></textarea>
                 <input name='price' step={1} type='number' />
+
+                {/* Product categories selector */}
+                <select name='category'>
+                    {
+                        categories.map((category, index) => {
+                            return (
+                                <option key={index} value={category.id}>{category.name}</option>
+                            )
+                        })
+                    }
+                </select>
             </form>
         </Modal.Body>
         <Modal.Footer>

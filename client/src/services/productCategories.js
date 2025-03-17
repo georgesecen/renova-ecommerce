@@ -11,7 +11,7 @@ import API from './axiosInstance'
  * @param {object} requestData Data to send in the request.
  * @returns {Promise<AxiosResponse>} AxiosResponse object.
  */
-export const adminProductCategoriesService = async (operation, requestData) => {
+export const adminProductCategoriesService = async (operation, requestData = {}) => {
     try {
 
         // Add admin password to the request data being sent to server

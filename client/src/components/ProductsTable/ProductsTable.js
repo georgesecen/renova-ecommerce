@@ -3,6 +3,7 @@ import "./productsTable.css"
 import ModalSpinner from '../ModalSpinner/ModalSpinner'
 import ProductCard from './ProductCard/ProductCard'
 import { adminProductsService } from '../../services/products'
+import { adminProductCategoriesService } from '../../services/productCategories'
 import CreateProductForm from './CreateProductForm/CreateProductForm'
 import UpdateProductForm from './UpdateProductForm/UpdateProductForm'
 import CreateProductVariantForm from './CreateProductVariantForm/CreateProductVariantForm'
@@ -18,6 +19,8 @@ import ConfirmProductDelete from './ConfirmProductDelete/ConfirmProductDelete'
  * @returns {React.JSX.Element} ProductsTable React component.
  */
 const ProductsTable = ({displayNotification}) => {
+
+  const [categories, setCategories] = useState([])
 
   const [products, setProducts] = useState([])
   const [loadProducts, setLoadProducts] = useState(true) // When set to true will trigger reload of products
@@ -49,13 +52,17 @@ const ProductsTable = ({displayNotification}) => {
     }
   }
 
-  // Get products
+  // Get products and product categories
   useEffect(() => {
     if (loadProducts){
       adminProductsService("index")
         .then((response) => {setProducts(response.data.data); updateSelectedProduct(response.data.data)})
         .catch((error) => displayNotification("Get", `${error}`, "danger"))
-        .finally(() => setLoadProducts(false))      
+        .finally(() => setLoadProducts(false))     
+      
+      adminProductCategoriesService("index")
+        .then((response) => setCategories(response.data.data))
+        .catch((error) => displayNotification("Get", `${error}`, "danger"))
     }
   }, [loadProducts])
   
@@ -70,6 +77,7 @@ const ProductsTable = ({displayNotification}) => {
         setLoading={setLoading}
         setLoadProducts={setLoadProducts}
         displayNotification={displayNotification}
+        categories={categories}
         >
       </CreateProductForm>
 
