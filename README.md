@@ -40,6 +40,9 @@ CLIENT_SECRET=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
 JWT_SECRET=my_super_secret_key
 STRIPE_SECRET_KEY=sk_test_51QkxnbK1RDrGHWB83Dj2mKotljJjJAwG0EnuJpz9qI0j11WCcFokRmf5z0p2PKKwgUWQvFDy5rFQxQ7HSVnKO5Zd00bCFsczkH
 STRIPE_WEBHOOK_SECRET=whsec_4798b91eb4ce6d978dc9ffbe61d824f01a1d364bf3f53b7608556e652602c556
+EMAIL_USER=carolyne53@ethereal.email
+EMAIL_PASSWORD=ftTUwydBXJdtuvTSyw
+EMAIL_HOST=smtp.ethereal.email
 
 # Stripe api rate limit per second (100 in livemode, 25 in testmode)
 STRIPE_RATE_LIMIT=25
