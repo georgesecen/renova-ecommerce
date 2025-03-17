@@ -30,7 +30,11 @@ const Product = sequelize.define(
             underscored: false
         },
         gender: {
-            type: DataTypes.TEXT
+            type: DataTypes.ENUM(
+                'men',
+                'women',
+                'unisex'
+            ),
         },
 
         // Work around because time stamps are snake case and category id is camel case

@@ -48,7 +48,7 @@ exports.addProduct = async (req, res) => {
  */
 exports.createProduct = async (request, response) => {
 
-    const {name, description, price, categoryId} = request.body
+    const {name, description, price, categoryId, gender} = request.body
 
     try{
 
@@ -57,7 +57,8 @@ exports.createProduct = async (request, response) => {
             name: name,
             description: description,
             price: price,
-            categoryId: categoryId
+            categoryId: categoryId,
+            gender: gender
         })
 
         console.log("Product created successfully in database.")

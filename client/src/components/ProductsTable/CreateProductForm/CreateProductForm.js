@@ -29,7 +29,8 @@ const CreateProductForm = ({show, setShow, setLoading, setLoadProducts, displayN
         name: entries.name,
         description: entries.description,
         price: Number(entries.price),
-        categoryId: Number(entries.category)
+        categoryId: Number(entries.category),
+        gender: entries.gender
     }
     adminProductsService("create", data)
         .then((response) => displayNotification("Create", response.data.message))
@@ -49,6 +50,10 @@ const CreateProductForm = ({show, setShow, setLoading, setLoadProducts, displayN
                 <input name='name' type='text' placeholder='Product Name'/>
                 <textarea name='description' placeholder='Product Description'></textarea>
                 <input name='price' step={1} type='number' />
+
+                <input name="gender" value="unisex" type="radio" defaultChecked={true}/>Unisex <br></br>
+                <input name="gender" value="women" type="radio"/>Women <br></br>
+                <input name="gender" value="men" type="radio"/>Men <br></br>
 
                 {/* Product categories selector */}
                 <select name='category'>
