@@ -38,6 +38,7 @@ export const addProduct = (product) => {
 };
 export const removeCartItem = (cartItem) => {
     const guestUserId = localStorage.getItem('guestUserId');
+    console.log("guest user id from delete request",guestUserId)
     console.log(`Attempting to delete /cart/${cartItem.cart_item_id}`);
     return API.delete(`/cart/${cartItem.cart_item_id}`, {
         headers: { 'guest-user-id': guestUserId },

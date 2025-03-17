@@ -63,6 +63,11 @@ body {
     color: #bbb;
 }
 
+/*Settings page*/
+div.headerNavSettings a {
+    text-decoration: none;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .dashboard {
