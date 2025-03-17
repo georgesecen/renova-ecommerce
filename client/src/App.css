@@ -26,4 +26,5 @@ div.App {
     background-position: center;
     font-family: Quicksand;
     color: var(--text);
+    overflow-x: hidden;
 }
