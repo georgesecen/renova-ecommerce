@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { adminProductCategoriesService } from '../../services/productCategories'
+import CreateCategoryForm from './CreateCategoryForm/CreateCategoryForm'
+import ModalSpinner from '../ModalSpinner/ModalSpinner'
 
 const CategoriesTable = ({ displayNotification }) => {
 
   const [categories, setCategories] = useState([])
   const [loadCategories, setLoadCategories] = useState(true) // When set to true will trigger reload of products
+
+  const [selectedCategory, setSelectedCategory] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  const [showCreateCategoryForm, setShowCreateCategoryForm] = useState(false)
 
   // Get product categories
   useEffect(() => {
@@ -12,15 +19,24 @@ const CategoriesTable = ({ displayNotification }) => {
         adminProductCategoriesService("index")
           .then((response) => setCategories(response.data.data))
           .catch((error) => displayNotification("Get", `${error}`, "danger"))
-          .finally(() => setLoadCategories(false))   
+          .finally(() => setLoadCategories(false))     
       }  
   }, [loadCategories])
 
-  console.log(categories)
-
-
   return (
-    <div>CategoriesTable</div>
+    <div className='table-container'>
+        {loading && <ModalSpinner />}
+        
+        <CreateCategoryForm
+          show={showCreateCategoryForm} 
+          setShow={setShowCreateCategoryForm} 
+          setLoading={setLoading}
+          setLoadCategories={setLoadCategories}
+          displayNotification={displayNotification}
+          >
+        </CreateCategoryForm>
+
+    </div>
   )
 }
 
