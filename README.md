@@ -21,7 +21,7 @@ Website is under construction, but as soon as it is complete a link to the finis
 |Cameron McRae|cmcrae1989|w0796224@myscc.ca|MAD|001|
 |Wania Sharif|wania-sharif|w0842810@myscc.ca|MAD|001|
 |George Secen|georgesecen|w0533223@myscc.ca|MAD|001|
-|Asad Bashir|asad-bashir-442||MAD|001|
+|Asad Bashir|asad-bashir-442|w0848761@myscc.ca|MAD|001|
 
 ## License Agreement
 
