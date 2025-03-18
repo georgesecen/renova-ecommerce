@@ -5,8 +5,28 @@
     width: fit-content;
     /* padding: 0em 0.5em 0em 0.5em; */
     padding-left: 0.5em;
-    overflow: hidden;
+    overflow: auto;
+    /* scrollbar-width: thin; */
 }
+
+/* TODO: Make sure this works on all browsers/devices */
+/* For when information in label values go out of width. Scroll bar will not have arrows to make it cleaner */
+/* height */
+.label-value::-webkit-scrollbar {
+    height: 5px;
+}
+/* Track */
+.label-value::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+}
+
+/* Handle */
+.label-value::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px;
+}
+
 
 /* Label */
 .label-value > h6{
