@@ -4,8 +4,10 @@ import {getCartItems, removeCartItem} from "../services/cart";
 import Spinner from "./Spinner";
 import {useCart} from "../providers/CartContext";
 import ProductModal from "./ProductModal";
+import {Button} from "./Button";
+import {FaTrash} from "react-icons/fa";
 
-function CartList() {
+function CartList({ setTotalCost }) {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -26,10 +28,12 @@ function CartList() {
                     product_name: item.productVariant.product.name,
                     product_price: parseFloat(item.productVariant.product.price),
                     product_description: item.productVariant.product.description,
-                    product_image: item.productVariant.product.image[0].image_url
+                    product_image: item.productVariant.product.image[0].image_url,
+                    total: parseFloat(item.productVariant.product.price) / item.quantity
                 }));
                 setCartItems(formattedItems);  // Store items in state
                 console.log(cartItems)
+
                 // Set a delay so the spinner stays visible for at least 1 second
                 setTimeout(() => {
                     setLoading(false);
@@ -41,28 +45,22 @@ function CartList() {
             });
     }, []);
 
+    useEffect(() => {
+        // Calculate total cost whenever cartItems change and update the parent state
+        const total = cartItems.reduce((sum, item) => sum + item.product_price * item.quantity, 0);
+        setTotalCost(total);
+    }, [cartItems, setTotalCost]);
+
     const removeFromCartHandler = (item) => {
         console.log(`removing item ${item}`);
-        setShowModal(true);
-        setModalContent({
-            title: `Removed ${item.product_name}`,
-            message: `Removed ${item.product_name} from cart`,
-        });
 
         // If the quantity is greater than 1, decrease the quantity
         if (item.quantity > 1) {
             const updatedQuantity = item.quantity - 1;
-            console.log(item)
-            console.log(item.quantity)
-            console.log(item.cart_item_id)
-            console.log(item.product_id)
-            // console.log(item.productVariant.id)
-            console.log(item.quantity)
 
             // Call the API to update the quantity
             removeCartItem({
                 cart_item_id: item.cart_item_id,
-                // product_id: item.cart_item_id,
                 product_id: item.productVariant?.id || item.product_id,
                 quantity: 1, // Decrease by 1
             })
@@ -75,7 +73,6 @@ function CartList() {
                                 : prevItem
                         )
                     );
-
                     // Update the cart quantity both in context and localStorage
                     let currentQuantity = parseInt(localStorage.getItem('cartQuantity'), 10) || 0;
                     const newQuantity = currentQuantity - 1;
@@ -89,7 +86,6 @@ function CartList() {
             // If the quantity is 1, delete the item
             removeCartItem({
                 cart_item_id: item.cart_item_id,
-                // product_id: item.product_id,
                 quantity: 1, // Indicate that we're removing one
             })
                 .then(() => {
@@ -108,6 +104,11 @@ function CartList() {
                     console.error('Error removing cart item:', error);
                 });
         }
+        setShowModal(true);
+        setModalContent({
+            title: `Removed ${item.product_name}`,
+            message: `Removed ${item.product_name} from cart`,
+        });
     };
     // Logic for spinner
     if (loading) {
@@ -135,25 +136,42 @@ function CartList() {
             {cartItems.map((item) => {
                 return (
                     <li key={item.cart_item_id} className="productItem">
-                        <img src={`/images/${item.product_image}`} alt={item.product_name} />
+                        <img src={`/images/${item.product_image}`} alt={item.product_name}/>
                         <div className="productName">
                             <h3>{item.product_name}</h3>
                         </div>
                         <div className="productPrice">
+                            <p className="subtitleText">Price</p>
                             CAD ${item.product_price}
-                            <p>{item.product_description}</p>
-                            <p>Quantity: {item.quantity}</p>
                         </div>
-                        <button className="add-to-cart-btn" onClick={() => removeFromCartHandler(item)}>
-                            Remove From Cart
-                        </button>
+                        <div className="productQuantity">
+                            <p className="subtitleText">Quantity</p>
+
+                            <div className="priceSelect">
+                                <select value={item.quantity}>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                    <option>10</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div className="productTotal">
+                            <p className="subtitleText">Total</p>
+                            <p>{`$${item.product_price * item.quantity}`}</p>
+                        </div>
+                        <FaTrash className="removeBtn" type={"submit"} onClick={() => removeFromCartHandler(item)}/>
                     </li>
                 );
             })}
         </ul>
-            <div className="total-cost">
-                <h3>Total Cost Before HST and Shipping: CAD ${totalCost.toFixed(2)}</h3>
-            </div>
             <ProductModal
                 show={showModal}
                 onHide={() => setShowModal(false)}

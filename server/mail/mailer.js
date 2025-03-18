@@ -1,24 +1,31 @@
-require("dotenv").config();
-const sgMail = require("@sendgrid/mail");
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
-// Set SendGrid API Key
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-sgMail.setApiKey('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');
+const transporter = nodemailer.createTransport({
+    //email used for testing
+    host: 'smtp.ethereal.email',
+    secure:false,
+    port: 587,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD
+    }
+});
 
-// Function to Send Email
-const sendEmail = async (to, subject, text) => {
+const sendEmail = async (from,to, subject, text) => {
+
     try {
-        const msg = {
-            to,
-            from: "fstcam@outlook.com",
-            subject,
-            text,
-        };
-
-        await sgMail.send(msg);
-        console.log("✅ Email sent successfully!");
+        const info = await transporter.sendMail({
+            from, //sender email
+            to, // receiver email
+            subject, // email subject
+            html: `<p>${text}</p>`, // email content in HTML format
+          });
+          console.log("✅ Email sent successfully:", info.messageId);
+        
     } catch (error) {
         console.error("❌ Email send failed:", error);
+        
     }
 };
 

@@ -1,0 +1,97 @@
+
+.order-card-container{
+    width: 100%;
+}
+
+/* The order item which contains all order details */
+.order-card-header-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow-x: auto;
+    width: 100%;
+    background-color: white;
+    padding: 0.7em 0.2em 0.7em 0.2em;
+    position: relative;
+    z-index: 2;
+    user-select: none;
+    cursor: pointer;
+    scrollbar-width: thin;
+}
+
+/* For the arrow icon which shows menu is displayed */
+.order-card-header-container > img{
+    width: 2.2em;
+    margin: 0em 0.7em 0em 0.7em;
+
+    /* For rotating effect */
+    transition: transform 0.5s;
+}
+.order-card-header-container > img.show{
+    transform: rotate(-90deg);
+}
+
+/* Pending, completed, shipped button */
+.update-order-button{
+    border: none;
+    background-color: aquamarine;
+    display: flex;
+    gap: 0.4em;
+    border-radius: 2em;
+    padding: 0.2em 0.7em 0.2em 0.7em;
+    height: fit-content;
+    align-items: center;
+}
+.update-order-button > p{
+    margin: 0;
+    font-size: 0.9em;
+    color: white;
+}
+.update-order-button > img{
+    width: 1em;
+    height: 1em;
+    transform: translateY(-0.1em);
+}
+
+.order-item-container{
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    width: 100%;
+    padding: 0.7em 0.2em 0.7em 0.2em;
+}
+
+/* List which holds all items purchased with order */
+.order-card-items-container{
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    user-select: none;
+    scrollbar-width: thin;
+    z-index: 1;
+
+    /* To have lines lines under list items cover entire
+    width of container even when scrolled
+    */
+    display: grid;
+
+    /* For dropdown effect */
+    /* Dropdown strategy from https://codepen.io/Simona_Deng/pen/QjqQgZ */
+    max-height: 0px;
+    transition: max-height 1s cubic-bezier(0, 1.05, 0, 1);
+}
+.order-card-items-container.show{
+    max-height: 1000px;
+    transition: max-height 0.5s ease-in;
+}
+.order-card-items-container > li{
+    border-bottom: 1px solid #C1C1C1;
+}
+/* So border does not show on last list item */
+.order-card-items-container > li:last-of-type{
+    border-bottom: none;
+} 

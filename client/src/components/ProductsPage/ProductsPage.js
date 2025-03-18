@@ -4,6 +4,10 @@ import ProductCard from '../ProductCard/ProductCard';
 import { getProducts } from '../../services/products';
 import { useNavigate } from 'react-router-dom';
 import { getVariants } from '../../services/productVariants';
+import { addProduct } from "../../services/cart";
+import { useCart } from "../../providers/CartContext";
+import { useUser } from "../../providers/UserContext";
+import ProductModal from "../ProductModal";
 
 
 function ProductsPage() {
@@ -16,11 +20,22 @@ function ProductsPage() {
 
     const cols = useRef(new Map());
 
+    const [showModal, setShowModal] = useState(false);
+    const [modalContent, setModalContent] = useState({});
+    const [value, setValue] = useState(1);
+    const { updateCartQuantity } = useCart();
+    const { user, isLoggedIn } = useUser();
+
+    const user_id = user;
+    const guest_user_id = localStorage.getItem("guestUserId");
+
     useEffect(() => {
         console.log(products)
         getProducts()
             .then((response) => {
-                //console.log(response.data[0].image[0]);
+                console.log(response.data[0].image[0]);
+                console.log(response.data[0].image[0].image_url);
+
                 setProducts(response.data);
                 setFilteredProducts(response.data)  // Populate filtering array
 
@@ -40,6 +55,42 @@ function ProductsPage() {
                 setLoading(false);
             });
     }, []);
+    //Function to add to cart - pass it through props
+    const addToCartHandler = (product) => {
+        const productData = {
+            user_id,
+            guest_user_id,
+            product_variant_id: product.id,
+            quantity: value,
+        };
+        console.log(productData);
+        addProduct(productData)
+            .then(() => {
+                // Update the cart quantity both in context and localStorage
+                let currentQuantity;
+                if(isLoggedIn) {
+                    currentQuantity = parseInt(localStorage.getItem('cartQuantity'), 10) || 0;
+                } else {
+                    //TODO change to userCartQuantity later
+                    currentQuantity = parseInt(localStorage.getItem('cartQuantity'), 10) || 0;
+                }
+                const newQuantity = currentQuantity + productData.quantity;
+                updateCartQuantity(newQuantity);  // Update context
+                //Set content for modal
+                console.log(product.image[0].image_url);
+
+            })
+            .catch((error) => {
+                console.error('Error adding product:', error);
+            });
+        setModalContent({
+            title: "Product Added to Cart",
+            message: `${product.name} has been successfully added to your cart.`,
+            image: `/images/${product.image[0].image_url}`,
+        });
+        setShowModal(true)
+        console.log("Modal state:", showModal);
+    };
 
     // Temporary filtering method
     const filterProducts = (id) => {
@@ -70,9 +121,6 @@ function ProductsPage() {
      * 
      * @param {*} product 
      */
-    // const toProductPage = (productId) => {
-    //     navigate('/products/' + (productId), {state: { id: productId } })
-    // }
 
     // Temporary method to pass in product details
     const toProductPage = (product) => {
@@ -102,16 +150,24 @@ function ProductsPage() {
                 <div className="products-list">
                 {filteredProducts.map((product) => (
                     <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
-
-                    // img={`images/${product.image[0].image_url}`} 
                     name={product.name} 
                     price={product.price}
-                    cols={cols.current.get(String(product.id))}>
+                    cols={cols.current.get(String(product.id))}
+
+                    // image={`/images/${product.image[0].image_url}`}
+                    addToCart={() => addToCartHandler(product)}>
 
                     </ProductCard>
                 ))}
                 </div>
             </div>
+            <ProductModal
+                show={showModal}
+                onHide={() => setShowModal(false)}
+                title={modalContent.title}
+                message={modalContent.message}
+                image={modalContent.image}
+            />
         </div>
     );
 }

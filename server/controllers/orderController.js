@@ -1,5 +1,6 @@
 const OrderItem = require('../models/orderItemModel');
 const Order = require('../models/orderModel');
+const Product = require('../models/productModel');
 const ProductVariantModel = require('../models/productVariantModel');
 const ShippingAddress = require('../models/ShippingAddressModel');
 
@@ -31,13 +32,12 @@ exports.getUserOrders = (req, res) => {
 
 /**
  * Updates an orders status in the database.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.updateOrderStatus = async (request, response) => {
 
     const {id, status} = request.body
-    console.log(request.body)
 
     try{
 
@@ -50,7 +50,7 @@ exports.updateOrderStatus = async (request, response) => {
         }
         
         // If status is not a valid option
-        if (!new Set(["pending", "completed", "canceled", "shipped"]).has(status)){
+        if (!new Set(["pending", "completed", "cancelled", "shipped"]).has(status)){
             throw new Error(`Status ${status} is not a valid option. Status must be pending, completed, canceled, or shipped.`)
         }
 
@@ -72,8 +72,8 @@ exports.updateOrderStatus = async (request, response) => {
 
 /**
  * Gets all orders from the database.
- * @param {Object} request Express js request object.
- * @param {Object} response Express js response object.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
  */
 exports.getOrders = async (request, response) => {
 
@@ -92,7 +92,13 @@ exports.getOrders = async (request, response) => {
                     include: [
                         {
                             model: ProductVariantModel,
-                            as: "product_variant"
+                            as: "product_variant",
+                            include: [
+                                {
+                                    model: Product,
+                                    as: "product"
+                                }
+                            ]
                         }
                     ]
                 }

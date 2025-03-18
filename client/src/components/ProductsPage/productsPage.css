@@ -32,12 +32,10 @@
 .products-page .side-nav ul > li {
     margin-top: 8px;
     cursor: pointer;
-
-    transition-duration: 130ms;
+    color: grey;
 }
 
 .products-page .side-nav ul > li:hover, .products-page .side-nav ul > li.active {
-    font-size: 16px;
     color: rgb(241, 247, 252);
 }
 

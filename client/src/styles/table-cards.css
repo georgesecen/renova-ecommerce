@@ -1,0 +1,114 @@
+/* Shared styles between orders and products tables */
+
+/* Ul which holds all of the cards */
+.table-container > ul{
+    margin: 0;
+    padding: 0;
+    border: 1px solid #B4B4B4;
+    border-radius: 1em;
+    width: 90%;
+    margin-left: 20px;
+    overflow: hidden;
+    max-width: 1100px;
+}
+.table-container > ul > li{
+    border-bottom: 1px solid #C1C1C1;
+}
+.table-container > ul > li:last-of-type{
+    /* So border does not show on last list item */
+    border-bottom: none;
+}
+
+/* List item which contains main card and all the dropdown cards */
+.cards-container{
+    width: 100%;
+}
+
+/* Div which contains main card to be seen before dropdown */
+.card-header-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow-x: auto;
+    width: 100%;
+    background-color: white;
+    padding: 0.7em 0.2em 0.7em 0.2em;
+    position: relative;
+    z-index: 2;
+    user-select: none;
+    cursor: pointer;
+    scrollbar-width: thin;
+}
+
+/* For the arrow icon which shows dropdown is being displayed */
+.card-header-container > img{
+    width: 2.2em;
+    margin: 0em 0.7em 0em 0.7em;
+
+    /* For rotating effect */
+    transition: transform 0.5s;
+}
+.card-header-container > img.show{
+    transform: rotate(-90deg);
+}
+
+/* List which holds the dropdown items */
+.card-items-container{
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    user-select: none;
+    scrollbar-width: thin;
+    z-index: 1;
+
+    /* To have lines lines under list items cover entire
+    width of container even when scrolled
+    */
+    display: grid;
+
+    /* For dropdown effect */
+    /* Dropdown strategy from https://codepen.io/Simona_Deng/pen/QjqQgZ */
+    max-height: 0px;
+    transition: max-height 1s cubic-bezier(0, 1.05, 0, 1);
+}
+.card-items-container.show{
+    max-height: 1000px;
+    transition: max-height 0.5s ease-in;
+}
+.card-items-container > li{
+    border-bottom: 1px solid #C1C1C1;
+}
+/* So border does not show on last list item */
+.card-items-container > li:last-of-type{
+    border-bottom: none;
+} 
+
+/* Container which holds each dropdown item */
+.card-item-container{
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    width: 100%;
+    padding: 0.7em 0.2em 0.7em 0.2em;
+}
+
+/* Images in the label value component */
+.image-display{
+    display: flex;
+    gap: 0.1em;
+}
+.image-display > img{
+    /* width: 1.5em; */
+    height: 2em;
+    border-radius: 0.3em;
+}
+
+/* Product variant ids in the label value component */
+.ids-display{
+    display: flex;
+    gap: 0.5em;
+}
