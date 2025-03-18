@@ -9,6 +9,7 @@
     padding: 0.2em 0.7em 0.2em 0.7em;
     height: fit-content;
     align-items: center;
+    width: fit-content;
 }
 .update-order-button > p{
     margin: 0;

@@ -31,9 +31,9 @@ const CategoryCard = ({ category, setLoading, setLoadCategories, displayNotifica
 
       <div className='card-header-container'>
         <LabelValueDisplay labelValues={[
-          ["Category ID", categoryId, true],
-          ["Name", name, true],
-          ["", <button onClick={() => deleteCategory()}>Delete Me</button>, false],
+          ["Category ID", categoryId, 6, true],
+          ["Name", name, 7, true],
+          ["", <button onClick={() => deleteCategory()}>Delete Me</button>, 5, false],
         ]}></LabelValueDisplay>
       </div>
 
