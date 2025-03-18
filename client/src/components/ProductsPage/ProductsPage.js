@@ -4,6 +4,7 @@ import ProductCard from '../ProductCard/ProductCard';
 import { getProducts } from '../../services/products';
 import { useNavigate } from 'react-router-dom';
 import { getVariants } from '../../services/productVariants';
+import { getAllCategories } from '../../services/productCategories';
 import { addProduct } from "../../services/cart";
 import { useCart } from "../../providers/CartContext";
 import { useUser } from "../../providers/UserContext";
@@ -12,6 +13,7 @@ import ProductModal from "../ProductModal";
 
 function ProductsPage() {
     const navigate = useNavigate();  
+    const categories = useRef([]);
     const [genderFilter, filterByGender] = useState(0);
     const [categoryFilter, filterByCategory] = useState(0);
     const [products, setProducts] = useState([]);
@@ -52,6 +54,14 @@ function ProductsPage() {
             })
             .catch((error) => {
                 console.error('Error fetching products:', error);
+                setLoading(false);
+            });
+        getAllCategories()
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((error) => {
+                console.error('Error fetching categories:', error);
                 setLoading(false);
             });
     }, []);
@@ -96,22 +106,22 @@ function ProductsPage() {
     const filterProducts = (id) => {
         filterByCategory(id)
 
-        let name = ""
+        let category = ""
         switch (id) {
             case 0:
                 setFilteredProducts(products)
                 return
             case 1:
-                name = "Hoodie"
+                category = 1
                 break
             case 2:
-                name = "shirt"
+                category = 2
                 break
             case 3:
-                name = "Joggers"
+                category = 3
         }
 
-        setFilteredProducts(products.filter(product => product.name == name));
+        setFilteredProducts(products.filter(product => product.categoryId == category));
         // return result
     }
 
@@ -138,7 +148,7 @@ function ProductsPage() {
                     <li className={genderFilter === 2 ? "active" : ""} onClick={() => filterByGender(2)}>WOMEN</li>
                     <li className={genderFilter === 3 ? "active" : ""} onClick={() => filterByGender(3)}>UNISEX</li>
                     </ul>
-
+                    
                     <ul>
                     <li className={categoryFilter === 0 ? "active" : ""} onClick={() => filterProducts(0)}>ALL</li>
                     <li className={categoryFilter === 1 ? "active" : ""} onClick={() => filterProducts(1)}>HOODIES</li>
@@ -152,7 +162,6 @@ function ProductsPage() {
                     <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
                     name={product.name} 
                     price={product.price}
-                    gender={product.gender}
                     cols={cols.current.get(String(product.id))}
 
                     // image={`/images/${product.image[0].image_url}`}
