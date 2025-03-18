@@ -122,13 +122,14 @@ function ProductsPage() {
             <div className="content">
 
                 <div className="side-nav">
+                    <p>GENDER</p>
                     <ul>
                     <li className={genderFilter === 'all' ? "active" : ""} onClick={() => filterByGender('all')}>ALL</li>
                     <li className={genderFilter === 'men' ? "active" : ""} onClick={() => filterByGender('men')}>MEN</li>
                     <li className={genderFilter === 'women' ? "active" : ""} onClick={() => filterByGender('women')}>WOMEN</li>
                     <li className={genderFilter === 'unisex' ? "active" : ""} onClick={() => filterByGender('unisex')}>UNISEX</li>
                     </ul>
-                    
+                    <p>CATEGORY</p>
                     <ul>
                     <li className={categoryFilter === 0 ? "active" : ""} onClick={() => filterByCategory(0)}>ALL</li>
                     {categories.current.map((category, index) => (

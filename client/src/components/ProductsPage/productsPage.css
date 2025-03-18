@@ -16,10 +16,20 @@
 /* Side navigation styles  */
 
 .products-page .side-nav {
-    min-width: 200px;
+    min-width: 166px;
     display: flex;
     flex-direction: column;
     padding-top: 40px;
+}
+
+.products-page .side-nav p {
+    color: rgb(164, 164, 164);
+    font-size: 12px;
+    border-bottom: .3px solid rgb(131, 131, 131);
+    margin-right: 70px;
+    margin-bottom: 8px;
+    padding-left: 4px;
+    padding-bottom: 2px;
 }
 
 .products-page .side-nav ul {
@@ -27,6 +37,8 @@
     font-size: 13px;
     font-weight: 400;
     letter-spacing: 2px;
+    padding-left: 4px;
+    margin-bottom: 5em;
 }
 
 .products-page .side-nav ul > li {
@@ -59,6 +71,14 @@
     scrollbar-width: none;  /* Firefox */
 }
 
+
+/* Media queries  */
+
+@media screen and (max-width: 960px) {
+    .products-page .products-list {
+        justify-content: center;
+    }
+}
 @media screen and (max-width: 700px){
     .products-page .side-nav {
         display: none;
