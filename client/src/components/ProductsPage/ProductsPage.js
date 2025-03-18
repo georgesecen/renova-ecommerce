@@ -8,7 +8,8 @@ import { getVariants } from '../../services/productVariants';
 
 function ProductsPage() {
     const navigate = useNavigate();  
-    const [filter, filterBy] = useState(0);
+    const [genderFilter, filterByGender] = useState(0);
+    const [categoryFilter, filterByCategory] = useState(0);
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -23,14 +24,14 @@ function ProductsPage() {
                 setProducts(response.data);
                 setFilteredProducts(response.data)  // Populate filtering array
 
-                // Map all colour variants
-                for (const p in response.data){
-                    getVariants(p)
-                    .then((res) => {
-                        let colSet = new Set(res.map(a => a.color))
-                        cols.current.set(p, colSet);
-                    })
-                }
+                // // Map all colour variants
+                // for (const p in response.data){
+                //     getVariants(p)
+                //     .then((res) => {
+                //         let colSet = new Set(res.map(a => a.color))
+                //         cols.current.set(p, colSet);
+                //     })
+                // }
 
                 setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
             })
@@ -42,7 +43,7 @@ function ProductsPage() {
 
     // Temporary filtering method
     const filterProducts = (id) => {
-        filterBy(id)
+        filterByCategory(id)
 
         let name = ""
         switch (id) {
@@ -60,7 +61,6 @@ function ProductsPage() {
         }
 
         setFilteredProducts(products.filter(product => product.name == name));
-        console.log(filter, filteredProducts)
         // return result
     }
 
@@ -85,10 +85,17 @@ function ProductsPage() {
 
                 <div className="side-nav">
                     <ul>
-                    <li className={filter === 0 ? "active" : ""} onClick={() => filterProducts(0)}>ALL</li>
-                    <li className={filter === 1 ? "active" : ""} onClick={() => filterProducts(1)}>HOODIES</li>
-                    <li className={filter === 2 ? "active" : ""} onClick={() => filterProducts(2)}>T-SHIRTS</li>
-                    <li className={filter === 3 ? "active" : ""} onClick={() => filterProducts(3)}>PANTS</li>
+                    <li className={genderFilter === 0 ? "active" : ""} onClick={() => filterByGender(0)}>ALL</li>
+                    <li className={genderFilter === 1 ? "active" : ""} onClick={() => filterByGender(1)}>MEN</li>
+                    <li className={genderFilter === 2 ? "active" : ""} onClick={() => filterByGender(2)}>WOMEN</li>
+                    <li className={genderFilter === 3 ? "active" : ""} onClick={() => filterByGender(3)}>UNISEX</li>
+                    </ul>
+
+                    <ul>
+                    <li className={categoryFilter === 0 ? "active" : ""} onClick={() => filterProducts(0)}>ALL</li>
+                    <li className={categoryFilter === 1 ? "active" : ""} onClick={() => filterProducts(1)}>HOODIES</li>
+                    <li className={categoryFilter === 2 ? "active" : ""} onClick={() => filterProducts(2)}>T-SHIRTS</li>
+                    <li className={categoryFilter === 3 ? "active" : ""} onClick={() => filterProducts(3)}>PANTS</li>
                     </ul>
                 </div>
 
@@ -104,7 +111,6 @@ function ProductsPage() {
                     </ProductCard>
                 ))}
                 </div>
-
             </div>
         </div>
     );
