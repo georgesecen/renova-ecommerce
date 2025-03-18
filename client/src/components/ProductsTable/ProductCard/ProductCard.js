@@ -114,15 +114,15 @@ const ProductCard = ({
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='card-header-container'>
 
         <LabelValueDisplay labelValues={[
-          ["Product ID", productId, false],
-          ["", <ActionButton onClick={createProductVariant} color={"#04B077"} icon={addIcon} text={"Add Variant"}/>, false],
-          ["", <ActionButton onClick={deleteProduct} color={"#C90230"} icon={deleteIcon} text={"Delete"}/>, false],
-          ["", <ActionButton onClick={updateProduct} color={"#DF8D00"} icon={editIcon} text={"Edit"}/>, true],
-          ["Name", name, true],
-          ["Description", description, true],
-          ["Images", ImageDisplay(), false],
-          ["", <ActionButton onClick={editImages} color={"#C301E9"} icon={imageIcon} text={"Add / Remove"}/>, true],
-          ["Price", `$${price}`, false],
+          ["Product ID", productId, 4, false],
+          ["", <ActionButton onClick={updateProduct} color={"#DF8D00"} icon={editIcon} text={"Edit"}/>, 5, false],
+          ["", <ActionButton onClick={createProductVariant} color={"#04B077"} icon={addIcon} text={"Add Variant"}/>, 8, true],
+          ["Name", name, 12, true],
+          ["Description", description, 12.5, true],
+          ["Images", ImageDisplay(), 12.5, false],
+          ["", <ActionButton onClick={editImages} color={"#C301E9"} icon={imageIcon} text={"Update Gallery"}/>, 9.5, true],
+          ["Price", `$${price}`, 5, false],
+          ["", <ActionButton onClick={deleteProduct} color={"#C90230"} icon={deleteIcon} text={"Delete"}/>, 7, false],
         ]}></LabelValueDisplay>
 
         {/* Arrow icon which shows sub menu is open */}

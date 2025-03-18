@@ -12,7 +12,7 @@ const imageIcon = require("../../../assets/icons/image.png")
 /**
  * Product variant group card which displays all product variant group information. Card also provides 
  * the ability to perform various actions regarding the product variant group in this card. (CRUD operations etc)
- * @param {Array<object>} productVariants All product variants which belong to product.
+ * @param {Array<object>} productVariants All product variants which belong to product variant group.
  * @param {string} color Product variant group to parse from productVariants.
  * @param {function} setProductVariantGroup Function handles setting the current selected product variant group for actions. (Color)
  * @param {function} setShowImageForm Function which handles displaying the image form.
@@ -31,15 +31,17 @@ const ProductVariantCard = ({
   setProduct
 }) => {
 
-  // Get total stock quantity, ids and images used amongst all product variants
+  // Get total stock quantity, ids, sizes, and images used amongst all product variants
   let totalQuantity = 0
   const productVariantsIds = []
+  const productVariantSizes = []
   const images = new Set()
 
   productVariants.forEach(productVariant => {
 
     totalQuantity += productVariant.stock_quantity
     productVariantsIds.push(productVariant.id)
+    productVariantSizes.push(productVariant.size)
 
     productVariant.images.forEach((image) => {
         images.add(image.image_url)
@@ -94,15 +96,32 @@ const ProductVariantCard = ({
     )
   }
 
+  // Displays all sizes in product variant group
+  const ProductVariantSizesDisplay = () => {
+    return (
+      <div className='ids-display'>
+        {
+          productVariantSizes.map((size, index) => {
+            return (
+              // Display comma after every size exept the last one
+              <p key={index}>{`${size}${index < productVariantsIds.length - 1 ? "," : ""}`}</p>
+            )
+          })
+        }
+      </div>
+    )
+  }
+
   return (
     <div className='card-item-container'>
        <LabelValueDisplay labelValues={[
-          ["Product Variant IDs", ProductVariantIdsDisplay(), false],
-          ["", <ActionButton onClick={updateProductVariants} color={"#878705"} icon={editIcon} text={"Edit"}/>, true],
-          ["Color", color, true],
-          ["Images", ImageDisplay(), false],
-          ["", <ActionButton onClick={editImages} color={"#027081"} icon={imageIcon} text={"Add / Remove"}/>, true],
-          ["Total Stock Quantity", totalQuantity, false],
+          ["Product Variant IDs", ProductVariantIdsDisplay(), 8, false],
+          ["", <ActionButton onClick={updateProductVariants} color={"#878705"} icon={editIcon} text={"Edit"}/>, 5.5, true],
+          ["Color", color, 4.5, true],
+          ["Sizes", ProductVariantSizesDisplay(), 7, true],
+          ["Images", ImageDisplay(), 12.5, false],
+          ["", <ActionButton onClick={editImages} color={"#027081"} icon={imageIcon} text={"Update Gallery"}/>, 9.5, true],
+          ["Total Stock Quantity", totalQuantity, 8, false],
         ]}></LabelValueDisplay>
     </div>
   )
