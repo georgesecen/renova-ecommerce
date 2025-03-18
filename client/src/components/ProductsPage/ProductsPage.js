@@ -58,13 +58,16 @@ function ProductsPage() {
             });
         getAllCategories()
             .then((res) => {
-                console.log(res)
+                categories.current = res.data.data
             })
             .catch((error) => {
                 console.error('Error fetching categories:', error);
                 setLoading(false);
             });
     }, []);
+
+
+
     //Function to add to cart - pass it through props
     const addToCartHandler = (product) => {
         const productData = {
@@ -122,7 +125,6 @@ function ProductsPage() {
         }
 
         setFilteredProducts(products.filter(product => product.categoryId == category));
-        // return result
     }
 
     /** This function will take in an int productId and 
@@ -150,10 +152,14 @@ function ProductsPage() {
                     </ul>
                     
                     <ul>
-                    <li className={categoryFilter === 0 ? "active" : ""} onClick={() => filterProducts(0)}>ALL</li>
+                    {categories.current.map((category, index) => (
+                        <li className={categoryFilter === index ? "active" : ""} onClick={() => filterProducts(index)}>{category.name.toUpperCase()}</li>
+                    ))}
+
+                    {/* <li className={categoryFilter === 0 ? "active" : ""} onClick={() => filterProducts(0)}>ALL</li>
                     <li className={categoryFilter === 1 ? "active" : ""} onClick={() => filterProducts(1)}>HOODIES</li>
                     <li className={categoryFilter === 2 ? "active" : ""} onClick={() => filterProducts(2)}>T-SHIRTS</li>
-                    <li className={categoryFilter === 3 ? "active" : ""} onClick={() => filterProducts(3)}>PANTS</li>
+                    <li className={categoryFilter === 3 ? "active" : ""} onClick={() => filterProducts(3)}>PANTS</li> */}
                     </ul>
                 </div>
 
