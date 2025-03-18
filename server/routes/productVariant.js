@@ -1,4 +1,5 @@
 const express = require('express');
+
 const { 
     createProductVariant, 
     updateProductVariantQuantity, 
@@ -6,11 +7,14 @@ const {
     deleteProductVariantGroup,
     updateProductVariantGroupPrice,
     addProductVariantGroupImage,
-    removeProductVariantGroupImage
+    removeProductVariantGroupImage,
+    getProductVariants
  } = require('../controllers/productVariantController');
 const adminAuthentication = require('../middleware/adminMiddleware');
 const limitStripe = require('../middleware/stripeLimitMiddleware');
 const router = express.Router();
+
+router.get('/products/:id', getProductVariants)
 
 // Multer is middleware used for handling multipart/form-data
 // https://expressjs.com/en/resources/middleware/multer.html

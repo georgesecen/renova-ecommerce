@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './productsPage.css'
 import ProductCard from '../ProductCard/ProductCard';
 import { getProducts } from '../../services/products';
 import { useNavigate } from 'react-router-dom';
+import { getVariants } from '../../services/productVariants';
+import { getAllCategories } from '../../services/productCategories';
 import { addProduct } from "../../services/cart";
 import { useCart } from "../../providers/CartContext";
 import { useUser } from "../../providers/UserContext";
@@ -11,10 +13,13 @@ import ProductModal from "../ProductModal";
 
 function ProductsPage() {
     const navigate = useNavigate();  
-    const [filter, filterBy] = useState(0);
+    const categories = useRef([]);
+    const [genderFilter, filterByGender] = useState('all');
+    const [categoryFilter, filterByCategory] = useState(0);
     const [products, setProducts] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const cols = useRef(new Map());
 
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState({});
@@ -31,15 +36,37 @@ function ProductsPage() {
             .then((response) => {
                 console.log(response.data[0].image[0]);
                 console.log(response.data[0].image[0].image_url);
+
                 setProducts(response.data);
-                setFilteredProducts(response.data)  // Populate filtering array
+
+                // // Map all colour variants
+                // for (const p in response.data){
+                //     getVariants(p)
+                //     .then((res) => {
+                //         let colSet = new Set(res.map(a => a.color))
+                //         cols.current.set(p, colSet);
+                //     })
+                // }
+
                 setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
             })
             .catch((error) => {
                 console.error('Error fetching products:', error);
                 setLoading(false);
             });
+
+        // Request to retrieve all categories and store result
+        getAllCategories()
+            .then((res) => {
+                categories.current = res.data.data
+            })
+            .catch((error) => {
+                console.error('Error fetching categories:', error);
+                setLoading(false);
+            });
     }, []);
+
+
     //Function to add to cart - pass it through props
     const addToCartHandler = (product) => {
         const productData = {
@@ -77,29 +104,6 @@ function ProductsPage() {
         console.log("Modal state:", showModal);
     };
 
-    // Temporary filtering method
-    const filterProducts = (id) => {
-        filterBy(id)
-
-        let name = ""
-        switch (id) {
-            case 0:
-                setFilteredProducts(products)
-                return
-            case 1:
-                name = "Hoodie"
-                break
-            case 2:
-                name = "shirt"
-                break
-            case 3:
-                name = "Joggers"
-        }
-
-        setFilteredProducts(products.filter(product => product.name == name));
-        console.log(filter, filteredProducts)
-        // return result
-    }
 
     /** This function will take in an int productId and 
      *  redirect the user to /products:id where id is 
@@ -118,25 +122,41 @@ function ProductsPage() {
             <div className="content">
 
                 <div className="side-nav">
+                    <p>GENDER</p>
                     <ul>
-                    <li className={filter === 0 ? "active" : ""} onClick={() => filterProducts(0)}>ALL</li>
-                    <li className={filter === 1 ? "active" : ""} onClick={() => filterProducts(1)}>HOODIES</li>
-                    <li className={filter === 2 ? "active" : ""} onClick={() => filterProducts(2)}>T-SHIRTS</li>
-                    <li className={filter === 3 ? "active" : ""} onClick={() => filterProducts(3)}>PANTS</li>
+                    <li className={genderFilter === 'all' ? "active" : ""} onClick={() => filterByGender('all')}>ALL</li>
+                    <li className={genderFilter === 'men' ? "active" : ""} onClick={() => filterByGender('men')}>MEN</li>
+                    <li className={genderFilter === 'women' ? "active" : ""} onClick={() => filterByGender('women')}>WOMEN</li>
+                    <li className={genderFilter === 'unisex' ? "active" : ""} onClick={() => filterByGender('unisex')}>UNISEX</li>
+                    </ul>
+                    <p>CATEGORY</p>
+                    <ul>
+                    <li className={categoryFilter === 0 ? "active" : ""} onClick={() => filterByCategory(0)}>ALL</li>
+                    {categories.current.map((category, index) => (
+                        <li key={index} className={categoryFilter === category.id ? "active" : ""} onClick={() => {filterByCategory(category.id)}}>{category.name.toUpperCase()}</li>
+                    ))}
                     </ul>
                 </div>
 
                 <div className="products-list">
-                {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
-                        name={product.name}
-                        price={product.price}
-                        image={`/images/${product.image[0].image_url}`}
-                        addToCart={() => addToCartHandler(product)}>
-                    </ProductCard>
-                ))}
+                {products.map((product) => {
+                    if (categoryFilter !== product.categoryId && categoryFilter !== 0){
+                        return null
+                    }
+                    if (genderFilter !== product.gender && genderFilter !== 'all'){
+                        return null
+                    }
+                    return (
+                        <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
+                            name={product.name} 
+                            price={product.price}
+                            cols={cols.current.get(String(product.id))}
+                            // image={`/images/${product.image[0].image_url}`}
+                            addToCart={() => addToCartHandler(product)}>
+                        </ProductCard>
+                    )
+                    })}
                 </div>
-
             </div>
             <ProductModal
                 show={showModal}
