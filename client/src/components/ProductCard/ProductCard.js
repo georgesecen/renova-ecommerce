@@ -9,7 +9,7 @@ function ProductCard(props) {
                     {/* <img src={props.image} alt={props.image}/> */}
                     <img src={img} alt=""/>
                 </div>
-                <div className="name">{props.name}</div>
+                <div className="name">{props.gender}</div>
                 <div className="price">{props.price}</div>
             </div>
             

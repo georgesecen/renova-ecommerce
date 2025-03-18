@@ -152,6 +152,7 @@ function ProductsPage() {
                     <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
                     name={product.name} 
                     price={product.price}
+                    gender={product.gender}
                     cols={cols.current.get(String(product.id))}
 
                     // image={`/images/${product.image[0].image_url}`}
