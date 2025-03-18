@@ -11,6 +11,7 @@ const stripeRoutes = require('./routes/stripe')
 const emailRoutes = require('./mail/email');
 const productImageRoutes = require('./routes/productImage');
 const productVariantRoutes = require('./routes/productVariant');
+const productCategoryRoutes = require('./routes/productCategory');
 const guestRoutes = require('./routes/userGuest');
 
 const adminAuthentication = require('./middleware/adminMiddleware')
@@ -34,7 +35,7 @@ app.use(cors({
     origin: 'http://localhost:3000',  // Allow frontend domain
     credentials: true,  // Allow cookies & authentication headers
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow these methods
-    allowedHeaders: ['Content-Type', 'Authorization'],  // Allow these headers
+    allowedHeaders: ['Content-Type', 'Authorization', 'guest-user-id'],  // Allow these headers
 }));
 
 app.use((req, res, next) => {
@@ -86,6 +87,7 @@ app.use('/guest', guestRoutes);
 app.use('/products', productRoutes);
 app.use('/images', productImageRoutes);
 app.use('/product-variants', productVariantRoutes);
+app.use('/product-categories', productCategoryRoutes);
 app.use('/orders', orderRoutes);
 app.use('/orderItems', orderItemRoutes);
 app.use('/cart', cartRoutes);

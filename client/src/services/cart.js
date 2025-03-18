@@ -1,8 +1,11 @@
 import API from "../services/axiosInstance";
 
 export const getCartItems = async () => {
+    const guestUserId = localStorage.getItem('guestUserId');
     try {
-        const response = await API.get("/cart", {withCredentials: true});
+        const response = await API.get("/cart", {
+        headers : { 'guest-user-id': guestUserId },
+        withCredentials: true});
         return response.data;
     } catch (error) {
         console.error("Error fetching cart:", error);
@@ -11,8 +14,10 @@ export const getCartItems = async () => {
 };
 
 export const getCartItemQuantity = async () => {
+    const guestUserId = localStorage.getItem('guestUserId');
     try {
         const response = await API.get('/cart/quantity', {
+            headers: { 'guest-user-id': guestUserId },
             withCredentials: true,
         });
         console.log("cart quantity: ",response);
@@ -24,11 +29,19 @@ export const getCartItemQuantity = async () => {
 }
 
 export const addProduct = (product) => {
-    return API.post("/cart", product, {withCredentials: true});
-}
+    const guestUserId = localStorage.getItem('guestUserId'); // Retrieve guest ID
+
+    return API.post("/cart", product, {
+        headers: { 'guest-user-id': guestUserId }, // Corrected headers structure
+        withCredentials: true
+    });
+};
 export const removeCartItem = (cartItem) => {
+    const guestUserId = localStorage.getItem('guestUserId');
+    console.log("guest user id from delete request",guestUserId)
     console.log(`Attempting to delete /cart/${cartItem.cart_item_id}`);
     return API.delete(`/cart/${cartItem.cart_item_id}`, {
+        headers: { 'guest-user-id': guestUserId },
         withCredentials: true,
         data: {
             product_id: cartItem.cart_item_id,

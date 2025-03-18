@@ -4,13 +4,28 @@ import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 import ProductVariantCard from "../ProductVariantCard/ProductVariantCard"
 const arrowIcon = require("../../../assets/icons/arrow.png")
 
+/**
+ * Product card which displays all product information. Card also provides the ability to perform various
+ * actions regarding the product in this product card. (CRUD operations etc)
+ * @param {object} product Product to be used in this product card.
+ * @param {function} setProduct Function which handles setting the current selected product for actions.
+ * @param {function} setProductVariantGroup Function which handles selecting the product variant group for actions.
+ * @param {function} setShowUpdateProductForm Function which handles displaying the update product form.
+ * @param {function} setShowCreateProductVariantForm Function which handles displaying the create product variant form.
+ * @param {function} setShowImageForm Function which handles displaying the image form.
+ * @param {function} setShowUpdateProductVariantForm Function which handles displaying the update product variant form.
+ * @param {function} setShowConfirmProductDelete Function which handles displaying the delete product confirmation modal.
+ * @returns {React.JSX.Element} ProductCard React component.
+ */
 const ProductCard = ({
   product, 
   setProduct, 
   setProductVariantGroup,
   setShowUpdateProductForm,
   setShowCreateProductVariantForm,
-  setShowImageForm
+  setShowImageForm,
+  setShowUpdateProductVariantForm,
+  setShowConfirmProductDelete
 }) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
@@ -109,6 +124,23 @@ const ProductCard = ({
     )
   }
 
+  // Delete product button
+  const DeleteProductButton = () => {
+    return (
+      <button 
+        onClick={(event)=>{
+
+          // Display the delete product confirmation modal
+          event.stopPropagation() // To prevent sub menu showing
+          setProduct(product)
+          setShowConfirmProductDelete(true)
+        }} 
+      >
+        Delete
+      </button>
+    )
+  }
+
   return (
     <li className='cards-container'>
 
@@ -118,6 +150,7 @@ const ProductCard = ({
         <LabelValueDisplay labelValues={[
           ["Product ID", productId, false],
           ["", CreateProductVariantButton(), false],
+          ["", DeleteProductButton(), false],
           ["", EditProductButton(), true],
           ["Name", name, true],
           ["Description", description, true],
@@ -142,6 +175,7 @@ const ProductCard = ({
                   color={color}
                   setProductVariantGroup={setProductVariantGroup}
                   setShowImageForm={setShowImageForm}
+                  setShowUpdateProductVariantForm={setShowUpdateProductVariantForm}
                   product={product}
                   setProduct={setProduct}
                   >

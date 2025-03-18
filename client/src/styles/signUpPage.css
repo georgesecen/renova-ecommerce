@@ -4,6 +4,8 @@ div.signup-page {
 }
 
 div.signup-page h1{
+  text-transform: uppercase;
+  font-size: 2.2rem;
   margin-bottom: 3rem;
   text-align: center;
 }

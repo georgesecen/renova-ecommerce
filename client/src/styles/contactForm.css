@@ -5,18 +5,29 @@ form.contact-form {
     gap: 1rem;
     max-width: 600px;
     margin: 0 auto;
-
 }
+
+form.contact-form input {
+    padding: 1.2rem;
+    height: 28px;
+    text-transform: none;
+    font-size: .9em;
+}
+form.contact-form textarea {
+    font-size: .9em;
+}
+
+form.contact-form input:focus {
+    outline: 1px solid white;
+}
+
 form.contact-form label.form-label {
     margin-top: 1rem;
 }
-/* form.contact-form .textarea.form-control {
-    margin-bottom: 200px;
-} */
 
 form.contact-form span {
     display: block;
-    color: red;
+    color: rgb(207, 97, 97);
     font-family: sans-serif;
     height: 18px;
     transition: 150ms ease-in;
