@@ -2,6 +2,9 @@ import React from 'react'
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 import { adminProductCategoriesService } from '../../../services/productCategories';
 import "./categoryCard.css"
+import ActionButton from '../../ActionButton/ActionButton'
+
+const deleteIcon = require("../../../assets/icons/delete.png")
 
 /**
  * Category card which displays all category information. Card also provides the ability to delete
@@ -18,7 +21,7 @@ const CategoryCard = ({ category, setLoading, setLoadCategories, displayNotifica
   const { id: categoryId, name } = category ?? {}
 
   // Function deletes category in this category card (Categories which have products will not be deleted)
-  function deleteCategory(){
+  function deleteCategory(event){
     setLoading(true)
     adminProductCategoriesService("delete", {categoryId: categoryId})
       .then((response) => displayNotification("Delete", response.data.message))
@@ -33,7 +36,7 @@ const CategoryCard = ({ category, setLoading, setLoadCategories, displayNotifica
         <LabelValueDisplay labelValues={[
           ["Category ID", categoryId, 6, true],
           ["Name", name, 7, true],
-          ["", <button onClick={() => deleteCategory()}>Delete Me</button>, 5, false],
+          ["", <ActionButton onClick={deleteCategory} color={"#C90230"} icon={deleteIcon} text={"Delete"}/>, 5, false],
         ]}></LabelValueDisplay>
       </div>
 

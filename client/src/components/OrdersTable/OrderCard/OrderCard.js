@@ -17,34 +17,12 @@ const OrderCard = ({order, setOrder, showOrderForm}) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
 
-  // Pending, completed, shipped button
-  const UpdateOrderButton = () => {
-    return (
-      <button 
-        onClick={(event)=>{
-
-          // Display the order form for order
-          event.stopPropagation() // To prevent sub menu showing
-          setOrder(order)
-          showOrderForm(true)
-        }} 
-        className='update-order-button'
-        style={{"backgroundColor": colors[status]}}
-      >
-        <p>{status}</p>
-        <img src={editIcon} alt='Edit'/>
-      </button>
-    )
-  }
-
-  // Function updates the status of an order (Will be used in custom button component)
+  // Function displays update order form (Will be used in custom button component)
   function updateOrder(event){
-    // Display the order form for order
     event.stopPropagation() // To prevent sub menu showing
     setOrder(order)
     showOrderForm(true)
   }
-  
 
   // Get order details
   const {

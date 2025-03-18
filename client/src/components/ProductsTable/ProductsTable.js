@@ -10,6 +10,9 @@ import CreateProductVariantForm from './CreateProductVariantForm/CreateProductVa
 import ImageForm from './ImageForm/ImageForm'
 import UpdateProductVariantForm from './UpdateProductVariantForm/UpdateProductVariantForm'
 import ConfirmProductDelete from './ConfirmProductDelete/ConfirmProductDelete'
+import ActionButton from '../ActionButton/ActionButton'
+
+const addIcon = require("../../assets/icons/add.png")
 
 /**
  * Gets all of the products + product variants information in the database. Displays all the information
@@ -69,7 +72,14 @@ const ProductsTable = ({displayNotification}) => {
   return (
     <div className='table-container'>
       {loading && <ModalSpinner />}
-      <button onClick={() => setShowCreateProductForm(!showCreateProductForm)}>Create Product</button>
+      
+      <ActionButton
+        onClick={(event) => setShowCreateProductForm(!showCreateProductForm)}
+        color={"#08A9F9"}
+        icon={addIcon}
+        text={"New Product"}
+        >
+      </ActionButton>
       
       <CreateProductForm
         show={showCreateProductForm} 

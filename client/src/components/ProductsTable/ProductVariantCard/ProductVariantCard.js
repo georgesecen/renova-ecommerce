@@ -1,6 +1,10 @@
 import React from 'react'
 import "./productVariantCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
+import ActionButton from '../../ActionButton/ActionButton'
+
+const editIcon = require("../../../assets/icons/edit.png")
+const imageIcon = require("../../../assets/icons/image.png")
 
 // Note: This component is really a product variant group card component. 
 // TODO: Change name to product variant group card
@@ -58,40 +62,20 @@ const ProductVariantCard = ({
     )
   }
 
-  // Edit images button
-  const EditImagesButton = () => {
-    return (
-      <button 
-        onClick={(event)=>{
-
-          // Display the images form for product variant group
-          event.stopPropagation() // To prevent sub menu showing
-          setProductVariantGroup(color)
-          setProduct(product)
-          setShowImageForm(true)
-        }} 
-      >
-        Edit
-      </button>
-    )
+  // Function displays the images form (Will be used in custom button component)
+  function editImages(event){
+    event.stopPropagation() // To prevent sub menu showing
+    setProductVariantGroup(color)
+    setProduct(product)
+    setShowImageForm(true)
   }
 
-  // Edit product variants button
-  const EditProductVariantsButton = () => {
-    return (
-      <button 
-        onClick={(event)=>{
-
-          // Display the uodate product variants form for product variant group
-          event.stopPropagation() // To prevent sub menu showing
-          setProductVariantGroup(color)
-          setProduct(product)
-          setShowUpdateProductVariantForm(true)
-        }} 
-      >
-        Edit
-      </button>
-    )
+  // Function displays the update product variants form (Will be used in custom button component)
+  function updateProductVariants(event){
+    event.stopPropagation() // To prevent sub menu showing
+    setProductVariantGroup(color)
+    setProduct(product)
+    setShowUpdateProductVariantForm(true)
   }
 
   // Displays all IDs in product variant group
@@ -114,10 +98,10 @@ const ProductVariantCard = ({
     <div className='card-item-container'>
        <LabelValueDisplay labelValues={[
           ["Product Variant IDs", ProductVariantIdsDisplay(), false],
-          ["", EditProductVariantsButton(), true],
+          ["", <ActionButton onClick={updateProductVariants} color={"#878705"} icon={editIcon} text={"Edit"}/>, true],
           ["Color", color, true],
           ["Images", ImageDisplay(), false],
-          ["", EditImagesButton(), true],
+          ["", <ActionButton onClick={editImages} color={"#027081"} icon={imageIcon} text={"Add / Remove"}/>, true],
           ["Total Stock Quantity", totalQuantity, false],
         ]}></LabelValueDisplay>
     </div>
