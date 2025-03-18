@@ -1,0 +1,23 @@
+
+/* Button is used throughout admin dashboard */
+.action-button{
+    border: none;
+    background-color: aquamarine;
+    display: flex;
+    gap: 0.4em;
+    border-radius: 2em;
+    padding: 0.2em 0.7em 0.2em 0.7em;
+    height: fit-content;
+    align-items: center;
+    width: fit-content;
+}
+.action-button > p{
+    margin: 0;
+    font-size: 0.9em;
+    color: white;
+}
+.action-button > img{
+    width: 1em;
+    height: 1em;
+    transform: translateY(-0.1em);
+}

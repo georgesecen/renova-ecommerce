@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import "./orderCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
+import ActionButton from '../../ActionButton/ActionButton'
 
 const editIcon = require("../../../assets/icons/edit.png")
 const arrowIcon = require("../../../assets/icons/arrow.png")
@@ -34,6 +35,14 @@ const OrderCard = ({order, setOrder, showOrderForm}) => {
         <img src={editIcon} alt='Edit'/>
       </button>
     )
+  }
+
+  // Function updates the status of an order (Will be used in custom button component)
+  function updateOrder(event){
+    // Display the order form for order
+    event.stopPropagation() // To prevent sub menu showing
+    setOrder(order)
+    showOrderForm(true)
   }
   
 
@@ -75,7 +84,7 @@ const OrderCard = ({order, setOrder, showOrderForm}) => {
 
         <LabelValueDisplay labelValues={[
           ["Order ID", id, 3.5, false],
-          ["", UpdateOrderButton(), 7.5, true],
+          ["", <ActionButton onClick={updateOrder} color={colors[status]} icon={editIcon} text={status}/>, 7.5, true],
           ["Total", `$${total}`, 4, true],
           ["Time", new Date(createdAt).toLocaleString("en-US"), 10.25, true],
           ["Name", name, 8, true],
