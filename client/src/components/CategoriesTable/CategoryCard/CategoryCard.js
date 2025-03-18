@@ -36,7 +36,7 @@ const CategoryCard = ({ category, setLoading, setLoadCategories, displayNotifica
         <LabelValueDisplay labelValues={[
           ["Category ID", categoryId, 6, true],
           ["Name", name, 7, true],
-          ["", <ActionButton onClick={deleteCategory} color={"#C90230"} icon={deleteIcon} text={"Delete"}/>, 5, false],
+          ["", <ActionButton onClick={deleteCategory} color={"#C90230"} icon={deleteIcon} text={"Delete"}/>, 7, false],
         ]}></LabelValueDisplay>
       </div>
 
