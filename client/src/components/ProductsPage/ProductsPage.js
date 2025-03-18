@@ -14,10 +14,9 @@ import ProductModal from "../ProductModal";
 function ProductsPage() {
     const navigate = useNavigate();  
     const categories = useRef([]);
-    const [genderFilter, filterByGender] = useState(0);
+    const [genderFilter, filterByGender] = useState('all');
     const [categoryFilter, filterByCategory] = useState(0);
     const [products, setProducts] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const cols = useRef(new Map());
@@ -39,7 +38,6 @@ function ProductsPage() {
                 console.log(response.data[0].image[0].image_url);
 
                 setProducts(response.data);
-                setFilteredProducts(response.data)  // Populate filtering array
 
                 // // Map all colour variants
                 // for (const p in response.data){
@@ -56,6 +54,8 @@ function ProductsPage() {
                 console.error('Error fetching products:', error);
                 setLoading(false);
             });
+
+        // Request to retrieve all categories and store result
         getAllCategories()
             .then((res) => {
                 categories.current = res.data.data
@@ -65,7 +65,6 @@ function ProductsPage() {
                 setLoading(false);
             });
     }, []);
-
 
 
     //Function to add to cart - pass it through props
@@ -105,27 +104,6 @@ function ProductsPage() {
         console.log("Modal state:", showModal);
     };
 
-    // Temporary filtering method
-    const filterProducts = (id) => {
-        filterByCategory(id)
-
-        let category = ""
-        switch (id) {
-            case 0:
-                setFilteredProducts(products)
-                return
-            case 1:
-                category = 1
-                break
-            case 2:
-                category = 2
-                break
-            case 3:
-                category = 3
-        }
-
-        setFilteredProducts(products.filter(product => product.categoryId == category));
-    }
 
     /** This function will take in an int productId and 
      *  redirect the user to /products:id where id is 
@@ -145,36 +123,38 @@ function ProductsPage() {
 
                 <div className="side-nav">
                     <ul>
-                    <li className={genderFilter === 0 ? "active" : ""} onClick={() => filterByGender(0)}>ALL</li>
-                    <li className={genderFilter === 1 ? "active" : ""} onClick={() => filterByGender(1)}>MEN</li>
-                    <li className={genderFilter === 2 ? "active" : ""} onClick={() => filterByGender(2)}>WOMEN</li>
-                    <li className={genderFilter === 3 ? "active" : ""} onClick={() => filterByGender(3)}>UNISEX</li>
+                    <li className={genderFilter === 'all' ? "active" : ""} onClick={() => filterByGender('all')}>ALL</li>
+                    <li className={genderFilter === 'men' ? "active" : ""} onClick={() => filterByGender('men')}>MEN</li>
+                    <li className={genderFilter === 'women' ? "active" : ""} onClick={() => filterByGender('women')}>WOMEN</li>
+                    <li className={genderFilter === 'unisex' ? "active" : ""} onClick={() => filterByGender('unisex')}>UNISEX</li>
                     </ul>
                     
                     <ul>
+                    <li className={categoryFilter === 0 ? "active" : ""} onClick={() => filterByCategory(0)}>ALL</li>
                     {categories.current.map((category, index) => (
-                        <li className={categoryFilter === index ? "active" : ""} onClick={() => filterProducts(index)}>{category.name.toUpperCase()}</li>
+                        <li key={index} className={categoryFilter === category.id ? "active" : ""} onClick={() => {filterByCategory(category.id)}}>{category.name.toUpperCase()}</li>
                     ))}
-
-                    {/* <li className={categoryFilter === 0 ? "active" : ""} onClick={() => filterProducts(0)}>ALL</li>
-                    <li className={categoryFilter === 1 ? "active" : ""} onClick={() => filterProducts(1)}>HOODIES</li>
-                    <li className={categoryFilter === 2 ? "active" : ""} onClick={() => filterProducts(2)}>T-SHIRTS</li>
-                    <li className={categoryFilter === 3 ? "active" : ""} onClick={() => filterProducts(3)}>PANTS</li> */}
                     </ul>
                 </div>
 
                 <div className="products-list">
-                {filteredProducts.map((product) => (
-                    <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
-                    name={product.name} 
-                    price={product.price}
-                    cols={cols.current.get(String(product.id))}
-
-                    // image={`/images/${product.image[0].image_url}`}
-                    addToCart={() => addToCartHandler(product)}>
-
-                    </ProductCard>
-                ))}
+                {products.map((product) => {
+                    if (categoryFilter !== product.categoryId && categoryFilter !== 0){
+                        return null
+                    }
+                    if (genderFilter !== product.gender && genderFilter !== 'all'){
+                        return null
+                    }
+                    return (
+                        <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
+                            name={product.name} 
+                            price={product.price}
+                            cols={cols.current.get(String(product.id))}
+                            // image={`/images/${product.image[0].image_url}`}
+                            addToCart={() => addToCartHandler(product)}>
+                        </ProductCard>
+                    )
+                    })}
                 </div>
             </div>
             <ProductModal
