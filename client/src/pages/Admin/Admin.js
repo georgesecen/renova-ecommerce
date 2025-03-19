@@ -5,6 +5,7 @@ import OrdersTable from '../../components/OrdersTable/OrdersTable'
 import ProductsTable from '../../components/ProductsTable/ProductsTable'
 import CategoriesTable from '../../components/CategoriesTable/CategoriesTable'
 import Toasts from '../../components/Toasts/Toasts'
+import Checkbox from '../../components/Checkbox/Checkbox'
 
 const Admin = () => {
 

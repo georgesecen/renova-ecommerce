@@ -1,0 +1,22 @@
+
+.custom-checkbox{
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 7px;
+}
+
+/* Actual checkbox */
+.custom-checkbox > input{
+    width: 1em;
+    height: 1em;
+    margin: 0.4em;
+}
+
+/* Text */
+.custom-checkbox > span{
+    margin-right: 0.3em;
+}
