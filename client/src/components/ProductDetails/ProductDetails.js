@@ -6,6 +6,10 @@ import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { getProductInfo } from '../../services/products';
 import ImageOption from './ImageOption/ImageOption';
+import { addProduct } from "../../services/cart";
+import { useCart } from "../../providers/CartContext";
+import { useUser } from "../../providers/UserContext";
+import ProductModal from '../ProductModal';
 
 function ProductDetails() {
 
@@ -22,6 +26,15 @@ function ProductDetails() {
   const sizes = useRef(new Set()); 
   const sizesAvailable = useRef(new Set());   // Holds sizes available for currently selected colour
   const info = useRef({name: "", price: "", desc: "", gender: ""});
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState({});
+  const [value, setValue] = useState(1);
+  const { updateCartQuantity } = useCart();
+  const { user, isLoggedIn } = useUser();
+
+  const user_id = user;
+  const guest_user_id = localStorage.getItem("guestUserId");
 
   /**
    * This function takes a string and sets it as the colour state,
@@ -126,6 +139,49 @@ function ProductDetails() {
       setSelectedImage(selectedIndex);
     };
 
+
+    /**
+     * This function adds a product variant to the cart by finding the id
+     * of the variant that with attributes that match the selected ones
+     */
+    const addToCartHandler = () => {
+        // Get product variant id that matches the currently selected attributes
+        const id = variants.filter(product => product.color == colour && product.size == size)[0].id
+        const productData = {
+            user_id,
+            guest_user_id,
+            product_variant_id: id,
+            quantity: value,
+        };
+        // console.log(productData);
+        addProduct(productData)
+            .then(() => {
+                // Update the cart quantity both in context and localStorage
+                let currentQuantity;
+                if(isLoggedIn) {
+                    currentQuantity = parseInt(localStorage.getItem('cartQuantity'), 10) || 0;
+                } else {
+                    //TODO change to userCartQuantity later
+                    currentQuantity = parseInt(localStorage.getItem('cartQuantity'), 10) || 0;
+                }
+                const newQuantity = currentQuantity + productData.quantity;
+                updateCartQuantity(newQuantity);  // Update context
+
+            })
+            .catch((error) => {
+                console.error('Error adding product:', error);
+            });
+            
+        // Show success message
+        setModalContent({
+            title: "Product Added to Cart",
+            message: `${info.current.name} has been successfully added to your cart.`,
+            // image: `/images/${product.image[0].image_url}`,
+        });
+        setShowModal(true)
+        console.log("Modal state:", showModal);
+    };
+
     return (
       <div className="detailsPage">
         <div className="productImages">
@@ -175,12 +231,18 @@ function ProductDetails() {
               ))}
             </div>
 
-            <button className="addToCart">ADD TO CART</button>
+            <button className="addToCart" onClick={() => addToCartHandler()}>ADD TO CART</button>
             <h5>PRODUCT DESCRIPTION</h5>
-            {/* <p>GENDER: {info.current.gender.toUpperCase()}</p> */}
             <p>{info.current.desc}</p>
 
         </div>
+        <ProductModal
+                show={showModal}
+                onHide={() => setShowModal(false)}
+                title={modalContent.title}
+                message={modalContent.message}
+                // image={modalContent.image}
+            />
       </div>
     );
   }
