@@ -60,12 +60,17 @@ const ImageForm = ({
 
     // Get all images of product variants in product variant group
     productVariants.forEach(productVariant => {
-      productVariant.images.forEach(image => {
-        // If image is not already in the images add it (must check as products in same group share images)
-        if (!(productImages.includes(image.image_url))){
-          productImages.push(image.image_url)
-        }
-      })
+
+      // If product is in product variant group
+      if (productVariant.color === productVariantGroup) {
+        productVariant.images.forEach(image => {
+
+          // If image is not already in the images add it (must check as products in same group share images)
+          if (!(productImages.includes(image.image_url))){
+            productImages.push(image.image_url)
+          }
+        })
+      }
     });
   }
   
