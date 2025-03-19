@@ -21,11 +21,7 @@ const CheckoutForm = () => {
     // Mock data (Actual products on Stripe server)
     const products = [
         {
-            id: "35", // Stripe price id
-            quantity: 1
-        },
-        {
-            id: "36", // Stripe price id
+            id: "50", // Stripe price id
             quantity: 2
         },
     ]

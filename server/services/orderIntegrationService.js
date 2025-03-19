@@ -14,31 +14,38 @@ exports.createOrder = async (event) => {
     try{
 
         // Get all needed checkout session data
-        const checkoutId = event.data.object["id"]
-        const paymentStatus = event.data.object["payment_status"]
-        const {email, phone: phoneNumber} = event.data.object["customer_details"]
-        const name = event.data.object["shipping_details"]["name"]
-        const {city, country, line1, line2, postal_code: postalCode, state} = event.data.object["shipping_details"]["address"]
-        const amountTotal = event.data.object["amount_total"] / 100 // Convert from cents to dollars
+        const {
+            id: checkoutId,
+            payment_status: paymentStatus,
+            payment_intent: paymentIntent, // Payment intent needed to refund the order
+            email,
+            phone: phoneNumber,
+            shipping_details: shippingDetails
+        } = event.data.object
+
+        // Convert amount total from cents to dollars
+        const amountTotal = event.data.object.amount_total / 100
+
+        // Get all needed shipping data
+        const name = shippingDetails.name
+        const { postal_code: postalCode, city,  country, line1, line2, state } = shippingDetails.address
 
         // Make sure we have not already processed event as it is 
-        // possible we are sent duplicate events with the same event id
+        // possible we are sent duplicate events with the same payment intent
         const duplicates = await Order.findAll({
             where: {
-                stripe_id: checkoutId
+                stripe_id: paymentIntent
             }
         })
 
         // If we have already added order to the database
-        if (duplicates.length > 0){
-            return
-        }   
+        if (duplicates.length > 0) return
 
         // Create order
         const order = await Order.create({
             total_price: amountTotal,
             status: paymentStatus == "paid" ? "completed" : "pending",
-            stripe_id: checkoutId,
+            stripe_id: paymentIntent,
 
             // TODO: Remove foreign key constraints as you cannot track user from webhook (I think)
             user_id: 2
@@ -48,9 +55,7 @@ exports.createOrder = async (event) => {
         await ShippingAddress.create({
             order_id: order.id,
             recipient_name: name,
-
-            // TODO: Allow phone numbers to be null as they are not required at checkout
-            phone_number: "test",
+            phone_number: phoneNumber,
             address_line1: line1,
             address_line2: line2,
             city: city,
@@ -74,9 +79,6 @@ exports.createOrder = async (event) => {
 
         // For every item purchased at checkout update its stock quantity and create an order item for its order
         for (const lineItem of lineItems["data"]){
-
-            console.log(lineItem["quantity"])
-            console.log(Number(lineItem["quantity"]))
 
             await ProductVariantModel.decrement("stock_quantity", {
                 by: lineItem["quantity"],
