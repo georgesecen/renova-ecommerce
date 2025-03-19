@@ -38,16 +38,16 @@ exports.getUserOrders = (req, res) => {
  */
 exports.updateOrderStatus = async (request, response) => {
 
-    const {id, status} = request.body
+    const {orderId, status} = request.body
 
     try{
 
         // Get order
-        const order = await Order.findByPk(id)
+        const order = await Order.findByPk(orderId)
 
         // If order does not exist
         if (order == null){
-            throw new Error(`Order with ID ${id} does not exist in database.`)
+            throw new Error(`Order with ID ${orderId} does not exist in database.`)
         }
         
         // If status is not a valid option

@@ -1,30 +1,22 @@
 import API from "./axiosInstance";
 
 /**
- * Gets orders from database.
+ * Sends a request to the server to perform CRUD order operations.
+ * @param {string} operation The operation to perform. Refer to orderController.js to see what 
+ * each option requires as data. Valid options are:
+ * - update
+ * - index
+ * - refund
+ * @param {object} requestData Data to send in the request.
  * @returns {Promise<AxiosResponse>} AxiosResponse object.
  */
-export const getOrders = async () => {
+export const adminOrdersService = async (operation, requestData = {}) => {
     try {
-        return await API.post(`/orders/get-orders`, {adminPassword: sessionStorage.getItem("key")});
-    } catch(error){
-        console.log(error)
-    }
-}
 
-/**
- * Updates order status.
- * @param {number} id ID of order to be updated.
- * @param {string} status Order status to be updated to.
- * @returns {Promise<AxiosResponse>} AxiosResponse object.
- */
-export const updateOrderStatus = async (id, status) => {
-    try {
-        return await API.post(`/orders/update-order-status`, {
-            adminPassword: sessionStorage.getItem("key"),
-            id: id,
-            status: status
-        });
+        // Add admin password to the request data being sent to server
+        requestData.adminPassword = sessionStorage.getItem("key")
+
+        return await API.post(`/orders/${operation}`, requestData)
     } catch(error){
         console.log(error)
     }

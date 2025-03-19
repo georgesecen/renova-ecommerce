@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import OrderCard from './OrderCard/OrderCard'
 import "./ordersTable.css"
-import { getOrders } from '../../services/orders'
+import { adminOrdersService } from '../../services/orders'
 import ModalSpinner from '../ModalSpinner/ModalSpinner'
 import OrderForm from './OrderForm/OrderForm'
 import Checkbox from '../Checkbox/Checkbox'
@@ -23,24 +23,21 @@ const OrdersTable = ({displayNotification}) => {
     "cancelled": true,
   })
 
-
   // Function will set an order status to true or false and re render the component to filter the orders
   function filterOrders(status, filter){
     filteredOrders[status] = filter
     setFilteredOrders({...filteredOrders})
   }
 
-
   // Get orders
   useEffect(() => {
     if (loadOrders){
-      getOrders()
+      adminOrdersService("index")
         .then((response) => setOrders(response.data.data))
         .catch((error) => displayNotification("Get", `${error}`, "danger"))
         .finally(() => setLoadOrders(false))
     }
   }, [loadOrders])
-
 
   return (
     <div className='table-container'>

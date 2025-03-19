@@ -1,7 +1,7 @@
 import "./orderForm.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { updateOrderStatus } from "../../../services/orders";
+import { adminOrdersService } from "../../../services/orders";
 
 // https://react-bootstrap.netlify.app/docs/components/modal/
 
@@ -21,7 +21,7 @@ const OrderForm = ({ show, setShow, order, setLoading, setLoadOrders, displayNot
   if (order === null) return
 
   // Get order data
-  const {id, status: orderStatus} = order ?? {}
+  const {id: orderId, status: orderStatus} = order ?? {}
 
   // Gets data from form and updates orders status
   function processFormData(){
@@ -31,10 +31,10 @@ const OrderForm = ({ show, setShow, order, setLoading, setLoadOrders, displayNot
     // Only if status was changed update order status
     if (entries.status !== orderStatus){
         setLoading(true)
-        updateOrderStatus(id, entries.status)
-        .then((response) => displayNotification("Update", response.data.message))
-        .catch((error) => displayNotification("Update", `${error}`, "danger"))
-        .finally(() => {setLoading(false); setLoadOrders(true)})
+        adminOrdersService("update", {orderId: orderId, status: entries.status})
+          .then((response) => displayNotification("Update", response.data.message))
+          .catch((error) => displayNotification("Update", `${error}`, "danger"))
+          .finally(() => {setLoading(false); setLoadOrders(true)})
     }
   }
   

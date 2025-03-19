@@ -7,9 +7,8 @@ const router = express.Router();
 router.post('/', placeOrder);
 router.get('/:userId', getUserOrders);
 
-// TODO: Make route admin only, and fix route names
-router.post("/update-order-status", updateOrderStatus)
-router.post("/get-orders", adminAuthentication, getOrders)
+router.post("/update", adminAuthentication, updateOrderStatus)
+router.post("/index", adminAuthentication, getOrders)
 router.post("/refund", [adminAuthentication, limitStripe], refundOrder)
 
 module.exports = router;
