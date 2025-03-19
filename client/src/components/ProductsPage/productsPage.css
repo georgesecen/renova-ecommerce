@@ -2,7 +2,6 @@
     height: calc(100vh - 80px);
     background-color: rgb(25, 25, 25);
     box-shadow: 0 -80px rgb(25, 25, 25);
-    padding-top: 80px;
 }
 
 .products-page > .content {

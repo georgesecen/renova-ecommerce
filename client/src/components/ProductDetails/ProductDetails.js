@@ -2,8 +2,6 @@ import './productDetails.css'
 import './sizeOption.css';
 import './colourOption.css';
 import Carousel from 'react-bootstrap/Carousel';
-import img1 from '../../assets/images/hoodie.png'
-import img2 from '../../assets/images/hoodie2.png'
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { getProductInfo } from '../../services/products';
@@ -121,6 +119,12 @@ function ProductDetails() {
       return classes
     }
 
+    /**
+     * Function to handle image selection when a carousel
+     * button is clicked
+     * 
+     * @param {Int} selectedIndex 
+     */
     const handleSelect = (selectedIndex) => {
       setSelectedImage(selectedIndex);
     };
@@ -139,9 +143,12 @@ function ProductDetails() {
 
         <div className="selectedImg">
           <Carousel activeIndex={selectedImage} onSelect={handleSelect} interval={null}>
-            {images.map((image) => (
-              <Carousel.Item> 
-                <img src={require(`../../assets/images/${image.image_url}`)} alt="" />
+            {images.map((image, index) => (
+              <Carousel.Item key={index}> 
+                <img 
+                  src={require(`../../assets/images/${image.image_url}`)}
+                  alt="" 
+                />
               </Carousel.Item>
             ))}
           </Carousel>
