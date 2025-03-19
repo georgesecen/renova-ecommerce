@@ -4,6 +4,7 @@ import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout
 } from '@stripe/react-stripe-js';
+import { getCartItems } from "../services/cart";
 
 // Make sure to call loadStripe outside of a component’s render to avoid recreating the Stripe object on every render.
 // Stripe publishable key
@@ -12,35 +13,42 @@ const stripePromise = loadStripe("pk_test_51QkxnbK1RDrGHWB8qmu8ClzOQbCZKLaRJC4VC
 /**
  * Stripe checkout form which receives customer information to purchase products in
  * the cart.
- * @returns {JSX.Element}
+ * @returns {React.JSX.Element} CheckoutForm React component.
  */
 const CheckoutForm = () => {
 
-    // TODO: Get products from the cart
-
-    // Mock data (Actual products on Stripe server)
-    const products = [
-        {
-            id: "35", // Stripe price id
-            quantity: 1
-        },
-        {
-            id: "36", // Stripe price id
-            quantity: 2
-        },
-    ]
-
-    const fetchClientSecret = useCallback(() => {
-        // Create a Stripe Checkout Session
-        // TODO: Update url
+    // Function gets all products and quantities in customers cart
+    // Returns Array<object> which contains product variant ids, and quantity
+    // [{id: "3", quantity: 5}, {id: "7", quantity: 1}]
+    async function getCartProducts(){
+        let cartProducts = []
+        await getCartItems()
+          .then((response) => {
+            cartProducts = response.map(cartItem => (
+                {
+                    id: (cartItem.productVariant.id).toString(),
+                    quantity: cartItem.quantity
+                }
+            ))
+          })
+          .catch((error) => console.log(error))
+        
+        return cartProducts
+    }
+ 
+    // Function gets the client secret from server to build the checkout session
+    async function fetchClientSecret(){
+        const cartProducts = await getCartProducts()
+        
+        // TODO: Change url to server url
         return fetch("http://localhost:3306/stripe/create-checkout-session", {
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({products: products}),
+          body: JSON.stringify({products: cartProducts}),
         })
           .then((res) => res.json())
           .then((data) => data.clientSecret);
-    }, []);
+    }   
 
     const options = {fetchClientSecret};
 
