@@ -11,6 +11,7 @@ import ImageForm from './ImageForm/ImageForm'
 import UpdateProductVariantForm from './UpdateProductVariantForm/UpdateProductVariantForm'
 import ConfirmProductDelete from './ConfirmProductDelete/ConfirmProductDelete'
 import ActionButton from '../ActionButton/ActionButton'
+import Checkbox from '../Checkbox/Checkbox'
 
 const addIcon = require("../../assets/icons/add.png")
 
@@ -91,15 +92,7 @@ const ProductsTable = ({displayNotification}) => {
   
   return (
     <div className='table-container'>
-      {loading && <ModalSpinner />}
-      
-      <ActionButton
-        onClick={(event) => setShowCreateProductForm(!showCreateProductForm)}
-        color={"#08A9F9"}
-        icon={addIcon}
-        text={"New Product"}
-        >
-      </ActionButton>
+      {loading && <ModalSpinner />}   
       
       <CreateProductForm
         show={showCreateProductForm} 
@@ -166,17 +159,18 @@ const ProductsTable = ({displayNotification}) => {
         >
       </ConfirmProductDelete>
 
-      {/* Update filtered categories based on if checkmarks are checked or unchecked */}
-      {/* Checkboxs which are checked will be displayed */}
-      {
-        categories.map(({id: categoryId, name: categoryName}, index) => {
-          return (
-            <Fragment key={index}>
-              <input type="checkbox" defaultChecked={true} onChange={(event) => filterProducts(categoryId, event.target.checked)}/> {categoryName}
-            </Fragment>
-          )
-        })
-      }
+      <div className='buttons-container'>
+        <ActionButton onClick={(event) => setShowCreateProductForm(!showCreateProductForm)} color={"#08A9F9"} icon={addIcon} text={"New Product"} />
+        {
+          // Update filtered categories based on if checkmarks are checked or unchecked
+          // Checkboxs which are checked will be displayed
+          categories.map(({id: categoryId, name: categoryName}, index) => {
+            return (
+              <Checkbox key={index} color={"#7d7d7d"} text={categoryName} defaultChecked={true} onChange={(event) => filterProducts(categoryId, event.target.checked)} />
+            )
+          })
+        }
+      </div>
 
       <ul>
           {
