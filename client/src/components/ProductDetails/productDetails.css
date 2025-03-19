@@ -1,5 +1,8 @@
 .detailsPage {
     min-height: calc(100vh - 80px);
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     justify-content: space-between;
     flex-wrap: nowrap;
@@ -17,23 +20,26 @@
 /* Selected image container styles */
 .selectedImg {
     font-size: 20px;
-    width: 40em;
-    height: 30em;
+    width: 36em;
+    height: 28em;
 }
 
-.selectedImg .carousel, .carouselItem {
+.selectedImg .carousel-item {
+    max-width: 36em;
+    height: 28em;
+    padding: 0 3.5em 2em;
+}
+
+.selectedImg .carousel-item.active, .selectedImg .carousel-item-next{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.selectedImg .carousel-item > img {
     width: 100%;
     height: 100%;
-}
-
-.selectedImg .carousel img {
-    max-width: 34em;
-    max-height: 27em;
-    width: auto;
-    height: auto;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
+    object-fit: scale-down;
 }
 
 /* Carousel buttons  */
@@ -49,54 +55,58 @@
 
 
 /* Text + form container styles */
-.details {
+.detailsPage .details {
     font-size: 14px;
     width: 30em;
     margin: 0 4em;
 }
 
-.details > h4 {
+.detailsPage .details > h4 {
     font-size: 2.4em;
     font-weight: 400;
 }
 
-.details > h6 {
+.detailsPage .details > h6 {
     font-size: 1.5em;
     font-weight: 400;   
-    padding: 0 0 40px;
-    border-bottom: .3px solid rgb(131, 131, 131);
 }
 
-.details > h5 {
-    margin: 14px 0;
+.detailsPage .details > h5 {
+    margin: 34px 0 12px;
+    padding-top: 18px;
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 1px;
+    border-top: .3px solid rgb(131, 131, 131);
+}
+
+.detailsPage .details > p {
+    font-size: 13px;
 }
 
 /* Variant selection containers  */
-.details .colour-container, .details .size-container {
+.detailsPage .details .colour-container, .details .size-container {
     display: flex;
-    height: 70px;
-    border-bottom: .3px solid rgb(131, 131, 131);
-    margin-bottom: 10px;
+    height: 60px;
+    align-items: center;
 }
 
+
 /* Add to cart button  */
-.details .addToCart {
+.detailsPage .details .addToCart {
     width: 100%;
+    margin: 34px 0 2px;
+    padding: 6px;
+
     color: var(--text);
     text-decoration: none;
     border: .8px solid var(--text);
     border-radius: 1px;
-    padding: 6px;
-    margin: 12px 0;
     background: none;
-
     transition-duration: 400ms;
 }
 
-.details .addToCart:hover {
+.detailsPage .details .addToCart:hover {
     color: black;
     background-color: rgb(231, 234, 237);
 }
@@ -110,13 +120,13 @@
     .detailsPage {
         padding-top: 20px;
     }
-    .productImages {
+    .detailsPage .productImages {
         display: none;
     }
-    .selectedImg {
+    .detailsPage .selectedImg {
         font-size: 12px;
     }
-    .details {
+    .detailsPage .details {
         width: 100%;
         margin: 0 10px;
     }

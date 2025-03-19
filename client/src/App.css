@@ -16,6 +16,7 @@
 :root {
     --text: #dadadc;
     --bg: #333333;
+    color: var(--text);
 }
 
 div.App {
@@ -26,6 +27,4 @@ div.App {
     background-position: center;
     font-family: Quicksand;
     color: var(--text);
-
-    overflow-x: hidden;
 }

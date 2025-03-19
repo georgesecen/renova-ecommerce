@@ -1,0 +1,16 @@
+.image-option {
+    font-size: 12px;
+    width: 7em;
+    margin: 2.2em 2em;
+}
+
+.image-option > img {
+    width: 100%;
+    filter: brightness(60%);
+    -webkit-transition : -webkit-filter 200ms ease-in;
+    cursor: pointer;
+}
+
+.image-option > img:hover {
+    filter: brightness(100%);
+}

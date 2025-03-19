@@ -2,11 +2,14 @@ import './productDetails.css'
 import './sizeOption.css';
 import './colourOption.css';
 import Carousel from 'react-bootstrap/Carousel';
-import img1 from '../../assets/images/hoodie.png'
-import img2 from '../../assets/images/hoodie2.png'
 import { useLocation } from 'react-router-dom';
-import { getVariants } from '../../services/productVariants';
 import { useState, useEffect, useRef } from 'react';
+import { getProductInfo } from '../../services/products';
+import ImageOption from './ImageOption/ImageOption';
+import { addProduct } from "../../services/cart";
+import { useCart } from "../../providers/CartContext";
+import { useUser } from "../../providers/UserContext";
+import ProductModal from '../ProductModal';
 
 function ProductDetails() {
 
@@ -16,10 +19,22 @@ function ProductDetails() {
   const [variants, setVariants] = useState([]);
   const [colour, setColour] = useState("")
   const [size, setSize] = useState("")
+  const [images, setImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   const cols = useRef(new Set()); 
   const sizes = useRef(new Set()); 
   const sizesAvailable = useRef(new Set());   // Holds sizes available for currently selected colour
+  const info = useRef({name: "", price: "", desc: "", gender: ""});
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState({});
+  const [value, setValue] = useState(1);
+  const { updateCartQuantity } = useCart();
+  const { user, isLoggedIn } = useUser();
+
+  const user_id = user;
+  const guest_user_id = localStorage.getItem("guestUserId");
 
   /**
    * This function takes a string and sets it as the colour state,
@@ -54,33 +69,42 @@ function ProductDetails() {
   }
 
   /**
-   * This method on page load fetches all variants associated with the
-   * viewed product, gets all sizes and colours available for viewed product, 
-   * and sets initial selected colour and size
+   * This method on page load fetches the product information of the viewed product,
+   * stores all variants associated with it, stores all sizes and colours available,
+   * all images, and sets initial selected colour and size.
    */
     useEffect(() => {
-          getVariants(state.id)
-              .then((response) => {
-                  console.log(response);
+          getProductInfo(state.id)
+            .then((response) => {
+              console.log(response.data.data[0]);
+              // store info, variants, colours, sizes (in defined order), and images
+              info.current.name = response.data.data[0].name
+              info.current.price = response.data.data[0].price
+              info.current.desc = response.data.data[0].description
+              info.current.gender = response.data.data[0].gender
 
-                  setVariants(response);  // Store items in state
-                  cols.current = new Set(response.map(a => a.color))
-                  sizes.current = new Set(response.map(a => a.size).sort(function(a,b) { // Sort sizes in appropriate order
-                    return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
-                  }));
+              setVariants(response.data.data[0].product_variants);
+              cols.current = new Set(response.data.data[0].product_variants.map(a => a.color))
+              sizes.current = new Set(response.data.data[0].product_variants.map(a => a.size).sort(function(a,b) { // Sort sizes in appropriate order
+                return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
+              }));
+              setImages(response.data.data[0].image)
+              setImages(images.concat(response.data.data[0].product_variants[0].images))
 
-                  setColour(response[0].color)
+              // set initial colour, size, and sizesAvailable
+              setColour(response.data.data[0].product_variants[0].color)
 
-                  for(const v of response){
-                    if(v.color === response[0].color){
-                      sizesAvailable.current.add(v.size)
-                    }
-                  }
-                  setSize(response[0].size)
-              })
-              .catch((error) => {
-                  console.error('Error fetching variants:', error);
-              });
+              for(const v of response.data.data[0].product_variants){
+                if(v.color === response.data.data[0].product_variants[0].color){
+                  sizesAvailable.current.add(v.size)
+                }
+              }
+              
+              setSize(response.data.data[0].product_variants[0].size)
+            })
+            .catch((error) => {
+              console.error('Error fetching product:', error);
+          });
     }, []);
 
     /**
@@ -104,27 +128,88 @@ function ProductDetails() {
 
       return classes
     }
-  
+
+    /**
+     * Function to handle image selection when a carousel
+     * button is clicked
+     * 
+     * @param {Int} selectedIndex 
+     */
+    const handleSelect = (selectedIndex) => {
+      setSelectedImage(selectedIndex);
+    };
+
+
+    /**
+     * This function adds a product variant to the cart by finding the id
+     * of the variant that with attributes that match the selected ones
+     */
+    const addToCartHandler = () => {
+        // Get product variant id that matches the currently selected attributes
+        const id = variants.filter(product => product.color == colour && product.size == size)[0].id
+        const productData = {
+            user_id,
+            guest_user_id,
+            product_variant_id: id,
+            quantity: value,
+        };
+        // console.log(productData);
+        addProduct(productData)
+            .then(() => {
+                // Update the cart quantity both in context and localStorage
+                let currentQuantity;
+                if(isLoggedIn) {
+                    currentQuantity = parseInt(localStorage.getItem('cartQuantity'), 10) || 0;
+                } else {
+                    //TODO change to userCartQuantity later
+                    currentQuantity = parseInt(localStorage.getItem('cartQuantity'), 10) || 0;
+                }
+                const newQuantity = currentQuantity + productData.quantity;
+                updateCartQuantity(newQuantity);  // Update context
+
+            })
+            .catch((error) => {
+                console.error('Error adding product:', error);
+            });
+            
+        // Show success message
+        setModalContent({
+            title: "Product Added to Cart",
+            message: `${info.current.name} has been successfully added to your cart.`,
+            // image: `/images/${product.image[0].image_url}`,
+        });
+        setShowModal(true)
+        console.log("Modal state:", showModal);
+    };
+
     return (
       <div className="detailsPage">
         <div className="productImages">
-          
+          {images.map((image, index) => (
+              <ImageOption 
+                key={index} 
+                imageUrl={require(`../../assets/images/${image.image_url}`)} 
+                clickEvent={() => setSelectedImage(index)}
+              />
+            ))}
         </div>
+
         <div className="selectedImg">
-          <Carousel activeIndex={1}>
-            <Carousel.Item className="carouselItem">
-              <img src={img1} alt=""/>
-            </Carousel.Item>
-            <Carousel.Item>
-            <img src={img2} alt=""/>
-            </Carousel.Item>
+          <Carousel activeIndex={selectedImage} onSelect={handleSelect} interval={null}>
+            {images.map((image, index) => (
+              <Carousel.Item key={index}> 
+                <img 
+                  src={require(`../../assets/images/${image.image_url}`)}
+                  alt="" 
+                />
+              </Carousel.Item>
+            ))}
           </Carousel>
         </div>
 
         <div className="details">
-            <h4>{state.name}</h4>
-            <h6>${state.price}</h6>
-            <p>{state.desc}</p>
+            <h4>{info.current.name}</h4>
+            <h6>${info.current.price}</h6>
 
             <h5>COLOUR: {colour.toUpperCase()}</h5>
             <div className='colour-container'>
@@ -146,8 +231,18 @@ function ProductDetails() {
               ))}
             </div>
 
-            <button className="addToCart">ADD TO CART</button>
+            <button className="addToCart" onClick={() => addToCartHandler()}>ADD TO CART</button>
+            <h5>PRODUCT DESCRIPTION</h5>
+            <p>{info.current.desc}</p>
+
         </div>
+        <ProductModal
+                show={showModal}
+                onHide={() => setShowModal(false)}
+                title={modalContent.title}
+                message={modalContent.message}
+                // image={modalContent.image}
+            />
       </div>
     );
   }
