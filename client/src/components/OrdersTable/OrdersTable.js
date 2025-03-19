@@ -4,6 +4,7 @@ import "./ordersTable.css"
 import { getOrders } from '../../services/orders'
 import ModalSpinner from '../ModalSpinner/ModalSpinner'
 import OrderForm from './OrderForm/OrderForm'
+import Checkbox from '../Checkbox/Checkbox'
 
 const OrdersTable = ({displayNotification}) => {
 
@@ -55,11 +56,13 @@ const OrdersTable = ({displayNotification}) => {
       </OrderForm>
 
       {/* Update filtered orders based on if checkmarks are checked or unchecked */}
-      {/* Checkboxs which are checked will be displayed */}
-      <input type="checkbox" defaultChecked={true} onChange={(event) => filterOrders("completed", event.target.checked)}/> Completed
-      <input type="checkbox" defaultChecked={true} onChange={(event) => filterOrders("pending", event.target.checked)}/> Pending
-      <input type="checkbox" defaultChecked={true} onChange={(event) => filterOrders("shipped", event.target.checked)}/> Shipped
-      <input type="checkbox" defaultChecked={true} onChange={(event) => filterOrders("cancelled", event.target.checked)}/> Cancelled
+      {/* Checkboxs which are checked will be displayed */}      
+      <div className='buttons-container'>
+        <Checkbox color={"#5fc21c"} text={"completed"} defaultChecked={true} onChange={(event) => filterOrders("completed", event.target.checked)}/>
+        <Checkbox color={"#e88d58"} text={"pending"} defaultChecked={true} onChange={(event) => filterOrders("pending", event.target.checked)}/>
+        <Checkbox color={"#7157ff"} text={"shipped"} defaultChecked={true} onChange={(event) => filterOrders("shipped", event.target.checked)}/>
+        <Checkbox color={"#fb3c3f"} text={"cancelled"} defaultChecked={true} onChange={(event) => filterOrders("cancelled", event.target.checked)}/>
+      </div>
       
       <ul>
           {

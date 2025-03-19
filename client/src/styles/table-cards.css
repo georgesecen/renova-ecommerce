@@ -1,7 +1,14 @@
 /* Shared styles between orders and products tables */
 .table-container{
     width: 100%;
-    font-size: 14.5px;
+    /* font-size: 14.5px; */
+
+    /* To align buttons and tables in center of page */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
 }
 
 /* Ul which holds all of the cards */
@@ -21,6 +28,12 @@
 .table-container > ul > li:last-of-type{
     /* So border does not show on last list item */
     border-bottom: none;
+}
+
+/* For buttons which may be above any tables */
+.table-container > .buttons-container{
+    display: flex;
+    gap: 1em;
 }
 
 /* List item which contains main card and all the dropdown cards */

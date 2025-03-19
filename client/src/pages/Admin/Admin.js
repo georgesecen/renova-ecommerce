@@ -5,7 +5,6 @@ import OrdersTable from '../../components/OrdersTable/OrdersTable'
 import ProductsTable from '../../components/ProductsTable/ProductsTable'
 import CategoriesTable from '../../components/CategoriesTable/CategoriesTable'
 import Toasts from '../../components/Toasts/Toasts'
-import Checkbox from '../../components/Checkbox/Checkbox'
 
 const Admin = () => {
 
@@ -32,8 +31,8 @@ const Admin = () => {
       <Toasts ref={toastsRef} />
 
       {/* To make sure key is set before rendering components */}
-      {/* {key && <OrdersTable displayNotification={displayNotification} />} */}
-      {key && <ProductsTable displayNotification={displayNotification} />}
+      {key && <OrdersTable displayNotification={displayNotification} />}
+      {/* {key && <ProductsTable displayNotification={displayNotification} />} */}
       {/* {key && <CategoriesTable displayNotification={displayNotification} />} */}
 
     </div>
