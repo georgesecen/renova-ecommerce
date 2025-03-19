@@ -12,5 +12,6 @@ router.post("/create", adminAuthentication, createProductCategory)
 router.post("/update", adminAuthentication, updateProductCategory)
 router.post("/delete", adminAuthentication, deleteProductCategory)
 router.post("/index", adminAuthentication, getAllCategories)
+router.get("/all", getAllCategories)
 
 module.exports = router;

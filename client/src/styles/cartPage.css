@@ -12,7 +12,7 @@ div.cart-page h1 {
 ul.productList {
     list-style-type: none;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
@@ -20,16 +20,92 @@ ul.productList {
 }
 
 ul.productList li {
-    margin: 30px 45px;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 30px;
+    margin: 20px 35px;
+}
+
+li img,
+li div.productName,
+li div.productPrice,
+li div.productQuantity,
+li div.productTotal {
+    margin-right: 50px;
+}
+
+p.subtitleText {
+    color: grey;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+li div.productName {
+    min-width: 150px;
+}
+
+/* drop down styles */
+/*.priceSelect {*/
+/*    position: relative;*/
+/*}*/
+
+/*.priceSelect select {*/
+/*    appearance: none;*/
+/*    padding: 0.2em 2em 0.2em .6em;*/
+/*    background-color: #fff;*/
+/*    border: 1px solid #caced1;*/
+/*    border-radius: 0.25rem;*/
+/*    color: #000;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.priceSelect::before,*/
+/*.priceSelect::after {*/
+/*    --size: 0.3rem;*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    right: 1rem;*/
+/*    pointer-events: none;*/
+/*}*/
+
+/*.priceSelect::before {*/
+/*    border-left: var(--size) solid transparent;*/
+/*    border-right: var(--size) solid transparent;*/
+/*    border-bottom: var(--size) solid black;*/
+/*    top: 40%;*/
+/*}*/
+
+/*.priceSelect::after {*/
+/*    border-left: var(--size) solid transparent;*/
+/*    border-right: var(--size) solid transparent;*/
+/*    border-top: var(--size) solid black;*/
+/*    top: 55%;*/
+/*}*/
+
+/*trash icon*/
+.removeBtn {
+    font-size: 20px;
+    cursor: pointer;
+    transition: .2s;
+}
+.removeBtn:hover {
+    color: grey;
 }
 
 .productItem img {
-    max-width: 304px;
-    min-height: 300px;
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
+    max-width: 100px;
 }
 
-.productName {
-    margin-top: 1.5rem;
+
+div.cartCheckoutContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.cartCheckoutButton a {
+    line-height: 70px;
+    margin: 0 auto;
 }

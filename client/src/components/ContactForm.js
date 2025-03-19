@@ -83,7 +83,7 @@ export default function ContactForm() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    to: formData.email,
+                    email: formData.email,
                     subject: `Message from ${formData.firstName} ${formData.lastName}`,
                     text: formData.message,
                 }),

@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom'
 import '../../components/UserDashboard/UserDashboard.css'
-import { CgShoppingCart } from 'react-icons/cg'
 import { useUser } from "../../providers/UserContext";
 import { useCart } from "../../providers/CartContext";
 import { logoutUser } from "../../services/user";
@@ -18,7 +17,9 @@ const Settings = () => {
             logout();
             updateCartQuantity(0);
             localStorage.removeItem('cartQuantity');
-            navigate('/');
+            localStorage.removeItem('guestUserId')
+
+            navigate('/', { state: { forceRender: true } });
         } catch (error) {
             console.error("logoutUser");
             throw error;
@@ -28,7 +29,7 @@ const Settings = () => {
         <div className="section">
             <h1>Account Settings</h1>
             <p>Update your personal details and preferences.</p>
-            <div className="headerNav2">
+            <div className="headerNavSettings">
                     <NavLink to="/" onClick={logoutHandler}>LOGOUT</NavLink>
             </div>
         </div>

@@ -21,7 +21,7 @@ form.signUp-form label.form-label {
 
 form.signUp-form span {
   display: block;
-  color: red;
+  color: rgb(207, 97, 97);
   font-family: sans-serif;
   height: 18px;
   transition: 150ms ease-in;
