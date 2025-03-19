@@ -1,6 +1,8 @@
 body {
     background-color: #111;
-    color: white;
+
+    /* Modal bootstrap background is white so modal text is invisible */
+    /* color: white; */
     margin: 0;
 }
 

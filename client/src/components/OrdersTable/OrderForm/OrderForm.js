@@ -30,11 +30,30 @@ const OrderForm = ({ show, setShow, order, setLoading, setLoadOrders, displayNot
     
     // Only if status was changed update order status
     if (entries.status !== orderStatus){
-        setLoading(true)
-        adminOrdersService("update", {orderId: orderId, status: entries.status})
-          .then((response) => displayNotification("Update", response.data.message))
-          .catch((error) => displayNotification("Update", `${error}`, "danger"))
-          .finally(() => {setLoading(false); setLoadOrders(true)})
+
+        // If current order status is cancelled, then order has been refunded do not allow status change
+        if (orderStatus === "cancelled"){
+            displayNotification("Update", "Order has already been refunded cannot change status!", "warning")
+            return
+        }
+
+        // If order status is changed to cancelled then refund order
+        if (entries.status === "cancelled"){
+            setLoading(true)
+            adminOrdersService("refund", {orderId: orderId})
+              .then((response) => displayNotification("Refund", response.data.message))
+              .catch((error) => displayNotification("Refund", `${error}`, "danger"))
+              .finally(() => {setLoading(false); setLoadOrders(true)})
+        }
+
+        // Otherwise just update order status to desired status
+        else{
+            setLoading(true)
+            adminOrdersService("update", {orderId: orderId, status: entries.status})
+              .then((response) => displayNotification("Update", response.data.message))
+              .catch((error) => displayNotification("Update", `${error}`, "danger"))
+              .finally(() => {setLoading(false); setLoadOrders(true)})
+        }
     }
   }
   
@@ -47,7 +66,7 @@ const OrderForm = ({ show, setShow, order, setLoading, setLoadOrders, displayNot
         <Modal.Body>
             <form id='order-form'>
                 <input name="status" value="shipped" type="radio" defaultChecked={orderStatus === "shipped"}/>Shipped <br></br>
-                <input name="status" value="cancelled" type="radio" defaultChecked={orderStatus === "cancelled"}/>Cancelled <br></br>
+                <input name="status" value="cancelled" type="radio" defaultChecked={orderStatus === "cancelled"}/>Cancelled - Order will be refunded<br></br>
                 <input name="status" value="pending" type="radio" defaultChecked={orderStatus === "pending"}/>Pending <br></br>
                 <input name="status" value="completed" type="radio" defaultChecked={orderStatus === "completed"}/>Completed <br></br>
             </form>
