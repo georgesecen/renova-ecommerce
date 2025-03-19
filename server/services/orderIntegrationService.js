@@ -101,3 +101,32 @@ exports.createOrder = async (event) => {
         throw new Error(`Error in orderIntegrationService.js function createOrder: ${error}`)
     }
 }
+
+/**
+ * Refunds an orders full amount on Stripe and updates the orders status to cancelled.
+ * Funds will be refunded to the credit or debit card that was originally charged.
+ * @param {number} orderId ID of order to be fully refunded.
+ * @returns {Promise<void>}
+ */
+exports.refundOrder = async (orderId) => {
+    try{
+
+        // Get the Stripe payment intent associated with the order
+        const order = await Order.findByPk(orderId)
+        const paymentIntent = order.stripe_id
+        
+        // Refund the order (Refunds full order amount by default)
+        const refund = await stripe.refunds.create({
+            payment_intent: paymentIntent,
+        });
+
+        // Update order status
+        order.status = "cancelled"
+        await order.save()
+        
+        console.log("Order refunded successfully on Stripe.")
+
+    } catch(error){
+        throw new Error(`Error in orderIntegrationService.js function refundOrder: ${error}`)
+    }
+}
