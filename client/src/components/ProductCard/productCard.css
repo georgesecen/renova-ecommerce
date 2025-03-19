@@ -62,7 +62,7 @@
 .product-card .colours > .colour-option {
     font-size: 9px;
 }
-.colour-option:hover {
+.product-card .colour-option:hover {
     border: none;
 }
 
