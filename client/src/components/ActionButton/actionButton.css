@@ -11,6 +11,7 @@
     padding: 0.2em 0.7em 0.2em 0.7em;
     height: fit-content;
     width: fit-content;
+    white-space: nowrap;
 }
 .action-button > p{
     margin: 0;

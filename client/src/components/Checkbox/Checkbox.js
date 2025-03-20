@@ -11,7 +11,7 @@ import "./checkbox.css"
  */
 const Checkbox = ({ onChange, color, text, defaultChecked }) => {
   return (
-    <label className='custom-checkbox' style={{backgroundColor: `${color}30`}}>
+    <label className='custom-input' style={{backgroundColor: `${color}30`}}>
         <input defaultChecked={defaultChecked} type='checkbox' onChange={(event) => onChange(event)} style={{accentColor: color, borderColor: color}}/>
         <span>{text}</span>
     </label>

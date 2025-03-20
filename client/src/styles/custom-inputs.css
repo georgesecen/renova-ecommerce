@@ -1,0 +1,26 @@
+
+/* Styles are used for custom radio and checkbox inputs used in admin dashboard */
+
+/* Label which holds input and text describing what input is */
+.custom-input{
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 7px;
+    white-space: nowrap;
+}
+
+/* Actual checkbox/radio input */
+.custom-input > input{
+    width: 1em;
+    height: 1em;
+    margin: 0.4em;
+}
+
+/* Text */
+.custom-input > span{
+    margin-right: 0.3em;
+}

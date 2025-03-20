@@ -1,10 +1,12 @@
 import {React, useEffect, useState, useRef} from 'react'
-import "./admin.css"
-import "../../styles/table-cards.css"
 import OrdersTable from '../../components/OrdersTable/OrdersTable'
 import ProductsTable from '../../components/ProductsTable/ProductsTable'
 import CategoriesTable from '../../components/CategoriesTable/CategoriesTable'
 import Toasts from '../../components/Toasts/Toasts'
+import RadioButton from '../../components/RadioButton/RadioButton'
+import "./admin.css"
+import "../../styles/table-cards.css"
+import "../../styles/custom-inputs.css"
 
 const Admin = () => {
 
