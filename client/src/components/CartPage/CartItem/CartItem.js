@@ -1,16 +1,18 @@
 import './cartItem.css'
 
-function CartItem() {
+function CartItem(props) {
 
     return (
         <div className="cart-item">
-            <div className='image'></div>
-            <div className='desc'>
-                <h3>NAME</h3>
-                <p>SIZE:</p>
-                <p>COLOUR:</p>
+            <div className='image'>
+                <img src={`/images/${props.img}`} alt={`${props.name}_img`}/>
             </div>
-            <div className='price'>$20.00</div>
+            <div className='desc'>
+                <h3>{props.name}</h3>
+                <p>{props.size}</p>
+                <p>{props.color}</p>
+            </div>
+            <div className='price'>${props.price}</div>
             <div className='quantity'>+ 1 -</div>
         </div>
     )

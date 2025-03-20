@@ -3,21 +3,68 @@ import './cartPage.css';
 import {useCart} from '../../providers/CartContext';
 import {Link, NavLink} from "react-router-dom";
 import CartItem from './CartItem/CartItem';
+import { getCartItems } from '../../services/cart';
+import { useEffect } from 'react';
 
 function CartPage() {
     const { totalQuantity } = useCart();
     const [totalCost, setTotalCost] = useState(0);
+
+    const [cartItems, setCartItems] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false);
+    const [modalContent, setModalContent] = useState({});
+    const { updateCartQuantity } = useCart();
+
+
+    useEffect(() => {
+            console.log(cartItems);
+            // Fetch cart items when the component mounts
+            getCartItems()
+                .then((response) => {
+                    // console.log(response[0].item.productVariant.product.image.img_url);
+                    // console.log(response);
+                    const formattedItems = response.map((item) => ({
+                        cart_item_id: item.id,
+                        quantity: item.quantity,
+                        product_id: item.productVariant.product.id,
+                        product_name: item.productVariant.product.name,
+                        product_price: parseFloat(item.productVariant.product.price),
+                        product_size: item.productVariant.size,
+                        product_color: item.productVariant.color,
+                        product_image: item.productVariant.product.image[0].image_url,
+                        total: parseFloat(item.productVariant.product.price) / item.quantity
+                    }));
+                    setCartItems(formattedItems);  // Store items in state
+                    console.log(cartItems)
+    
+                    // Set a delay so the spinner stays visible for at least 1 second
+                    setTimeout(() => {
+                        setLoading(false);
+                    }, 200);  // Adjust this value to make the spinner visible longer
+                })
+                .catch((error) => {
+                    console.error('Error fetching cart:', error);
+                    setLoading(false); // Stop loading if there's an error
+                });
+        }, []);
+        console.log(cartItems)
 
     return (
         <div className="cart-page">
             <div className='cart-section'>
                 <h1>CART</h1>
                 <div className='cart'>
-                    <CartItem/>
-                    <CartItem/>
-                    <CartItem/>
+                    {cartItems.map((item, i) => (
+                        <CartItem key={i}
+                        img={item.product_image}
+                        name={item.product_name}
+                        color={item.product_color}
+                        size={item.product_size}
+                        price={item.product_price}
+                        />
+                    ))}
                 </div>
-                
             </div>
             <div className='summary-section'>
                 <h1>ORDER SUMMARY</h1>

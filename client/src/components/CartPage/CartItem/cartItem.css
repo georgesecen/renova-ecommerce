@@ -9,6 +9,11 @@
     border-top: 1px solid rgb(147, 147, 147);
 }
 
+.cart-item img {
+    width: 8em;
+    max-height: 100%;
+}
+
 .cart-item .desc h3 {
     font-size: 1em;
     margin-bottom: 1.5em;
