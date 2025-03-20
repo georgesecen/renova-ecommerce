@@ -68,11 +68,11 @@ useEffect(() => {
           </div>
         </div>
 
-        <div className="section b">
+        {/* <div className="section b">
           <img src={hoodieImg2} alt=""/>
           <h2>MODERN</h2>
           <p>Cool amazing carefully designed </p>
-        </div>
+        </div> */}
     </div>
   )
 }
