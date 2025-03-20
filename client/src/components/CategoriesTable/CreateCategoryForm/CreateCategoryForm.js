@@ -2,6 +2,7 @@ import React from 'react'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { adminProductCategoriesService } from '../../../services/productCategories';
+import CustomFormInput from '../../CustomFormInput/CustomFormInput';
 
 /**
  * Form which creates a product category.
@@ -34,9 +35,10 @@ const CreateCategoryForm = ({ show, setShow, setLoading, setLoadCategories, disp
             <Modal.Title>Create Category</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <form id='create-category-form'>
-                Name
-                <input name='name' type='text' placeholder='Category Name'/>
+            <form id='create-category-form' className='table-form'>
+
+                <CustomFormInput type="text" inputName="name" text="Category Name" />
+
             </form>
         </Modal.Body>
         <Modal.Footer>
