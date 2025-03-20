@@ -7,6 +7,7 @@ import RadioButton from '../../components/RadioButton/RadioButton'
 import "./admin.css"
 import "../../styles/table-cards.css"
 import "../../styles/custom-inputs.css"
+import CustomInput from '../../components/CustomInput/CustomInput'
 
 const Admin = () => {
 
@@ -31,10 +32,11 @@ const Admin = () => {
     <div className='admin-dashboard-container'>
       <h1>Admin Page</h1>
       <Toasts ref={toastsRef} />
+      <CustomInput type={"text"} inputName={"test"} text={"Email"}></CustomInput>
 
       {/* To make sure key is set before rendering components */}
-      {key && <OrdersTable displayNotification={displayNotification} />}
-      {/* {key && <ProductsTable displayNotification={displayNotification} />} */}
+      {/* {key && <OrdersTable displayNotification={displayNotification} />} */}
+      {key && <ProductsTable displayNotification={displayNotification} />}
       {/* {key && <CategoriesTable displayNotification={displayNotification} />} */}
 
     </div>
