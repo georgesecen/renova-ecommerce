@@ -1,0 +1,9 @@
+.cart-page {
+    height: calc(100vh - 80px);
+    padding-top: 40px;
+}
+
+.cart-page h1 {
+    font-weight: 100;
+    font-size: 18px;
+}
