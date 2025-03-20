@@ -2,6 +2,7 @@ import "./orderForm.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { adminOrdersService } from "../../../services/orders";
+import RadioButton from "../../RadioButton/RadioButton";
 
 // https://react-bootstrap.netlify.app/docs/components/modal/
 
@@ -61,14 +62,17 @@ const OrderForm = ({ show, setShow, order, setLoading, setLoadOrders, displayNot
   return (
     <Modal show={show} onHide={() => setShow(false)} centered>
         <Modal.Header closeButton>
-            <Modal.Title>Update Status</Modal.Title>
+            <Modal.Title>Update Order Status</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <form id='order-form'>
-                <input name="status" value="shipped" type="radio" defaultChecked={orderStatus === "shipped"}/>Shipped <br></br>
-                <input name="status" value="cancelled" type="radio" defaultChecked={orderStatus === "cancelled"}/>Cancelled - Order will be refunded<br></br>
-                <input name="status" value="pending" type="radio" defaultChecked={orderStatus === "pending"}/>Pending <br></br>
-                <input name="status" value="completed" type="radio" defaultChecked={orderStatus === "completed"}/>Completed <br></br>
+            <form id='order-form' className="table-form">
+
+
+                <RadioButton defaultChecked={orderStatus === "shipped"} color="#7157ff" text="Shipped" value="shipped" inputName="status" />
+                <RadioButton defaultChecked={orderStatus === "cancelled"} color="#fb3c3f" text="Cancelled - Order will be fully refunded" value="cancelled" inputName="status" />
+                <RadioButton defaultChecked={orderStatus === "pending"} color="#e88d58" text="Pending" value="pending" inputName="status" />
+                <RadioButton defaultChecked={orderStatus === "completed"} color="#5fc21c" text="Completed" value="completed" inputName="status" />
+
             </form>
         </Modal.Body>
         <Modal.Footer>
