@@ -3,11 +3,9 @@ import OrdersTable from '../../components/OrdersTable/OrdersTable'
 import ProductsTable from '../../components/ProductsTable/ProductsTable'
 import CategoriesTable from '../../components/CategoriesTable/CategoriesTable'
 import Toasts from '../../components/Toasts/Toasts'
-import RadioButton from '../../components/RadioButton/RadioButton'
 import "./admin.css"
 import "../../styles/table-cards.css"
 import "../../styles/custom-inputs.css"
-import CustomInput from '../../components/CustomInput/CustomInput'
 
 const Admin = () => {
 
@@ -32,7 +30,6 @@ const Admin = () => {
     <div className='admin-dashboard-container'>
       <h1>Admin Page</h1>
       <Toasts ref={toastsRef} />
-      <CustomInput type={"text"} inputName={"test"} text={"Email"}></CustomInput>
 
       {/* To make sure key is set before rendering components */}
       {/* {key && <OrdersTable displayNotification={displayNotification} />} */}
