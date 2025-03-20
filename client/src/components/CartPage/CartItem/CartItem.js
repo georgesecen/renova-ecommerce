@@ -4,7 +4,7 @@ function CartItem() {
 
     return (
         <div className="cart-item">
-            <div className='image'>asd</div>
+            <div className='image'></div>
             <div className='desc'>
                 <h3>NAME</h3>
                 <p>SIZE:</p>

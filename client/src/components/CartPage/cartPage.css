@@ -22,13 +22,16 @@
     font-size: 15px;
 }
 
+.cart-page > .cart-section, .cart-page > .summary-section {
+    font-size: 16px;
+    margin: 0 10px;
+}
+
 
 /* 2. Cart section styles  */
 
 .cart-page > .cart-section {
-    font-size: 18px;
-
-    width: 30em;
+    width: 40em;
     height: 40em;
 }
 
@@ -41,9 +44,7 @@
 /* 3. Order summary styles  */
 
 .cart-page > .summary-section {
-    font-size: 18px;
-
-    width: 26em;
+    width: 24em;
     height: 20em;
 }
 
@@ -54,21 +55,21 @@
 
 /* 4. Media queries  */
 
-@media screen and (max-width: 1190px){
-    .cart-page > .cart-section, .cart-page > .summary-section {
-        font-size: 14px;
-    }
-}
-
-@media screen and (max-width: 940px){
+@media screen and (max-width: 990px){
     .cart-page  {
         flex-direction: column;
         align-items: center;
     }
 }
 
-@media screen and (max-width: 430px){
+@media screen and (max-width: 650px){
     .cart-page > .cart-section, .cart-page > .summary-section {
         font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 520px){
+    .cart-page > .cart-section {
+        font-size: 10px;
     }
 }
