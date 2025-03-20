@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './cartPage.css';
 import {useCart} from '../../providers/CartContext';
 import {Link, NavLink} from "react-router-dom";
+import CartItem from './CartItem/CartItem';
 
 function CartPage() {
     const { totalQuantity } = useCart();
@@ -12,7 +13,7 @@ function CartPage() {
             <div className='cart-section'>
                 <h1>CART</h1>
                 <div className='cart'>
-
+                    <CartItem/>
                 </div>
                 
             </div>

@@ -10,14 +10,16 @@
 .cart-page {
     height: calc(100vh - 80px);
     max-width: 1500px;
-    padding-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5em;
     display: flex;
     justify-content: space-around;
 }
 
 .cart-page h1 {
     font-weight: 100;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 
