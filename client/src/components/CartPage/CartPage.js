@@ -14,6 +14,8 @@ function CartPage() {
                 <h1>CART</h1>
                 <div className='cart'>
                     <CartItem/>
+                    <CartItem/>
+                    <CartItem/>
                 </div>
                 
             </div>

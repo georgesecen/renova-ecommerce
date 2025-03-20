@@ -33,7 +33,9 @@
 }
 
 .cart-page .cart {
+    height: 100%;
     border-top: 1px solid rgb(147, 147, 147);
+    overflow: scroll;
 }
 
 /* 3. Order summary styles  */
