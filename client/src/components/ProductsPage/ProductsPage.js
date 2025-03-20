@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './productsPage.css'
 import ProductCard from '../ProductCard/ProductCard';
-import { getProducts } from '../../services/products';
+import { getAllProductsV2, getProducts } from '../../services/products';
 import { useNavigate } from 'react-router-dom';
 import { getVariants } from '../../services/productVariants';
 import { getAllCategories } from '../../services/productCategories';
@@ -32,28 +32,33 @@ function ProductsPage() {
 
     useEffect(() => {
         console.log(products)
-        getProducts()
+        getAllProductsV2()
             .then((response) => {
-                console.log(response.data[0].image[0]);
-                console.log(response.data[0].image[0].image_url);
-
-                setProducts(response.data);
-
-                // // Map all colour variants
-                // for (const p in response.data){
-                //     getVariants(p)
-                //     .then((res) => {
-                //         let colSet = new Set(res.map(a => a.color))
-                //         cols.current.set(p, colSet);
-                //     })
-                // }
-
-                setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
+                console.log(response.data.data)
+                setProducts(response.data.data)
             })
-            .catch((error) => {
-                console.error('Error fetching products:', error);
-                setLoading(false);
-            });
+        // getProducts()
+        //     .then((response) => {
+        //         console.log(response.data[0].image[0]);
+        //         console.log(response.data[0].image[0].image_url);
+
+        //         setProducts(response.data);
+
+        //         // // Map all colour variants
+        //         // for (const p in response.data){
+        //         //     getVariants(p)
+        //         //     .then((res) => {
+        //         //         let colSet = new Set(res.map(a => a.color))
+        //         //         cols.current.set(p, colSet);
+        //         //     })
+        //         // }
+
+        //         setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error fetching products:', error);
+        //         setLoading(false);
+        //     });
 
         // Request to retrieve all categories and store result
         getAllCategories()
@@ -117,6 +122,8 @@ function ProductsPage() {
         navigate('/products/' + (product.id), {state: { id: product.id } })
     }
 
+    console.log(products)
+
     return (
         <div className="products-page">
             <div className="content">
@@ -144,6 +151,9 @@ function ProductsPage() {
                         return null
                     }
                     if (genderFilter !== product.gender && genderFilter !== 'all'){
+                        return null
+                    }
+                    if (product.product_variants.length === 0) {
                         return null
                     }
                     return (
