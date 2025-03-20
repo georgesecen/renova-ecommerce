@@ -11,11 +11,15 @@ function CartPage() {
         <div className="cart-page">
             <div className='cart-section'>
                 <h1>CART</h1>
+                <div className='cart'>
 
+                </div>
+                
             </div>
-            <div className='order-summary'>
+            <div className='summary-section'>
                 <h1>ORDER SUMMARY</h1>
-
+                <div className='summary'>
+                </div>
             </div>
             
         </div>
