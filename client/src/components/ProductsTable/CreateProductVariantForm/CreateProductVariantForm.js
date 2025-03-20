@@ -3,6 +3,8 @@ import "./createProductVariantForm.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { adminProductVariantsService } from '../../../services/productVariants';
+import RadioButton from '../../RadioButton/RadioButton';
+import CustomFormInput from '../../CustomFormInput/CustomFormInput';
 
 /**
  * Form which creates a product variant for a product.
@@ -91,18 +93,34 @@ const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadP
             <Modal.Title>Create Product Variant</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <form id='create-product-variant-form'>
+            <form id='create-product-variant-form' className='table-form'>
 
-                {/* TODO: Add more color and size options */}
-                <input name="color" value="Red" type="radio" />Red <br></br>
-                <input name="color" value="Green" type="radio" />Green <br></br>
-                <input name="color" value="Blue" type="radio" />Blue <br></br>
+                {/* Color selection */}
+                <h6>Select Color</h6>
+                <div className='buttons-container'>
+                  <RadioButton color="#FF0000" text="Red" value="red" inputName="color" />
+                  <RadioButton color="#00FF00" text="Green" value="green" inputName="color" />
+                  <RadioButton color="#0000FF" text="Blue" value="blue" inputName="color" />
+                  <RadioButton color="#9D00FF" text="Purple" value="purple" inputName="color" />
+                  <RadioButton color="#FFFF00" text="Yellow" value="yellow" inputName="color" />
+                  <RadioButton color="#B1B1B1" text="White" value="white" inputName="color" />
+                  <RadioButton color="#000000" text="Black" value="black" inputName="color" />
+                  <RadioButton color="#FFA500" text="Orange" value="orange" inputName="color" />
+                  <RadioButton color="#ff66fa" text="Pink" value="pink" inputName="color" />
+                </div>
 
-                <input name="size" value="S" type="radio" />S <br></br>
-                <input name="size" value="M" type="radio" />M <br></br>
-                <input name="size" value="L" type="radio" />L <br></br>
+                {/* Size selection */}
+                <h6>Select Size</h6>
+                <div className='buttons-container'>
+                  <RadioButton color="#7d7d7d" text="Extra Small" value="XS" inputName="size" />
+                  <RadioButton color="#7d7d7d" text="Small" value="S" inputName="size" />
+                  <RadioButton color="#7d7d7d" text="Medium" value="M" inputName="size" />
+                  <RadioButton color="#7d7d7d" text="Large" value="L" inputName="size" />
+                  <RadioButton color="#7d7d7d" text="Extra Large" value="XL" inputName="size" />
+                </div>
 
-                <input name='quantity' step={1} type='number' /> quantity<br></br>
+                <CustomFormInput type="number" inputName="quantity" text="Quantity" />
+
             </form>
         </Modal.Body>
         <Modal.Footer>

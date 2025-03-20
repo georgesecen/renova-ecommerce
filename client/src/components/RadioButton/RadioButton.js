@@ -1,4 +1,5 @@
 import React from 'react'
+import "./radioButton.css"
 
 /**
  * Custom radio component which displays text next to radio input.
@@ -12,7 +13,7 @@ import React from 'react'
 const RadioButton = ({ color, text, inputName, defaultChecked, value }) => {
   return (
     <label className='custom-input' style={{backgroundColor: `${color}30`}}>
-        <input value={value} defaultChecked={defaultChecked} name={inputName} type='radio' style={{accentColor: color, borderColor: color}}/>
+        <input className='radio' value={value} defaultChecked={defaultChecked} name={inputName} type='radio' style={{backgroundColor: color, borderColor: color}}/>
         <span>{text}</span>
     </label>
   )
