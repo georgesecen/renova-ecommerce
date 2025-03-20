@@ -19,8 +19,6 @@ function ProductsPage() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const cols = useRef(new Map());
-
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState({});
     const [value, setValue] = useState(1);
