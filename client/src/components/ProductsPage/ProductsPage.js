@@ -36,29 +36,12 @@ function ProductsPage() {
             .then((response) => {
                 console.log(response.data.data)
                 setProducts(response.data.data)
+                setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
             })
-        // getProducts()
-        //     .then((response) => {
-        //         console.log(response.data[0].image[0]);
-        //         console.log(response.data[0].image[0].image_url);
-
-        //         setProducts(response.data);
-
-        //         // // Map all colour variants
-        //         // for (const p in response.data){
-        //         //     getVariants(p)
-        //         //     .then((res) => {
-        //         //         let colSet = new Set(res.map(a => a.color))
-        //         //         cols.current.set(p, colSet);
-        //         //     })
-        //         // }
-
-        //         setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error fetching products:', error);
-        //         setLoading(false);
-        //     });
+            .catch((error) => {
+                console.error('Error fetching products:', error);
+                setLoading(false);
+            });
 
         // Request to retrieve all categories and store result
         getAllCategories()
@@ -160,7 +143,7 @@ function ProductsPage() {
                         <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
                             name={product.name} 
                             price={product.price}
-                            cols={cols.current.get(String(product.id))}
+                            cols={new Set(product.product_variants.map(a => a.color))}
                             // image={`/images/${product.image[0].image_url}`}
                             addToCart={() => addToCartHandler(product)}>
                         </ProductCard>
