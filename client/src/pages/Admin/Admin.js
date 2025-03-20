@@ -5,6 +5,7 @@ import CategoriesTable from '../../components/CategoriesTable/CategoriesTable'
 import Toasts from '../../components/Toasts/Toasts'
 import "./admin.css"
 import "../../styles/table-cards.css"
+import "../../styles/table-forms.css"
 import "../../styles/custom-inputs.css"
 
 const Admin = () => {
