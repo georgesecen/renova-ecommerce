@@ -107,6 +107,9 @@ const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadP
                   <RadioButton color="#000000" text="Black" value="black" inputName="color" />
                   <RadioButton color="#FFA500" text="Orange" value="orange" inputName="color" />
                   <RadioButton color="#ff66fa" text="Pink" value="pink" inputName="color" />
+                  <RadioButton color="#ffc45f" text="Beige" value="beige" inputName="color" />
+                  <RadioButton color="#964B00" text="Brown" value="brown" inputName="color" />
+                  <RadioButton color="#808080" text="Grey" value="grey" inputName="color" />
                 </div>
 
                 {/* Size selection */}
