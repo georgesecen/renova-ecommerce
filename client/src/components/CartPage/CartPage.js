@@ -4,10 +4,14 @@ import CartItem from './CartItem/CartItem';
 import { getCartItems } from '../../services/cart';
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { useCart } from '../../providers/CartContext';
 
 function CartPage() {
     let navigate = useNavigate(); 
 
+    const { totalQuantity } = useCart();
+    
     const [totalCost, setTotalCost] = useState(0);
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -54,6 +58,12 @@ function CartPage() {
         <div className="cart-page">
             <div className='cart-section'>
                 <h1>CART</h1>
+                {totalQuantity === 0 ? (
+                  <p>
+                      No items to display. <br/>
+                      <Link to={"/products"}>Click here</Link> to add items to your cart!
+                  </p>
+              ) : (
                 <div className='cart'>
                     {cartItems.map((item, i) => (
                         <CartItem key={i}
@@ -68,14 +78,17 @@ function CartPage() {
                         />
                     ))}
                 </div>
+                )}
             </div>
             <div className='summary-section'>
                 <h1>ORDER SUMMARY</h1>
                 <div className='summary'>
-                    <div><p>SUBTOTAL:</p> <p>${totalCost.toFixed(2)}</p></div>
-                    <div><p>SHIPPING:</p> <p>$0.0</p></div>
-                    <div><p>TOTAL:</p> <p>${(totalCost + 0).toFixed(2)}</p></div>
+                    <div><p>SUBTOTAL</p> <p>${totalCost.toFixed(2)}</p></div>
+                    <div><p>SHIPPING</p> <p>$0.0</p></div>
+                    <div><p>TOTAL</p> <p>${(totalCost + 0).toFixed(2)}</p></div>
+                    {totalQuantity > 0 ? (
                     <button className='button' onClick={() => navigate('/test-stripe')}>CHECKOUT</button>
+                    ) : <></>}
                 </div>
             </div>
             
