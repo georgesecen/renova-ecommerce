@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import './cartPage.css';
-import {Link, NavLink} from "react-router-dom";
 import CartItem from './CartItem/CartItem';
 import { getCartItems } from '../../services/cart';
 import { useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 function CartPage() {
-    const [totalCost, setTotalCost] = useState(0);
+    let navigate = useNavigate(); 
 
+    const [totalCost, setTotalCost] = useState(0);
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -74,7 +75,7 @@ function CartPage() {
                     <div><p>SUBTOTAL:</p> <p>${totalCost.toFixed(2)}</p></div>
                     <div><p>SHIPPING:</p> <p>$0.0</p></div>
                     <div><p>TOTAL:</p> <p>${(totalCost + 0).toFixed(2)}</p></div>
-                    <button className='button'>CHECKOUT</button>
+                    <button className='button' onClick={() => navigate('/test-stripe')}>CHECKOUT</button>
                 </div>
             </div>
             

@@ -2,7 +2,7 @@ import './cartItem.css'
 import {FaTrash} from "react-icons/fa";
 import { useState } from 'react';
 import { useCart } from '../../../providers/CartContext';
-import {getCartItems, removeCartItem} from "../../../services/cart";
+import {removeCartItem} from "../../../services/cart";
 import ProductModal from "../../ProductModal";
 
 function CartItem(props) {
