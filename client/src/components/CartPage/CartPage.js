@@ -48,7 +48,12 @@ function CartPage() {
                     setLoading(false); // Stop loading if there's an error
                 });
         }, []);
-        console.log(cartItems)
+        
+        useEffect(() => {
+                // Calculate total cost whenever cartItems change and update the parent state
+                const total = cartItems.reduce((sum, item) => sum + item.product_price * item.quantity, 0);
+                setTotalCost(total);
+            }, [cartItems, setTotalCost]);
 
     return (
         <div className="cart-page">
@@ -69,6 +74,10 @@ function CartPage() {
             <div className='summary-section'>
                 <h1>ORDER SUMMARY</h1>
                 <div className='summary'>
+                    <div><p>SUBTOTAL:</p> <p>${totalCost.toFixed(2)}</p></div>
+                    <div><p>SHIPPING:</p> <p>$0.0</p></div>
+                    <div><p>TOTAL:</p> <p>${(totalCost + 0).toFixed(2)}</p></div>
+                    <button className='button'>CHECKOUT</button>
                 </div>
             </div>
             
