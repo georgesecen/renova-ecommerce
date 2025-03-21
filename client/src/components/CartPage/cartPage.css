@@ -37,8 +37,10 @@
     height: 40em;
 }
 
-.cart-page > .cart-section p {
-    margin-top: 60px;
+.cart-page > .cart-section p.msg {
+    padding-top: 60px;
+    font-size: 17px;
+    border-top: 1px solid rgb(147, 147, 147);
 }
 .cart-page > .cart-section a {
     color: #7eb5fc;

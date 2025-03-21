@@ -59,7 +59,7 @@ function CartPage() {
             <div className='cart-section'>
                 <h1>CART</h1>
                 {totalQuantity === 0 ? (
-                  <p>
+                  <p className='msg'>
                       No items to display. <br/>
                       <Link to={"/products"}>Click here</Link> to add items to your cart!
                   </p>
