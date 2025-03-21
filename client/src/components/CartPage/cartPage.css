@@ -65,6 +65,10 @@
     width: 100%;
     margin: 10px 0;
 }
+.cart-page .summary button:hover{
+    background-color: rgb(223, 223, 223);
+    color: #111111;
+}
 
 
 /* 4. Media queries  */

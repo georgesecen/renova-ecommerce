@@ -1,21 +1,15 @@
 import React, {useState} from 'react';
 import './cartPage.css';
-import {useCart} from '../../providers/CartContext';
 import {Link, NavLink} from "react-router-dom";
 import CartItem from './CartItem/CartItem';
 import { getCartItems } from '../../services/cart';
 import { useEffect } from 'react';
 
 function CartPage() {
-    const { totalQuantity } = useCart();
     const [totalCost, setTotalCost] = useState(0);
 
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [showModal, setShowModal] = useState(false);
-    const [modalContent, setModalContent] = useState({});
-    const { updateCartQuantity } = useCart();
-
 
     useEffect(() => {
             console.log(cartItems);
@@ -62,11 +56,14 @@ function CartPage() {
                 <div className='cart'>
                     {cartItems.map((item, i) => (
                         <CartItem key={i}
+                        item={item}
                         img={item.product_image}
                         name={item.product_name}
                         color={item.product_color}
                         size={item.product_size}
                         price={item.product_price}
+                        qty={item.quantity}
+                        setItems={setCartItems}
                         />
                     ))}
                 </div>
