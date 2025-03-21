@@ -37,12 +37,15 @@ const Admin = () => {
 
   return (
     <div className='admin-dashboard-container'>
-      <h1>Admin Page</h1>
       <Toasts ref={toastsRef} />
 
-      <button onClick={() => setCurrentComponent("orders")}>orders</button>
-      <button onClick={() => setCurrentComponent("products")}>prodcuts</button>
-      <button onClick={() => setCurrentComponent("categories")}>categories</button>
+      <h1>Renova Dashboard</h1>
+
+      <div className='admin-navigation'>
+        <button className={`${currentComponent === "orders" ? "selected" : ""}`} onClick={() => setCurrentComponent("orders")}>orders</button>
+        <button className={`${currentComponent === "products" ? "selected" : ""}`} onClick={() => setCurrentComponent("products")}>products</button>
+        <button className={`${currentComponent === "categories" ? "selected" : ""}`} onClick={() => setCurrentComponent("categories")}>categories</button>
+      </div>
 
       {/* Only display the component which is set as the current component */}
       {currentComponent === "orders" && <OrdersTable displayNotification={displayNotification} />}

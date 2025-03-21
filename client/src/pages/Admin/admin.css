@@ -6,3 +6,37 @@
 
     font-size: 14.5px;
 }
+
+/* Renova Dashboard title */
+.admin-dashboard-container > h1{
+    text-align: center;
+    margin: 0;
+    padding-top: 0.6em;
+}
+
+/* Nav bar in admin page */
+.admin-navigation{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin: 0.5em 0em 2em 0em;
+   flex-wrap: wrap;
+   gap: 0.3em;
+}
+.admin-navigation > button{
+    background-color: transparent;
+    border: 2px solid rgb(223, 223, 223);
+    padding: 0.2em 0.5em 0.2em 0.5em;
+    border-radius: 1em;
+
+    /* For hover transition */
+    transition: border-color 0.25s ease-in-out;
+}
+.admin-navigation > button:hover{
+    border-color: grey;
+}
+
+/* When nav items are selected */
+.admin-navigation > button.selected{
+    border-color: grey;
+}
