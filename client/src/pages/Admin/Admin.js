@@ -3,6 +3,7 @@ import OrdersTable from '../../components/OrdersTable/OrdersTable'
 import ProductsTable from '../../components/ProductsTable/ProductsTable'
 import CategoriesTable from '../../components/CategoriesTable/CategoriesTable'
 import Toasts from '../../components/Toasts/Toasts'
+import { adminProductsService } from '../../services/products'
 import "./admin.css"
 import "../../styles/table-cards.css"
 import "../../styles/table-forms.css"
@@ -11,6 +12,7 @@ import "../../styles/custom-inputs.css"
 const Admin = () => {
 
   const [key, setKey] = useState(false)
+  const [validKey, setValidKey] = useState(false)
 
   // Keep track of what admin component to render based on 
   // what was last clicked in navbar (Defaults to orders table)
@@ -31,9 +33,20 @@ const Admin = () => {
     setKey(true)
   }, [])
 
+  // If user has entered key
+  if (key === true){
 
-  // If no key is set do not attempt to render any components
-  if (key === false) return
+    // Attempt to contact server via a route which requires the admin key
+    adminProductsService("index")
+
+      // If the request is successful we know the key user entered is the correct admin key
+      .then(() => setValidKey(true))
+      .catch(() => {})
+  }
+
+
+  // If no key is set or key is invalid do not attempt to render any components
+  if (key === false || validKey === false) return
 
   return (
     <div className='admin-dashboard-container'>
