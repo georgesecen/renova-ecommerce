@@ -20,8 +20,11 @@ exports.createOrder = async (event) => {
             payment_intent: paymentIntent, // Payment intent needed to refund the order
             email,
             phone: phoneNumber,
-            shipping_details: shippingDetails
+            shipping_details: shippingDetails,
+            metadata
         } = event.data.object
+
+        const {userId, guestUserId} = metadata
 
         // Convert amount total from cents to dollars
         const amountTotal = event.data.object.amount_total / 100
@@ -48,7 +51,8 @@ exports.createOrder = async (event) => {
             stripe_id: paymentIntent,
 
             // TODO: Remove foreign key constraints as you cannot track user from webhook (I think)
-            user_id: 2
+            user_id: userId,
+            guest_user_id: guestUserId,
         })
 
         // Create shipping
@@ -64,7 +68,8 @@ exports.createOrder = async (event) => {
             country: country,
 
             // TODO: Remove foreign key constraints as you cannot track user from webhook (I think)
-            user_id: 2
+            user_id: userId,
+            guest_user_id: guestUserId,
         })
 
         // https://docs.stripe.com/api/checkout/sessions/line_items
