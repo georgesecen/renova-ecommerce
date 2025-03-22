@@ -2,7 +2,7 @@ import './productDetails.css'
 import './sizeOption.css';
 import './colourOption.css';
 import Carousel from 'react-bootstrap/Carousel';
-import { useParams } from 'react-router-dom';
+import { redirect, useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { getProductInfo } from '../../services/products';
 import ImageOption from './ImageOption/ImageOption';
@@ -10,8 +10,10 @@ import { addProduct } from "../../services/cart";
 import { useCart } from "../../providers/CartContext";
 import { useUser } from "../../providers/UserContext";
 import ProductModal from '../ProductModal';
+import { useNavigate } from 'react-router-dom';
 
 function ProductDetails() {
+  const navigate = useNavigate();  
 
   const params = useParams();
   const productId = params.id;
@@ -131,6 +133,7 @@ function ProductDetails() {
             })
             .catch((error) => {
               console.error('Error fetching product:', error);
+              navigate('/page-not-found');
           });
     }, []);
 
