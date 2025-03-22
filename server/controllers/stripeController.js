@@ -188,16 +188,19 @@ exports.createCheckoutSession = async (request, response) => {
             })
         }
 
+        // Add the user data to the checkout so we know which user to connect orders to
+        const metadata = {}
+        if (userId !== null) metadata.userId = userId
+        if (guestUserId !== null) metadata.guestUserId = guestUserId
+
         // Create Stripe checkout session (Payment methods available at checkout must be enabled through account)
         const session = await stripe.checkout.sessions.create({
             ui_mode: 'embedded',
             line_items: lineItems,
             mode: 'payment',
             
-            metadata: {
-                userId: userId,
-                guestUserId: guestUserId,
-            },
+            // Keys and values must be strings (If not they are converted to strings)
+            metadata: metadata,
 
             // These are the allowed shipping countries
             shipping_address_collection: {
@@ -217,7 +220,7 @@ exports.createCheckoutSession = async (request, response) => {
             // The URL to redirect customer back to after they authenticate or 
             // cancel their payment at checkout
             return_url: "http://localhost:3000/return?session_id={CHECKOUT_SESSION_ID}",
-          });
+        });
         
         console.log("Checkout session created successfully on Stripe.")
         response.status(200).json({

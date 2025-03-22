@@ -24,7 +24,10 @@ exports.createOrder = async (event) => {
             metadata
         } = event.data.object
 
-        const {userId, guestUserId} = metadata
+        // Metadata values are strings we need values them to be numbers to insert them as ID's into tables
+        let {userId, guestUserId} = metadata
+        userId = userId === undefined ? undefined : Number(userId)
+        guestUserId = guestUserId === undefined ? undefined : Number(guestUserId)
 
         // Convert amount total from cents to dollars
         const amountTotal = event.data.object.amount_total / 100
@@ -50,9 +53,10 @@ exports.createOrder = async (event) => {
             status: paymentStatus == "paid" ? "completed" : "pending",
             stripe_id: paymentIntent,
 
-            // TODO: Remove foreign key constraints as you cannot track user from webhook (I think)
+            // For some reason neither values can be present. One of them must be undefined. Always prioritize
+            // making the userId present if possible.
             user_id: userId,
-            guest_user_id: guestUserId,
+            guest_user_id: userId === undefined ? guestUserId : undefined,
         })
 
         // Create shipping
@@ -67,9 +71,10 @@ exports.createOrder = async (event) => {
             postal_code: postalCode,
             country: country,
 
-            // TODO: Remove foreign key constraints as you cannot track user from webhook (I think)
+            // For some reason neither values can be present. One of them must be undefined. Always prioritize
+            // making the userId present if possible.
             user_id: userId,
-            guest_user_id: guestUserId,
+            guest_user_id: userId === undefined ? guestUserId : undefined,
         })
 
         // https://docs.stripe.com/api/checkout/sessions/line_items
