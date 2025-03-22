@@ -2,7 +2,7 @@ import './productDetails.css'
 import './sizeOption.css';
 import './colourOption.css';
 import Carousel from 'react-bootstrap/Carousel';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { getProductInfo } from '../../services/products';
 import ImageOption from './ImageOption/ImageOption';
@@ -13,7 +13,8 @@ import ProductModal from '../ProductModal';
 
 function ProductDetails() {
 
-  const {state} = useLocation();
+  const params = useParams();
+  const productId = params.id;
 
   const sizeOrder = ['XS', 'S', 'M', 'L', 'XL'];
   const [variants, setVariants] = useState([]);
@@ -86,7 +87,7 @@ function ProductDetails() {
    * all images, and sets initial selected colour and size.
    */
     useEffect(() => {
-          getProductInfo(state.id)
+          getProductInfo(productId)
             .then((response) => {
               console.log(response.data.data[0]);
               // store info, variants, colours, sizes (in defined order), and images
