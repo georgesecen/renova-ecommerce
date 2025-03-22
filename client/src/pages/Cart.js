@@ -9,7 +9,7 @@ function Cart() {
     const [totalCost, setTotalCost] = useState(0);
   return (
     <div className="cart-page">
-        <h1>Your Orders</h1>
+        <h1>CART</h1>
           <div className="cartCheckoutContainer">
               {totalQuantity === 0 ? (
                   <p>
