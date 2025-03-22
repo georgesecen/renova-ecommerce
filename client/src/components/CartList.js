@@ -134,9 +134,10 @@ function CartList({ setTotalCost }) {
         <div>
         <ul className="productList">
             {cartItems.map((item) => {
+                console.log(item)
                 return (
                     <li key={item.cart_item_id} className="productItem">
-                        <img src={`/images/${item.product_image}`} alt={item.product_name}/>
+                        <img src={`http://localhost:3306/static/images/${item.product_image}`} alt={item.product_name}/>
                         <div className="productName">
                             <h3>{item.product_name}</h3>
                         </div>

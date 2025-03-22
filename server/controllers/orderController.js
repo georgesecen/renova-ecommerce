@@ -3,6 +3,7 @@ const Order = require('../models/orderModel');
 const Product = require('../models/productModel');
 const ProductVariantModel = require('../models/productVariantModel');
 const ShippingAddress = require('../models/ShippingAddressModel');
+const { refundOrder } = require("../services/orderIntegrationService")
 
 exports.placeOrder = (req, res) => {
     const { userId, products } = req.body;
@@ -37,16 +38,16 @@ exports.getUserOrders = (req, res) => {
  */
 exports.updateOrderStatus = async (request, response) => {
 
-    const {id, status} = request.body
+    const {orderId, status} = request.body
 
     try{
 
         // Get order
-        const order = await Order.findByPk(id)
+        const order = await Order.findByPk(orderId)
 
         // If order does not exist
         if (order == null){
-            throw new Error(`Order with ID ${id} does not exist in database.`)
+            throw new Error(`Order with ID ${orderId} does not exist in database.`)
         }
         
         // If status is not a valid option
@@ -115,4 +116,31 @@ exports.getOrders = async (request, response) => {
         console.log(`Error in orderController.js function getOrders: ${error.message}`)
         response.status(500).json({error: error.message})
     }
+}
+
+/**
+ * Refunds order on Stripe.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
+ */
+exports.refundOrder = async (request, response) => {
+
+    const {orderId} = request.body
+
+    try{
+
+        await refundOrder(orderId)
+        
+        console.log("Order refunded successfully on Stripe.")
+        response.status(200).json({
+            message: "Order refunded successfully on Stripe.",
+        })
+    } 
+    catch (error){
+        console.log(`Error in orderController.js function refundOrder: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+
+    // Allow new operations to proceed
+    global.stripeOperationInProgress = false
 }

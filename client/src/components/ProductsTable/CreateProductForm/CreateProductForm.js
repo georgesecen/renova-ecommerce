@@ -3,6 +3,8 @@ import "./createProductForm.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { adminProductsService } from '../../../services/products';
+import CustomFormInput from '../../CustomFormInput/CustomFormInput';
+import RadioButton from '../../RadioButton/RadioButton';
 
 /**
  * Form which creates a product.
@@ -46,14 +48,17 @@ const CreateProductForm = ({show, setShow, setLoading, setLoadProducts, displayN
             <Modal.Title>Create Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <form id='create-product-form'>
-                <input name='name' type='text' placeholder='Product Name'/>
-                <textarea name='description' placeholder='Product Description'></textarea>
-                <input name='price' step={1} type='number' />
+            <form id='create-product-form' className='table-form'>
 
-                <input name="gender" value="unisex" type="radio" defaultChecked={true}/>Unisex <br></br>
-                <input name="gender" value="women" type="radio"/>Women <br></br>
-                <input name="gender" value="men" type="radio"/>Men <br></br>
+                <CustomFormInput type="text" inputName="name" text="Product Name" />
+                <CustomFormInput type="text" inputName="description" text="Product Description" />
+                <CustomFormInput type="number" inputName="price" text="Product Price" />
+
+                <div className='buttons-container'>
+                    <RadioButton color="#7d7d7d" text="Unisex" inputName="gender" defaultChecked={true} value={"unisex"}/>
+                    <RadioButton color="#7d7d7d" text="Women" inputName="gender" value={"women"}/>
+                    <RadioButton color="#7d7d7d" text="Men" inputName="gender" value={"men"}/>
+                </div>
 
                 {/* Product categories selector */}
                 <select name='category'>

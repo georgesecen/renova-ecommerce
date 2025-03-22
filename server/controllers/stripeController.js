@@ -7,7 +7,7 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
  * Creates product with price on Stripe server.
  * @param {object} request Express js request object.
  * @param {object} response Express js response object.
- * @returns {void}
+ * @returns {Promise<void>}
  */
 exports.createProductAndPrice = async (request, response) => {
 
@@ -38,7 +38,7 @@ exports.createProductAndPrice = async (request, response) => {
  * Updates product and products price on Stripe server.
  * @param {object} request Express js request object.
  * @param {object} response Express js response object.
- * @returns {void}
+ * @returns {Promise<void>}
  */
 exports.updateProductAndPrice = async (request, response) => {
 
@@ -90,7 +90,7 @@ exports.updateProductAndPrice = async (request, response) => {
  * Archives product and products price on Stripe server so product is not available at checkout.
  * @param {object} request Express js request object.
  * @param {object} response Express js response object.
- * @returns {void}
+ * @returns {Promise<void>}
  */
 exports.archiveProductAndPrice = async (request, response) => {
 
@@ -129,7 +129,7 @@ exports.archiveProductAndPrice = async (request, response) => {
  * Gets product and products price details on Stripe server.
  * @param {object} request Express js request object.
  * @param {object} response Express js response object.
- * @returns {void}
+ * @returns {Promise<void>}
  */
 exports.getProductAndPrice = async (request, response) => {
 
@@ -165,13 +165,17 @@ exports.getProductAndPrice = async (request, response) => {
  * Creates checkout session on Stripe server.
  * @param {object} request Express js request object.
  * @param {object} response Express js response object.
- * @returns {void}
+ * @returns {Promise<void>}
  */
 exports.createCheckoutSession = async (request, response) => {
 
+    // It is guaranteed that a userId or guestUserId exists as in order for there to be items in a customers
+    // cart they must have either a userId or guestUserId
+
     // Products passed through request is expected to be in format such as:
     // [ {id: productId, quantity: 1}, {id: productId, quantity: 1}, {id: productId, quantity: 2}]
-    const {products} = request.body
+
+    const {products, userId, guestUserId} = request.body
 
     try{
 
@@ -184,11 +188,19 @@ exports.createCheckoutSession = async (request, response) => {
             })
         }
 
+        // Add the user data to the checkout so we know which user to connect orders to
+        const metadata = {}
+        if (userId !== null) metadata.userId = userId
+        if (guestUserId !== null) metadata.guestUserId = guestUserId
+
         // Create Stripe checkout session (Payment methods available at checkout must be enabled through account)
         const session = await stripe.checkout.sessions.create({
             ui_mode: 'embedded',
             line_items: lineItems,
             mode: 'payment',
+            
+            // Keys and values must be strings (If not they are converted to strings)
+            metadata: metadata,
 
             // These are the allowed shipping countries
             shipping_address_collection: {
@@ -208,7 +220,7 @@ exports.createCheckoutSession = async (request, response) => {
             // The URL to redirect customer back to after they authenticate or 
             // cancel their payment at checkout
             return_url: "http://localhost:3000/return?session_id={CHECKOUT_SESSION_ID}",
-          });
+        });
         
         console.log("Checkout session created successfully on Stripe.")
         response.status(200).json({
@@ -226,7 +238,7 @@ exports.createCheckoutSession = async (request, response) => {
  * Gets checkout session status on Stripe server.
  * @param {object} request Express js request object.
  * @param {object} response Express js response object.
- * @returns {void}
+ * @returns {Promise<void>}
  */
 exports.getCheckoutSessionStatus = async (request, response) => {
 
