@@ -19,6 +19,7 @@ function ProductDetails() {
   const [variants, setVariants] = useState([]);
   const [colour, setColour] = useState("")
   const [size, setSize] = useState("")
+  const [productImages, setProductImages] = useState([]);
   const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(0);
 
@@ -29,7 +30,6 @@ function ProductDetails() {
 
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({});
-  const [value, setValue] = useState(1);
   const { updateCartQuantity } = useCart();
   const { user, isLoggedIn } = useUser();
 
@@ -37,20 +37,32 @@ function ProductDetails() {
   const guest_user_id = localStorage.getItem("guestUserId");
 
   /**
-   * This function takes a string and sets it as the colour state,
-   * then populates the sizesAvailable set to any sizes associated with
-   * the colour, and lastly current size to first in sizesAvailable or
-   * null if empty
+   * This function handles a color change. It will:
    * 
-   * @param {*} col colour to set as selected
+   * 1) Clear the current sizes available and populate it 
+   *    with the sizes available for the new color
+   * 
+   * 2) Set the images to the product images along with any images
+   *    associated with the new color
+   * 
+   * 3) Sets the color state
+   * 
+   * 4) Set the size state to the first size available or null
+   *    if none exist
+   * 
+   * @param {String} col colour to set as selected
    */
   function selectColour(col) {
     sizesAvailable.current.clear()
+    setImages(productImages)
+
     for(const v of variants){
       if(v.color === col){
         sizesAvailable.current.add(v.size)
+        setImages(productImages.concat(v.images))
       }
     }
+
     // Set states
     setColour(col)
     sizesAvailable.current.size > 0 ? setSize([...sizesAvailable.current][0]) : setSize(null);
@@ -88,8 +100,8 @@ function ProductDetails() {
               sizes.current = new Set(response.data.data[0].product_variants.map(a => a.size).sort(function(a,b) { // Sort sizes in appropriate order
                 return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
               }));
-              setImages(response.data.data[0].image)
-              setImages(images.concat(response.data.data[0].product_variants[0].images))
+              setProductImages(response.data.data[0].image)
+              setImages(response.data.data[0].image.concat(response.data.data[0].product_variants[0].images))
 
               // set initial colour, size, and sizesAvailable
               setColour(response.data.data[0].product_variants[0].color)
@@ -151,7 +163,7 @@ function ProductDetails() {
             user_id,
             guest_user_id,
             product_variant_id: id,
-            quantity: value,
+            quantity: 1,
         };
         // console.log(productData);
         addProduct(productData)
