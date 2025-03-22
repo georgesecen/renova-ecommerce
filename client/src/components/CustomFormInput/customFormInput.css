@@ -1,0 +1,28 @@
+
+/* Container holds the input and label for input */
+.custom-form-input{
+    user-select: none;
+}
+.custom-form-input:hover > input{
+    border-color:#05060f;
+}
+
+.custom-form-input > label{
+    display: block;
+    font-weight: bold;
+}
+
+.custom-form-input > input{
+    outline: none;
+    border: 2px solid transparent;
+    background-color: rgba(125, 125, 125, 0.19);
+    padding: 0.3em;
+    border-radius: 0.5em;
+    width: 100%;
+
+    /* For border effect */
+    transition: border-color 0.25s ease-in-out;
+}
+.custom-form-input > input:focus{
+    border-color:#05060f;
+}

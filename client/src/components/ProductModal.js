@@ -7,6 +7,7 @@ function ProductModal({ show, onHide, title, message, image }) {
     return (
         <Modal
             data-bs-theme="dark"
+            style={{color: "white"}} // For some reason theme being dark does not update text color to white
             show={show}
             onHide={onHide}
             size="lg"

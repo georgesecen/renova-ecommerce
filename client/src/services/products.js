@@ -34,7 +34,7 @@ export const adminProductsService = async (operation, requestData = {}) => {
             }
         )
     } catch(error){
-        console.log(error)
+        throw new Error(error)
     }
 }
 

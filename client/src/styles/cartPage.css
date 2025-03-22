@@ -28,11 +28,11 @@ ul.productList li {
     margin: 20px 35px;
 }
 
-li img,
-li div.productName,
-li div.productPrice,
-li div.productQuantity,
-li div.productTotal {
+.cart-page li img,
+.cart-page li div.productName,
+.cart-page li div.productPrice,
+.cart-page li div.productQuantity,
+.cart-page li div.productTotal {
     margin-right: 50px;
 }
 

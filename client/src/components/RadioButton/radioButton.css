@@ -1,0 +1,17 @@
+
+/* Custom radio input */
+.custom-input > .radio{
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid black;
+    border-radius: 50%;
+    outline: none;
+    opacity: 0.1;
+
+    /* For opacity changing effect */
+    transition: opacity 0.2s ease-in-out;
+}
+.custom-input > .radio:checked{
+    opacity: 1;
+}
