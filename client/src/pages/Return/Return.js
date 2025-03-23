@@ -33,7 +33,7 @@ const Return = () => {
     // If user did not complete the checkout send them back to checkout page
     if (status === 'open') {
         return (
-            <Navigate to="/test-stripe" />
+            <Navigate to="/checkout" />
         )
     }
 
