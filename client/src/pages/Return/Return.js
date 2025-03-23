@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 import "./return.css"
-
 
 /**
  * Component which customer will be redirected to after checkout completion. Page will display basic order
@@ -39,19 +39,26 @@ const Return = () => {
 
     if (status === 'complete') {
         return (
-          <section id="success">
+          <section className="return-container" id="success">
+            <div>
               <h1>🛍️ Order Confirmation</h1>
               <p>
                 We appreciate your business! A confirmation email will be sent to {customerEmail}. 
                 A receipt of your purchase can be found <a href={receiptUrl}>here</a>.
                 If you have any questions, please email <a href="mailto:orders@example.com">orders@example.com</a>.
               </p>
+            </div>
           </section>
         )
     }
 
+  // TODO: Display error if page takes too long to load
   return(
-    <div>Null</div>
+    <div className="return-container">
+      <div className="return-message">
+        <Spinner></Spinner>
+      </div>
+    </div>
   )
 }
 
