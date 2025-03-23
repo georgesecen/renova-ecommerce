@@ -1,10 +1,11 @@
-import React, { useCallback } from "react";
+import React from "react";
 import {loadStripe} from '@stripe/stripe-js';
 import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout
 } from '@stripe/react-stripe-js';
 import { getCartItems } from "../services/cart";
+import { useUser } from "../providers/UserContext"
 
 // Make sure to call loadStripe outside of a component’s render to avoid recreating the Stripe object on every render.
 // Stripe publishable key
@@ -16,6 +17,11 @@ const stripePromise = loadStripe("pk_test_51QkxnbK1RDrGHWB8qmu8ClzOQbCZKLaRJC4VC
  * @returns {React.JSX.Element} CheckoutForm React component.
  */
 const CheckoutForm = () => {
+
+    // Get customer IDs so we know which customer to create order for
+    const { user } = useUser()
+    const userId = user === null ? null : user.userId
+    const guestUserId = localStorage.getItem("guestUserId")
 
     // Function gets all products and quantities in customers cart
     // Returns Array<object> which contains product variant ids, and quantity
@@ -44,7 +50,11 @@ const CheckoutForm = () => {
         return fetch("http://localhost:3306/stripe/create-checkout-session", {
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({products: cartProducts}),
+          body: JSON.stringify({
+            products: cartProducts,
+            userId: userId,
+            guestUserId: guestUserId
+          }),
         })
           .then((res) => res.json())
           .then((data) => data.clientSecret);

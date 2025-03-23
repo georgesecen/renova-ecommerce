@@ -1,7 +1,8 @@
 import "./orderForm.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { updateOrderStatus } from "../../../services/orders";
+import { adminOrdersService } from "../../../services/orders";
+import RadioButton from "../../RadioButton/RadioButton";
 
 // https://react-bootstrap.netlify.app/docs/components/modal/
 
@@ -21,7 +22,7 @@ const OrderForm = ({ show, setShow, order, setLoading, setLoadOrders, displayNot
   if (order === null) return
 
   // Get order data
-  const {id, status: orderStatus} = order ?? {}
+  const {id: orderId, status: orderStatus} = order ?? {}
 
   // Gets data from form and updates orders status
   function processFormData(){
@@ -30,11 +31,30 @@ const OrderForm = ({ show, setShow, order, setLoading, setLoadOrders, displayNot
     
     // Only if status was changed update order status
     if (entries.status !== orderStatus){
-        setLoading(true)
-        updateOrderStatus(id, entries.status)
-        .then((response) => displayNotification("Update", response.data.message))
-        .catch((error) => displayNotification("Update", `${error}`, "danger"))
-        .finally(() => {setLoading(false); setLoadOrders(true)})
+
+        // If current order status is cancelled, then order has been refunded do not allow status change
+        if (orderStatus === "cancelled"){
+            displayNotification("Update", "Order has already been refunded cannot change status!", "warning")
+            return
+        }
+
+        // If order status is changed to cancelled then refund order
+        if (entries.status === "cancelled"){
+            setLoading(true)
+            adminOrdersService("refund", {orderId: orderId})
+              .then((response) => displayNotification("Refund", response.data.message))
+              .catch((error) => displayNotification("Refund", `${error}`, "danger"))
+              .finally(() => {setLoading(false); setLoadOrders(true)})
+        }
+
+        // Otherwise just update order status to desired status
+        else{
+            setLoading(true)
+            adminOrdersService("update", {orderId: orderId, status: entries.status})
+              .then((response) => displayNotification("Update", response.data.message))
+              .catch((error) => displayNotification("Update", `${error}`, "danger"))
+              .finally(() => {setLoading(false); setLoadOrders(true)})
+        }
     }
   }
   
@@ -42,14 +62,17 @@ const OrderForm = ({ show, setShow, order, setLoading, setLoadOrders, displayNot
   return (
     <Modal show={show} onHide={() => setShow(false)} centered>
         <Modal.Header closeButton>
-            <Modal.Title>Update Status</Modal.Title>
+            <Modal.Title>Update Order Status</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <form id='order-form'>
-                <input name="status" value="shipped" type="radio" defaultChecked={orderStatus === "shipped"}/>Shipped <br></br>
-                <input name="status" value="cancelled" type="radio" defaultChecked={orderStatus === "cancelled"}/>Cancelled <br></br>
-                <input name="status" value="pending" type="radio" defaultChecked={orderStatus === "pending"}/>Pending <br></br>
-                <input name="status" value="completed" type="radio" defaultChecked={orderStatus === "completed"}/>Completed <br></br>
+            <form id='order-form' className="table-form">
+
+
+                <RadioButton defaultChecked={orderStatus === "shipped"} color="#7157ff" text="Shipped" value="shipped" inputName="status" />
+                <RadioButton defaultChecked={orderStatus === "cancelled"} color="#fb3c3f" text="Cancelled - Order will be fully refunded" value="cancelled" inputName="status" />
+                <RadioButton defaultChecked={orderStatus === "pending"} color="#e88d58" text="Pending" value="pending" inputName="status" />
+                <RadioButton defaultChecked={orderStatus === "completed"} color="#5fc21c" text="Completed" value="completed" inputName="status" />
+
             </form>
         </Modal.Body>
         <Modal.Footer>

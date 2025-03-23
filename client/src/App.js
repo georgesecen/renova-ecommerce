@@ -5,8 +5,8 @@ import ProductDetails from "./components/ProductDetails/ProductDetails";
 import Home from "./components/HomePage/Home";
 import ProductsPage from "./components/ProductsPage/ProductsPage";
 import Contact from "./pages/Contact";
-import TestStripe from './pages/TestStripe';
-import Return from './components/Return';
+import Checkout from "./pages/Checkout/Checkout";
+import Return from "./pages/Return/Return";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -37,7 +37,7 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/signUp" element={<SignUp />} />
-        <Route path='/test-stripe' element={<TestStripe />} />
+        <Route path='/checkout' element={<Checkout />} />
         <Route path='/dashboard' element={<UserDashboard />} />
         <Route path='/return' element={<Return />} />
         <Route path='/admin' element={<Admin />} />

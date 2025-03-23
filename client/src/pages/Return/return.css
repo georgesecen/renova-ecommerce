@@ -1,0 +1,17 @@
+
+/* Container holds in entire return page */
+.return-container{
+    width: 100%;
+    height: calc(100vh - 80px);
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Message which contains order details */
+.return-container > div{
+    text-align: center;
+    width: 80%;
+}

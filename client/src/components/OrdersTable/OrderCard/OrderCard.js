@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import "./orderCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
+import ActionButton from '../../ActionButton/ActionButton'
 
 const editIcon = require("../../../assets/icons/edit.png")
 const arrowIcon = require("../../../assets/icons/arrow.png")
@@ -16,26 +17,12 @@ const OrderCard = ({order, setOrder, showOrderForm}) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
 
-  // Pending, completed, shipped button
-  const UpdateOrderButton = () => {
-    return (
-      <button 
-        onClick={(event)=>{
-
-          // Display the order form for order
-          event.stopPropagation() // To prevent sub menu showing
-          setOrder(order)
-          showOrderForm(true)
-        }} 
-        className='update-order-button'
-        style={{"backgroundColor": colors[status]}}
-      >
-        <p>{status}</p>
-        <img src={editIcon} alt='Edit'/>
-      </button>
-    )
+  // Function displays update order form (Will be used in custom button component)
+  function updateOrder(event){
+    event.stopPropagation() // To prevent sub menu showing
+    setOrder(order)
+    showOrderForm(true)
   }
-  
 
   // Get order details
   const {
@@ -68,24 +55,24 @@ const OrderCard = ({order, setOrder, showOrderForm}) => {
   }
 
   return (
-    <li className='order-card-container'>
+    <li className='cards-container'>
 
       {/* Order card which shows order details */}
-      <div onClick={()=>{setShowDropdown(!showDropdown)}} className='order-card-header-container'>
+      <div onClick={()=>{setShowDropdown(!showDropdown)}} className='card-header-container'>
 
         <LabelValueDisplay labelValues={[
-          ["Order ID", `#${id}`, false],
-          ["", UpdateOrderButton(), true],
-          ["Total", `$${total}`, true],
-          ["Time", new Date(createdAt).toLocaleString("en-US"), true],
-          ["Name", name, true],
-          ["Phone", phone, true],
-          ["Country", country, true],
-          ["City", city, true],
-          ["State", state, true],
-          ["Postal Code", postalCode, true],
-          ["Line 1", line1, true],
-          ["Line 2", line2, false],
+          ["Order ID", id, 3.5, false],
+          ["", <ActionButton onClick={updateOrder} color={colors[status]} icon={editIcon} text={status}/>, 7.5, true],
+          ["Total", `$${total}`, 4, true],
+          ["Time", new Date(createdAt).toLocaleString("en-US"), 10.25, true],
+          ["Name", name, 8, true],
+          ["Phone", phone, 6.5, true],
+          ["Country", country, 4, true],
+          ["City", city, 5.75, true],
+          ["State", state, 3.25, true],
+          ["Postal Code", postalCode, 5, true],
+          ["Line 1", line1, 11.25, true],
+          ["Line 2", line2, 6, false],
         ]}></LabelValueDisplay>
 
         {/* Arrow icon which shows sub menu is open */}
@@ -94,7 +81,7 @@ const OrderCard = ({order, setOrder, showOrderForm}) => {
       </div>
 
       {/* Dropdown which displays order items for order */}
-      <ul className={`order-card-items-container ${showDropdown ? "show" : ""}`}>
+      <ul className={`card-items-container ${showDropdown ? "show" : ""}`}>
           {
             orderItems.map((orderItem, index) => {
               // Get order item details
@@ -115,16 +102,16 @@ const OrderCard = ({order, setOrder, showOrderForm}) => {
               // Order item
               return (
                 <li key={index}>
-                  <div className='order-item-container'>
+                  <div className='card-item-container'>
                     <LabelValueDisplay labelValues={[
-                      ["Product Variant ID", id, true],
-                      ["Name", productName, true],
-                      ["Size", size, true],
-                      ["Color", color, true],
-                      ["Price At Purchase", priceAtPurchase, true],
-                      ["Quantity", quantity, true],
-                      ["Color", color, true],
-                      ["Gender", gender, false],
+                      ["Product Variant ID", id, 7, true],
+                      ["Name", productName, 6, true],
+                      ["Size", size, 5, true],
+                      ["Color", color, 5, true],
+                      ["Price At Purchase", priceAtPurchase, 7, true],
+                      ["Quantity", quantity, 5, true],
+                      ["Color", color, 5, true],
+                      ["Gender", gender, 5, false],
                     ]}></LabelValueDisplay>
                   </div>
                 </li>

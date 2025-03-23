@@ -3,6 +3,9 @@ import { adminProductCategoriesService } from '../../services/productCategories'
 import CreateCategoryForm from './CreateCategoryForm/CreateCategoryForm'
 import CategoryCard from './CategoryCard/CategoryCard'
 import ModalSpinner from '../ModalSpinner/ModalSpinner'
+import ActionButton from '../ActionButton/ActionButton'
+
+const addIcon = require("../../assets/icons/add.png")
 
 /**
  * Gets all of the product categories. Displays all of the information in category card components.
@@ -33,7 +36,13 @@ const CategoriesTable = ({ displayNotification }) => {
     <div className='table-container'>
         {loading && <ModalSpinner />}
 
-        <button onClick={() => setShowCreateCategoryForm(true)}>Create Category</button>
+        <ActionButton
+          onClick={() => setShowCreateCategoryForm(true)}
+          color={"#08A9F9"}
+          icon={addIcon}
+          text={"New Category"}
+          >
+        </ActionButton>
         
         <CreateCategoryForm
           show={showCreateCategoryForm} 
