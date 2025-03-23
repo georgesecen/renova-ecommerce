@@ -6,7 +6,7 @@ import Home from "./components/HomePage/Home";
 import ProductsPage from "./components/ProductsPage/ProductsPage";
 import Contact from "./pages/Contact";
 import TestStripe from './pages/TestStripe';
-import Return from './components/Return';
+import Return from "./pages/Return/Return";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";

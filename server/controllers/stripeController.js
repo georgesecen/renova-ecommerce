@@ -244,14 +244,32 @@ exports.getCheckoutSessionStatus = async (request, response) => {
 
     try{
 
-        // Get session from Stripe
+        // Get checkout session from Stripe
         const session = await stripe.checkout.sessions.retrieve(request.query.session_id);
+
+        // Get receipt for checkout session
+        let receiptUrl = null
+        if (session.payment_intent !== null){
+
+            // Get payment intent associated with checkout session
+            const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent)
+
+            if (paymentIntent.latest_charge !== null){
+
+                // Get charge associated with payment intent
+                const charge = await stripe.charges.retrieve(paymentIntent.latest_charge)
+
+                receiptUrl = charge.receipt_url
+            }
+        }
+        
          
         console.log("Checkout session queried successfully on Stripe.")
         response.status(200).json({
             message: "Checkout session queried successfully on Stripe.",
             status: session.status,
-            customerEmail: session.customer_details.email
+            customerEmail: session.customer_details.email,
+            receiptUrl: receiptUrl
         })
     } 
     catch (error){
