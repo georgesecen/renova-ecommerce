@@ -5,6 +5,8 @@ const Image = require('../models/ProductImageModel');
 
 exports.getAllCartItems = async (req, res) => {
     try {
+        // console.log("Received headers:", req.headers);
+
         const userId = req.user?.userId || null;
         const guestUserId = req.user?.guestUserId || null;
         console.log(`Authenticated User ID: ${userId}`);

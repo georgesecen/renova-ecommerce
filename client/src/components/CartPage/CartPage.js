@@ -17,12 +17,11 @@ function CartPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-            console.log(cartItems);
             // Fetch cart items when the component mounts
             getCartItems()
                 .then((response) => {
                     // console.log(response[0].item.productVariant.product.image.img_url);
-                    // console.log(response);
+                    console.log(response);
                     const formattedItems = response.map((item) => ({
                         cart_item_id: item.id,
                         quantity: item.quantity,
