@@ -87,7 +87,7 @@ function CartPage() {
                     <div><p>SHIPPING</p> <p>$0.0</p></div>
                     <div><p>TOTAL</p> <p>${(totalCost + 0).toFixed(2)}</p></div>
                     {totalQuantity > 0 ? (
-                    <button className='button' onClick={() => navigate('/test-stripe')}>CHECKOUT</button>
+                    <button className='button' onClick={() => navigate('/checkout')}>CHECKOUT</button>
                     ) : <></>}
                 </div>
             </div>
