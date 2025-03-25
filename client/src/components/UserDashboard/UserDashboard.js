@@ -10,7 +10,7 @@ import "./UserDashboard.css";
 const UserDashboard = () => {
     const [activeSection, setActiveSection] = useState("home");
     const { totalQuantity, updateCartQuantity } = useCart();
-    const {isLoggedIn, logout, } = useUser();
+    const { isLoggedIn, logout, user } = useUser();
     const navigate = useNavigate();
 
     //Handle logout
@@ -38,7 +38,7 @@ const UserDashboard = () => {
             </div>
 
             {activeSection === "home" && <Home logout={logoutHandler} />}
-            {activeSection === "orders" && <Orders />}
+            {activeSection === "orders" && <Orders userId={user.userId}/>}
         </div>
     );
 };

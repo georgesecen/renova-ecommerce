@@ -51,7 +51,7 @@ exports.getUserOrdersV2 = async (request, response) => {
             where: {
                 user_id: userId
             },
-            attributes: ["id", "total_price"],
+            attributes: ["id", "total_price", "status", "updated_at"],
 
             // Join tables
             include: [
