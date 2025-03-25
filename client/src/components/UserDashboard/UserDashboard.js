@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Home from "./Home/Home";
+import Orders from "./Orders/Orders";
 import {logoutUser} from "../../services/user";
 import { useUser } from "../../providers/UserContext";
 import { useCart } from "../../providers/CartContext";
-import {NavLink, useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./UserDashboard.css";
 
 const UserDashboard = () => {
@@ -29,23 +30,15 @@ const UserDashboard = () => {
     }
 
     return (
-        <div className="dashboard">
-            {/*<Sidebar setActiveSection={setActiveSection} />*/}
-            <div className="content">
-                {/*{activeSection === "home" && <Home />}*/}
-                {/*{activeSection === "orders" && <Orders />}*/}
-                {/*{activeSection === "wishlist" && <Wishlist />}*/}
-                {/*{activeSection === "settings" && <Settings />}*/}
-                <div className="section">
-                    <h1>Welcome </h1>
-                    <p>Update your personal details and preferences.</p>
-                    <div className="headerNavSettings">
-                        <NavLink to="/" onClick={logoutHandler}>LOGOUT</NavLink>
-                    </div>
-                </div>
+        <div>
 
-
+            <div>
+                <div onClick={() => setActiveSection("home")}>Home</div>
+                <div onClick={() => setActiveSection("orders")}>Orders</div>
             </div>
+
+            {activeSection === "home" && <Home logout={logoutHandler} />}
+            {activeSection === "orders" && <Orders />}
         </div>
     );
 };

@@ -1,9 +1,12 @@
 import React from 'react'
+import { NavLink } from "react-router-dom";
 import "./home.css"
 
-const Home = () => {
+const Home = ({logout}) => {
   return (
-    <div>Home</div>
+    <div>
+      <NavLink to="/" onClick={logout}>LOGOUT</NavLink>
+    </div>
   )
 }
 
