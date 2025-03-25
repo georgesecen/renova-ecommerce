@@ -2,7 +2,7 @@ import './productDetails.css'
 import './sizeOption.css';
 import './colourOption.css';
 import Carousel from 'react-bootstrap/Carousel';
-import { useLocation } from 'react-router-dom';
+import { redirect, useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { getProductInfo } from '../../services/products';
 import ImageOption from './ImageOption/ImageOption';
@@ -10,17 +10,23 @@ import { addProduct } from "../../services/cart";
 import { useCart } from "../../providers/CartContext";
 import { useUser } from "../../providers/UserContext";
 import ProductModal from '../ProductModal';
+import { useNavigate } from 'react-router-dom';
 
 function ProductDetails() {
+  const navigate = useNavigate();  
 
-  const {state} = useLocation();
+  const params = useParams();
+  const productId = params.id;
 
   const sizeOrder = ['XS', 'S', 'M', 'L', 'XL'];
   const [variants, setVariants] = useState([]);
   const [colour, setColour] = useState("")
   const [size, setSize] = useState("")
+  const [productImages, setProductImages] = useState([]);
   const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [stockQty, setStockQty] = useState(0);
+  const [selectedVariant, setSeletedVariant] = useState(0);
 
   const cols = useRef(new Set()); 
   const sizes = useRef(new Set()); 
@@ -29,7 +35,6 @@ function ProductDetails() {
 
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState({});
-  const [value, setValue] = useState(1);
   const { updateCartQuantity } = useCart();
   const { user, isLoggedIn } = useUser();
 
@@ -37,23 +42,38 @@ function ProductDetails() {
   const guest_user_id = localStorage.getItem("guestUserId");
 
   /**
-   * This function takes a string and sets it as the colour state,
-   * then populates the sizesAvailable set to any sizes associated with
-   * the colour, and lastly current size to first in sizesAvailable or
-   * null if empty
+   * This function handles a color change. It will:
    * 
-   * @param {*} col colour to set as selected
+   * 1) Clear the current sizes available and populate it 
+   *    with the sizes available for the new color
+   * 
+   * 2) Set the images to the product images along with any images
+   *    associated with the new color
+   * 
+   * 3) Sets the color state
+   * 
+   * 4) Set the size state to the first size available or null
+   *    if none exist
+   * 
+   * @param {String} col colour to set as selected
    */
   function selectColour(col) {
     sizesAvailable.current.clear()
+    setImages(productImages)
+
     for(const v of variants){
       if(v.color === col){
         sizesAvailable.current.add(v.size)
+        setImages(productImages.concat(v.images))
       }
     }
+
     // Set states
     setColour(col)
     sizesAvailable.current.size > 0 ? setSize([...sizesAvailable.current][0]) : setSize(null);
+    const variant = variants.filter(product => product.color == col && product.size == [...sizesAvailable.current][0])[0]
+    setSeletedVariant(variant)
+    setStockQty(variant.stock_quantity);
   }
 
   /**
@@ -66,7 +86,14 @@ function ProductDetails() {
     if(sizesAvailable.current.has(s)){
       setSize(s)
     }
+
+    const variant = variants.filter(product => product.color == colour && product.size == s)[0]
+    setSeletedVariant(variant)
+    setStockQty(variant.stock_quantity);
   }
+
+  // console.log(stockQty)
+
 
   /**
    * This method on page load fetches the product information of the viewed product,
@@ -74,9 +101,9 @@ function ProductDetails() {
    * all images, and sets initial selected colour and size.
    */
     useEffect(() => {
-          getProductInfo(state.id)
+          getProductInfo(productId)
             .then((response) => {
-              console.log(response.data.data[0]);
+              // console.log(response.data.data[0]);
               // store info, variants, colours, sizes (in defined order), and images
               info.current.name = response.data.data[0].name
               info.current.price = response.data.data[0].price
@@ -88,10 +115,12 @@ function ProductDetails() {
               sizes.current = new Set(response.data.data[0].product_variants.map(a => a.size).sort(function(a,b) { // Sort sizes in appropriate order
                 return sizeOrder.indexOf(a) - sizeOrder.indexOf(b);
               }));
-              setImages(response.data.data[0].image)
-              setImages(images.concat(response.data.data[0].product_variants[0].images))
+              setProductImages(response.data.data[0].image)
+              setImages(response.data.data[0].image.concat(response.data.data[0].product_variants[0].images))
 
-              // set initial colour, size, and sizesAvailable
+              // set initial variant, colour, size, and sizesAvailable
+              setSeletedVariant(response.data.data[0].product_variants[0])
+              setStockQty(response.data.data[0].product_variants[0].stock_quantity)
               setColour(response.data.data[0].product_variants[0].color)
 
               for(const v of response.data.data[0].product_variants){
@@ -104,6 +133,7 @@ function ProductDetails() {
             })
             .catch((error) => {
               console.error('Error fetching product:', error);
+              navigate('/page-not-found');
           });
     }, []);
 
@@ -139,19 +169,16 @@ function ProductDetails() {
       setSelectedImage(selectedIndex);
     };
 
-
     /**
      * This function adds a product variant to the cart by finding the id
      * of the variant that with attributes that match the selected ones
      */
     const addToCartHandler = () => {
-        // Get product variant id that matches the currently selected attributes
-        const id = variants.filter(product => product.color == colour && product.size == size)[0].id
         const productData = {
             user_id,
             guest_user_id,
-            product_variant_id: id,
-            quantity: value,
+            product_variant_id: selectedVariant.id,
+            quantity: 1,
         };
         // console.log(productData);
         addProduct(productData)
@@ -188,7 +215,7 @@ function ProductDetails() {
           {images.map((image, index) => (
               <ImageOption 
                 key={index} 
-                imageUrl={require(`../../assets/images/${image.image_url}`)} 
+                imageUrl={`http://localhost:3306/static/images/${image.image_url}`} 
                 clickEvent={() => setSelectedImage(index)}
               />
             ))}
@@ -199,7 +226,7 @@ function ProductDetails() {
             {images.map((image, index) => (
               <Carousel.Item key={index}> 
                 <img 
-                  src={require(`../../assets/images/${image.image_url}`)}
+                  src={`http://localhost:3306/static/images/${image.image_url}`}
                   alt="" 
                 />
               </Carousel.Item>
@@ -231,7 +258,12 @@ function ProductDetails() {
               ))}
             </div>
 
+            { stockQty > 0 ? (
             <button className="addToCart" onClick={() => addToCartHandler()}>ADD TO CART</button>
+              ) : (
+              <p className='outOfStock'>OUT OF STOCK</p>
+            )}
+
             <h5>PRODUCT DESCRIPTION</h5>
             <p>{info.current.desc}</p>
 

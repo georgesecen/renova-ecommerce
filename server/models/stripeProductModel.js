@@ -7,7 +7,6 @@ class StripeProduct{
 
     #id
     #name
-    #description
     #images
     #url
     #active
@@ -17,16 +16,14 @@ class StripeProduct{
      * Represents a Stripe product on the Stripe server.
      * @param {string} id Id of the product.
      * @param {string} name Name of the product.
-     * @param {string} description Description of the product.
      * @param {Array<string>} images Product image urls.
      * @param {string} url Product webpage url.
      * @param {string} defaultPriceId Id of Stripe price object which is the default price for this product.
      * @param {boolean} active Whether the product is currently available for purchase.
      */
-    constructor(id, name, description, images, url, defaultPriceId, active){
+    constructor(id, name, images, url, defaultPriceId, active){
         this.#id = id
         this.#name = name
-        this.#description = description
         this.#images = images
         this.#url = url
         this.#defaultPriceId = defaultPriceId
@@ -38,12 +35,11 @@ class StripeProduct{
      * given will be displayed to customer at checkout. (Except id)
      * @param {string} id Id of product.
      * @param {string} name Name of product.
-     * @param {string} description Description of product.
      * @param {Array<string>} images Product image urls. (Up to 8 urls)
      * @param {string} url Url of webpage for product.
      * @returns {StripeProduct}
      */
-    static async create(id, name, description, images, url){
+    static async create(id, name, images, url){
         try{
 
             // To not exceed Stripe rate limit
@@ -53,12 +49,11 @@ class StripeProduct{
             await stripe.products.create({
                 id: id,
                 name: name,
-                description: description,
                 images: images,
                 url: url
             })
 
-            return new StripeProduct(id, name, description, images, url, null, true)
+            return new StripeProduct(id, name, images, url, null, true)
         }
         catch (error){
             console.log(`Error in stripeProductModel.js function create: ${error.message}`)
@@ -83,7 +78,6 @@ class StripeProduct{
             return new StripeProduct(
                 product.id,
                 product.name,
-                product.description,
                 product.images,
                 product.url,
                 product.default_price,
@@ -111,7 +105,6 @@ class StripeProduct{
                 this.#id,
                 {
                     name: this.#name,
-                    description: this.#description,
                     images: this.#images,
                     url: this.#url,
                     default_price: this.#defaultPriceId,
@@ -138,13 +131,6 @@ class StripeProduct{
     }
     set name(newName){
         this.#name = newName
-    }
-
-    get description(){
-        return this.#description
-    }
-    set description(newDescription){
-        this.#description = newDescription
     }
 
     get images(){

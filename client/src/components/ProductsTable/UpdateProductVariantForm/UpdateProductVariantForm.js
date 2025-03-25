@@ -3,6 +3,9 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { adminProductVariantsService } from '../../../services/productVariants';
 import "./updateProductVariantForm.css"
+import CustomFormInput from '../../CustomFormInput/CustomFormInput';
+import ActionButton from '../../ActionButton/ActionButton';
+const deleteIcon = require("../../../assets/icons/delete.png")
 
 /**
  * Form which deletes product variants and updates product variant stock quantities.
@@ -49,9 +52,8 @@ const UpdateProductVariantForm = ({
   const ProductVariantFormItem = ({id, name, quantity}) => {
     return (
       <div className='product-variant-form-item'>
-        <p>#{id}: {name}</p>
-        Quanity: <input name={id} step={1} defaultValue={quantity} type='number' />
-        <button onClick={() => deleteProductVariant(id)}>Delete</button>
+        <CustomFormInput defaultValue={quantity} type="number" inputName={id} text={`${name} - Quantity`} />
+        <ActionButton onClick={(event) => deleteProductVariant(id)} color="#C90230" icon={deleteIcon} text="Delete"/>
       </div>
     )
   }
@@ -121,10 +123,10 @@ const UpdateProductVariantForm = ({
   return (
     <Modal show={show} onHide={() => {setShow(false); setProductVariantGroup(null)}} centered>
         <Modal.Header closeButton>
-            <Modal.Title>Update Product</Modal.Title>
+            <Modal.Title>Update Product Variants</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <form id='update-product-variant-form'>
+            <form id='update-product-variant-form' className='table-form'>
                 {
                     productVariantDetails.map((productVariant, index) => {
                         return (

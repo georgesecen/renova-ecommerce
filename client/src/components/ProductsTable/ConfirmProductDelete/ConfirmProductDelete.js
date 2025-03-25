@@ -26,8 +26,6 @@ const ConfirmProductDelete = ({
     displayNotification
  }) => {
 
-  const [disableDeleteButton, setDisableDeleteButton] = useState(true)
-
   // If there is no selected product yet
   if (product === null) return 
 
@@ -38,7 +36,6 @@ const ConfirmProductDelete = ({
         .then((response) => displayNotification("Delete", response.data.message))
         .catch((error) => displayNotification("Delete", `${error}`, "danger"))
         .finally(() => {
-            setDisableDeleteButton(true)
             setSelectedProduct(null) // Product does not exist anymore
             setLoading(false)
             setLoadProducts(true)
@@ -51,15 +48,16 @@ const ConfirmProductDelete = ({
             <Modal.Title>Confirm Delete Product #{product.id}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            Are you certain you would like to delete this product? Product, product variants, and all associated 
-            images will be deleted. Deletion is permanent. There is no undo.
-            <button onClick={() => setDisableDeleteButton(false)}>Are you sure?</button>
+            <div className='confirm-delete'>
+                Are you certain you would like to delete this product? Product, product variants, and all associated 
+                images will be deleted. Deletion is permanent. There is no undo.
+            </div>
         </Modal.Body>
         <Modal.Footer>
             <Button variant="secondary" onClick={() => setShow(false)}>
                 Close
             </Button>
-            <Button variant="danger" disabled={disableDeleteButton} onClick={() => {setShow(false); deleteProduct()}}>
+            <Button variant="danger" onClick={() => {setShow(false); deleteProduct()}}>
                 Delete
             </Button>
         </Modal.Footer>

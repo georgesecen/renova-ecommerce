@@ -52,6 +52,10 @@ const Product = sequelize.define(
 
     timestamps: true,
     // underscored: true,
+
+    // For soft deletes
+    paranoid: true,
+    deletedAt: 'deleted_at',
     }
 )
 //Make sure image is loaded after products are grabbed

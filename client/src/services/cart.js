@@ -2,10 +2,12 @@ import API from "../services/axiosInstance";
 
 export const getCartItems = async () => {
     const guestUserId = localStorage.getItem('guestUserId');
+    console.log("getting guest user id from local storage in axios", guestUserId)
     try {
         const response = await API.get("/cart", {
         headers : { 'guest-user-id': guestUserId },
         withCredentials: true});
+        console.log("response data from cart service file:", response.data)
         return response.data;
     } catch (error) {
         console.error("Error fetching cart:", error);

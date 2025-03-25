@@ -111,6 +111,16 @@
     background-color: rgb(231, 234, 237);
 }
 
+.detailsPage .details > p.outOfStock {
+    width: 100%;
+    margin: 34px 0 2px;
+    text-align: center;
+    font-size: 12px;
+    margin-top: 40px;
+    padding: 6px;
+
+}
+
 @media screen and (max-width: 780px) {
     .detailsPage {
         justify-content: flex-start;

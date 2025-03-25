@@ -95,12 +95,12 @@ function ProductsPage() {
      *  redirect the user to /products:id where id is 
      *  productId
      * 
-     * @param {*} product 
+     * @param {Int} product product id
      */
 
     // Temporary method to pass in product details
     const toProductPage = (product) => {
-        navigate('/products/' + (product.id), {state: { id: product.id } })
+        navigate('/products/' + (product.id))
     }
 
 

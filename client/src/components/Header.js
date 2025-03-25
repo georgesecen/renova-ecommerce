@@ -9,6 +9,7 @@ function Header() {
     const { totalQuantity } = useCart();
     const { isLoggedIn } = useUser();
     const logo = require('../assets/images/logo.png');
+    console.log(isLoggedIn);
 
     return (
         <div className="header">
