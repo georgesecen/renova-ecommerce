@@ -30,6 +30,22 @@ export const getCartItemQuantity = async () => {
     }
 }
 
+export const updateCartItemQuantity = async (cartItemId, quantity) => {
+    const guestUserId = localStorage.getItem('guestUserId');
+    try {
+        const response = await API.patch(`/cart/${cartItemId}`, { quantity }, {
+            headers: { 'guest-user-id': guestUserId },
+            withCredentials: true
+        });
+        console.log("Updated cart item quantity:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error updating cart item quantity:", error);
+        throw error;
+    }
+};
+
+
 export const addProduct = (product) => {
     const guestUserId = localStorage.getItem('guestUserId'); // Retrieve guest ID
 
