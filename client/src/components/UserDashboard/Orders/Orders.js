@@ -17,12 +17,12 @@ const Orders = ({orders}) => {
     } = order
 
     return (
-      <div>
+      <div className='order-items-container'>
         <div className='order-items-header'>
-          <h3>Order #: {id}</h3>
+          <h5>Order #: {id}</h5>
           <p>Order Details</p>
         </div>
-        <p>{lastUpdated} | {status} | Total: ${total}</p>
+        <p>{new Date(lastUpdated).toLocaleString("en-US")} | {status} | Total: ${total}</p>
 
         {/* Actual products which were apart of order */}
         <ul>
@@ -36,9 +36,9 @@ const Orders = ({orders}) => {
 
               return (
                 <li key={index}>
-                  <h2>{name}</h2>
-                  <h4>{color}-{size}-{gender}</h4>
-                  <h4>Qty: {quantity}</h4>
+                  <p>{name}</p>
+                  <p>{color}-{size}-{gender}</p>
+                  <p>Qty: {quantity}</p>
                 </li>
               )
             })
@@ -51,7 +51,7 @@ const Orders = ({orders}) => {
   console.log(orders)
 
   return (
-    <div>
+    <div className='all-user-orders'>
       {
         orders.map((order, index) => {
           return <OrderItems order={order} key={index} />
