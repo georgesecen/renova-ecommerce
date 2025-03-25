@@ -53,3 +53,11 @@ export const getProductInfo = async (id) => {
         console.error("Error fetching product info:", error);
     }
 } 
+
+export const getAllProductsV2 = async () => {
+    try {
+        return await API.get('/products/all');
+    } catch (error) {
+        console.error("Error fetching products:", error);
+    }
+}

@@ -12,15 +12,15 @@ function Header() {
     console.log(isLoggedIn);
 
     return (
-        <div className="header">
-            <div className="headerContent">
-                <div className="headerLogo">
-                    <img src={logo} alt="" />
-                    RENOVA
-                </div>
+      <div className="header">
+          <div className="headerContent">
+            <div className="headerLogo">
+              <img src={logo} alt="" />
+              RENOVA
+            </div>
                 <div className="headerNav">
                     <NavLink to='/'>HOME</NavLink>
-                    <NavLink to='/products'>PRODUCTS</NavLink>
+                    <NavLink to='/products'>CLOTHING</NavLink>
                     <NavLink to='/contact'>CONTACT</NavLink>
                 </div>
                 <div className="headerNav2">

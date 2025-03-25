@@ -32,6 +32,7 @@ router.post("/delete", [adminAuthentication, limitStripe], deleteProduct)
 router.post("/add-image", [imageMiddleware.single("image"), adminAuthentication], addProductImage)
 router.post("/remove-image", adminAuthentication, removeProductImage)
 router.post("/index", adminAuthentication, getAllProductsV2)
+router.get("/all", getAllProductsV2)
 
 router.get('/get-product/:id', getProductInfo)
 
