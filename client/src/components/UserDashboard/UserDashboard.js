@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import Sidebar from "./Sidebar";
-import Home from "./Home";
-import Orders from "./Orders";
-import Wishlist from "./Wishlist";
-import Settings from "./Settings";
-import "./UserDashboard.css";
+import Home from "./Home/Home";
 import {logoutUser} from "../../services/user";
 import { useUser } from "../../providers/UserContext";
 import { useCart } from "../../providers/CartContext";
 import {NavLink, useNavigate} from "react-router-dom";
+import "./UserDashboard.css";
 
 const UserDashboard = () => {
     const [activeSection, setActiveSection] = useState("home");
