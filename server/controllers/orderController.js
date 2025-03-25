@@ -31,6 +31,72 @@ exports.getUserOrders = (req, res) => {
     });
 };
 
+
+/**
+ * Gets all relevant order details to display to user in user dashboard. Such as total amount and all
+ * items included in the orders.
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
+ */
+exports.getUserOrdersV2 = async (request, response) => {
+
+    // TODO: Make function validate that user accessing function is only able to fetch orders which
+    // they have made. Otherwise its possible that malicious users can see other users orders.
+
+    const { userId } = request.params
+
+    try{
+
+        const orders = await Order.findAll({
+            where: {
+                user_id: userId
+            },
+            attributes: ["id", "total_price"],
+
+            // Join tables
+            include: [
+                {
+                    model: OrderItem,
+                    as: "order_items",
+                    attributes: ["quantity"],
+                    include: [
+                        {
+                            model: ProductVariantModel,
+                            as: "product_variant",
+                            attributes: ["color", "size"],
+
+                            // To get soft deleted records as its possible product variants have been deleted
+                            // via admin dashboard
+                            paranoid: false, 
+                            include: [
+                                {
+                                    model: Product,
+                                    as: "product",
+                                    attributes: ["name", "gender"],
+
+                                    // To get soft deleted records as its possible products have been deleted
+                                    // via admin dashboard
+                                    paranoid: false,
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        })
+
+        console.log("Orders queried successfully in database.")
+        response.status(200).json({
+            message: "Orders queried successfully in database.",
+            data: orders
+        })
+    } 
+    catch (error){
+        console.log(`Error in orderController.js function getUserOrdersV2: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+}
+
 /**
  * Updates an orders status in the database.
  * @param {object} request Express js request object.
@@ -116,7 +182,7 @@ exports.getOrders = async (request, response) => {
 
         console.log("Orders queried successfully in database.")
         response.status(200).json({
-            message: "Order queried successfully in database.",
+            message: "Orders queried successfully in database.",
             data: orders
         })
     } 
