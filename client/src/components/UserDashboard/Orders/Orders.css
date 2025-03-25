@@ -27,7 +27,7 @@
 .order-items-container > ul > li{
     border-bottom: 1px solid rgb(120, 120, 120);
     padding: 0.5em;
-    /* background-color: black; */
+    background-color: black;
 }
 .order-items-container > ul > li:last-of-type{
     /* So border does not show on last list item */

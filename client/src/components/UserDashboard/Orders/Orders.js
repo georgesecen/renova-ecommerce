@@ -1,8 +1,13 @@
 import React from 'react'
 import "./orders.css"
 
-const Orders = ({orders}) => {
-
+/**
+ * Displays the order history of the currently logged in customer in the user dashboard. Displays order
+ * status, time, and order items apart of each order.
+ * @param {Array<object>} orders All of the customers orders to be displayed.
+ * @returns {React.JSX.Element} Orders user dashboard section React component.
+ */
+const Orders = ({ orders }) => {
 
   // Displays details about each customer order
   const OrderItems = ({order}) => {
@@ -48,8 +53,13 @@ const Orders = ({orders}) => {
     )
   } 
 
-  console.log(orders)
+  
+  // If customer has no orders
+  if (orders.length === 0){
+    return <p>You have no orders.</p>
+  }
 
+  // Display all details of customers orders
   return (
     <div className='all-user-orders'>
       {

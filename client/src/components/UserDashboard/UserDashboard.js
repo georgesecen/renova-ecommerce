@@ -9,6 +9,10 @@ import { getUserOrders } from "../../services/orders";
 import { FaHome, FaShoppingBag } from "react-icons/fa";
 import "./UserDashboard.css";
 
+/**
+ * User dashboard so customer can manage account and view order history.
+ * @returns {React.JSX.Element} UserDashboard React component.
+ */
 const UserDashboard = () => {
     const [activeSection, setActiveSection] = useState("home");
     const { totalQuantity, updateCartQuantity } = useCart();
@@ -44,6 +48,7 @@ const UserDashboard = () => {
     return (
         <div className="user-dash-container">
 
+            {/* Navbar */}
             <div className="user-dash-nav">
                 <div 
                     className={`${activeSection === "home" ? "selected" : ""}`} 
@@ -58,6 +63,7 @@ const UserDashboard = () => {
                 </div>
             </div>
 
+            {/* Only display section if user has it currently selected from navbar */}
             {activeSection === "home" && <Home logout={logoutHandler} />}
             {activeSection === "orders" && <Orders orders={orders}/>}
         </div>

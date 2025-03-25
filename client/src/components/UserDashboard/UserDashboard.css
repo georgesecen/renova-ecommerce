@@ -1,5 +1,5 @@
 
-/* Container which holds nav bar and sections */
+/* Container which holds nav bar and all sections */
 .user-dash-container{
     display: flex;
     flex-direction: column;
