@@ -16,6 +16,8 @@ import UserDashboard from "./components/UserDashboard/UserDashboard";
 import Admin from "./pages/Admin/Admin";
 import CartPage from "./components/CartPage/CartPage";
 
+import SalesBarChart from "./components/SalesBarChart/SalesBarChart";
+
 function App() {
 
   // Check if current route is the admin route
@@ -41,6 +43,7 @@ function App() {
         <Route path='/dashboard' element={<UserDashboard />} />
         <Route path='/return' element={<Return />} />
         <Route path='/admin' element={<Admin />} />
+        <Route path='/charts' element={<SalesBarChart />} />
       </Routes>
 
       {/* Display footer is not an admin route */}
