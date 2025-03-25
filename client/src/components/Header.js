@@ -35,7 +35,7 @@ function Header() {
         </div>
             <div className="headerNav">
                 <NavLink to='/'>HOME</NavLink>
-                <NavLink to='/products'>PRODUCTS</NavLink>
+                <NavLink to='/products'>CLOTHING</NavLink>
                 <NavLink to='/contact'>CONTACT</NavLink>
             </div>
             <div className="headerNav2">
