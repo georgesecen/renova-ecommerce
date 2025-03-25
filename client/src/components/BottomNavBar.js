@@ -6,7 +6,7 @@ function BottomNavBar() {
   return (
     <div className="bottomNav">
       <NavLink to="/">HOME</NavLink>
-      <NavLink to="/products">PRODUCTS</NavLink>
+      <NavLink to="/products">CLOTHING</NavLink>
       <NavLink to="/contact">CONTACT</NavLink>
       <NavLink to="/signIn">SIGN IN</NavLink>
     </div>
