@@ -6,54 +6,54 @@ import '../../assets/images/hoodies.png'
 import { NavLink } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import { createGuestUser } from "../../services/guest";
+import { useLocation } from "react-router-dom";
 
 function Home() {
+  const location = useLocation();
   const hoodiesImg = require('../../assets/images/hoodies.png')
   const hoodieImg2 = require('../../assets/images/hoodie2.png')
 
-//generate session function
-  function generateGuestSession() {
-    const session = uuidv4()
-    //expiry set to 24 hours converted to seconds
+  // Generate guest session function
+  const generateGuestSession = () => {
+    const session = uuidv4();
+    // Expiry set to 24 hours (converted to seconds)
     const expiry = Math.floor(Date.now() / 1000) + 86400;
-    return {session, expiry}
-  }
+    return { session, expiry };
+  };
 
-useEffect(() => {
-  const handleWindowLoad = async () => {
+  useEffect(() => {
+    if(location.state?.forceRender) {
 
-    // grab expiry and sessionToken
-    let sessionToken = localStorage.getItem('sessionToken');
-    let guestUserId = localStorage.getItem('guestUserId');
-    // check to see if there is a guest session
-    if(!sessionToken || !guestUserId) {
-      const sessionData = generateGuestSession();
-      sessionToken = sessionData.session;
-      let sessionExpiry = sessionData.expiry.toString();
-
-      localStorage.setItem('sessionToken', sessionToken);
-      localStorage.setItem('sessionExpiry', sessionExpiry)
-      // create new user in the database
-      try {
-        const response = await createGuestUser(sessionToken, sessionExpiry);
-        console.log(response.data)
-        if(response.data.guestUserId) {
-          localStorage.setItem('guestUserId', response.data.guestUserId)
-        }
-      } catch (error) {
-        console.error('Error creating guest session:', error);
-      }
-    } else {
-      console.log(`Guest session already exists, token: ${sessionToken}, userID: ${guestUserId}`)
     }
-  };
-//add event listener to the window on load
-  window.addEventListener('load', handleWindowLoad);
-//clean up function to remove it
-  return () => {
-    window.removeEventListener('load', handleWindowLoad);
-  };
-}, []);
+    const createGuestSession = async () => {
+      let sessionToken = localStorage.getItem('sessionToken');
+      let guestUserId = localStorage.getItem('guestUserId');
+
+      if (!sessionToken || !guestUserId) {
+        const sessionData = generateGuestSession();
+        sessionToken = sessionData.session;
+        const sessionExpiry = sessionData.expiry.toString();
+
+        localStorage.setItem('sessionToken', sessionToken);
+        localStorage.setItem('sessionExpiry', sessionExpiry);
+
+        try {
+          const response = await createGuestUser(sessionToken, sessionExpiry);
+          console.log(response.data);
+          if (response.data.guestUserId) {
+            localStorage.setItem('guestUserId', response.data.guestUserId);
+          }
+        } catch (error) {
+          console.error('Error creating guest session:', error);
+        }
+      } else {
+        console.log(`Guest session already exists, token: ${sessionToken}, userID: ${guestUserId}`);
+      }
+    };
+
+    createGuestSession();
+  }, []);
+
 
   return (
     <div className="home-page">

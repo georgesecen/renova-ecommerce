@@ -7,7 +7,8 @@ const {
     deleteProduct,
     addProductImage,
     removeProductImage,
-    getAllProductsV2
+    getAllProductsV2,
+    getProductInfo
  } = require('../controllers/productController');
 const adminAuthentication = require('../middleware/adminMiddleware');
 const limitStripe = require('../middleware/stripeLimitMiddleware');
@@ -31,5 +32,8 @@ router.post("/delete", [adminAuthentication, limitStripe], deleteProduct)
 router.post("/add-image", [imageMiddleware.single("image"), adminAuthentication], addProductImage)
 router.post("/remove-image", adminAuthentication, removeProductImage)
 router.post("/index", adminAuthentication, getAllProductsV2)
+router.get("/all", getAllProductsV2)
+
+router.get('/get-product/:id', getProductInfo)
 
 module.exports = router;

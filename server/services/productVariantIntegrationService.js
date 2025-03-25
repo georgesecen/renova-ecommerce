@@ -4,7 +4,6 @@ const ProductVariant = require("../models/productVariantModel")
 const StripePrice = require("../models/stripePriceModel")
 const StripeProduct = require("../models/stripeProductModel")
 const path = require('path')
-const { deleteImages } = require("../services/productService")
 
 /**
  * Creates a product variant in the database and on Stripe with the specified details.
@@ -33,7 +32,7 @@ exports.createDatabaseAndStripeProductVariant = async (productId, color, size, q
         // Create product on Stripe server
         // TODO: Change product url
         const name = `${product.name} ${size} ${color}`
-        const stripeProduct = await StripeProduct.create(`${productVariant.id}`, name, product.description, [], "https://google.com")
+        const stripeProduct = await StripeProduct.create(`${productVariant.id}`, name, [], "https://google.com")
 
         // Create price on Stripe server for Stripe product
         const stripePrice = await StripePrice.create(price, stripeProduct.id)
@@ -72,7 +71,7 @@ exports.deleteDatabaseAndStripeProductVariant = async (productVariantId) => {
         })
 
         // Get product on Stripe server
-        const stripeProduct = await StripeProduct.findById(productVariantId)
+        const stripeProduct = await StripeProduct.findById(`${productVariantId}`)
 
         // Get products price on Stripe server
         const stripePrice = stripeProduct.defaultPriceId ? await StripePrice.findById(stripeProduct.defaultPriceId) : null
@@ -291,6 +290,7 @@ exports.deleteProductVariantGroup = async (productVariantIds) => {
         }
 
         // Delete all images from server
+        const { deleteImages } = require("../services/productService") // To avoid circular dependency
         await deleteImages(fileNames)
 
     } catch(error){

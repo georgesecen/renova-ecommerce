@@ -1,0 +1,30 @@
+.size-option {
+    font-size: 13px;
+
+    width: 3em;
+    height: 3em;
+    border-radius: 8px;
+    margin: 2px 12px 2px 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.size-option > div {
+    font-size: 1.2em;
+}
+
+.size-option:hover, .size-option.active {
+    border: .8px solid rgb(188, 188, 188);
+}
+
+.size-option.unavailable {
+    cursor: default;
+    color: #888888;
+}
+
+.size-option.unavailable:hover{
+    border: none;
+}

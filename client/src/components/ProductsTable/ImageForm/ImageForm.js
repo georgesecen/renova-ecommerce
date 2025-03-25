@@ -6,6 +6,18 @@ import Modal from 'react-bootstrap/Modal';
 const trashIcon = require("../../../assets/icons/trash.png")
 const imageUploadIcon = require("../../../assets/icons/image-upload.png")
 
+/**
+ * Form which adds product images or product variant group images.
+ * @param {boolean} show True if the form is to be displayed, otherwise false.
+ * @param {function} setShow Function which handles displaying the form.
+ * @param {function} setLoading Function which handles displaying the modal spinner.
+ * @param {function} setLoadProducts Function which handles loading the products.
+ * @param {object} product Product to add image to.
+ * @param {string} productVariantGroup Product variant group to add image to. (Color)
+ * @param {function} setProductVariantGroup Function which handles selecting the product variant group.
+ * @param {function} displayNotification Function which displays toast notifications.
+ * @returns {React.JSX.Element} ImageForm React component.
+ */
 const ImageForm = ({
   show,
   setShow,
@@ -48,12 +60,17 @@ const ImageForm = ({
 
     // Get all images of product variants in product variant group
     productVariants.forEach(productVariant => {
-      productVariant.images.forEach(image => {
-        // If image is not already in the images add it (must check as products in same group share images)
-        if (!(productImages.includes(image.image_url))){
-          productImages.push(image.image_url)
-        }
-      })
+
+      // If product is in product variant group
+      if (productVariant.color === productVariantGroup) {
+        productVariant.images.forEach(image => {
+
+          // If image is not already in the images add it (must check as products in same group share images)
+          if (!(productImages.includes(image.image_url))){
+            productImages.push(image.image_url)
+          }
+        })
+      }
     });
   }
   

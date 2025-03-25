@@ -1,8 +1,9 @@
 /* Card container  */
 .product-card {
-    width: 230px;
-    height: 300px;
-    margin: 12px 10px;
+    font-size: 14px;
+    width: 16.5em;
+    height: 21.5em;
+    margin: 12px .7em;
     position: relative;
 }
 
@@ -13,7 +14,7 @@
     background-color: rgb(36, 36, 37);
     border-radius: 10px;
     position: relative;
-    padding-top: 28px;
+    padding-top: 2em;
 
     transition-duration: 400ms;
     cursor: pointer;
@@ -26,53 +27,64 @@
 /* Card image styless  */
 
 .product-card .card .image img {
-    max-width: 120px;
+    max-width: 8.5em;
     margin: auto;
     display: block;
     transition-duration: 400ms;
 }
 .product-card .card:hover .image img {
-    max-width: 130px;
+    max-width: 9.3em;
 }
 
 /* Card detail styles  */
 
 .product-card .card .name, .card .price {
     position: absolute;
-    bottom: 10px;
+    bottom: 5%;
     font-size: 13px;
+    color: var(--text);
 }
 
 .product-card .card .name {
-    left: 10px
+    left: 5%;
 }
 
 .product-card .card .price {
-    right: 10px;
+    right: 5%;
 }
 
-/* Add to card button styles  */
-.product-card button {
-    display: none;
-    position: absolute;
-    bottom: 4px;
-    width: 100%;
 
-    color: rgb(200, 200, 200);
-    text-decoration: none;
-    border: .5px solid rgb(200, 200, 200);
-    border-radius: 2px;
-    background: none;
-    font-size: 12px;
-    padding: 3px;
-    transition-duration: 150ms;
+/* Colour option styles  */
+.product-card .colours {
+    display: flex;
+    justify-content: center;
+    padding-top: 4px;
+}
+.product-card .colours > .colour-option {
+    font-size: 8px;
+}
+.product-card .colour-option:hover {
+    border: none;
 }
 
-.product-card:hover button {
-    display: block;
+@media screen and (max-width: 1000px){
+    .product-card {
+        font-size: 19px;
+    }
+    .product-card button {
+        display: block;
+        bottom: 6%;
+    }
 }
 
-.product-card button:hover {
-    color: rgb(232, 232, 232);
-    border-color: rgb(232, 232, 232);
+@media screen and (max-width: 960px){
+    .product-card {
+        font-size: 28px;
+    }
+    .product-card button {
+        font-size: 14px;
+    }
+    .product-card .card .name, .card .price {
+        font-size: 16px;
+    }
 }

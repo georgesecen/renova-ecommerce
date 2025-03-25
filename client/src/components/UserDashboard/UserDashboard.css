@@ -1,0 +1,99 @@
+body {
+    background-color: #111;
+
+    /* Modal bootstrap background is white so modal text is invisible */
+    /* color: white; */
+    margin: 0;
+}
+
+.dashboard {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    /*background: black;*/
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    color: white;
+    font-size: 24px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    /*margin-left: 15px;*/
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.sidebar li:hover {
+    background: #222;
+}
+
+.content {
+    /*flex: 1;*/
+    display: flex;
+    margin-left: 240px;
+    /*text-align: center;*/
+    padding: 40px;
+}
+
+.section h1 {
+    font-size: 42px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.section p {
+    font-size: 18px;
+    color: #bbb;
+}
+
+/*Settings page*/
+div.headerNavSettings a {
+    text-decoration: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+        height: auto;
+        width: 90%;
+    }
+
+    .sidebar {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .sidebar ul {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .sidebar li {
+        font-size: 16px;
+    }
+
+    .content {
+        padding: 20px;
+    }
+}

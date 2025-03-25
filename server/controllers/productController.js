@@ -48,7 +48,7 @@ exports.addProduct = async (req, res) => {
  */
 exports.createProduct = async (request, response) => {
 
-    const {name, description, price} = request.body
+    const {name, description, price, categoryId, gender} = request.body
 
     try{
 
@@ -57,6 +57,8 @@ exports.createProduct = async (request, response) => {
             name: name,
             description: description,
             price: price,
+            categoryId: categoryId,
+            gender: gender
         })
 
         console.log("Product created successfully in database.")
@@ -144,9 +146,9 @@ exports.deleteProduct = async (request, response) => {
 
         await deleteProduct(productId)
 
-        console.log("Product deleted successfully in database.")
+        console.log("Product and all associated product variants and images successfully deleted from database, server and Stripe.")
         response.status(200).json({
-            message: "Product deleted successfully in database.",
+            message: "Product and all associated product variants and images successfully deleted from database, server and Stripe.",
         })
     } 
     catch (error){
@@ -274,3 +276,61 @@ exports.getAllProductsV2 = async (request, response) => {
     }
 }
 
+/**
+ * Get a product by its id, as well as all its product variants and their 
+ * images + product images.
+ * 
+ * @param {object} request Express js request object.
+ * @param {object} response Express js response object.
+ */
+exports.getProductInfo = async (request, response) => {
+    try{
+        const productID = request.params.id
+
+        if (!productID) {
+            console.log("no product id")
+            return response.status(400).json({ error: 'product ID is required' });
+        }
+
+        console.log(`Fetching product with ID: ${productID}`);
+
+        const product = await Product.findAll({
+            where: {id: productID},
+            // Join tables
+            include: [
+                {
+                    model: ProductVariant,
+                    as: "product_variants",
+                    include: [
+                        {
+                            model: ProductImage,
+                            as: "images"
+                        }
+                    ]
+                },
+
+                // Get images which only belong to the product itself no product variants
+                {
+                    model: ProductImage,
+
+                    // TODO: Change relationship name from image singular to images plural (Makes more sense)
+                    as: "image",
+                    required: false,
+                    where: {
+                        product_variant_id: null
+                    }
+                }
+            ],
+        })
+
+        console.log("Product queried successfully in database.")
+        response.status(200).json({
+            message: "Product queried successfully in database.",
+            data: product
+        })
+    } 
+    catch (error){
+        console.log(`Error in productController.js function getProductInfo: ${error.message}`)
+        response.status(500).json({error: error.message})
+    }
+}

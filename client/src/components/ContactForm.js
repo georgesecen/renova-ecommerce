@@ -83,7 +83,7 @@ export default function ContactForm() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    to: formData.email,
+                    email: formData.email,
                     subject: `Message from ${formData.firstName} ${formData.lastName}`,
                     text: formData.message,
                 }),
@@ -103,78 +103,28 @@ export default function ContactForm() {
         <div>
             <Form className="contact-form" noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group controlId="formFirstName">
-                    {/* <Form.Label>First Name</Form.Label> */}
-                    {/* <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your first name"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                    /> */}
-                    <Input type={"text"} placeHolder={"firstname"} name={"firstName"} value={formData.firstName} onChange={handleChange} />
-
-                    {/* {errors.firstName && <span>{errors.firstName}</span>} */}
+                    <Input type={"text"} placeHolder={"first name"} name={"firstName"} value={formData.firstName} onChange={handleChange} />
                     <span className={`${errors.firstName ? '' : 'hidden'}`}>{errors.firstName}</span>
                 </Form.Group>
                 <Form.Group controlId="formLastName">
-                    {/* <Form.Label>Last Name</Form.Label> */}
-                    {/* <Form.Control
-                        required
-                        type="text"
-                        placeholder="Enter your last name"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                    /> */}
-                    <Input type={"text"} placeHolder={"lastname"} name={"lastName"} value={formData.lastName} onChange={handleChange} />
-
-                    {/* {errors.lastName && <span>{errors.lastName}</span>} */}
+                    <Input type={"text"} placeHolder={"Last Name"} name={"lastName"} value={formData.lastName} onChange={handleChange}  />
                     <span className={`${errors.lastName ? '' : 'hidden'}`}>{errors.lastName}</span>
                    
                 </Form.Group>
 
                 <Form.Group controlId="formEmail">
-                    {/* <Form.Label>Email</Form.Label> */}
-                    {/* <Form.Control
-                        required
-                        type="email"
-                        placeholder="Enter your email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                    /> */}
                     <Input type={"email"} placeHolder={"email"} name={"email"} value={formData.email} onChange={handleChange} />
-
-                    {/* {errors.email && <span>{errors.email}</span>} */}
                     <span className={`${errors.email ? '' : 'hidden'}`}>{errors.email}</span>
                 </Form.Group>
                 <Form.Group controlId="formTextarea">
-                    {/* <Form.Label>Message</Form.Label> */}
-                    {/* <Form.Control
-                        className='textarea'
-                        required
-                        as="textarea"
-                        placeholder="Leave a comment here"
-                        name="message"
-                        // style={{ height: '100px', margin: '15px 0 0 0' }}
-                        value={formData.message}
-                        onChange={handleChange}
-                    /> */}
                     <textarea placeholder='message' name='message' rows='5' value={formData.message}
                         onChange={handleChange} className='textarea'>{formData.message}</textarea>
-               
-                    {/* {errors.message && <span>{errors.message}</span>} */}
                     <span className={`${errors.message ? '' : 'hidden'}`}>{errors.message}</span>
                 </Form.Group>
 
                 <Button type={"submit"}>contact us</Button>
                 {isLoading ? <Spinner/> : <p>{serverMessage}</p>}
             </Form>
-            {/*<FormModal*/}
-            {/*    show={showModal}*/}
-            {/*    onHide={() => setShowModal(false)}*/}
-            {/*/>*/}
         </div>
     );
 }

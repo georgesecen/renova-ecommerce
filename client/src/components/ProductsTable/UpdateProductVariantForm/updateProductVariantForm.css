@@ -1,0 +1,10 @@
+
+/* Container holds the product variant quantity and delete button */
+/* Its used for all product variants in each product variant group */
+.product-variant-form-item{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+}

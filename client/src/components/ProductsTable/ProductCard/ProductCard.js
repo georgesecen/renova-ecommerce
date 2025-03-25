@@ -2,15 +2,36 @@ import { useState } from "react"
 import "./productCard.css"
 import LabelValueDisplay from '../../LabelValueDisplay/LabelValueDisplay'
 import ProductVariantCard from "../ProductVariantCard/ProductVariantCard"
-const arrowIcon = require("../../../assets/icons/arrow.png")
+import ActionButton from '../../ActionButton/ActionButton'
 
+const arrowIcon = require("../../../assets/icons/arrow.png")
+const editIcon = require("../../../assets/icons/edit.png")
+const addIcon = require("../../../assets/icons/add.png")
+const deleteIcon = require("../../../assets/icons/delete.png")
+const imageIcon = require("../../../assets/icons/image.png")
+
+/**
+ * Product card which displays all product information. Card also provides the ability to perform various
+ * actions regarding the product in this product card. (CRUD operations etc)
+ * @param {object} product Product to be used in this product card.
+ * @param {function} setProduct Function which handles setting the current selected product for actions.
+ * @param {function} setProductVariantGroup Function which handles selecting the product variant group for actions.
+ * @param {function} setShowUpdateProductForm Function which handles displaying the update product form.
+ * @param {function} setShowCreateProductVariantForm Function which handles displaying the create product variant form.
+ * @param {function} setShowImageForm Function which handles displaying the image form.
+ * @param {function} setShowUpdateProductVariantForm Function which handles displaying the update product variant form.
+ * @param {function} setShowConfirmProductDelete Function which handles displaying the delete product confirmation modal.
+ * @returns {React.JSX.Element} ProductCard React component.
+ */
 const ProductCard = ({
   product, 
   setProduct, 
   setProductVariantGroup,
   setShowUpdateProductForm,
   setShowCreateProductVariantForm,
-  setShowImageForm
+  setShowImageForm,
+  setShowUpdateProductVariantForm,
+  setShowConfirmProductDelete
 }) => {
 
   const [showDropdown, setShowDropdown] = useState(false)
@@ -58,55 +79,32 @@ const ProductCard = ({
       )
   }
 
-  // Edit images button
-  const EditImagesButton = () => {
-    return (
-      <button 
-        onClick={(event)=>{
-
-          // Display the images form for product
-          event.stopPropagation() // To prevent sub menu showing
-          setProduct(product)
-          setShowImageForm(true)
-        }} 
-      >
-        Edit
-      </button>
-    )
+  // Function displays edit images form (Will be used in custom button component)
+  function editImages(event){
+    event.stopPropagation() // To prevent sub menu showing
+    setProduct(product)
+    setShowImageForm(true)
   }
 
-  // Edit product button
-  const EditProductButton = () => {
-    return (
-      <button 
-        onClick={(event)=>{
-
-          // Display the update product form for product
-          event.stopPropagation() // To prevent sub menu showing
-          setProduct(product)
-          setShowUpdateProductForm(true)
-        }} 
-      >
-        Edit
-      </button>
-    )
+  // Function displays the update product form (Will be used in custom button component)
+  function updateProduct(event){
+    event.stopPropagation() // To prevent sub menu showing
+    setProduct(product)
+    setShowUpdateProductForm(true)
   }
 
-  // Create product variant button
-  const CreateProductVariantButton = () => {
-    return (
-      <button 
-        onClick={(event)=>{
+  // Function displays the create product variant form (Will be used in custom button component)
+  function createProductVariant(event){
+    event.stopPropagation() // To prevent sub menu showing
+    setProduct(product)
+    setShowCreateProductVariantForm(true)
+  }
 
-          // Display the create product variant form for product
-          event.stopPropagation() // To prevent sub menu showing
-          setProduct(product)
-          setShowCreateProductVariantForm(true)
-        }} 
-      >
-        Create Variant
-      </button>
-    )
+  // Function displays the delete product form (Will be used in custom button component)
+  function deleteProduct(event){
+    event.stopPropagation() // To prevent sub menu showing
+    setProduct(product)
+    setShowConfirmProductDelete(true)
   }
 
   return (
@@ -116,14 +114,15 @@ const ProductCard = ({
       <div onClick={()=>{setShowDropdown(!showDropdown)}} className='card-header-container'>
 
         <LabelValueDisplay labelValues={[
-          ["Product ID", productId, false],
-          ["", CreateProductVariantButton(), false],
-          ["", EditProductButton(), true],
-          ["Name", name, true],
-          ["Description", description, true],
-          ["Images", ImageDisplay(), false],
-          ["", EditImagesButton(), true],
-          ["Price", `$${price}`, false],
+          ["Product ID", productId, 4, false],
+          ["", <ActionButton onClick={updateProduct} color={"#DF8D00"} icon={editIcon} text={"Edit"}/>, 5, false],
+          ["", <ActionButton onClick={createProductVariant} color={"#04B077"} icon={addIcon} text={"Add Variant"}/>, 8, true],
+          ["Name", name, 12, true],
+          ["Description", description, 12.5, true],
+          ["Images", ImageDisplay(), 12.5, false],
+          ["", <ActionButton onClick={editImages} color={"#C301E9"} icon={imageIcon} text={"Update Gallery"}/>, 9.5, true],
+          ["Price", `$${price}`, 5, false],
+          ["", <ActionButton onClick={deleteProduct} color={"#C90230"} icon={deleteIcon} text={"Delete"}/>, 7, false],
         ]}></LabelValueDisplay>
 
         {/* Arrow icon which shows sub menu is open */}
@@ -142,6 +141,7 @@ const ProductCard = ({
                   color={color}
                   setProductVariantGroup={setProductVariantGroup}
                   setShowImageForm={setShowImageForm}
+                  setShowUpdateProductVariantForm={setShowUpdateProductVariantForm}
                   product={product}
                   setProduct={setProduct}
                   >
