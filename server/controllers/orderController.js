@@ -94,10 +94,18 @@ exports.getOrders = async (request, response) => {
                         {
                             model: ProductVariantModel,
                             as: "product_variant",
+
+                            // To get soft deleted records as its possible product variants have been deleted
+                            // via admin dashboard
+                            paranoid: false, 
                             include: [
                                 {
                                     model: Product,
-                                    as: "product"
+                                    as: "product",
+
+                                    // To get soft deleted records as its possible products have been deleted
+                                    // via admin dashboard
+                                    paranoid: false,
                                 }
                             ]
                         }
