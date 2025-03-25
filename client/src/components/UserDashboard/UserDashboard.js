@@ -6,6 +6,7 @@ import { useUser } from "../../providers/UserContext";
 import { useCart } from "../../providers/CartContext";
 import { useNavigate } from "react-router-dom";
 import { getUserOrders } from "../../services/orders";
+import { FaHome, FaShoppingBag } from "react-icons/fa";
 import "./UserDashboard.css";
 
 const UserDashboard = () => {
@@ -41,11 +42,20 @@ const UserDashboard = () => {
     }
 
     return (
-        <div>
+        <div className="user-dash-container">
 
-            <div>
-                <div onClick={() => setActiveSection("home")}>Home</div>
-                <div onClick={() => setActiveSection("orders")}>Orders</div>
+            <div className="user-dash-nav">
+                <div 
+                    className={`${activeSection === "home" ? "selected" : ""}`} 
+                    onClick={() => setActiveSection("home")}>
+                    <FaHome /> Home
+                </div>
+
+                <div 
+                    className={`${activeSection === "orders" ? "selected" : ""}`} 
+                    onClick={() => setActiveSection("orders")}>
+                    <FaShoppingBag /> Orders
+                </div>
             </div>
 
             {activeSection === "home" && <Home logout={logoutHandler} />}

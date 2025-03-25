@@ -2,6 +2,9 @@
 /* Contianer which holds every order item */
 .all-user-orders{
     border: 1px solid rgb(120, 120, 120);
+    width: 90%;
+    margin-bottom: 3em;
+    max-width: 1200px;
 }
 
 /* Container which holds order header and all order items */
@@ -24,11 +27,12 @@
 .order-items-container > ul > li{
     border-bottom: 1px solid rgb(120, 120, 120);
     padding: 0.5em;
+    /* background-color: black; */
 }
 .order-items-container > ul > li:last-of-type{
     /* So border does not show on last list item */
     border-bottom: none;
-    margin-bottom: 1em;
+    padding-bottom: 1em;
 }
 
 /* Section which displays order status */
