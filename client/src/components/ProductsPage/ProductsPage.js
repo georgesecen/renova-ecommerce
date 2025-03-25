@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import './productsPage.css'
 import ProductCard from '../ProductCard/ProductCard';
-import { getProducts } from '../../services/products';
+import { getAllProductsV2, getProducts } from '../../services/products';
 import { useNavigate } from 'react-router-dom';
-import { getVariants } from '../../services/productVariants';
 import { getAllCategories } from '../../services/productCategories';
 import { addProduct } from "../../services/cart";
 import { useCart } from "../../providers/CartContext";
@@ -14,12 +13,11 @@ import ProductModal from "../ProductModal";
 function ProductsPage() {
     const navigate = useNavigate();  
     const categories = useRef([]);
+    const [showMenu, setShowMenu] = useState(true);
     const [genderFilter, filterByGender] = useState('all');
     const [categoryFilter, filterByCategory] = useState(0);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    const cols = useRef(new Map());
 
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState({});
@@ -32,22 +30,10 @@ function ProductsPage() {
 
     useEffect(() => {
         console.log(products)
-        getProducts()
+        getAllProductsV2()
             .then((response) => {
-                console.log(response.data[0].image[0]);
-                console.log(response.data[0].image[0].image_url);
-
-                setProducts(response.data);
-
-                // // Map all colour variants
-                // for (const p in response.data){
-                //     getVariants(p)
-                //     .then((res) => {
-                //         let colSet = new Set(res.map(a => a.color))
-                //         cols.current.set(p, colSet);
-                //     })
-                // }
-
+                console.log(response.data.data)
+                setProducts(response.data.data)
                 setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
             })
             .catch((error) => {
@@ -117,11 +103,13 @@ function ProductsPage() {
         navigate('/products/' + (product.id))
     }
 
+
     return (
         <div className="products-page">
             <div className="content">
+            <div className='side-nav-btn' onClick={() => setShowMenu(!showMenu)}>FILTERS</div>
 
-                <div className="side-nav">
+                <div className={showMenu ? "side-nav open" : "side-nav" }>
                     <p>GENDER</p>
                     <ul>
                     <li className={genderFilter === 'all' ? "active" : ""} onClick={() => filterByGender('all')}>ALL</li>
@@ -146,11 +134,14 @@ function ProductsPage() {
                     if (genderFilter !== product.gender && genderFilter !== 'all'){
                         return null
                     }
+                    if (product.product_variants.length === 0) {
+                        return null
+                    }
                     return (
                         <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
                             name={product.name} 
                             price={product.price}
-                            cols={cols.current.get(String(product.id))}
+                            cols={new Set(product.product_variants.map(a => a.color))}
                             // image={`/images/${product.image[0].image_url}`}
                             addToCart={() => addToCartHandler(product)}>
                         </ProductCard>
