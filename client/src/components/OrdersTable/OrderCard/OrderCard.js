@@ -95,9 +95,8 @@ const OrderCard = ({order, setOrder, showOrderForm}) => {
                 id,
                 size,
                 color,
-                gender,
               } = orderItem.product_variant
-              const {name: productName} = orderItem.product_variant.product
+              const {name: productName, gender} = orderItem.product_variant.product
 
               // Order item
               return (
@@ -108,10 +107,9 @@ const OrderCard = ({order, setOrder, showOrderForm}) => {
                       ["Name", productName, 6, true],
                       ["Size", size, 5, true],
                       ["Color", color, 5, true],
+                      ["Gender", gender, 5, true],
                       ["Price At Purchase", priceAtPurchase, 7, true],
-                      ["Quantity", quantity, 5, true],
-                      ["Color", color, 5, true],
-                      ["Gender", gender, 5, false],
+                      ["Quantity", quantity, 5, false],
                     ]}></LabelValueDisplay>
                   </div>
                 </li>
