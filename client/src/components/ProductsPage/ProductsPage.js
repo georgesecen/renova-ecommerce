@@ -3,7 +3,6 @@ import './productsPage.css'
 import ProductCard from '../ProductCard/ProductCard';
 import { getAllProductsV2, getProducts } from '../../services/products';
 import { useNavigate } from 'react-router-dom';
-import { getVariants } from '../../services/productVariants';
 import { getAllCategories } from '../../services/productCategories';
 import { addProduct } from "../../services/cart";
 import { useCart } from "../../providers/CartContext";
@@ -14,6 +13,7 @@ import ProductModal from "../ProductModal";
 function ProductsPage() {
     const navigate = useNavigate();  
     const categories = useRef([]);
+    const [showMenu, setShowMenu] = useState(true);
     const [genderFilter, filterByGender] = useState('all');
     const [categoryFilter, filterByCategory] = useState(0);
     const [products, setProducts] = useState([]);
@@ -103,13 +103,13 @@ function ProductsPage() {
         navigate('/products/' + (product.id), {state: { id: product.id } })
     }
 
-    console.log(products)
 
     return (
         <div className="products-page">
             <div className="content">
+            <div className='side-nav-btn' onClick={() => setShowMenu(!showMenu)}>FILTERS</div>
 
-                <div className="side-nav">
+                <div className={showMenu ? "side-nav open" : "side-nav" }>
                     <p>GENDER</p>
                     <ul>
                     <li className={genderFilter === 'all' ? "active" : ""} onClick={() => filterByGender('all')}>ALL</li>
