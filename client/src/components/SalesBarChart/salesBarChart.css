@@ -7,9 +7,18 @@
 }
 
 /* Bar chart title */
-.bar-chart-container > div{
+.bar-chart-title{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    /* To move chart title closer to actual chart */
+    transform: translateY(3em);
+}
+
+/* Revenue and order data of last highlighted bar */
+.bar-chart-title > p{
+    font-size: 0.8em;
+    margin: 0;
 }
