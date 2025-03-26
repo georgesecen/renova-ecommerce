@@ -2,7 +2,7 @@ import { useState }  from 'react'
 import { BarChart } from '@mui/x-charts/BarChart';
 import "./salesBarChart.css"
 
-const SalesBarChart = ({ orders }) => {
+const SalesBarChart = ({ orders, startDate }) => {
 
   // Keep track of the index of the last bar which was hovered over
   const [lastBar, setLastBar] = useState(null);
@@ -41,7 +41,7 @@ const SalesBarChart = ({ orders }) => {
 
   // Build array of objects to hold total amount made and how many orders occured on each day from a starting date
   const result = []
-  let current = new Date("02/23/2025") // Start date
+  let current = new Date(startDate) // Start date of bar chart range
   const todaysDate = new Date()
   let index = findDate(current, parsedData) // Get index of where first occurrence of start date would be in parsed data
 
@@ -81,7 +81,7 @@ const SalesBarChart = ({ orders }) => {
           <h6>{totalOrders} orders</h6>
 
           {/* Display details of last highlighted bar */}
-          <p>{lastBar === null ? "‎" : `Revenue: $${result[lastBar].revenue}, Orders: ${result[lastBar].numberOfOrders}`}</p>
+          <p>{lastBar === null ? "‎" : `${result[lastBar].date}  Revenue: $${result[lastBar].revenue}, Orders: ${result[lastBar].numberOfOrders}`}</p>
         </div>
 
         <BarChart
@@ -91,7 +91,20 @@ const SalesBarChart = ({ orders }) => {
           onHighlightChange={(event) => {setLastBar(event === null ? null : event.dataIndex)}}
 
           dataset={result}
-          xAxis={[{ scaleType: 'band', dataKey: "date"}]}
+          xAxis={[{ 
+            scaleType: 'band', 
+            dataKey: "date", 
+            disableTicks: true,
+
+            // For tick labels
+            valueFormatter: (date, context) =>{
+              // Convert date to format MM/DD
+              const month = String(new Date(date).getMonth() + 1).padStart(2, '0') // Months are 0-indexed
+              const day = String(new Date(date).getDate()).padStart(2, '0')
+              return `${month}/${day}`
+            }
+              
+          }]}
           series={[
             { 
               dataKey: "revenue",
