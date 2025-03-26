@@ -42,6 +42,9 @@ const SalesBarChart = ({ orders }) => {
   const todaysDate = new Date()
   let index = findDate(current, parsedData) // Get index of where first occurrence of start date would be in parsed data
 
+  // Keep track of total revenue and total orders for chart title
+  let totalRevenue = 0, totalOrders = 0
+
   while (current < todaysDate){
 
     // Keep track of how many orders and the total amount made on current day is
@@ -52,7 +55,10 @@ const SalesBarChart = ({ orders }) => {
 
       // Increase our total amount and that we have another order for current day
       total += parsedData[index].value
+      totalRevenue += parsedData[index].value
+
       orders += 1
+      totalOrders += 1
       index += 1
     }
 
@@ -65,14 +71,18 @@ const SalesBarChart = ({ orders }) => {
 
 
   return (
-    <div>
+    <div className='bar-chart-container'>
+        <div>
+          <h5>Total Sales</h5>
+          <h3>${totalRevenue}</h3>
+          <h6>{totalOrders} orders</h6>
+        </div>
         <BarChart
             dataset={result}
             xAxis={[{ scaleType: 'band', dataKey: "date"}]}
             series={[
                 { dataKey: "revenue" }
             ]}
-            width={500}
             height={300}
         />
     </div>
