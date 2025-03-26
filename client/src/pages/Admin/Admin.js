@@ -2,6 +2,7 @@ import {React, useEffect, useState, useRef} from 'react'
 import OrdersTable from '../../components/OrdersTable/OrdersTable'
 import ProductsTable from '../../components/ProductsTable/ProductsTable'
 import CategoriesTable from '../../components/CategoriesTable/CategoriesTable'
+import StoreStatistics from '../../components/StoreStatistics/StoreStatistics'
 import Toasts from '../../components/Toasts/Toasts'
 import { adminProductsService } from '../../services/products'
 import "./admin.css"
@@ -11,8 +12,8 @@ import "../../styles/custom-inputs.css"
 
 const Admin = () => {
 
-  const [key, setKey] = useState(false)
-  const [validKey, setValidKey] = useState(false)
+  const [key, setKey] = useState(true)
+  const [validKey, setValidKey] = useState(true)
 
   // Keep track of what admin component to render based on 
   // what was last clicked in navbar (Defaults to orders table)
@@ -24,14 +25,14 @@ const Admin = () => {
     toastsRef.current.addToast(title, message, type)
   }
 
-  // Get key for admin routes
-  useEffect(() => {
+  // // Get key for admin routes
+  // useEffect(() => {
 
-    // Store key in session storage for better security
-    sessionStorage.removeItem("key")
-    sessionStorage.setItem("key", prompt("Key:"))
-    setKey(true)
-  }, [])
+  //   // Store key in session storage for better security
+  //   sessionStorage.removeItem("key")
+  //   sessionStorage.setItem("key", prompt("Key:"))
+  //   setKey(true)
+  // }, [])
 
   // If user has entered key
   if (key === true){
@@ -58,12 +59,14 @@ const Admin = () => {
         <button className={`${currentComponent === "orders" ? "selected" : ""}`} onClick={() => setCurrentComponent("orders")}>orders</button>
         <button className={`${currentComponent === "products" ? "selected" : ""}`} onClick={() => setCurrentComponent("products")}>products</button>
         <button className={`${currentComponent === "categories" ? "selected" : ""}`} onClick={() => setCurrentComponent("categories")}>categories</button>
+        <button className={`${currentComponent === "statistics" ? "selected" : ""}`} onClick={() => setCurrentComponent("statistics")}>statistics</button>
       </div>
 
       {/* Only display the component which is set as the current component */}
       {currentComponent === "orders" && <OrdersTable displayNotification={displayNotification} />}
       {currentComponent === "products" && <ProductsTable displayNotification={displayNotification} />}
       {currentComponent === "categories" && <CategoriesTable displayNotification={displayNotification} />}
+      {currentComponent === "statistics" && <StoreStatistics displayNotification={displayNotification} />}
 
     </div>
   )
