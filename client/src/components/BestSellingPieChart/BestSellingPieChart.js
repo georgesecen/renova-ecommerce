@@ -1,4 +1,5 @@
 import React from 'react'
+import { PieChart } from '@mui/x-charts/PieChart';
 import "./bestSellingPieChart.css"
 
 const BestSellingPieChart = ({ orders, startDate, findDate }) => {
@@ -22,7 +23,7 @@ const BestSellingPieChart = ({ orders, startDate, findDate }) => {
 
       // If product does not exist in product counts add it so we can keep track of it
       if (!(name in productCounts)) productCounts[name] = 0
-      
+
       productCounts[orderItem.product_variant.product.name] += 1
     })
   }
@@ -30,7 +31,21 @@ const BestSellingPieChart = ({ orders, startDate, findDate }) => {
   console.log(productCounts)
 
   return (
-    <div>BestSellingPieChart</div>
+    <div className='pie-chart-container'>
+        <h5>Best Selling Products</h5>
+        <PieChart
+            series={[
+                {
+                data: [
+                    { id: 0, value: 10, label: 'series A' },
+                    { id: 1, value: 15, label: 'series B' },
+                    { id: 2, value: 20, label: 'series C' },
+                ],
+                },
+            ]}
+            height={300}
+        />
+    </div>
   )
 }
 
