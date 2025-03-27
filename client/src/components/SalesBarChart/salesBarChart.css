@@ -1,4 +1,6 @@
 
+/* Chart styles inspired by Shopify sales chart */
+
 /* Holds chart title and chart */
 .bar-chart-container{
     display: flex;

@@ -1,11 +1,7 @@
-import { useState }  from 'react'
 import { BarChart } from '@mui/x-charts/BarChart';
 import "./salesBarChart.css"
 
 const SalesBarChart = ({ orders, startDate }) => {
-
-  // Keep track of the index of the last bar which was hovered over
-  const [lastBar, setLastBar] = useState(null);
 
   // If there is no order data just display empty chart
   if (orders.length === 0){
@@ -79,18 +75,19 @@ const SalesBarChart = ({ orders, startDate }) => {
           <h5>Total Sales</h5>
           <h3>${totalRevenue}</h3>
           <h6>{totalOrders} orders</h6>
-
-          {/* Display details of last highlighted bar */}
-          <p>{lastBar === null ? "‎" : `${result[lastBar].date}  Revenue: $${result[lastBar].revenue}, Orders: ${result[lastBar].numberOfOrders}`}</p>
         </div>
 
         <BarChart
           tooltip={{ trigger: 'none' }} // Disable tooltip as when it goes out of bounds body overflows
-
-          // Set last bar selected to the index of the currently hovered bar
-          onHighlightChange={(event) => {setLastBar(event === null ? null : event.dataIndex)}}
-
           dataset={result}
+          disableAxisListener={true}
+
+          // Remove highlight as tooltip is removed there is no point
+          axisHighlight={{
+            x: "none", 
+            y: "none", 
+          }}
+          
           xAxis={[{ 
             scaleType: 'band', 
             dataKey: "date", 
