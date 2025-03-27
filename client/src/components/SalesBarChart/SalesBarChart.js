@@ -1,7 +1,7 @@
 import { BarChart } from '@mui/x-charts/BarChart';
 import "./salesBarChart.css"
 
-const SalesBarChart = ({ orders, startDate }) => {
+const SalesBarChart = ({ orders, startDate, findDate }) => {
 
   // If there is no order data just display empty chart
   if (orders.length === 0){
@@ -12,28 +12,6 @@ const SalesBarChart = ({ orders, startDate }) => {
 
   // Parse out only needed data (Dates and total_price for each order) and turn dates into date objects
   var parsedData = orders.map(order => ({date: new Date(order.createdAt), value: Number(order.total_price)}));
-
-  // Function finds where in data (what index) the first occurence of date would be
-  function findDate(targetDate, data){
-    let left = 0, right = data.length - 1
-
-    while (left <= right){
-      const mid = Math.floor((right + left) / 2)
-      
-      // If date at mid is after our target
-      if (data[mid].date > targetDate){
-        right = mid - 1
-      }
-
-      // If date at mid is before than our target
-      else{
-        left = mid + 1
-      }
-    }
-
-    // Return what index in data targetDate would be at
-    return right + 1
-  }
 
   // Build array of objects to hold total amount made and how many orders occured on each day from a starting date
   const result = []
