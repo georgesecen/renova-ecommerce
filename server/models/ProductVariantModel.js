@@ -31,7 +31,7 @@ const ProductVariantModel = sequelize.define('ProductVariant', {
         },
         created_at: {
             type: DataTypes.DATE,
-        }
+        },
     },
 {
     tableName: 'product_variants',

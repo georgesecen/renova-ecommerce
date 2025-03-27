@@ -46,9 +46,12 @@ export const UserProvider = ({ children }) => {
     };
 
     const logout = () => {
-        Cookies.remove('jwt'); // Clear JWT token from cookies
+        // Clear JWT token from cookies
+        Cookies.remove('jwt');
+        localStorage.removeItem('jwt');
         setIsLoggedIn(false);
-        setUser(null); // Remove user data from context
+        // Remove user data from context
+        setUser(null);
     };
 
     return (
