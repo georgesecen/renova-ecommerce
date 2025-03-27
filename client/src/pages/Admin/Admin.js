@@ -2,6 +2,7 @@ import {React, useEffect, useState, useRef} from 'react'
 import OrdersTable from '../../components/OrdersTable/OrdersTable'
 import ProductsTable from '../../components/ProductsTable/ProductsTable'
 import CategoriesTable from '../../components/CategoriesTable/CategoriesTable'
+import StoreStatistics from '../../components/StoreStatistics/StoreStatistics'
 import Toasts from '../../components/Toasts/Toasts'
 import { adminProductsService } from '../../services/products'
 import "./admin.css"
@@ -9,6 +10,12 @@ import "../../styles/table-cards.css"
 import "../../styles/table-forms.css"
 import "../../styles/custom-inputs.css"
 
+/**
+ * Complete admin dashboard for store owner. Gives the admin ability to add/delete products, product variants,
+ * and categories. Fulfill orders, and view important store information such as revenue 
+ * history and what products have been selling the most.
+ * @returns {React.JSX.Element} Admin dashboard React component.
+ */
 const Admin = () => {
 
   const [key, setKey] = useState(false)
@@ -58,12 +65,14 @@ const Admin = () => {
         <button className={`${currentComponent === "orders" ? "selected" : ""}`} onClick={() => setCurrentComponent("orders")}>orders</button>
         <button className={`${currentComponent === "products" ? "selected" : ""}`} onClick={() => setCurrentComponent("products")}>products</button>
         <button className={`${currentComponent === "categories" ? "selected" : ""}`} onClick={() => setCurrentComponent("categories")}>categories</button>
+        <button className={`${currentComponent === "statistics" ? "selected" : ""}`} onClick={() => setCurrentComponent("statistics")}>statistics</button>
       </div>
 
       {/* Only display the component which is set as the current component */}
       {currentComponent === "orders" && <OrdersTable displayNotification={displayNotification} />}
       {currentComponent === "products" && <ProductsTable displayNotification={displayNotification} />}
       {currentComponent === "categories" && <CategoriesTable displayNotification={displayNotification} />}
+      {currentComponent === "statistics" && <StoreStatistics displayNotification={displayNotification} />}
 
     </div>
   )

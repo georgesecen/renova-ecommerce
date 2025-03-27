@@ -1,0 +1,98 @@
+import { BarChart } from '@mui/x-charts/BarChart';
+import "./salesBarChart.css"
+
+/**
+ * Displays revenue and order data using a bar chart. 
+ * @param {Array<object>} orders Orders to display data for.
+ * @param {Date} startDate Date for when to start displaying data.
+ * @param {function} findDate Function which finds what index the startDate should be at in orders.
+ * @returns {React.JSX.Element} SalesBarChart React component.
+ */
+const SalesBarChart = ({ orders, startDate, findDate }) => {
+
+  // If there is no order data add empty object to display empty chart
+  if (orders.length === 0) orders.push({})
+
+  // Parse out only needed data (Dates and total_price for each order) and turn dates into date objects
+  var parsedData = orders.map(order => ({date: new Date(order.createdAt), value: Number(order.total_price)}));
+
+  // Build array of objects to hold total amount made and how many orders occured on each day from a starting date
+  const result = []
+  let current = new Date(startDate) // Start date of bar chart range
+  const todaysDate = new Date()
+  let index = findDate(current, parsedData) // Get index of where first occurrence of start date would be in parsed data
+
+  // Keep track of total revenue and total orders for chart title
+  let totalRevenue = 0, totalOrders = 0
+
+  while (current < todaysDate){
+
+    // Keep track of how many orders and the total amount made on current day is
+    let orders = 0, total = 0
+
+    // While the date in parsed data is the same date as current
+    while (index < parsedData.length && current.toDateString() === parsedData[index].date.toDateString()){
+
+      // Increase our total amount and that we have another order for current day
+      total += parsedData[index].value
+      totalRevenue += parsedData[index].value
+
+      orders += 1
+      totalOrders += 1
+      index += 1
+    }
+
+    // Add stats for current day
+    result.push({ date: current.toDateString(), revenue: total, numberOfOrders: orders})
+
+    // Move on to next day
+    current = new Date(current.setDate(current.getDate() + 1))
+  }
+
+
+  return (
+    <div className='bar-chart-container'>
+        <div className='bar-chart-title'>
+          <h5>Total Sales</h5>
+          <h3>${totalRevenue}</h3>
+          <h6>{totalOrders} orders</h6>
+        </div>
+
+        <BarChart
+          tooltip={{ trigger: 'none' }} // Disable tooltip as when it goes out of bounds body overflows
+          dataset={result}
+          disableAxisListener={true}
+
+          // Remove highlight as tooltip is removed there is no point
+          axisHighlight={{
+            x: "none", 
+            y: "none", 
+          }}
+          
+          xAxis={[{ 
+            scaleType: 'band', 
+            dataKey: "date", 
+            disableTicks: true,
+
+            // For tick labels
+            valueFormatter: (date, context) =>{
+              // Convert date to format MM/DD
+              const month = String(new Date(date).getMonth() + 1).padStart(2, '0') // Months are 0-indexed
+              const day = String(new Date(date).getDate()).padStart(2, '0')
+              return `${month}/${day}`
+            }
+              
+          }]}
+          series={[
+            { 
+              dataKey: "revenue",
+            }
+          ]}
+          height={300}
+          >
+        </BarChart>
+    </div>
+  )
+}
+
+export default SalesBarChart

@@ -1,0 +1,23 @@
+
+.pie-chart-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin-bottom: 3em;
+}
+
+/* Pie chart title */
+.pie-chart-container > h5{
+    transform: translateX(-2.3em);
+    margin-bottom: 1em;
+}
+
+/* At this point pie chart labels overlapp with pie chart and it looks horrible so
+just get rid of pie chart */
+@media screen and (max-width: 560px) {
+    .pie-chart-container{
+        display: none;
+    }
+}
