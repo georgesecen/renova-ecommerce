@@ -6,6 +6,9 @@
     display: flex;
     flex-direction: column;
     width: 80%;
+
+    /* So there is room between bar chart on top and piechart on bottom */
+    margin-bottom: 5em;
 }
 
 /* Bar chart title */

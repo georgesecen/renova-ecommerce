@@ -4,14 +4,13 @@ import "./bestSellingPieChart.css"
 
 const BestSellingPieChart = ({ orders, startDate, findDate }) => {
 
+  if (orders.length === 0) return ""
 
   // Just renaming createdAt to date so data works with findDate function (Must change this)
   var parsedData = orders.map(order => ({date: new Date(order.createdAt), orderItems: order.order_items}));
 
   // Get the index in orders where we should begin to gather data 
   const startIndex = findDate(new Date(startDate), parsedData)
-
-  console.log(parsedData)
 
   // Get the counts of all the purchased products (How many times each product was purchased from start date)
   const productCounts = {}
@@ -28,21 +27,19 @@ const BestSellingPieChart = ({ orders, startDate, findDate }) => {
     })
   }
 
-  console.log(productCounts)
+  // Now that we have the counts of all the products lets turn it into an array of objects so
+  // the pie chart can display the data
+  const result = []
+  Object.entries(productCounts).forEach(([productName, productCount], index) => {
+    result.push({ id: index, value: productCount, label: productName })
+  })
 
   return (
     <div className='pie-chart-container'>
         <h5>Best Selling Products</h5>
         <PieChart
-            series={[
-                {
-                data: [
-                    { id: 0, value: 10, label: 'series A' },
-                    { id: 1, value: 15, label: 'series B' },
-                    { id: 2, value: 20, label: 'series C' },
-                ],
-                },
-            ]}
+            tooltip={{ trigger: 'none' }} // Disable tooltip as when it goes out of bounds body overflows
+            series={[{data: result}]}
             height={300}
         />
     </div>

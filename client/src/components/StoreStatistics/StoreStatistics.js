@@ -73,7 +73,6 @@ const StoreStatistics = ({displayNotification}) => {
           </button>
         </div>
 
-
         <SalesBarChart orders={orders} startDate={new Date(startDate)} findDate={findDate} />
         <BestSellingPieChart orders={orders} startDate={new Date(startDate)} findDate={findDate} />
     </div>
