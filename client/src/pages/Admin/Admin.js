@@ -10,10 +10,16 @@ import "../../styles/table-cards.css"
 import "../../styles/table-forms.css"
 import "../../styles/custom-inputs.css"
 
+/**
+ * Complete admin dashboard for store owner. Gives the admin ability to add/delete products, product variants,
+ * and categories. Fulfill orders, and view important store information such as revenue 
+ * history and what products have been selling the most.
+ * @returns {React.JSX.Element} Admin dashboard React component.
+ */
 const Admin = () => {
 
-  const [key, setKey] = useState(true)
-  const [validKey, setValidKey] = useState(true)
+  const [key, setKey] = useState(false)
+  const [validKey, setValidKey] = useState(false)
 
   // Keep track of what admin component to render based on 
   // what was last clicked in navbar (Defaults to orders table)
@@ -25,14 +31,14 @@ const Admin = () => {
     toastsRef.current.addToast(title, message, type)
   }
 
-  // // Get key for admin routes
-  // useEffect(() => {
+  // Get key for admin routes
+  useEffect(() => {
 
-  //   // Store key in session storage for better security
-  //   sessionStorage.removeItem("key")
-  //   sessionStorage.setItem("key", prompt("Key:"))
-  //   setKey(true)
-  // }, [])
+    // Store key in session storage for better security
+    sessionStorage.removeItem("key")
+    sessionStorage.setItem("key", prompt("Key:"))
+    setKey(true)
+  }, [])
 
   // If user has entered key
   if (key === true){

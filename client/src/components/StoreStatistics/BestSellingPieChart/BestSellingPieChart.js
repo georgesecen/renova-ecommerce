@@ -2,9 +2,17 @@ import React from 'react'
 import { PieChart } from '@mui/x-charts/PieChart';
 import "./bestSellingPieChart.css"
 
+/**
+ * Displays sales by product in pie chart. 
+ * @param {Array<object>} orders Orders to display data for.
+ * @param {Date} startDate Date for when to start displaying data.
+ * @param {function} findDate Function which finds what index the startDate should be at in orders.
+ * @returns {React.JSX.Element} BestSellingPieChart React component.
+ */
 const BestSellingPieChart = ({ orders, startDate, findDate }) => {
 
-  if (orders.length === 0) return ""
+  // If there is no order data add empty object to display empty chart
+  if (orders.length === 0) orders.push({})
 
   // Just renaming createdAt to date so data works with findDate function (Must change this)
   var parsedData = orders.map(order => ({date: new Date(order.createdAt), orderItems: order.order_items}));
@@ -36,7 +44,7 @@ const BestSellingPieChart = ({ orders, startDate, findDate }) => {
 
   return (
     <div className='pie-chart-container'>
-        <h5>Best Selling Products</h5>
+        <h5>Sales By Product</h5>
         <PieChart
             tooltip={{ trigger: 'none' }} // Disable tooltip as when it goes out of bounds body overflows
             series={[{data: result}]}

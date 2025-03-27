@@ -1,14 +1,17 @@
 import { BarChart } from '@mui/x-charts/BarChart';
 import "./salesBarChart.css"
 
+/**
+ * Displays revenue and order data using a bar chart. 
+ * @param {Array<object>} orders Orders to display data for.
+ * @param {Date} startDate Date for when to start displaying data.
+ * @param {function} findDate Function which finds what index the startDate should be at in orders.
+ * @returns {React.JSX.Element} SalesBarChart React component.
+ */
 const SalesBarChart = ({ orders, startDate, findDate }) => {
 
-  // If there is no order data just display empty chart
-  if (orders.length === 0){
-    return (
-        "No Data"
-    )
-  }
+  // If there is no order data add empty object to display empty chart
+  if (orders.length === 0) orders.push({})
 
   // Parse out only needed data (Dates and total_price for each order) and turn dates into date objects
   var parsedData = orders.map(order => ({date: new Date(order.createdAt), value: Number(order.total_price)}));

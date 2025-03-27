@@ -1,9 +1,15 @@
 import {React, useEffect, useState} from 'react'
-import SalesBarChart from '../SalesBarChart/SalesBarChart'
+import SalesBarChart from './SalesBarChart/SalesBarChart'
+import BestSellingPieChart from './BestSellingPieChart/BestSellingPieChart'
 import { adminOrdersService } from '../../services/orders'
 import "./storeStatistics.css"
-import BestSellingPieChart from '../BestSellingPieChart/BestSellingPieChart'
 
+/**
+ * Displays relevant store data through charts within given time period. Revenue history 
+ * is displayed through bar chart and what products have sold are displayed through a pie chart.
+ * @param {function} displayNotification Function which handles displaying toast notifications.
+ * @returns {React.JSX.Element} StoreStatistics React component.
+ */
 const StoreStatistics = ({displayNotification}) => {
 
   const [orders, setOrders] = useState([])
@@ -40,7 +46,6 @@ const StoreStatistics = ({displayNotification}) => {
     // Return what index in data targetDate would be at
     return right + 1
   }
-
 
   return (
     <div className='user-dash-statistics-container'>
