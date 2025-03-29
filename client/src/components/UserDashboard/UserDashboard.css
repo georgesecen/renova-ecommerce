@@ -3,20 +3,24 @@
 .user-dash-container{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    /* align-items: center; */
+    min-height: calc(100vh - 80px);
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 25px;
 }
 
 /* Navigation container */
-.user-dash-nav{
+.user-dash-nav {
     display: flex;
     flex-wrap: wrap;
     gap: 2em;
-    margin-bottom: 2em;
+    margin: 2em 0;
 }
 
 /* Nav buttons */
-.user-dash-nav > div{
+.user-dash-nav > div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,4 +34,11 @@
 /* When selected */
 .user-dash-nav > div.selected{
     border-bottom: 1px solid white;
+}
+
+@media screen and (max-width: 760px) {
+    .user-dash-container {
+        min-height: calc(100vh - 140px);
+        padding: 0 14px;
+    }
 }

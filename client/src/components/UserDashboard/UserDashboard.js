@@ -24,7 +24,7 @@ const UserDashboard = () => {
     useEffect(() => {
         if (user !== null){
             getUserOrders(user.userId)
-            .then((response) => setOrders(response.data.data))
+            .then((response) => setOrders(response.data.data.reverse()))
             .catch((error) => console.log(error))
         }
     }, [user])
