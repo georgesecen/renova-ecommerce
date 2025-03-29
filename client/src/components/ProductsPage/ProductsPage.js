@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './productsPage.css'
-import ProductCard from '../ProductCard/ProductCard';
-import { getAllProductsV2, getProducts } from '../../services/products';
+import ProductCard from './ProductCard/ProductCard';
+import { getAllProductsV2 } from '../../services/products';
 import { useNavigate } from 'react-router-dom';
 import { getAllCategories } from '../../services/productCategories';
 import { addProduct } from "../../services/cart";
@@ -32,7 +32,7 @@ function ProductsPage() {
         console.log(products)
         getAllProductsV2()
             .then((response) => {
-                console.log(response.data.data)
+                // console.log(response.data.data)
                 setProducts(response.data.data)
                 setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
             })
@@ -103,6 +103,8 @@ function ProductsPage() {
         navigate('/products/' + (product.id))
     }
 
+    // console.log(products);
+
 
     return (
         <div className="products-page">
@@ -137,12 +139,13 @@ function ProductsPage() {
                     if (product.product_variants.length === 0) {
                         return null
                     }
+                    console.log(product);
                     return (
                         <ProductCard key={product.id} customClickEvent={() => toProductPage(product)}
                             name={product.name} 
                             price={product.price}
                             cols={new Set(product.product_variants.map(a => a.color))}
-                            // image={`/images/${product.image[0].image_url}`}
+                            image={product.image}
                             addToCart={() => addToCartHandler(product)}>
                         </ProductCard>
                     )

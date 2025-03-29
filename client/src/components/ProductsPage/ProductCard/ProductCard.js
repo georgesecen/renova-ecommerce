@@ -1,13 +1,16 @@
 import './productCard.css';
 
 function ProductCard(props) {
-    const img = require('../../assets/images/hoodie2.png')
+    // const img = require('../../assets/images/hoodie2.png')
+
+    const imgUrl = props.image[0] ? `/images/${props.image[0].image_url}` : ''
+
     return (
         <div className='product-card'>
             <div className='card' onClick={props.customClickEvent}>
                 <div className="image">
-                    {/* <img src={props.image} alt={props.image}/> */}
-                    <img src={img} alt=""/>
+                    <img src={imgUrl} alt=""/>
+                    {/* <img src={img} alt=""/> */}
                 </div>
                 <div className="name">{props.name}</div>
                 <div className="price">{props.price}</div>
