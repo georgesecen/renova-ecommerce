@@ -4,11 +4,15 @@ import { useState } from 'react';
 import { useCart } from '../../../providers/CartContext';
 import {removeCartItem, updateCartItemQuantity} from "../../../services/cart";
 import ProductModal from "../../ProductModal";
+import {useUser} from "../../../providers/UserContext";
 
 function CartItem(props) {
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState({});
     const { updateCartQuantity } = useCart();
+    const { isLoggedIn } = useUser();
+
+    console.log("user logged in", isLoggedIn);
 
     const updateQuantityHandler = (item, newQuantity) => {
         if (newQuantity < 1) return;
