@@ -1,7 +1,6 @@
 import API from './axiosInstance';
 
 // Function to refresh the access token using the refresh token
-//TODO read over
 export const refreshAccessToken = async () => {
     try {
         const response = await API.post('/refresh-token', { withCredentials: true });

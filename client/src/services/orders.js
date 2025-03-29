@@ -21,3 +21,16 @@ export const adminOrdersService = async (operation, requestData = {}) => {
         console.log(error)
     }
 }
+
+/**
+ * Gets all the orders and all order details of user with specified id.
+ * @param {object} userId ID of user to get orders for.
+ * @returns {Promise<AxiosResponse>} AxiosResponse object.
+ */
+export const getUserOrders = async (userId) => {
+    try {
+        return await API.get(`/orders/user/${userId}`)
+    } catch(error){
+        console.log(error)
+    }
+}

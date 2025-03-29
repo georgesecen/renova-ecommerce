@@ -1,0 +1,35 @@
+
+.user-dash-statistics-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Nav bar which holds all the date range picker buttons */
+.statistics-navbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3em;
+    flex-wrap: wrap;
+}
+.statistics-navbar > button{
+    padding: 0.1em 0.35em 0.1em 0.35em;
+    border-radius: 0.3em;
+    border: none;
+    border: 1px solid #cee4e4;
+    background-color: #f4ffff;
+    color: black;
+
+    transition: all 0.2s ease-in-out;
+    transition-property: color, background-color
+}
+.statistics-navbar > button:hover{
+    background-color: #defdfd;
+    color: #004343;
+}
+.statistics-navbar > button.selected{
+    background-color: #defdfd;
+    color: #004343;
+}

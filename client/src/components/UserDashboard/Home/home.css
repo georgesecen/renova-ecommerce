@@ -1,0 +1,32 @@
+
+/* Container holds entire home sections */
+.user-dash-home{
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-dash-home > h1 {
+    font-size: 58px;
+    margin-bottom: 1em;
+}
+
+/* Logout button  */
+.user-dash-home > a {
+    width: 90px;
+    text-align: center;
+    margin-top: 10em;
+    padding: .6em .8em;
+    border-radius: .3em;
+    text-decoration: none;
+    font-weight: 500;
+    background-color: rgb(230, 98, 98);
+    color: white;
+    transition-duration: 300ms;
+    position: absolute;
+    bottom: 80px;
+}
+
+.user-dash-home > a:hover {
+    background-color: rgba(230, 98, 98, 0.577);
+}

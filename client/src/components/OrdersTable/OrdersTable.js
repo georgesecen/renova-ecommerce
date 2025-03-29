@@ -6,6 +6,12 @@ import ModalSpinner from '../ModalSpinner/ModalSpinner'
 import OrderForm from './OrderForm/OrderForm'
 import Checkbox from '../Checkbox/Checkbox'
 
+/**
+ * Gets all of the orders in the database. Displays all the information regarding each order in order
+ * card components. Gives the admin the ability to update order status and refund orders.
+ * @param {function} displayNotification Function which handles displaying toast notifications.
+ * @returns {React.JSX.Element} OrdersTable React component.
+ */
 const OrdersTable = ({displayNotification}) => {
 
   const [orders, setOrders] = useState([])
