@@ -1,3 +1,4 @@
+/* Website header  */
 div.header {
     height: 80px;
     font-family: Quicksand;
@@ -28,15 +29,23 @@ div.headerContent a:hover {
 /* Left logo section  */
 div.headerLogo {
     font-family: Italiana;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     width: 25%;
-    font-size: 28px;
+    font-size: 24px;
     text-align: left;
 }
 
 div.headerLogo img {
     width: 36px;
     padding: 0 10px 8px 0;
+}
+
+div.headerLogo a {
+    padding: 0;
+}
+
+div.headerLogo a:hover {
+    color: var(--text);
 }
 
 /* Middle nav section  */
