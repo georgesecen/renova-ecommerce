@@ -4,8 +4,11 @@ import { CgShoppingCart } from 'react-icons/cg'
 import '../assets/images/logo.png'
 import { useUser } from "../providers/UserContext";
 import { useCart } from "../providers/CartContext";
+import { useLocation } from 'react-router-dom';
 
 function Header() {
+    const location = useLocation()
+
     const { totalQuantity } = useCart();
     const { isLoggedIn } = useUser();
     const logo = require('../assets/images/logo.png');
@@ -16,7 +19,10 @@ function Header() {
           <div className="headerContent">
             <div className="headerLogo">
               <img src={logo} alt="" />
-              RENOVA
+              {
+                location.pathname !=='/' &&
+                <NavLink to='/'>RENOVA</NavLink>
+              }
             </div>
                 <div className="headerNav">
                     <NavLink to='/'>HOME</NavLink>
