@@ -25,7 +25,7 @@ const Orders = ({ orders }) => {
       <div className='order-items-container'>
         <div className='order-items-header'>
           <h5>Order #: {id}</h5>
-          <p>Order Details</p>
+          {/* <p>Order Details</p> */}
         </div>
         <p>{new Date(lastUpdated).toLocaleString("en-US")} | {status} | Total: ${total}</p>
 
@@ -42,7 +42,7 @@ const Orders = ({ orders }) => {
               return (
                 <li key={index}>
                   <p>{name}</p>
-                  <p>{color}-{size}-{gender}</p>
+                  <p>{color} {size} {gender}</p>
                   <p>Qty: {quantity}</p>
                 </li>
               )

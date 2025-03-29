@@ -1,13 +1,14 @@
 /* Contianer which holds every order item */
 .all-user-orders{
-    border: 1px solid rgb(120, 120, 120);
     width: 90%;
-    margin-bottom: 3em;
+    margin: 2em 0;
     max-width: 1200px;
 }
 
 /* Container which holds order header and all order items */
 .order-items-container{
+    margin-bottom: 30px;
+    border: 1px solid rgb(120, 120, 120);
 }
 
 /* List which contains order items apart of order */
@@ -26,7 +27,7 @@
 .order-items-container > ul > li{
     border-bottom: 1px solid rgb(120, 120, 120);
     padding: 0.5em;
-    background-color: black;
+    background-color: rgb(34, 34, 34);
 }
 .order-items-container > ul > li:last-of-type{
     /* So border does not show on last list item */
@@ -37,7 +38,7 @@
 /* Section which displays order status */
 .order-items-container > p{
     margin: 0;
-    background-color: rgb(48, 48, 48);
+    background-color: rgb(64, 64, 64);
     padding: 0.5em;
 }
 
@@ -46,13 +47,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(0, 74, 0);
+    background-color: rgb(197, 170, 152);
     padding: 0.5em;
-    border-top: 3px solid rgb(126, 188, 33);
+    /* border-top: 3px solid rgb(213, 200, 248); */
+    color: #1c1a12;
 }
 .order-items-header > h5{
     margin: 0;
 }
 .order-items-header > p{
     margin: 0;
+}
+
+@media screen and (max-width: 500px) {
+    /* Contianer which holds every order item */
+    .all-user-orders{
+        width: 100%;
+        margin: 1em 0;
+    }
 }
