@@ -38,7 +38,10 @@
     flex-direction: column;
     padding-top: 40px;
     padding-left: 40px;
-    overflow: scroll;
+    overflow: auto;
+
+    /* To make scroll bar look better on Windows */
+    scrollbar-width: thin; 
 }
 
 .products-page .side-nav p {
