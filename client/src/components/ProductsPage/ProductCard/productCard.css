@@ -41,8 +41,8 @@
 }
 .product-card .card:hover .image img {
     max-width: 13.2em;
+    max-height: 11.7em;
 }
-
 
 /* Product name and price */
 .product-card .card .name, .card .price {
