@@ -18,7 +18,7 @@ function ProductCard(props) {
         ['yellow', 'rgb(245, 240, 100)'],
         ['blue', 'rgb(154, 218, 229)'],
         ['purple', 'rgb(205, 148, 237)'],
-        ['pink', 'rgb(239, 152, 207)'],
+        ['pink', 'rgb(247, 144, 178)']
     ]);
 
     return (

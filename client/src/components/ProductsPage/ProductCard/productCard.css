@@ -14,7 +14,7 @@
     background-color: rgb(36, 36, 37);
     border-radius: 10px;
     position: relative;
-    padding-top: 2em;
+    /* padding-top: 2em; */
 
     transition-duration: 400ms;
     cursor: pointer;
@@ -27,7 +27,7 @@
 /* Card image containter */
 .product-card .card .image {
     width: 100%;
-    height: 10em;
+    height: 15em;
     display: flex;
     align-items: center;
     justify-content: center;
