@@ -7,6 +7,8 @@ import ProductModal from "../../ProductModal";
 import {useUser} from "../../../providers/UserContext";
 
 function CartItem(props) {
+    const imgUrl = props.img ? `http://localhost:3306/static/images/${props.img}` : '';
+
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState({});
     const { updateCartQuantity } = useCart();
@@ -62,10 +64,11 @@ function CartItem(props) {
                 console.error('Error removing cart item:', error);
             });
     };
+
     return (
         <div className="cart-item">
             <div className='image'>
-                <img src={`/images/${props.img}`} alt={`${props.name}_img`}/>
+                <img src={imgUrl} />
             </div>
             <div className='desc'>
                 <h3>{props.name}</h3>
