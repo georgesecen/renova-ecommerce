@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import {loadStripe} from '@stripe/stripe-js';
 import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout
 } from '@stripe/react-stripe-js';
-import { getCartItems } from "../services/cart";
-import { useUser } from "../providers/UserContext"
+import { getCartItems } from "../../services/cart";
+import { useUser } from "../../providers/UserContext"
+import "./checkoutForm.css"
 
 // Make sure to call loadStripe outside of a component’s render to avoid recreating the Stripe object on every render.
 // Stripe publishable key
@@ -22,6 +23,7 @@ const CheckoutForm = () => {
     const { user } = useUser()
     const userId = user === null ? null : user.userId
     const guestUserId = localStorage.getItem("guestUserId")
+    const [error, setError] = useState(false)
 
     // Function gets all products and quantities in customers cart
     // Returns Array<object> which contains product variant ids, and quantity
@@ -37,7 +39,7 @@ const CheckoutForm = () => {
                 }
             ))
           })
-          .catch((error) => console.log(error))
+          .catch((error) => {console.log(error); setError(true)})
         
         return cartProducts
     }
@@ -57,22 +59,34 @@ const CheckoutForm = () => {
           }),
         })
           .then((res) => res.json())
-          .then((data) => data.clientSecret);
+          .then((data) => data.clientSecret)
+          .catch((error) => {console.log(error); setError(true)})
     }   
 
     const options = {fetchClientSecret};
 
+    // If there was an error creating checkout session or getting cart items
+    // display error message to customer
+    if (error){
+      return (
+        <div className="checkout-form-error-container">
+          <h5>Something went wrong</h5>
+          <p>Please try again or contact the merchant.</p>
+        </div>
+      )
+    }
+
     // Return embeded Stripe form which will contain products in customers cart to be purchased
     // Note: The checkout form is an iframe 
     return (
-        <div id="checkout">
-            <EmbeddedCheckoutProvider
-            stripe={stripePromise}
-            options={options}
-            >
-            <EmbeddedCheckout />
-            </EmbeddedCheckoutProvider>
-        </div>
+      <div id="checkout">
+          <EmbeddedCheckoutProvider
+          stripe={stripePromise}
+          options={options}
+          >
+          <EmbeddedCheckout />
+          </EmbeddedCheckoutProvider>
+      </div>
     )
 }
 
