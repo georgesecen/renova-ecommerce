@@ -76,9 +76,12 @@ function CartItem(props) {
                 <p>{props.color}</p>
             </div>
             <div className='price'>${props.price}</div>
-            <button onClick={() => updateQuantityHandler(props.item, props.qty - 1)}>-</button>
-                {props.qty}
-            <button onClick={() => updateQuantityHandler(props.item, props.qty + 1)}>+</button>
+
+            <div className='qty'>
+                <button onClick={() => updateQuantityHandler(props.item, props.qty - 1)}>-</button>
+                    {props.qty}
+                <button onClick={() => updateQuantityHandler(props.item, props.qty + 1)}>+</button>
+            </div>
 
             <FaTrash className="removeBtn" type={"submit"} onClick={() => removeFromCartHandler(props.item)}/>
             <ProductModal
