@@ -41,6 +41,22 @@ function ProductDetails() {
   const user_id = user;
   const guest_user_id = localStorage.getItem("guestUserId");
 
+  // Colour map
+  let colourMap = new Map([
+    ['black', 'rgb(26, 26, 26)'],
+    ['grey', 'rgb(123, 123, 123)'],
+    ['white', 'rgb(247, 254, 255)'],
+    ['beige', 'rgb(228, 192, 162)'],
+    ['brown', 'rgb(141, 100, 87)'],
+    ['red', 'rgb(220, 21, 21)'],
+    ['orange', 'rgb(238, 157, 51)'],
+    ['green', 'rgb(164, 216, 114)'],
+    ['yellow', 'rgb(245, 240, 100)'],
+    ['blue', 'rgb(154, 218, 229)'],
+    ['purple', 'rgb(205, 148, 237)'],
+    ['pink', 'rgb(247, 144, 178)'],
+]);
+
   /**
    * This function handles a color change. It will:
    * 
@@ -91,8 +107,6 @@ function ProductDetails() {
     setSeletedVariant(variant)
     setStockQty(variant.stock_quantity);
   }
-
-  // console.log(stockQty)
 
 
   /**
@@ -180,7 +194,6 @@ function ProductDetails() {
             product_variant_id: selectedVariant.id,
             quantity: 1,
         };
-        // console.log(productData);
         addProduct(productData)
             .then(() => {
                 // Update the cart quantity both in context and localStorage
@@ -206,7 +219,6 @@ function ProductDetails() {
             // image: `/images/${product.image[0].image_url}`,
         });
         setShowModal(true)
-        console.log("Modal state:", showModal);
     };
 
     return (
@@ -243,7 +255,7 @@ function ProductDetails() {
 
               {Array.from(cols.current).map((col) => (
                 <div key={col} className={colour === col ? "colour-option active" : "colour-option"} onClick={() => selectColour(col)}>
-                  <div style={{background: col}}></div>
+                  <div style={{background: colourMap.get(col)}}></div>
                 </div>
               ))}
             </div>

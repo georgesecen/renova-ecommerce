@@ -14,7 +14,7 @@
     background-color: rgb(36, 36, 37);
     border-radius: 10px;
     position: relative;
-    padding-top: 2em;
+    /* padding-top: 2em; */
 
     transition-duration: 400ms;
     cursor: pointer;
@@ -24,31 +24,36 @@
     background-color: rgb(42, 42, 43);
 }
 
-/* Card image styless  */
+/* Card image containter */
+.product-card .card .image {
+    width: 100%;
+    height: 15em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+/* Card image */
 .product-card .card .image img {
-    max-width: 8.5em;
-    margin: auto;
-    display: block;
+    max-width: 12.5em;
+    max-height: 11em;
     transition-duration: 400ms;
 }
 .product-card .card:hover .image img {
-    max-width: 9.3em;
+    max-width: 13.2em;
+    max-height: 11.7em;
 }
 
-/* Card detail styles  */
-
+/* Product name and price */
 .product-card .card .name, .card .price {
     position: absolute;
     bottom: 5%;
     font-size: 13px;
     color: var(--text);
 }
-
 .product-card .card .name {
     left: 5%;
 }
-
 .product-card .card .price {
     right: 5%;
 }
@@ -64,7 +69,7 @@
     font-size: 8px;
 }
 .product-card .colour-option:hover {
-    border: none;
+    cursor: default;
 }
 
 @media screen and (max-width: 1000px){

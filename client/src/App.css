@@ -16,6 +16,7 @@
 :root {
     --text: #dadadc;
     --bg: #333333;
+    background-color: #1f1f1f;
 }
 
 div.App {
