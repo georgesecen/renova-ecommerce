@@ -1,6 +1,8 @@
 const StripeProduct = require("../models/stripeProductModel")
 const StripePrice = require("../models/stripePriceModel")
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2024-12-18.acacia",
+})
 
 
 /**

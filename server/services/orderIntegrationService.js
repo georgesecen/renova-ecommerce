@@ -2,7 +2,9 @@ const Order = require("../models/orderModel")
 const OrderItem = require("../models/orderItemModel")
 const ShippingAddress = require("../models/ShippingAddressModel")
 const ProductVariantModel = require("../models/productVariantModel")
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2024-12-18.acacia",
+})
 
 /**
  * Create an order based on the items purchased from a Stripe checkout session. Creates an order, shipping, 
