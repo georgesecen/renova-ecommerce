@@ -6,8 +6,13 @@ import {removeCartItem, updateCartItemQuantity} from "../../../services/cart";
 import ProductModal from "../../ProductModal";
 import {useUser} from "../../../providers/UserContext";
 
+// Default image which will be used for cart items with no product image available
+const defaultImage = require("../../../assets/images/default-cart-image.png")
+
 function CartItem(props) {
-    const imgUrl = props.img ? `http://localhost:3306/static/images/${props.img}` : '';
+
+    // If cart item has no image display default image in its place
+    const imgUrl = props.img ? `http://localhost:3306/static/images/${props.img}` : defaultImage;
 
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState({});
