@@ -5,7 +5,10 @@ export const getCartItems = async () => {
     console.log("getting guest user id from local storage in axios", guestUserId)
     try {
         const response = await API.get("/cart", {
-        headers : { 'guest-user-id': guestUserId },
+        headers : {
+            'Content-Type': 'application/json',
+            'guest-user-id': guestUserId
+        },
         withCredentials: true});
         console.log("response data from cart service file:", response.data)
         return response.data;
@@ -19,7 +22,10 @@ export const getCartItemQuantity = async () => {
     const guestUserId = localStorage.getItem('guestUserId');
     try {
         const response = await API.get('/cart/quantity', {
-            headers: { 'guest-user-id': guestUserId },
+            headers: {
+                'Content-Type': 'application/json',
+                'guest-user-id': guestUserId
+            },
             withCredentials: true,
         });
         console.log("cart quantity: ",response);
@@ -34,7 +40,10 @@ export const updateCartItemQuantity = async (cartItemId, quantity) => {
     const guestUserId = localStorage.getItem('guestUserId');
     try {
         const response = await API.patch(`/cart/${cartItemId}`, { quantity }, {
-            headers: { 'guest-user-id': guestUserId },
+            headers: {
+                'Content-Type': 'application/json',
+                'guest-user-id': guestUserId
+            },
             withCredentials: true
         });
         console.log("Updated cart item quantity:", response.data);
@@ -50,7 +59,10 @@ export const addProduct = (product) => {
     const guestUserId = localStorage.getItem('guestUserId'); // Retrieve guest ID
 
     return API.post("/cart", product, {
-        headers: { 'guest-user-id': guestUserId }, // Corrected headers structure
+        headers: {
+            'Content-Type': 'application/json',
+            'guest-user-id': guestUserId
+        },
         withCredentials: true
     });
 };
@@ -59,7 +71,10 @@ export const removeCartItem = (cartItem) => {
     console.log("guest user id from delete request",guestUserId)
     console.log(`Attempting to delete /cart/${cartItem.cart_item_id}`);
     return API.delete(`/cart/${cartItem.cart_item_id}`, {
-        headers: { 'guest-user-id': guestUserId },
+        headers: {
+            'Content-Type': 'application/json',
+            'guest-user-id': guestUserId
+        },
         withCredentials: true,
         data: {
             product_id: cartItem.cart_item_id,
