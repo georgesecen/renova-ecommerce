@@ -32,7 +32,6 @@ function ProductsPage() {
         console.log(products)
         getAllProductsV2()
             .then((response) => {
-                console.log(response.data.data)
                 setProducts(response.data.data)
                 setTimeout(() => setLoading(false), 100);  // Show spinner for 200ms
             })
