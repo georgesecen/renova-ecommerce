@@ -6,20 +6,35 @@ import {removeCartItem, updateCartItemQuantity} from "../../../services/cart";
 import ProductModal from "../../ProductModal";
 import {useUser} from "../../../providers/UserContext";
 
+// Default image which will be used for cart items with no product image available
+const defaultImage = require("../../../assets/images/default-cart-image.png")
+
 function CartItem(props) {
-    const imgUrl = props.img ? `http://localhost:3306/static/images/${props.img}` : '';
+
+    // If cart item has no image display default image in its place
+    const imgUrl = props.img ? `http://localhost:3306/static/images/${props.img}` : defaultImage;
 
     const [showModal, setShowModal] = useState(false);
     const [modalContent, setModalContent] = useState({});
     const { updateCartQuantity } = useCart();
     const { isLoggedIn } = useUser();
 
+    // Keep track if the cart item quantity is currently being updated. This way if the user spams the
+    // increment/decrement button there will be no concurrency problems.
+    const [quantityUpdating, setQuantityUpdating] = useState(false)
+
     console.log("user logged in", isLoggedIn);
 
-    const updateQuantityHandler = (item, newQuantity) => {
+    const updateQuantityHandler = async (item, newQuantity) => {
         if (newQuantity < 1) return;
 
-        updateCartItemQuantity(item.cart_item_id, newQuantity)
+        // If the quantity is currently being updated
+        if (quantityUpdating) return
+   
+        // Otherwise the quantity is now being updated
+        setQuantityUpdating(true)
+
+        await updateCartItemQuantity(item.cart_item_id, newQuantity)
             .then(() => {
                 props.setItems((prevItems) =>
                     prevItems.map((prevItem) =>
@@ -38,6 +53,10 @@ function CartItem(props) {
             })
             .catch((error) => {
                 console.error('Error updating cart item quantity:', error);
+            })
+            .finally(() => {
+                // The quantity is done updating
+                setQuantityUpdating(false)
             });
     };
 

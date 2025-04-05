@@ -1,5 +1,7 @@
 const { createOrder } = require("../services/orderIntegrationService")
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2024-12-18.acacia",
+})
 
 // TODO: Create webhook which only listens to events we need as it is unnecessary to listen to
 // every single event from Stripe
