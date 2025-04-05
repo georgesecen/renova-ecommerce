@@ -6,7 +6,7 @@
 }
 
 .home-page .section {
-    height: calc(100vh - 80px);
+    min-height: calc(100vh - 80px);
     display: flex;
 }
 
@@ -86,7 +86,6 @@
         flex-direction: column;
         flex-wrap: nowrap;
         justify-content: flex-start;
-        height: calc(100vh - 140px);
     }
 
     /* Text container  */

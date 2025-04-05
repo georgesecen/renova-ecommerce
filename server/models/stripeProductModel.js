@@ -1,7 +1,8 @@
 const { setTimeout }  = require("node:timers/promises")
 
-// TODO: Import specific stripe api version
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2024-12-18.acacia",
+})
 
 class StripeProduct{
 

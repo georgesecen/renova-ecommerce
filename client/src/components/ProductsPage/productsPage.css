@@ -16,15 +16,16 @@
 
 .products-page .side-nav-btn {
     display: none;
-    width: 75px;
-    height: 50px;
+    width: 100%;
+    height: 30px;
     position: absolute;
     cursor: pointer;
     font-size: 14px;
-    z-index: 3;
+    z-index: 2;
     cursor: pointer;
-    left: 18px;
-    top: 70px
+    top: 70px;
+    background-color: rgb(25, 25, 25);
+    padding-left: 25px;
 }
 
 .products-page .side-nav-btn:hover {
@@ -36,6 +37,11 @@
     display: flex;
     flex-direction: column;
     padding-top: 40px;
+    padding-left: 40px;
+    overflow: auto;
+
+    /* To make scroll bar look better on Windows */
+    scrollbar-width: thin; 
 }
 
 .products-page .side-nav p {
@@ -53,7 +59,7 @@
     font-size: 13px;
     font-weight: 400;
     letter-spacing: 2px;
-    padding-left: 4px;
+    padding-left: 0;
     margin-bottom: 5em;
 }
 
@@ -91,7 +97,7 @@
 /* Media queries  */
 
 @media screen and (max-width: 960px) {
-    .products-page .products-list {
+    .products-page .products-list, .products-page .content {
         justify-content: center;
     }
 }
@@ -112,6 +118,7 @@
         left: 0;
         top: 95px;
         transition-duration: 120ms;
+        padding-left: 0;
     }
     .products-page .side-nav ul, .products-page .side-nav p {
         display: none;
