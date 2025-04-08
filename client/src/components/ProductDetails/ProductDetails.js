@@ -96,19 +96,18 @@ function ProductDetails() {
    * Sets size given only if it is available
    * for the selected colour
    * 
-   * @param {*} s size
+   * @param {String} s size
    */
   function selectSize(s){
-    if(sizesAvailable.current.has(s)){
-      setSize(s)
-    }
+      if(sizesAvailable.current.has(s)){
+        setSize(s)
 
-    const variant = variants.filter(product => product.color == colour && product.size == s)[0]
-    setSeletedVariant(variant)
-    setStockQty(variant.stock_quantity);
+        const variant = variants.filter(product => product.color == colour && product.size == s)[0]
+        setSeletedVariant(variant)
+        setStockQty(variant.stock_quantity);
+      }
   }
-
-
+  
   /**
    * This method on page load fetches the product information of the viewed product,
    * stores all variants associated with it, stores all sizes and colours available,
