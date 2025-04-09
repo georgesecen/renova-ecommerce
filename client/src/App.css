@@ -27,4 +27,9 @@ div.App {
     background-position: center;
     font-family: Quicksand;
     color: var(--text);
+
+    /* Prevent text selection */
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
