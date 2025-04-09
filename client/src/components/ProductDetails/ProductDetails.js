@@ -1,15 +1,15 @@
+import Toast from 'react-bootstrap/Toast';
 import './productDetails.css'
 import './sizeOption.css';
 import './colourOption.css';
 import Carousel from 'react-bootstrap/Carousel';
-import { redirect, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { getProductInfo } from '../../services/products';
 import ImageOption from './ImageOption/ImageOption';
 import { addProduct } from "../../services/cart";
 import { useCart } from "../../providers/CartContext";
 import { useUser } from "../../providers/UserContext";
-import ProductModal from '../ProductModal';
 import { useNavigate } from 'react-router-dom';
 
 function ProductDetails() {
@@ -33,8 +33,8 @@ function ProductDetails() {
   const sizesAvailable = useRef(new Set());   // Holds sizes available for currently selected colour
   const info = useRef({name: "", price: "", desc: "", gender: ""});
 
-  const [showModal, setShowModal] = useState(false);
-  const [modalContent, setModalContent] = useState({});
+  const [showToast, setShowToast] = useState(false);
+  const [toastContent, setToastContent] = useState({});
   const { updateCartQuantity } = useCart();
   const { user, isLoggedIn } = useUser();
 
@@ -96,19 +96,18 @@ function ProductDetails() {
    * Sets size given only if it is available
    * for the selected colour
    * 
-   * @param {*} s size
+   * @param {String} s size
    */
   function selectSize(s){
-    if(sizesAvailable.current.has(s)){
-      setSize(s)
-    }
+      if(sizesAvailable.current.has(s)){
+        setSize(s)
 
-    const variant = variants.filter(product => product.color == colour && product.size == s)[0]
-    setSeletedVariant(variant)
-    setStockQty(variant.stock_quantity);
+        const variant = variants.filter(product => product.color == colour && product.size == s)[0]
+        setSeletedVariant(variant)
+        setStockQty(variant.stock_quantity);
+      }
   }
-
-
+  
   /**
    * This method on page load fetches the product information of the viewed product,
    * stores all variants associated with it, stores all sizes and colours available,
@@ -213,12 +212,10 @@ function ProductDetails() {
             });
             
         // Show success message
-        setModalContent({
-            title: "Product Added to Cart",
-            message: `${info.current.name} has been successfully added to your cart.`,
-            // image: `/images/${product.image[0].image_url}`,
+        setToastContent({
+            message: `${info.current.name} ${size.toUpperCase()} ${colour.toUpperCase()}`,
         });
-        setShowModal(true)
+        setShowToast(true)
     };
 
     return (
@@ -278,15 +275,14 @@ function ProductDetails() {
 
             <h5>PRODUCT DESCRIPTION</h5>
             <p>{info.current.desc}</p>
-
         </div>
-        <ProductModal
-                show={showModal}
-                onHide={() => setShowModal(false)}
-                title={modalContent.title}
-                message={modalContent.message}
-                // image={modalContent.image}
-            />
+
+        <Toast onClose={() => setShowToast(false)} position={'top-end'} show={showToast} delay={3000} autohide>
+          <Toast.Header>
+            <strong className="me-auto">ADDED TO CART</strong>
+          </Toast.Header>
+          <Toast.Body>{toastContent.message}</Toast.Body>
+        </Toast>
       </div>
     );
   }
