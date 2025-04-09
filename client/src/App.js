@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
-import Header from "./components/Header";
+import Header from "./components/Navigation/Header/Header";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
 import Home from "./components/HomePage/Home";
 import ProductsPage from "./components/ProductsPage/ProductsPage";
@@ -10,7 +10,7 @@ import Return from "./pages/Return/Return";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
-import BottomNavBar from "./components/BottomNavBar";
+import BottomNavBar from "./components/Navigation/BottomNav/BottomNavBar";
 import { PageNotFound } from "./pages/PageNotFound";
 import UserDashboard from "./components/UserDashboard/UserDashboard";
 import Admin from "./pages/Admin/Admin";
