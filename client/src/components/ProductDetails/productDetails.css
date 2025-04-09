@@ -142,11 +142,12 @@
     display: none;
 }
 
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 1080px) {
     .detailsPage {
         justify-content: flex-start;
         flex-wrap: wrap;
         align-content: flex-start;
+        max-width: 600px;
     }
     .detailsPage {
         padding-top: 20px;
@@ -156,6 +157,8 @@
     }
     .detailsPage .selectedImg {
         font-size: 12px;
+        margin-left: auto;
+        margin-right: auto;
     }
     .detailsPage .details {
         width: 100%;
