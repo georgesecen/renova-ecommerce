@@ -11,7 +11,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BottomNavBar from "./components/Navigation/BottomNav/BottomNavBar";
-import { PageNotFound } from "./pages/PageNotFound";
+import { PageNotFound } from "./components/PageNotFound/PageNotFound";
 import UserDashboard from "./components/UserDashboard/UserDashboard";
 import Admin from "./pages/Admin/Admin";
 import CartPage from "./components/CartPage/CartPage";
