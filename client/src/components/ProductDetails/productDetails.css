@@ -121,6 +121,27 @@
 
 }
 
+/* Toast notification  */
+.detailsPage .toast {
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    width: 240px;
+    height: 100px;
+    background-color: rgb(46, 46, 46);
+    font-size: .8em;
+}
+
+.detailsPage .toast-header {
+    background-color: rgb(63, 63, 63);
+    color: var(--text);
+    font-weight: 100;
+}
+
+.detailsPage .toast-header .btn-close {
+    display: none;
+}
+
 @media screen and (max-width: 780px) {
     .detailsPage {
         justify-content: flex-start;
