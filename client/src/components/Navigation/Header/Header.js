@@ -1,9 +1,9 @@
 import { NavLink } from 'react-router-dom'
-import '../styles/header.css'
+import './header.css'
 import { CgShoppingCart } from 'react-icons/cg'
-import '../assets/images/logo.png'
-import { useUser } from "../providers/UserContext";
-import { useCart } from "../providers/CartContext";
+import '../../../assets/images/logo.png'
+import { useUser } from "../../../providers/UserContext";
+import { useCart } from "../../../providers/CartContext";
 import { useLocation } from 'react-router-dom';
 
 function Header() {
@@ -11,7 +11,7 @@ function Header() {
 
     const { totalQuantity } = useCart();
     const { isLoggedIn } = useUser();
-    const logo = require('../assets/images/logo.png');
+    const logo = require('../../../assets/images/logo.png');
     console.log(isLoggedIn);
 
     return (

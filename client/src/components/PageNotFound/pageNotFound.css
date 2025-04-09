@@ -1,0 +1,16 @@
+div.not-found-page {
+    padding-top: 120px;
+    min-height: calc(100vh - 80px);
+    text-align: center;
+}
+
+div.not-found-page h1 {
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 100;
+    line-height: 2em;
+}
+
+div.not-found-page p {
+    font-size: .9rem;
+}

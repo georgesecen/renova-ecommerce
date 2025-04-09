@@ -3,7 +3,6 @@ import {FaTrash} from "react-icons/fa";
 import { useState } from 'react';
 import { useCart } from '../../../providers/CartContext';
 import {removeCartItem, updateCartItemQuantity} from "../../../services/cart";
-import ProductModal from "../../ProductModal";
 import {useUser} from "../../../providers/UserContext";
 
 // Default image which will be used for cart items with no product image available
@@ -14,8 +13,6 @@ function CartItem(props) {
     // If cart item has no image display default image in its place
     const imgUrl = props.img ? `http://localhost:3306/static/images/${props.img}` : defaultImage;
 
-    const [showModal, setShowModal] = useState(false);
-    const [modalContent, setModalContent] = useState({});
     const { updateCartQuantity } = useCart();
     const { isLoggedIn } = useUser();
 
@@ -72,12 +69,6 @@ function CartItem(props) {
 
                 updateCartQuantity(newQuantity);
                 localStorage.setItem('cartQuantity', newQuantity);
-
-                setShowModal(true);
-                setModalContent({
-                    title: `Removed ${item.product_name}`,
-                    message: `Removed ${item.product_name} from cart`,
-                });
             })
             .catch((error) => {
                 console.error('Error removing cart item:', error);
@@ -103,13 +94,6 @@ function CartItem(props) {
             </div>
 
             <FaTrash className="removeBtn" type={"submit"} onClick={() => removeFromCartHandler(props.item)}/>
-            <ProductModal
-                show={showModal}
-                onHide={() => setShowModal(false)}
-                title={modalContent.title}
-                message={modalContent.message}
-                image={modalContent.image}
-            />
         </div>
     )
 }
