@@ -7,7 +7,9 @@ exports.getAllCartItems = async (req, res) => {
     try {
         // console.log("Received headers:", req.headers);
         const userId = req.user?.userId || null;
-        const guestUserId = req.user?.guestUserId || null;
+        // const guestUserId = req.user?.guestUserId || null;
+        const guestUserId = req.query.guestUserId || null;
+        console.log("get all cart items request", req)
         console.log(`Authenticated User ID: ${userId}`);
         console.log(`Guest User ID: ${guestUserId}`);
 

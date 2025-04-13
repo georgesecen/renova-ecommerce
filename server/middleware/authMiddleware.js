@@ -5,12 +5,12 @@ const authenticateJWT = (req, res, next) => {
 
     console.log("Received token:", token);
     console.log(req.cookies);
+        console.log("auth request", req)
 
     if (!token) {
         console.warn("No token provided. Proceeding as unauthenticated user.");
 
         const guestUserId = req.body.guest_user_id || req.query.guest_user_id || req.headers['guest-user-id'];
-
         if (guestUserId) {
             console.log("Guest user detected:", guestUserId);
             req.user = { guestUserId, isGuest: true };
