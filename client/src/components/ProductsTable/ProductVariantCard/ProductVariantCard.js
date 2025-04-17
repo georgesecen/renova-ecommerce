@@ -58,7 +58,6 @@ const ProductVariantCard = ({
         {
           [...images].map((image, index) => {
             return (
-              // TODO: Change to actual server url
               <img alt="product" key={index} src={`${IMAGE_BASE_URL}${image}`}/>
             )
           })

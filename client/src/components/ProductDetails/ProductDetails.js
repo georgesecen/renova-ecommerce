@@ -224,7 +224,7 @@ function ProductDetails() {
           {images.map((image, index) => (
               <ImageOption 
                 key={index} 
-                imageUrl={`http://localhost:3306/static/images/${image.image_url}`} 
+                imageUrl={`${process.env.REACT_APP_BASE_URL}/static/images/${image.image_url}`} 
                 clickEvent={() => setSelectedImage(index)}
               />
             ))}
@@ -235,7 +235,7 @@ function ProductDetails() {
             {images.map((image, index) => (
               <Carousel.Item key={index}> 
                 <img 
-                  src={`http://localhost:3306/static/images/${image.image_url}`}
+                  src={`${process.env.REACT_APP_BASE_URL}/static/images/${image.image_url}`}
                   alt="" 
                 />
               </Carousel.Item>

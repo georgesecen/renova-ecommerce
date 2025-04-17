@@ -79,7 +79,7 @@ export default function ContactForm() {
 
         if (validateForm()) {
             setIsLoading(true);
-            const response = await fetch("http://localhost:3306/api/send-email", {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/send-email`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

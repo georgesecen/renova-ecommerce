@@ -48,8 +48,7 @@ const CheckoutForm = () => {
     async function fetchClientSecret(){
         const cartProducts = await getCartProducts()
         
-        // TODO: Change url to server url
-        return fetch("http://localhost:3306/stripe/create-checkout-session", {
+        return fetch(`${process.env.REACT_APP_BASE_URL}/stripe/create-checkout-session`, {
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
