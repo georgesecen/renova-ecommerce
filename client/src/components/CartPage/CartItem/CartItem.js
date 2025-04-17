@@ -11,7 +11,7 @@ const defaultImage = require("../../../assets/images/default-cart-image.png")
 function CartItem(props) {
 
     // If cart item has no image display default image in its place
-    const imgUrl = props.img ? `http://localhost:3306/static/images/${props.img}` : defaultImage;
+    const imgUrl = props.img ? `${process.env.REACT_APP_BASE_URL}/static/images/${props.img}` : defaultImage;
 
     const { updateCartQuantity } = useCart();
     const { isLoggedIn } = useUser();

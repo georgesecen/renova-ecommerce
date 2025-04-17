@@ -10,6 +10,9 @@ const addIcon = require("../../../assets/icons/add.png")
 const deleteIcon = require("../../../assets/icons/delete.png")
 const imageIcon = require("../../../assets/icons/image.png")
 
+// Base url to get images from server
+const IMAGE_BASE_URL = `${process.env.REACT_APP_BASE_URL}/static/images/`
+
 /**
  * Product card which displays all product information. Card also provides the ability to perform various
  * actions regarding the product in this product card. (CRUD operations etc)
@@ -70,8 +73,7 @@ const ProductCard = ({
           {
             productImages.map((image, index) => {
               return (
-                // TODO: Change to actual server url
-                <img alt="product" key={index} src={`http://localhost:3306/static/images/${image}`}/>
+                <img alt="product" key={index} src={`${IMAGE_BASE_URL}${image}`}/>
               )
             })
           }

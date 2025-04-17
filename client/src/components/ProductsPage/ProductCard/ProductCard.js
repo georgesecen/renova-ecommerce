@@ -3,7 +3,7 @@ import './productCard.css';
 function ProductCard(props) {
 
     // If it has an image, get its url
-    const imgUrl = props.image[0] ? `http://localhost:3306/static/images/${props.image[0].image_url}` : ''
+    const imgUrl = props.image[0] ? `${process.env.REACT_APP_BASE_URL}/static/images/${props.image[0].image_url}` : ''
 
     // Colour map
     let colourMap = new Map([
