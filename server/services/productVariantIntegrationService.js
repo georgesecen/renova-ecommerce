@@ -109,18 +109,21 @@ exports.addDatabaseAndStripeProductVariantImage = async (productId, productVaria
             image_url: fileName
         })
 
-        // Get product variant from Stripe
-        const product = await StripeProduct.findById(`${productVariantId}`)
+        // Below code will only work if images are hosted on live server or S3 bucket, as Stripe
+        // cannot get images for products on localhost. Stripe will use default images for products.
 
-        // Get path to image on server
-        const serverPath = path.dirname(__dirname)
-        const imagePath = path.join(serverPath, "public", "images", fileName) 
+        // // Get product variant from Stripe
+        // const product = await StripeProduct.findById(`${productVariantId}`)
 
-        // Add image to Stripe product variant
-        // TODO: Uncomment next line which adds actual image url (server cannot be localhost)
-        // product.images.push(imagePath)
-        product.images.push("https://google.com")
-        await product.update()
+        // // Get path to image on server
+        // const serverPath = path.dirname(__dirname)
+        // const imagePath = path.join(serverPath, "public", "images", fileName) 
+
+        // // Add image to Stripe product variant
+        // // TODO: Uncomment next line which adds actual image url (server cannot be localhost)
+        // // product.images.push(imagePath)
+        // product.images.push("https://google.com")
+        // await product.update()
 
     } catch(error){
         throw new Error(`Error in productVariantIntegrationService.js function addDatabaseAndStripeProductVariantImage: ${error}`)
@@ -143,18 +146,21 @@ exports.removeDatabaseAndStripeProductVariantImage = async (productVariantId, fi
             }
         })
 
-        // Get product variant from Stripe
-        const product = await StripeProduct.findById(`${productVariantId}`)
+        // Below code will only work if images are hosted on live server or S3 bucket, as Stripe
+        // cannot get images for products on localhost
 
-        // Get path to where image was is on server
-        const serverPath = path.dirname(__dirname)
-        const imagePath = path.join(serverPath, "public", "images", fileName) 
+        // // Get product variant from Stripe
+        // const product = await StripeProduct.findById(`${productVariantId}`)
 
-        // Remove image from Stripe product variant
-        if (product.images.includes(imagePath)){
-            product.images.splice(product.images.indexOf(imagePath), 1)
-            await product.update()
-        } 
+        // // Get path to where image was is on server
+        // const serverPath = path.dirname(__dirname)
+        // const imagePath = path.join(serverPath, "public", "images", fileName) 
+
+        // // Remove image from Stripe product variant
+        // if (product.images.includes(imagePath)){
+        //     product.images.splice(product.images.indexOf(imagePath), 1)
+        //     await product.update()
+        // } 
 
     } catch(error){
         throw new Error(`Error in productVariantIntegrationService.js function removeDatabaseAndStripeProductVariantImage: ${error}`)
@@ -194,15 +200,18 @@ exports.cloneProductVariantImages = async (productVariantId, sourceProductVarian
             // TODO: Add image path before image name
             imageUrls.push(copiedImage.image_url)
         }
-        
-        // Get product variant from Stripe
-        const product = await StripeProduct.findById(`${productVariantId}`)
 
-        // Replace images of product variant to those of target product variant on Stripe
-        // TODO: Uncomment next line which adds actual image urls (server cannot be localhost)
-        // product.images = imageUrls
-        product.images = ["https://google.com"]
-        await product.update()
+        // Below code will only work if images are hosted on live server or S3 bucket, as Stripe
+        // cannot get images for products on localhost
+        
+        // // Get product variant from Stripe
+        // const product = await StripeProduct.findById(`${productVariantId}`)
+
+        // // Replace images of product variant to those of target product variant on Stripe
+        // // TODO: Uncomment next line which adds actual image urls (server cannot be localhost)
+        // // product.images = imageUrls
+        // product.images = ["https://google.com"]
+        // await product.update()
 
     } catch(error){
         throw new Error(`Error in productVariantIntegrationService.js function cloneProductVariantImages: ${error}`)
