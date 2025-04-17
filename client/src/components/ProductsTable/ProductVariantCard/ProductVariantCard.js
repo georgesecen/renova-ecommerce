@@ -6,6 +6,9 @@ import ActionButton from '../../ActionButton/ActionButton'
 const editIcon = require("../../../assets/icons/edit.png")
 const imageIcon = require("../../../assets/icons/image.png")
 
+// Base url to get images from server
+const IMAGE_BASE_URL = "http://localhost:8080/static/images/"
+
 // Note: This component is really a product variant group card component. 
 // TODO: Change name to product variant group card
 
@@ -56,7 +59,7 @@ const ProductVariantCard = ({
           [...images].map((image, index) => {
             return (
               // TODO: Change to actual server url
-              <img alt="product" key={index} src={`http://localhost:3306/static/images/${image}`}/>
+              <img alt="product" key={index} src={`${IMAGE_BASE_URL}${image}`}/>
             )
           })
         }

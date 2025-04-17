@@ -6,6 +6,9 @@ import Modal from 'react-bootstrap/Modal';
 const trashIcon = require("../../../assets/icons/trash.png")
 const imageUploadIcon = require("../../../assets/icons/image-upload.png")
 
+// Base url to get images from server
+const IMAGE_BASE_URL = "http://localhost:8080/static/images/"
+
 /**
  * Form which adds product images or product variant group images.
  * @param {boolean} show True if the form is to be displayed, otherwise false.
@@ -147,7 +150,7 @@ const ImageForm = ({
             productImages.map((image, index) => {
               return (
                 <div key={index} onClick={() => setImageToDelete(imageToDelete === image ? null : image)} className={`image-container ${imageToDelete === image ? "show" : ""}`}>
-                  <img src={`http://localhost:3306/static/images/${image}`} alt='product'/>
+                  <img src={`${IMAGE_BASE_URL}${image}`} alt='product'/>
 
                   {/* Image delete button */}
                   <button onClick={(event) => {
