@@ -7,7 +7,7 @@ const trashIcon = require("../../../assets/icons/trash.png")
 const imageUploadIcon = require("../../../assets/icons/image-upload.png")
 
 // Base url to get images from server
-const IMAGE_BASE_URL = "http://localhost:8080/static/images/"
+const IMAGE_BASE_URL = `${process.env.REACT_APP_BASE_URL}/static/images/`
 
 /**
  * Form which adds product images or product variant group images.

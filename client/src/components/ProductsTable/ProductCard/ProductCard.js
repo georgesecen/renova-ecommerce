@@ -11,7 +11,7 @@ const deleteIcon = require("../../../assets/icons/delete.png")
 const imageIcon = require("../../../assets/icons/image.png")
 
 // Base url to get images from server
-const IMAGE_BASE_URL = "http://localhost:8080/static/images/"
+const IMAGE_BASE_URL = `${process.env.REACT_APP_BASE_URL}/static/images/`
 
 /**
  * Product card which displays all product information. Card also provides the ability to perform various

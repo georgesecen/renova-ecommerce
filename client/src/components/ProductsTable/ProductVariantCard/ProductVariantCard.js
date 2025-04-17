@@ -7,7 +7,7 @@ const editIcon = require("../../../assets/icons/edit.png")
 const imageIcon = require("../../../assets/icons/image.png")
 
 // Base url to get images from server
-const IMAGE_BASE_URL = "http://localhost:8080/static/images/"
+const IMAGE_BASE_URL = `${process.env.REACT_APP_BASE_URL}/static/images/`
 
 // Note: This component is really a product variant group card component. 
 // TODO: Change name to product variant group card
