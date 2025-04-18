@@ -17,7 +17,15 @@ const CreateCategoryForm = ({ show, setShow, setLoading, setLoadCategories, disp
 
   // Gets data from form and creates product category
   function processFormData(){
-    const formData = new FormData(document.getElementById("create-category-form"))
+    const form = document.getElementById("create-category-form")
+
+    // If form is invalid display what form inputs are missing to admin
+    if (!form.checkValidity()){
+        form.reportValidity()
+        return
+    }
+
+    const formData = new FormData(form)
     const entries = Object.fromEntries(formData.entries()) // Get key value pairs (Keys being form feild names)
 
     // Create product category
@@ -26,6 +34,9 @@ const CreateCategoryForm = ({ show, setShow, setLoading, setLoadCategories, disp
       .then((response) => displayNotification("Create", response.data.message))
       .catch((error) => displayNotification("Create", `${error}`, "danger"))
       .finally(() => {setLoading(false); setLoadCategories(true)})  
+    
+    // Close form
+    setShow(false)
   }
 
 
@@ -45,7 +56,7 @@ const CreateCategoryForm = ({ show, setShow, setLoading, setLoadCategories, disp
             <Button variant="secondary" onClick={() => setShow(false)}>
                 Close
             </Button>
-            <Button variant="primary" onClick={() => {setShow(false); processFormData()}}>
+            <Button variant="primary" onClick={() => processFormData()}>
                 Create
             </Button>
         </Modal.Footer>
