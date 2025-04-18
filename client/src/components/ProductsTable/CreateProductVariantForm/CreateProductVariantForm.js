@@ -52,7 +52,15 @@ const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadP
 
   // Gets data from form and creates product variant for product
   function processFormData(){
-    const formData = new FormData(document.getElementById("create-product-variant-form"))
+    const form = document.getElementById("create-product-variant-form")
+
+    // If form is invalid display what form inputs are missing to admin
+    if (!form.checkValidity()){
+      form.reportValidity()
+      return
+    }
+
+    const formData = new FormData(form)
     const entries = Object.fromEntries(formData.entries()) // Get key value pairs (Keys being form feild names)
  
     // If product variant with color or size for color does not already exist create product variant
@@ -78,6 +86,9 @@ const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadP
         .then((response) => displayNotification("Create", response.data.message))
         .catch((error) => displayNotification("Create", `${error}`, "danger"))
         .finally(() => {setLoading(false); setLoadProducts(true)})  
+
+      // Close form
+      setShow(false)
     }   
     else{
       displayNotification("Create", 
@@ -122,7 +133,7 @@ const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadP
                   <RadioButton color="#7d7d7d" text="Extra Large" value="XL" inputName="size" />
                 </div>
 
-                <CustomFormInput type="number" inputName="quantity" text="Quantity" />
+                <CustomFormInput type="number" min={0} max={10000} inputName="quantity" text="Quantity" />
 
             </form>
         </Modal.Body>
@@ -130,7 +141,7 @@ const CreateProductVariantForm = ({ show, setShow, product, setLoading, setLoadP
             <Button variant="secondary" onClick={() => setShow(false)}>
                 Close
             </Button>
-            <Button variant="primary" onClick={() => {setShow(false); processFormData()}}>
+            <Button variant="primary" onClick={() => processFormData()}>
                 Create
             </Button>
         </Modal.Footer>
