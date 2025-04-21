@@ -41,15 +41,16 @@ JWT_SECRET=my_super_secret_key
 REFRESH_SECRET=my_super_secret_key
 STRIPE_SECRET_KEY=sk_test_51QkxnbK1RDrGHWB83Dj2mKotljJjJAwG0EnuJpz9qI0j11WCcFokRmf5z0p2PKKwgUWQvFDy5rFQxQ7HSVnKO5Zd00bCFsczkH
 STRIPE_WEBHOOK_SECRET=whsec_4798b91eb4ce6d978dc9ffbe61d824f01a1d364bf3f53b7608556e652602c556
-EMAIL_USER=carolyne53@ethereal.email
-EMAIL_PASSWORD=ftTUwydBXJdtuvTSyw
-EMAIL_HOST=smtp.ethereal.email
 ADMIN_PASSWORD=1234
-
+# EMAIL_USER=renova2025@outlook.com
+# EMAIL_PASSWORD=kXgZ6pKczH9x
+# EMAIL_SERVICE_ID=service_g7pqxqe
+# EMAIL_PUBLIC_KEY=xcxrC1TPmd1ivmMQY
+# EMAIL_WELCOME_TEMPLATE_ID=template_j92hw2d
+# EMAIL_CONTACT_TEMPLATE_ID=template_kkb56pf
 # Stripe api rate limit per second (100 in livemode, 25 in testmode)
 STRIPE_RATE_LIMIT=25
 ```
-Test Email Login: https://ethereal.email/
 
 
 
