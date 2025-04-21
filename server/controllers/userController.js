@@ -32,9 +32,6 @@ exports.register = async (req, res) => {
             password: hashedPassword,
         });
 
-        // Send confirmation registered email to the user
-        sendEmail(process.env.EMAIL_USER, email, "Thank you for registering", "Thank you for registering with Renova. <br> <a href='http://localhost:3000/signIn'>Click here to sign in.</a>");
-
         return res.status(201).json({ message: "User registered successfully" });
     } catch (e) {
         console.log(e);

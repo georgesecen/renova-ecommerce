@@ -1,5 +1,5 @@
 import "../styles/signUpForm.css";
-import { useState } from "react";
+import { useState,useRef } from "react";
 import { Form } from "react-bootstrap";
 import { Button } from "./Button";
 import { addUser } from "../services/user";
@@ -7,6 +7,7 @@ import { Input } from "./Input";
 import { Link } from "react-router";
 import Spinner from '../components/Spinner';
 import { v4 as uuidv4 } from 'uuid';
+import emailjs from '@emailjs/browser';
 
 export default function SignUpForm() {
   const [formData, setFormData] = useState({
@@ -14,7 +15,7 @@ export default function SignUpForm() {
     password: "",
     username: "",
   });
-  const [serverMessage, setServerMessage] = useState("");
+    const [serverMessage, setServerMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -25,6 +26,8 @@ export default function SignUpForm() {
     password: "",
     username: "",
   });
+
+  const form = useRef();
 
   function validateForm() {
     const newErrors = {};
@@ -62,12 +65,23 @@ export default function SignUpForm() {
         setFormData({ email: "", password: "", username: "" });
         setServerMessage(data.message);
         setIsLoading(false);
+        emailjs
+      .sendForm('service_g7pqxqe', 'template_j92hw2d', form.current, {
+        publicKey: 'xcxrC1TPmd1ivmMQY',
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+        },
+      );
       } catch (err) {
         setIsLoading(false);
         if (err.response) {
           setServerMessage(err.response.data.error);
         } else {
-          // console.log(err.response.data.error);
           console.log(err)
         }
       }
@@ -87,6 +101,7 @@ export default function SignUpForm() {
   return (
     <div>
       <Form
+        ref={form}
         method="POST"
         className="signUp-form"
         validated={validated}
@@ -94,53 +109,22 @@ export default function SignUpForm() {
         onSubmit={handleSubmit}
       >
         <Form.Group controlId="formUsername">
-          {/* <Form.Label>Username</Form.Label> */}
-          {/* <Form.Control
-            required
-            type="text"
-            placeholder="Enter username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          /> */}
+
           <Input type={"text"} placeHolder={"username"} name={"username"} value={formData.username} onChange={handleChange} />
-          {/* {errors.username && <span>{errors.username}</span>} */}
+
           <span className={`${errors.username ? '' : 'hidden'}`}>{errors.username}</span>
         </Form.Group>
 
         <Form.Group controlId="formEmail">
-          {/* <Form.Label>Email</Form.Label> */}
-          {/* <Form.Control
-            required
-            type="email"
-            placeholder="Enter email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          /> */}
           <Input type={"email"} placeHolder={"email"} name={"email"} value={formData.email} onChange={handleChange} />
-          {/* {errors.email && <span className="hidden">{errors.email}</span>} */}
           <span className={`${errors.email ? '' : 'hidden'}`}>{errors.email}</span>
         </Form.Group>
 
         <Form.Group controlId="formPassword">
-          {/* <Form.Label>Password</Form.Label> */}
-          {/* <Form.Control
-            required
-            type="password"
-            placeholder="Enter password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          /> */}
 
           <Input type={"password"} placeHolder={"password"} name={"password"} value={formData.password} onChange={handleChange} />
-          {/* {errors.password && <span>{errors.password}</span>} */}
           <span className={`${errors.password ? '' : 'hidden'}`}>{errors.password}</span>
         </Form.Group>
-        {/* <Button variant="primary" type="submit">
-          Submit
-        </Button> */}
         <Button isDisabled={isLoading} type={"submit"}>sign up</Button>
         <p className="link-to-signin">ALREADY HAVE ACCOUNT? <Link className="accent" to={"/signIn"}>SIGN IN</Link></p>
         {isLoading ? <Spinner/> : <p>{serverMessage}</p>}
