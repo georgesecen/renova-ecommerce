@@ -5,6 +5,7 @@ const Image = require('../models/ProductImageModel');
 
 exports.getAllCartItems = async (req, res) => {
     try {
+        // console.log("Received headers:", req.headers);
         const userId = req.user?.userId || null;
         const guestUserId = req.user?.guestUserId || null;
         console.log(`Authenticated User ID: ${userId}`);
@@ -120,46 +121,26 @@ exports.addCartItem = async (req, res) => {
     }
 };
 
-
-
-
-// Remove cart item or decrease quantity
 exports.removeCartItem = async (req, res) => {
     try {
-        console.log("req user", req.user);
         const guest_user_id = parseInt(req.user.guestUserId) || null;
         const user_id = req.user.userId || null;
         const cart_item_id  = req.params.cart_item_id;  // Get from URL
-        console.log("guest user id on removal", guest_user_id)
-        console.log("user id on removal", user_id)
-        console.log("cart item id on removal", cart_item_id)
 
         const { product_id, quantity } = req.body;
 
         if ((!user_id && !guest_user_id) || !product_id || !quantity) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
-
         const whereClause = user_id ? { user_id } : { guest_user_id };
         const cartItem = await Cart.findOne({ where: { ...whereClause, id: cart_item_id} });
-        console.log(cartItem);
-        if (!cartItem) {
-            return res.status(404).json({ error: 'Product not found in cart' });
-        }
-
-        if (cartItem.quantity > quantity) {
-            cartItem.quantity -= quantity;
-            await cartItem.save();
-            return res.status(200).json({ message: 'Item quantity updated', cartItemId: cartItem.id });
-        }
-
         await cartItem.destroy();
         res.status(200).json({ message: 'Item removed from cart' });
-    } catch (error) {
-        console.error('Error removing cart item:', error);
-        res.status(500).json({ error: 'Error removing cart item' });
+    } catch (err) {
+        console.error("error", err);
+        res.status(500).json({ error: 'Error removing cart item' })
     }
-};
+}
 
 exports.getCartQuantity = async (req, res) => {
     try {
@@ -176,3 +157,33 @@ exports.getCartQuantity = async (req, res) => {
         res.status(500).json({ error: "Error fetching cart quantity" });
     }
 }
+
+exports.updateCartItemQuantity = async (req, res) => {
+    try {
+        const { quantity } = req.body;
+        const cart_item_id = req.params.cart_item_id;
+
+        if (!cart_item_id || quantity === undefined) {
+            return res.status(400).json({ error: "Cart Item ID and quantity are required" });
+        }
+
+        const cartItem = await Cart.findOne({ where: { id: cart_item_id } });
+
+        if (!cartItem) {
+            return res.status(404).json({ error: "Cart item not found" });
+        }
+
+        if (quantity <= 0) {
+            await cartItem.destroy();
+            return res.status(200).json({ message: "Item removed from cart" });
+        }
+
+        cartItem.quantity = quantity;
+        await cartItem.save();
+
+        res.status(200).json({ message: "Cart item quantity updated", cartItemId: cartItem.id });
+    } catch (err) {
+        console.error("Cannot update cart item quantity:", err);
+        res.status(500).json({ error: "Error updating cart item quantity" });
+    }
+};

@@ -22,3 +22,11 @@ export const adminProductCategoriesService = async (operation, requestData = {})
         console.log(error)
     }
 }
+
+export const getAllCategories = async () => {
+    try {
+        return await API.get("/product-categories/all")
+    } catch(error){
+        console.log(error)
+    }
+}

@@ -31,13 +31,18 @@ const ProductVariantModel = sequelize.define('ProductVariant', {
         },
         created_at: {
             type: DataTypes.DATE,
-        }
+        },
     },
 {
     tableName: 'product_variants',
     timestamps: true,
     updatedAt: false,
     underscored: true,
+
+    // For soft deletes
+    paranoid: true,
+    deletedAt: 'deleted_at',
+    
     }
 )
 

@@ -12,7 +12,7 @@ export const UserProvider = ({ children }) => {
 
     // Check cookies on initial load
     useEffect(() => {
-        const token = Cookies.get('jwt'); // Retrieve the JWT token from cookies
+        let token = Cookies.get('jwt') || localStorage.getItem('jwt'); // Retrieve the JWT token from cookies
         if (token) {
             try {
                 const decoded = jwtDecode(token); // Decode the token
@@ -29,12 +29,13 @@ export const UserProvider = ({ children }) => {
             setUser(null);
             setIsLoggedIn(false);
         }
-    }, [Cookies.get('jwt')]);
+    }, []);
 
     // Update user on login
     const login = (token) => {
         try {
             Cookies.set('jwt', token); // Set JWT token in cookies
+            localStorage.setItem('jwt', token)
             const decoded = jwtDecode(token); // Decode the token
             setIsLoggedIn(true)
             setUser({ userId: decoded.userId }); // Update React Context state
@@ -45,9 +46,12 @@ export const UserProvider = ({ children }) => {
     };
 
     const logout = () => {
-        Cookies.remove('jwt'); // Clear JWT token from cookies
+        // Clear JWT token from cookies
+        Cookies.remove('jwt');
+        localStorage.removeItem('jwt');
         setIsLoggedIn(false);
-        setUser(null); // Remove user data from context
+        // Remove user data from context
+        setUser(null);
     };
 
     return (

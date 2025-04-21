@@ -35,18 +35,27 @@ const authenticateJWT = (req, res, next) => {
 };
 
 const refreshAccessToken = (req, res, next) => {
-    const refreshToken = req.cookies?.refreshToken;
+    const refreshToken = req.cookies?.refreshToken || req.headers['x-refresh-token'];
 
     if (!refreshToken) {
-        return res.status(401).json({ message: 'No refresh token' });
+        return res.status(401).json({ message: 'No refresh token provided' });
     }
 
     jwt.verify(refreshToken, process.env.REFRESH_SECRET, (err, decoded) => {
-        if (err) return res.status(403).json({ message: 'Invalid refresh token' });
+        if (err) {
+            return res.status(403).json({ message: 'Invalid refresh token' });
+        }
 
         const newAccessToken = jwt.sign({ id: decoded.id }, process.env.JWT_SECRET, { expiresIn: '15m' });
 
-        res.cookie('jwt', newAccessToken, { httpOnly: true, secure: true, sameSite: 'lax' });
+        // Conditionally secure cookie based on the environment
+        const isProduction = process.env.NODE_ENV === 'production';
+
+        res.cookie('jwt', newAccessToken, {
+            httpOnly: true,
+            secure: isProduction, // Only use secure cookies in production
+            sameSite: 'lax'
+        });
 
         req.user = decoded;
         next();

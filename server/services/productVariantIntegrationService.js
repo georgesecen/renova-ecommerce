@@ -32,7 +32,7 @@ exports.createDatabaseAndStripeProductVariant = async (productId, color, size, q
         // Create product on Stripe server
         // TODO: Change product url
         const name = `${product.name} ${size} ${color}`
-        const stripeProduct = await StripeProduct.create(`${productVariant.id}`, name, product.description, [], "https://google.com")
+        const stripeProduct = await StripeProduct.create(`${productVariant.id}`, name, [], "https://google.com")
 
         // Create price on Stripe server for Stripe product
         const stripePrice = await StripePrice.create(price, stripeProduct.id)

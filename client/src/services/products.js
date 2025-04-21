@@ -34,6 +34,30 @@ export const adminProductsService = async (operation, requestData = {}) => {
             }
         )
     } catch(error){
-        console.log(error)
+        throw new Error(error)
+    }
+}
+
+/**
+ * Sends request to the server to retrieve a product, the product's images, 
+ * variants, and variant images
+ * 
+ * 
+ * @param {*} id id of product to be retrieved
+ * @returns {Promise<AxiosResponse>} AxiosResponse object.
+ */
+export const getProductInfo = async (id) => {
+    try {
+        return await API.get(`/products/get-product/${id}`, {withCredentials: true});
+    } catch (error) {
+        console.error("Error fetching product info:", error);
+    }
+} 
+
+export const getAllProductsV2 = async () => {
+    try {
+        return await API.get('/products/all');
+    } catch (error) {
+        console.error("Error fetching products:", error);
     }
 }

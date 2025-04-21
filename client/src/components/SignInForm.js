@@ -66,7 +66,6 @@ export default function SignInForm() {
         setFormData({ email: "", password: "" });
         setServerMessage(data.message);
         setIsLoading(false);
-        //TODO change to user dashboard when user dashboard page is complete
         navigate("/dashboard");
       } catch (err) {
         setIsLoading(false);

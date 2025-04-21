@@ -3,6 +3,7 @@ import "./updateProductForm.css"
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { adminProductsService } from '../../../services/products';
+import CustomFormInput from '../../CustomFormInput/CustomFormInput';
 
 /**
  * Form which updates product description and price.
@@ -48,9 +49,11 @@ const UpdateProductForm = ({ show, setShow, product, setLoading, setLoadProducts
             <Modal.Title>Update Product</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <form id='update-product-form'>
-                <textarea name='description' defaultValue={description}></textarea>
-                <input name='price' defaultValue={price} step={1} type='number' />
+            <form id='update-product-form' className='table-form'>
+
+                <CustomFormInput type="text" inputName="description" text="New Product Description" defaultValue={description}/>
+                <CustomFormInput type="number" inputName="price" text="New Product Price" defaultValue={price}/>
+
             </form>
         </Modal.Body>
         <Modal.Footer>

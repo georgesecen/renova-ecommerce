@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import "./productsTable.css"
 import ModalSpinner from '../ModalSpinner/ModalSpinner'
 import ProductCard from './ProductCard/ProductCard'
@@ -10,6 +10,10 @@ import CreateProductVariantForm from './CreateProductVariantForm/CreateProductVa
 import ImageForm from './ImageForm/ImageForm'
 import UpdateProductVariantForm from './UpdateProductVariantForm/UpdateProductVariantForm'
 import ConfirmProductDelete from './ConfirmProductDelete/ConfirmProductDelete'
+import ActionButton from '../ActionButton/ActionButton'
+import Checkbox from '../Checkbox/Checkbox'
+
+const addIcon = require("../../assets/icons/add.png")
 
 /**
  * Gets all of the products + product variants information in the database. Displays all the information
@@ -36,6 +40,15 @@ const ProductsTable = ({displayNotification}) => {
   const [showUpdateProductVariantForm, setShowUpdateProductVariantForm] = useState(false)
   const [showConfirmProductDelete, setShowConfirmProductDelete] = useState(false)
 
+  // Keep track of what product categories (by category id) are being filtered in (diplayed to admin)
+  const [filteredProducts, setFilteredProducts] = useState({}) // {3: true, 2: false}
+
+  // Function will set a category id to true or false and re render the component to filter the products
+  function filterProducts(categoryId, filter){
+    filteredProducts[categoryId] = filter
+    setFilteredProducts({...filteredProducts})
+  }
+
   // Function updates the currently selected product. This way in the image form, after adding an image
   // the image form will get the updated product with the new image added. No need to close the form and 
   // reopen it.
@@ -52,24 +65,34 @@ const ProductsTable = ({displayNotification}) => {
     }
   }
 
-  // Get products and product categories
+  // Get product categories
+  useEffect(() => {
+      adminProductCategoriesService("index")
+        .then((response) => {
+          setCategories(response.data.data)
+
+          // Add product categories to the filtered products so admin can filter by product category
+          response.data.data.map(({id: categoryId}) => {
+            filteredProducts[categoryId] = true
+          })
+          setFilteredProducts({...filteredProducts})
+        })
+        .catch((error) => displayNotification("Get", `${error}`, "danger"))
+  }, [])
+
+  // Get products
   useEffect(() => {
     if (loadProducts){
       adminProductsService("index")
         .then((response) => {setProducts(response.data.data); updateSelectedProduct(response.data.data)})
         .catch((error) => displayNotification("Get", `${error}`, "danger"))
         .finally(() => setLoadProducts(false))     
-      
-      adminProductCategoriesService("index")
-        .then((response) => setCategories(response.data.data))
-        .catch((error) => displayNotification("Get", `${error}`, "danger"))
     }
   }, [loadProducts])
   
   return (
     <div className='table-container'>
-      {loading && <ModalSpinner />}
-      <button onClick={() => setShowCreateProductForm(!showCreateProductForm)}>Create Product</button>
+      {loading && <ModalSpinner />}   
       
       <CreateProductForm
         show={showCreateProductForm} 
@@ -136,22 +159,40 @@ const ProductsTable = ({displayNotification}) => {
         >
       </ConfirmProductDelete>
 
+      <div className='buttons-container'>
+        <ActionButton onClick={(event) => setShowCreateProductForm(!showCreateProductForm)} color={"#08A9F9"} icon={addIcon} text={"New Product"} />
+        {
+          // Update filtered categories based on if checkmarks are checked or unchecked
+          // Checkboxs which are checked will be displayed
+          categories.map(({id: categoryId, name: categoryName}, index) => {
+            return (
+              <Checkbox key={index} color={"#7d7d7d"} text={categoryName} defaultChecked={true} onChange={(event) => filterProducts(categoryId, event.target.checked)} />
+            )
+          })
+        }
+      </div>
+
       <ul>
           {
             products.map((product, index) => {
-              return <ProductCard
-                key={index} 
-                product={product} 
-                setProduct={setSelectedProduct}
-                setProductVariantGroup={setSelectedProductVariantGroup}
-                setShowUpdateProductForm={setShowUpdateProductForm}
-                setShowCreateProductVariantForm={setShowCreateProductVariantForm}
-                setShowImageForm={setShowImageForm}
-                setShowUpdateProductVariantForm={setShowUpdateProductVariantForm}
-                setShowConfirmProductDelete={setShowConfirmProductDelete}
-                >
-              </ProductCard>
+
+              // Only render product if its category checkbox is checked
+              if (filteredProducts[product.categoryId] === true){
+                return <ProductCard
+                  key={index} 
+                  product={product} 
+                  setProduct={setSelectedProduct}
+                  setProductVariantGroup={setSelectedProductVariantGroup}
+                  setShowUpdateProductForm={setShowUpdateProductForm}
+                  setShowCreateProductVariantForm={setShowCreateProductVariantForm}
+                  setShowImageForm={setShowImageForm}
+                  setShowUpdateProductVariantForm={setShowUpdateProductVariantForm}
+                  setShowConfirmProductDelete={setShowConfirmProductDelete}
+                  >
+                </ProductCard>
+              }
             })
+            
           }
       </ul>
     </div>

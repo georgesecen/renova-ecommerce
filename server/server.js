@@ -34,7 +34,7 @@ global.stripeOperationInProgress = false
 app.use(cors({
     origin: 'http://localhost:3000',  // Allow frontend domain
     credentials: true,  // Allow cookies & authentication headers
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow these methods
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], // Allow these methods
     allowedHeaders: ['Content-Type', 'Authorization', 'guest-user-id'],  // Allow these headers
 }));
 

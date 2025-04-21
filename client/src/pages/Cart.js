@@ -9,7 +9,7 @@ function Cart() {
     const [totalCost, setTotalCost] = useState(0);
   return (
     <div className="cart-page">
-        <h1>Your Orders</h1>
+        <h1>CART</h1>
           <div className="cartCheckoutContainer">
               {totalQuantity === 0 ? (
                   <p>
@@ -20,7 +20,7 @@ function Cart() {
                   <div className="cartCheckoutButton">
                       <CartList setTotalCost={setTotalCost} />
                       <h3>Total Cost Before HST and Shipping: CAD ${totalCost.toFixed(2)}</h3>
-                      <NavLink to='/test-stripe' className="shop-now">Checkout</NavLink>
+                      <NavLink to='/checkout' className="shop-now">Checkout</NavLink>
                   </div>
               )}
           </div>

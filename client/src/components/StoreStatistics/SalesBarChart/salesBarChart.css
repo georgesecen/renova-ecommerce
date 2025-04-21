@@ -1,0 +1,30 @@
+
+/* Chart styles inspired by Shopify sales chart */
+
+/* Holds chart title and chart */
+.bar-chart-container{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+
+    /* So there is room between bar chart on top and piechart on bottom */
+    margin-bottom: 5em;
+}
+
+/* Bar chart title */
+.bar-chart-title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* To move chart title closer to actual chart */
+    transform: translateY(3em);
+}
+
+/* Revenue and order data of last highlighted bar */
+.bar-chart-title > p{
+    font-size: 0.8em;
+    margin: 0;
+    text-align: center;
+}

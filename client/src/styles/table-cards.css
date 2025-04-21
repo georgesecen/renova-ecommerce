@@ -1,4 +1,16 @@
 /* Shared styles between orders and products tables */
+.table-container{
+    width: 100%;
+    padding-bottom: 2.5em;
+    /* font-size: 14.5px; */
+
+    /* To align buttons and tables in center of page */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+}
 
 /* Ul which holds all of the cards */
 .table-container > ul{
@@ -6,10 +18,9 @@
     padding: 0;
     border: 1px solid #B4B4B4;
     border-radius: 1em;
-    width: 90%;
-    margin-left: 20px;
+    width: 92%;
     overflow: hidden;
-    max-width: 1100px;
+    max-width: 1160px;
 }
 .table-container > ul > li{
     border-bottom: 1px solid #C1C1C1;
@@ -28,7 +39,7 @@
 .card-header-container{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     overflow-x: auto;
     width: 100%;
     background-color: white;
@@ -105,10 +116,4 @@
     /* width: 1.5em; */
     height: 2em;
     border-radius: 0.3em;
-}
-
-/* Product variant ids in the label value component */
-.ids-display{
-    display: flex;
-    gap: 0.5em;
 }

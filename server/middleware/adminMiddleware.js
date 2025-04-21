@@ -2,7 +2,7 @@
 /**
  * Middleware function checks if the user attempting to access the route is an admin. If they are an 
  * admin the request will proceed otherwise it will respond with an error. Middleware is to be used on
- * all /admin routes.
+ * all admin routes.
  * @param {object} request Express js request object.
  * @param {object} response Express js response object.
  * @param {function} next The next middleware function in the chain.
@@ -14,10 +14,15 @@ const adminAuthentication = async (request, response, next) => {
 
     try{
 
+        // If there is no admin password setup yet
+        if (process.env.ADMIN_PASSWORD === undefined){
+            throw new Error("Admin password not in .env file. Must add it to access admin routes.")
+        }
+
         // TODO: Maybe check if user accessing the route is an admin in database instead of password
 
         // If user accessing the route is the admin
-        if (adminPassword == process.env.ADMIN_PASSWORD){
+        if (adminPassword.toString() === process.env.ADMIN_PASSWORD){
             console.log("Admin accessing route.")
             next()
         }
