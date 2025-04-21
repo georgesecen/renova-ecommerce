@@ -1,6 +1,6 @@
 import '../styles/contactForm.css';
 import FormModal from "./FormModal";
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import { Form } from 'react-bootstrap';
 import { Input } from "./Input";
 import { Button } from "./Button";
@@ -16,6 +16,7 @@ export default function ContactForm() {
         email: '',
         message: ''
     });
+    const form = useRef();
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -30,8 +31,6 @@ export default function ContactForm() {
         email: '',
         message: ''
     });
-
-    const form = useRef();
 
     // State to manage modal visibility
     const [showModal, setShowModal] = useState(false);
@@ -78,7 +77,6 @@ export default function ContactForm() {
     // Handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         if (validateForm()) {
             setIsLoading(true);
             emailjs
@@ -87,10 +85,12 @@ export default function ContactForm() {
       })
       .then(
         () => {
-          console.log('SUCCESS!');
+              console.log('SUCCESS!');
+              setServerMessage("Email Sent Successfully");
         },
         (error) => {
-          console.log('FAILED...', error.text);
+            console.log('FAILED...', error.text);
+            setServerMessage("Email Sent Successfully")
         },
       );
             setShowModal(true);

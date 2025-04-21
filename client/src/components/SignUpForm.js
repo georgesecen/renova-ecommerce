@@ -15,7 +15,7 @@ export default function SignUpForm() {
     password: "",
     username: "",
   });
-  const [serverMessage, setServerMessage] = useState("");
+    const [serverMessage, setServerMessage] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -82,7 +82,6 @@ export default function SignUpForm() {
         if (err.response) {
           setServerMessage(err.response.data.error);
         } else {
-          // console.log(err.response.data.error);
           console.log(err)
         }
       }
@@ -110,53 +109,22 @@ export default function SignUpForm() {
         onSubmit={handleSubmit}
       >
         <Form.Group controlId="formUsername">
-          {/* <Form.Label>Username</Form.Label> */}
-          {/* <Form.Control
-            required
-            type="text"
-            placeholder="Enter username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          /> */}
+
           <Input type={"text"} placeHolder={"username"} name={"username"} value={formData.username} onChange={handleChange} />
-          {/* {errors.username && <span>{errors.username}</span>} */}
+
           <span className={`${errors.username ? '' : 'hidden'}`}>{errors.username}</span>
         </Form.Group>
 
         <Form.Group controlId="formEmail">
-          {/* <Form.Label>Email</Form.Label> */}
-          {/* <Form.Control
-            required
-            type="email"
-            placeholder="Enter email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          /> */}
           <Input type={"email"} placeHolder={"email"} name={"email"} value={formData.email} onChange={handleChange} />
-          {/* {errors.email && <span className="hidden">{errors.email}</span>} */}
           <span className={`${errors.email ? '' : 'hidden'}`}>{errors.email}</span>
         </Form.Group>
 
         <Form.Group controlId="formPassword">
-          {/* <Form.Label>Password</Form.Label> */}
-          {/* <Form.Control
-            required
-            type="password"
-            placeholder="Enter password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          /> */}
 
           <Input type={"password"} placeHolder={"password"} name={"password"} value={formData.password} onChange={handleChange} />
-          {/* {errors.password && <span>{errors.password}</span>} */}
           <span className={`${errors.password ? '' : 'hidden'}`}>{errors.password}</span>
         </Form.Group>
-        {/* <Button variant="primary" type="submit">
-          Submit
-        </Button> */}
         <Button isDisabled={isLoading} type={"submit"}>sign up</Button>
         <p className="link-to-signin">ALREADY HAVE ACCOUNT? <Link className="accent" to={"/signIn"}>SIGN IN</Link></p>
         {isLoading ? <Spinner/> : <p>{serverMessage}</p>}
