@@ -3,21 +3,35 @@ import {FaTrash} from "react-icons/fa";
 import { useState } from 'react';
 import { useCart } from '../../../providers/CartContext';
 import {removeCartItem, updateCartItemQuantity} from "../../../services/cart";
-import ProductModal from "../../ProductModal";
 import {useUser} from "../../../providers/UserContext";
 
+// Default image which will be used for cart items with no product image available
+const defaultImage = require("../../../assets/images/default-cart-image.png")
+
 function CartItem(props) {
-    const [showModal, setShowModal] = useState(false);
-    const [modalContent, setModalContent] = useState({});
+
+    // If cart item has no image display default image in its place
+    const imgUrl = props.img ? `${process.env.REACT_APP_BASE_URL}/static/images/${props.img}` : defaultImage;
+
     const { updateCartQuantity } = useCart();
     const { isLoggedIn } = useUser();
 
+    // Keep track if the cart item quantity is currently being updated. This way if the user spams the
+    // increment/decrement button there will be no concurrency problems.
+    const [quantityUpdating, setQuantityUpdating] = useState(false)
+
     console.log("user logged in", isLoggedIn);
 
-    const updateQuantityHandler = (item, newQuantity) => {
+    const updateQuantityHandler = async (item, newQuantity) => {
         if (newQuantity < 1) return;
 
-        updateCartItemQuantity(item.cart_item_id, newQuantity)
+        // If the quantity is currently being updated
+        if (quantityUpdating) return
+   
+        // Otherwise the quantity is now being updated
+        setQuantityUpdating(true)
+
+        await updateCartItemQuantity(item.cart_item_id, newQuantity)
             .then(() => {
                 props.setItems((prevItems) =>
                     prevItems.map((prevItem) =>
@@ -36,6 +50,10 @@ function CartItem(props) {
             })
             .catch((error) => {
                 console.error('Error updating cart item quantity:', error);
+            })
+            .finally(() => {
+                // The quantity is done updating
+                setQuantityUpdating(false)
             });
     };
 
@@ -51,21 +69,16 @@ function CartItem(props) {
 
                 updateCartQuantity(newQuantity);
                 localStorage.setItem('cartQuantity', newQuantity);
-
-                setShowModal(true);
-                setModalContent({
-                    title: `Removed ${item.product_name}`,
-                    message: `Removed ${item.product_name} from cart`,
-                });
             })
             .catch((error) => {
                 console.error('Error removing cart item:', error);
             });
     };
+
     return (
         <div className="cart-item">
             <div className='image'>
-                <img src={`/images/${props.img}`} alt={`${props.name}_img`}/>
+                <img src={imgUrl} />
             </div>
             <div className='desc'>
                 <h3>{props.name}</h3>
@@ -73,18 +86,14 @@ function CartItem(props) {
                 <p>{props.color}</p>
             </div>
             <div className='price'>${props.price}</div>
-            <button onClick={() => updateQuantityHandler(props.item, props.qty - 1)}>-</button>
-                {props.qty}
-            <button onClick={() => updateQuantityHandler(props.item, props.qty + 1)}>+</button>
+
+            <div className='qty'>
+                <button onClick={() => updateQuantityHandler(props.item, props.qty - 1)}>-</button>
+                    {props.qty}
+                <button onClick={() => updateQuantityHandler(props.item, props.qty + 1)}>+</button>
+            </div>
 
             <FaTrash className="removeBtn" type={"submit"} onClick={() => removeFromCartHandler(props.item)}/>
-            <ProductModal
-                show={showModal}
-                onHide={() => setShowModal(false)}
-                title={modalContent.title}
-                message={modalContent.message}
-                image={modalContent.image}
-            />
         </div>
     )
 }

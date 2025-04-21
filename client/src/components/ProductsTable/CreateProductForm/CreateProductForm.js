@@ -20,10 +20,16 @@ const CreateProductForm = ({show, setShow, setLoading, setLoadProducts, displayN
 
   // Gets data from form and creates product
   function processFormData(){
-    const formData = new FormData(document.getElementById("create-product-form"))
-    const entries = Object.fromEntries(formData.entries()) // Get key value pairs (Keys being form feild names)
+    const form = document.getElementById("create-product-form")
 
-    // TODO: Add better validation before creating product (Make sure inputs are not empty)
+    // If form is invalid display what form inputs are missing to admin
+    if (!form.checkValidity()){
+        form.reportValidity()
+        return
+    }
+
+    const formData = new FormData(form)
+    const entries = Object.fromEntries(formData.entries()) // Get key value pairs (Keys being form feild names)
 
     // Create product
     setLoading(true)
@@ -38,6 +44,9 @@ const CreateProductForm = ({show, setShow, setLoading, setLoadProducts, displayN
         .then((response) => displayNotification("Create", response.data.message))
         .catch((error) => displayNotification("Create", `${error}`, "danger"))
         .finally(() => {setLoading(false); setLoadProducts(true)})  
+    
+    // Close form
+    setShow(false)
   }
       
   
@@ -52,7 +61,7 @@ const CreateProductForm = ({show, setShow, setLoading, setLoadProducts, displayN
 
                 <CustomFormInput type="text" inputName="name" text="Product Name" />
                 <CustomFormInput type="text" inputName="description" text="Product Description" />
-                <CustomFormInput type="number" inputName="price" text="Product Price" />
+                <CustomFormInput type="number" min={0} max={10000} inputName="price" text="Product Price" />
 
                 <div className='buttons-container'>
                     <RadioButton color="#7d7d7d" text="Unisex" inputName="gender" defaultChecked={true} value={"unisex"}/>
@@ -76,7 +85,7 @@ const CreateProductForm = ({show, setShow, setLoading, setLoadProducts, displayN
             <Button variant="secondary" onClick={() => setShow(false)}>
                 Close
             </Button>
-            <Button variant="primary" onClick={() => {setShow(false); processFormData()}}>
+            <Button variant="primary" onClick={() => processFormData()}>
                 Create
             </Button>
         </Modal.Footer>

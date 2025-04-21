@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const { google } = require('googleapis');
-const db = require("../server/config/database");
 const userRoutes = require('./routes/user');
 const productRoutes = require('./routes/product');
 const orderRoutes = require('./routes/order');
@@ -27,8 +26,6 @@ const app = express();
 
 // To make sure there is only 1 Stripe operation in progress at any given time
 global.stripeOperationInProgress = false
-
-// db.connect();
 
 // Middleware
 app.use(cors({
@@ -117,8 +114,14 @@ app.use((req, res, next) => {
 });
 
 // Start the server
-// connectDB();
-const PORT = process.env.PORT || 3306;
+connectDB()
+    .then(() => console.log("Database connected"))
+    .catch((err) => {
+        console.error("Failed to connect to DB", err);
+        process.exit(1);
+    });
+
+const PORT = process.env.SERVER_PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

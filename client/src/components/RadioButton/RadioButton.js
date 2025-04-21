@@ -13,7 +13,15 @@ import "./radioButton.css"
 const RadioButton = ({ color, text, inputName, defaultChecked, value }) => {
   return (
     <label className='custom-input' style={{backgroundColor: `${color}30`}}>
-        <input className='radio' value={value} defaultChecked={defaultChecked} name={inputName} type='radio' style={{backgroundColor: color, borderColor: color}}/>
+        <input 
+          required
+          className='radio' 
+          value={value} 
+          defaultChecked={defaultChecked} 
+          name={inputName} 
+          type='radio' 
+          style={{backgroundColor: color, borderColor: color}}
+        />
         <span>{text}</span>
     </label>
   )

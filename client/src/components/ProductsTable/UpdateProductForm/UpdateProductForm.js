@@ -25,7 +25,15 @@ const UpdateProductForm = ({ show, setShow, product, setLoading, setLoadProducts
 
   // Gets data from form and updates product
   function processFormData(){
-    const formData = new FormData(document.getElementById("update-product-form"))
+    const form = document.getElementById("update-product-form")
+
+    // If form is invalid display what form inputs are missing to admin
+    if (!form.checkValidity()){
+        form.reportValidity()
+        return
+    }
+
+    const formData = new FormData(form)
     const entries = Object.fromEntries(formData.entries()) // Get key value pairs (Keys being form feild names)
 
     // Only if description or price was changed update product
@@ -40,6 +48,9 @@ const UpdateProductForm = ({ show, setShow, product, setLoading, setLoadProducts
             .then((response) => displayNotification("Update", response.data.message))
             .catch((error) => displayNotification("Update", `${error}`, "danger"))
             .finally(() => {setLoading(false); setLoadProducts(true)})  
+        
+        // Close form
+        setShow(false)
     }
   }
   
@@ -52,7 +63,7 @@ const UpdateProductForm = ({ show, setShow, product, setLoading, setLoadProducts
             <form id='update-product-form' className='table-form'>
 
                 <CustomFormInput type="text" inputName="description" text="New Product Description" defaultValue={description}/>
-                <CustomFormInput type="number" inputName="price" text="New Product Price" defaultValue={price}/>
+                <CustomFormInput type="number" min={0} max={10000} inputName="price" text="New Product Price" defaultValue={price}/>
 
             </form>
         </Modal.Body>
@@ -60,7 +71,7 @@ const UpdateProductForm = ({ show, setShow, product, setLoading, setLoadProducts
             <Button variant="secondary" onClick={() => setShow(false)}>
                 Close
             </Button>
-            <Button variant="primary" onClick={() => {setShow(false); processFormData()}}>
+            <Button variant="primary" onClick={() => processFormData()}>
                 Save Changes
             </Button>
         </Modal.Footer>

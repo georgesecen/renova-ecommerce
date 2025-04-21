@@ -11,7 +11,6 @@ import { useLocation } from "react-router-dom";
 function Home() {
   const location = useLocation();
   const hoodiesImg = require('../../assets/images/hoodies.png');
-  const hoodieImg2 = require('../../assets/images/hoodie2.png');
 
   // Generate guest session function
   const generateGuestSession = () => {
@@ -68,7 +67,7 @@ function Home() {
         <div className="section a">
           <div className="text">
             <h1>RENOVA</h1>
-            <p>Brand info cool modern streetwear comfy</p>
+            <p>High quality and modern streetwear that elevates your style</p>
             <NavLink to='/products' className="shop-now">SHOP NOW</NavLink>
           </div>
           <div className="image">

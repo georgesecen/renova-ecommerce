@@ -1,6 +1,6 @@
 import '../styles/contactForm.css';
 import FormModal from "./FormModal";
-import React, { useState,useRef } from 'react';
+import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { Input } from "./Input";
 import { Button } from "./Button";
@@ -16,7 +16,6 @@ export default function ContactForm() {
         email: '',
         message: ''
     });
-    const form = useRef();
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -31,6 +30,8 @@ export default function ContactForm() {
         email: '',
         message: ''
     });
+
+    const form = useRef();
 
     // State to manage modal visibility
     const [showModal, setShowModal] = useState(false);
@@ -77,20 +78,9 @@ export default function ContactForm() {
     // Handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         if (validateForm()) {
             setIsLoading(true);
-            // const response = await fetch("http://localhost:3306/api/send-email", {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify({
-            //         email: formData.email,
-            //         subject: `Message from ${formData.firstName} ${formData.lastName}`,
-            //         text: formData.message,
-            //     }),
-            // });
-
-            // const data = await response.json();
-            // setServerMessage(data.message);
             emailjs
       .sendForm('service_g7pqxqe', 'template_kkb56pf', form.current, {
         publicKey: 'xcxrC1TPmd1ivmMQY',

@@ -1,15 +1,15 @@
+import Toast from 'react-bootstrap/Toast';
 import './productDetails.css'
 import './sizeOption.css';
 import './colourOption.css';
 import Carousel from 'react-bootstrap/Carousel';
-import { redirect, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { getProductInfo } from '../../services/products';
 import ImageOption from './ImageOption/ImageOption';
 import { addProduct } from "../../services/cart";
 import { useCart } from "../../providers/CartContext";
 import { useUser } from "../../providers/UserContext";
-import ProductModal from '../ProductModal';
 import { useNavigate } from 'react-router-dom';
 
 function ProductDetails() {
@@ -33,13 +33,29 @@ function ProductDetails() {
   const sizesAvailable = useRef(new Set());   // Holds sizes available for currently selected colour
   const info = useRef({name: "", price: "", desc: "", gender: ""});
 
-  const [showModal, setShowModal] = useState(false);
-  const [modalContent, setModalContent] = useState({});
+  const [showToast, setShowToast] = useState(false);
+  const [toastContent, setToastContent] = useState({});
   const { updateCartQuantity } = useCart();
   const { user, isLoggedIn } = useUser();
 
   const user_id = user;
   const guest_user_id = localStorage.getItem("guestUserId");
+
+  // Colour map
+  let colourMap = new Map([
+    ['black', 'rgb(26, 26, 26)'],
+    ['grey', 'rgb(123, 123, 123)'],
+    ['white', 'rgb(247, 254, 255)'],
+    ['beige', 'rgb(228, 192, 162)'],
+    ['brown', 'rgb(141, 100, 87)'],
+    ['red', 'rgb(220, 21, 21)'],
+    ['orange', 'rgb(238, 157, 51)'],
+    ['green', 'rgb(164, 216, 114)'],
+    ['yellow', 'rgb(245, 240, 100)'],
+    ['blue', 'rgb(154, 218, 229)'],
+    ['purple', 'rgb(205, 148, 237)'],
+    ['pink', 'rgb(247, 144, 178)'],
+]);
 
   /**
    * This function handles a color change. It will:
@@ -80,21 +96,18 @@ function ProductDetails() {
    * Sets size given only if it is available
    * for the selected colour
    * 
-   * @param {*} s size
+   * @param {String} s size
    */
   function selectSize(s){
-    if(sizesAvailable.current.has(s)){
-      setSize(s)
-    }
+      if(sizesAvailable.current.has(s)){
+        setSize(s)
 
-    const variant = variants.filter(product => product.color == colour && product.size == s)[0]
-    setSeletedVariant(variant)
-    setStockQty(variant.stock_quantity);
+        const variant = variants.filter(product => product.color == colour && product.size == s)[0]
+        setSeletedVariant(variant)
+        setStockQty(variant.stock_quantity);
+      }
   }
-
-  // console.log(stockQty)
-
-
+  
   /**
    * This method on page load fetches the product information of the viewed product,
    * stores all variants associated with it, stores all sizes and colours available,
@@ -180,7 +193,6 @@ function ProductDetails() {
             product_variant_id: selectedVariant.id,
             quantity: 1,
         };
-        // console.log(productData);
         addProduct(productData)
             .then(() => {
                 // Update the cart quantity both in context and localStorage
@@ -200,13 +212,10 @@ function ProductDetails() {
             });
             
         // Show success message
-        setModalContent({
-            title: "Product Added to Cart",
-            message: `${info.current.name} has been successfully added to your cart.`,
-            // image: `/images/${product.image[0].image_url}`,
+        setToastContent({
+            message: `${info.current.name} ${size.toUpperCase()} ${colour.toUpperCase()}`,
         });
-        setShowModal(true)
-        console.log("Modal state:", showModal);
+        setShowToast(true)
     };
 
     return (
@@ -215,7 +224,7 @@ function ProductDetails() {
           {images.map((image, index) => (
               <ImageOption 
                 key={index} 
-                imageUrl={`http://localhost:3306/static/images/${image.image_url}`} 
+                imageUrl={`${process.env.REACT_APP_BASE_URL}/static/images/${image.image_url}`} 
                 clickEvent={() => setSelectedImage(index)}
               />
             ))}
@@ -226,7 +235,7 @@ function ProductDetails() {
             {images.map((image, index) => (
               <Carousel.Item key={index}> 
                 <img 
-                  src={`http://localhost:3306/static/images/${image.image_url}`}
+                  src={`${process.env.REACT_APP_BASE_URL}/static/images/${image.image_url}`}
                   alt="" 
                 />
               </Carousel.Item>
@@ -243,7 +252,7 @@ function ProductDetails() {
 
               {Array.from(cols.current).map((col) => (
                 <div key={col} className={colour === col ? "colour-option active" : "colour-option"} onClick={() => selectColour(col)}>
-                  <div style={{background: col}}></div>
+                  <div style={{background: colourMap.get(col)}}></div>
                 </div>
               ))}
             </div>
@@ -266,15 +275,14 @@ function ProductDetails() {
 
             <h5>PRODUCT DESCRIPTION</h5>
             <p>{info.current.desc}</p>
-
         </div>
-        <ProductModal
-                show={showModal}
-                onHide={() => setShowModal(false)}
-                title={modalContent.title}
-                message={modalContent.message}
-                // image={modalContent.image}
-            />
+
+        <Toast onClose={() => setShowToast(false)} position={'top-end'} show={showToast} delay={3000} autohide>
+          <Toast.Header>
+            <strong className="me-auto">ADDED TO CART</strong>
+          </Toast.Header>
+          <Toast.Body>{toastContent.message}</Toast.Body>
+        </Toast>
       </div>
     );
   }

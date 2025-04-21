@@ -5,8 +5,14 @@ export const getCartItems = async () => {
     console.log("getting guest user id from local storage in axios", guestUserId)
     try {
         const response = await API.get("/cart", {
-        headers : { 'guest-user-id': guestUserId },
-        withCredentials: true});
+            params : {
+                guestUserId
+            },
+            headers : {
+                'Content-Type': 'application/json',
+                'guest-user-id': guestUserId
+            },
+        });
         console.log("response data from cart service file:", response.data)
         return response.data;
     } catch (error) {
@@ -19,8 +25,13 @@ export const getCartItemQuantity = async () => {
     const guestUserId = localStorage.getItem('guestUserId');
     try {
         const response = await API.get('/cart/quantity', {
-            headers: { 'guest-user-id': guestUserId },
-            withCredentials: true,
+            params: {
+                guestUserId
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'guest-user-id': guestUserId
+            },
         });
         console.log("cart quantity: ",response);
         return response.data.cartQuantity;  // Update this based on the correct response format
@@ -33,9 +44,11 @@ export const getCartItemQuantity = async () => {
 export const updateCartItemQuantity = async (cartItemId, quantity) => {
     const guestUserId = localStorage.getItem('guestUserId');
     try {
-        const response = await API.patch(`/cart/${cartItemId}`, { quantity }, {
-            headers: { 'guest-user-id': guestUserId },
-            withCredentials: true
+        const response = await API.patch(`/cart/${cartItemId}`, { quantity, guestUserId}, {
+            headers: {
+                'Content-Type': 'application/json',
+                'guest-user-id': guestUserId
+            },
         });
         console.log("Updated cart item quantity:", response.data);
         return response.data;
@@ -47,20 +60,26 @@ export const updateCartItemQuantity = async (cartItemId, quantity) => {
 
 
 export const addProduct = (product) => {
+    //TODO change backend to expect product and guestuserid in the body
     const guestUserId = localStorage.getItem('guestUserId'); // Retrieve guest ID
-
     return API.post("/cart", product, {
-        headers: { 'guest-user-id': guestUserId }, // Corrected headers structure
-        withCredentials: true
+        // return API.post("/cart", {product, guestUserId}, {
+        headers: {
+            'Content-Type': 'application/json',
+            'guest-user-id': guestUserId
+        },
     });
 };
+
 export const removeCartItem = (cartItem) => {
     const guestUserId = localStorage.getItem('guestUserId');
     console.log("guest user id from delete request",guestUserId)
     console.log(`Attempting to delete /cart/${cartItem.cart_item_id}`);
     return API.delete(`/cart/${cartItem.cart_item_id}`, {
-        headers: { 'guest-user-id': guestUserId },
-        withCredentials: true,
+        headers: {
+            'Content-Type': 'application/json',
+            'guest-user-id': guestUserId
+        },
         data: {
             product_id: cartItem.cart_item_id,
             quantity: cartItem.quantity,

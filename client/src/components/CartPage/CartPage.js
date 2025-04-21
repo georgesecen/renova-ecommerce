@@ -22,17 +22,26 @@ function CartPage() {
                 .then((response) => {
                     // console.log(response[0].item.productVariant.product.image.img_url);
                     console.log(response);
-                    const formattedItems = response.map((item) => ({
-                        cart_item_id: item.id,
-                        quantity: item.quantity,
-                        product_id: item.productVariant.product.id,
-                        product_name: item.productVariant.product.name,
-                        product_price: parseFloat(item.productVariant.product.price),
-                        product_size: item.productVariant.size,
-                        product_color: item.productVariant.color,
-                        product_image: item.productVariant.product.image[0].image_url,
-                        total: parseFloat(item.productVariant.product.price) / item.quantity
-                    }));
+
+                    const formattedItems = []
+                    response.forEach(item => {
+                        formattedItems.push({
+                            cart_item_id: item.id,
+                            quantity: item.quantity,
+                            product_id: item.productVariant.product.id,
+                            product_name: item.productVariant.product.name,
+                            product_price: parseFloat(item.productVariant.product.price),
+                            product_size: item.productVariant.size,
+                            product_color: item.productVariant.color,
+                            total: parseFloat(item.productVariant.product.price) / item.quantity
+                        })
+
+                        // If an image exsits for product add product image to cart item
+                        if (item.productVariant.product.image.length > 0){
+                            formattedItems[formattedItems.length - 1].product_image = item.productVariant.product.image[0].image_url
+                        }
+                    })
+
                     setCartItems(formattedItems);  // Store items in state
                     console.log(cartItems)
     

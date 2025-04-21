@@ -19,7 +19,7 @@ const Return = () => {
         const sessionId = urlParams.get('session_id');
         
         // Get checkout session status
-        fetch(`http://localhost:3306/stripe/session-status?session_id=${sessionId}`)
+        fetch(`${process.env.REACT_APP_BASE_URL}/stripe/session-status?session_id=${sessionId}`)
           .then((res) => res.json())
           .then((data) => {
             console.log(data)

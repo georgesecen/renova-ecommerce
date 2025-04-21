@@ -16,6 +16,7 @@
 :root {
     --text: #dadadc;
     --bg: #333333;
+    background-color: #1f1f1f;
 }
 
 div.App {
@@ -26,5 +27,9 @@ div.App {
     background-position: center;
     font-family: Quicksand;
     color: var(--text);
-    overflow-x: hidden;
+
+    /* Prevent text selection */
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

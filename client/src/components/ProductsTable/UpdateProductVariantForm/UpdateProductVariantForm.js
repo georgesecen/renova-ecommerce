@@ -52,7 +52,7 @@ const UpdateProductVariantForm = ({
   const ProductVariantFormItem = ({id, name, quantity}) => {
     return (
       <div className='product-variant-form-item'>
-        <CustomFormInput defaultValue={quantity} type="number" inputName={id} text={`${name} - Quantity`} />
+        <CustomFormInput type="number" min={0} max={10000} defaultValue={quantity} inputName={id} text={`${name} - Quantity`} />
         <ActionButton onClick={(event) => deleteProductVariant(id)} color="#C90230" icon={deleteIcon} text="Delete"/>
       </div>
     )
@@ -93,11 +93,17 @@ const UpdateProductVariantForm = ({
 
   // Gets data from form and updates all changed product variant stock quantities
   async function processFormData(){
-      const formData = new FormData(document.getElementById("update-product-variant-form"))
+      const form = document.getElementById("update-product-variant-form")
+
+      // If form is invalid display what form inputs are missing to admin
+      if (!form.checkValidity()){
+        form.reportValidity()
+        return
+      }
+
+      const formData = new FormData(form)
       const entries = Object.fromEntries(formData.entries()) // Get key value pairs (Keys being form feild names)
   
-    //   setLoading(true)
-
       for (const productVariant of productVariantDetails){
 
         // Get product variants quantity from from

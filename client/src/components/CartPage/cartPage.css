@@ -8,13 +8,15 @@
 /* 1. Cart page styles  */
 
 .cart-page {
-    height: calc(100vh - 80px);
+    min-height: calc(100vh - 80px);
     max-width: 1500px;
     margin-left: auto;
     margin-right: auto;
     padding-top: 5em;
     display: flex;
     justify-content: space-around;
+    background-color: rgb(25, 25, 25);
+    box-shadow: 0 -80px rgb(25, 25, 25);
 }
 
 .cart-page h1 {
@@ -26,7 +28,6 @@
 .cart-page > .cart-section, .cart-page > .summary-section {
     font-size: 16px;
     margin: 0 10px;
-    /* font-weight: 100; */
 }
 
 
@@ -34,7 +35,6 @@
 
 .cart-page > .cart-section {
     width: 40em;
-    height: 40em;
 }
 
 .cart-page > .cart-section p.msg {
@@ -46,11 +46,11 @@
     color: #7eb5fc;
 }
 
+/* Container holding cart items  */
 .cart-page .cart {
-    height: 100%;
     border-top: 1px solid rgb(147, 147, 147);
-    overflow: scroll;
-    background-color: rgba(126, 126, 126, 0.083);
+    /* background-color: rgba(126, 126, 126, 0.083); */
+    width: 100%;
 }
 
 /* 3. Order summary styles  */
@@ -86,35 +86,27 @@
 
 @media screen and (max-width: 990px){
     .cart-page  {
-        flex-direction: column;
+        flex-direction: column-reverse;
         align-items: center;
+        justify-content: flex-end;
         padding-top: 0;
     }
-    .cart-page > .summary-section {
-        margin-top: 120px;
+    .cart-page > .summary-section, .cart-page > .cart-section {
+        margin-top: 50px;
     }
 }
 
 @media screen and (max-width: 780px){
     .cart-page {
-        margin-bottom: 80px;
+        padding-bottom: 80px;
     }
-}
-
-@media screen and (max-width: 650px){
-    .cart-page > .cart-section, .cart-page > .summary-section {
-        font-size: 12px;
-    }
-}
-
-@media screen and (max-width: 520px){
-    .cart-page > .cart-section {
-        font-size: 10px;
+    .cart-page .cart-section {
+        width: 100%;
     }
 }
 
 @media screen and (max-width: 410px){
-    .cart-page > .cart-section {
-        font-size: 9px;
+    .cart-page > .summary-section {
+        width: 90%;
     }
 }

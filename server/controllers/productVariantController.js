@@ -100,6 +100,9 @@ exports.deleteProductVariant = async (request, response) => {
         console.log(`Error in productVariantController.js function updateProductVariant: ${error.message}`)
         response.status(500).json({error: error.message})
     }
+
+    // Allow new operations to proceed
+    global.stripeOperationInProgress = false
 }
 
 exports.getProductVariants = async (request, response) => {
@@ -126,8 +129,6 @@ exports.getProductVariants = async (request, response) => {
         console.error('There was an error fetching variants', error);
         response.status(500).json({error: 'failed to fetch variants'});
     }
-    // Allow new operations to proceed
-    global.stripeOperationInProgress = false
 }
 
 /*
