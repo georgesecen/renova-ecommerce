@@ -200,10 +200,10 @@ exports.updateProductVariantGroupPrice = async (request, response) => {
  */
 exports.addProductVariantGroupImage = async (request, response) => {
 
-    const {productVariantIds, productId} = request.body
-    const {originalname, buffer} = request.file
-
     try{
+
+        const {productVariantIds, productId} = request.body
+        const {originalname, buffer} = request.file
 
         // Download image to server and get file name
         const fileName = await downloadImage(originalname, buffer)
