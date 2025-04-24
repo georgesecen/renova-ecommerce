@@ -167,10 +167,10 @@ exports.deleteProduct = async (request, response) => {
  */
 exports.addProductImage = async (request, response) => {
 
-    const {productId} = request.body
-    const {originalname, buffer} = request.file
-
     try{
+
+        const {productId} = request.body
+        const {originalname, buffer} = request.file
 
         // Download image to server and get file name
         const fileName = await downloadImage(originalname, buffer)
