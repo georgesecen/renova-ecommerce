@@ -8,6 +8,17 @@ A full stack ecommerce website powered by React.js, Express.js, and MySQL that d
 </div>
 
 
+<!-- Table of contents section -->
+## 📚 Table Of Contents
+- [<code>🔨 Built With</code>](#-built-with)
+- [<code>✨ Features</code>](#-features)
+- [<code>🚀 Getting Started</code>](#-getting-started)
+- [<code>💻 My Contributions</code>](#-my-contributions)
+- [<code>🤝 Authors</code>](#-authors)
+- [<code>📝 License</code>](#-license)
+- [<code>📢 Acknowledgments</code>](#-acknowledgements)
+
+
 <!-- Technologies used section -->
 ## 🔨 Built With
 
@@ -161,3 +172,21 @@ https://github.com/user-attachments/assets/7d3e1922-40b3-4bb2-b3ef-23bd7082824a
 <img alt=Data src=/images/user-dashboard.png width=850px />
 
 - Allow customer to view their order history and review details such as order status, items, times, total etc.
+
+
+<!-- Authors section -->
+## 🤝 Authors
+- [Wania Sharif](https://github.com/wania-sharif)
+- [Cameron Mcrae](https://github.com/cmcrae1989)
+- [Asad Bashir](https://github.com/asad-bashir-442)
+- [George Secen](https://github.com/georgesecen)
+
+
+<!-- License section -->
+## 📝 License
+This software is distributed under the terms of the following [license](LICENSE).
+
+
+<!-- Acknowledgements section -->
+## 📢 Acknowledgements
+Special thanks to Chad Woodward for his lessons, advice and guidance.
