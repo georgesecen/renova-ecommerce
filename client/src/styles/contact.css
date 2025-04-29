@@ -1,6 +1,8 @@
 div.contact-page {
     padding: 0 80px;
+    min-height: calc(100dvh - 80px);
 }
 div.contact-page h1 {
-    margin: 0;
+    margin-bottom: 3rem;
+    text-align: center;
 }

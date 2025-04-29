@@ -1,0 +1,44 @@
+form.signUp-form {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  max-width: 445px;
+  margin: 0 auto;
+}
+
+form.signUp-form input {
+  padding: 1.2rem;
+  height: 28px;
+  font-size: .9em;
+}
+form.signUp-form input:focus {
+  outline: 1px solid #f3f3f3;
+}
+
+form.signUp-form label.form-label {
+  margin-top: 1rem;
+}
+
+form.signUp-form span {
+  display: block;
+  color: rgb(207, 97, 97);
+  font-family: sans-serif;
+  height: 18px;
+  transition: 150ms ease-in;
+}
+
+form.signUp-form span.hidden{
+  opacity: 0;
+}
+
+
+
+form.signUp-form  .link-to-signin{
+  color: var(--text);
+  font-size: .8rem;
+  text-align: center;
+}
+
+form.signUp-form  .accent{
+  color: lightblue;
+}

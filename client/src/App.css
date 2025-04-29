@@ -1,5 +1,35 @@
+@font-face {
+    font-family: Quicksand;
+    src: url(./assets/fonts/Quicksand-VariableFont_wght.ttf);
+}
+@font-face {
+    font-family: Italiana;
+    src: url(./assets/fonts/Italiana-Regular.ttf);
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+:root {
+    --text: #dadadc;
+    --bg: #333333;
+    background-color: #1f1f1f;
+}
+
+div.App {
+    background-image: url(./assets/images/dark-background.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    font-family: Quicksand;
+    color: var(--text);
+
+    /* Prevent text selection */
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

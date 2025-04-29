@@ -1,0 +1,95 @@
+/* Card container  */
+.product-card {
+    font-size: 14px;
+    width: 16.5em;
+    height: 21.5em;
+    margin: 12px .7em;
+    position: relative;
+}
+
+/* Product card styles */
+.product-card .card {
+    width: 100%;
+    height: 85%;
+    background-color: rgb(36, 36, 37);
+    border-radius: 10px;
+    position: relative;
+    /* padding-top: 2em; */
+
+    transition-duration: 400ms;
+    cursor: pointer;
+}
+
+.product-card .card:hover {
+    background-color: rgb(42, 42, 43);
+}
+
+/* Card image containter */
+.product-card .card .image {
+    width: 100%;
+    height: 15em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Card image */
+.product-card .card .image img {
+    max-width: 12.5em;
+    max-height: 11em;
+    transition-duration: 400ms;
+}
+.product-card .card:hover .image img {
+    max-width: 13.2em;
+    max-height: 11.7em;
+}
+
+/* Product name and price */
+.product-card .card .name, .card .price {
+    position: absolute;
+    bottom: 5%;
+    font-size: 13px;
+    color: var(--text);
+}
+.product-card .card .name {
+    left: 5%;
+}
+.product-card .card .price {
+    right: 5%;
+}
+
+
+/* Colour option styles  */
+.product-card .colours {
+    display: flex;
+    justify-content: center;
+    padding-top: 4px;
+}
+.product-card .colours > .colour-option {
+    font-size: 8px;
+}
+.product-card .colour-option:hover {
+    cursor: default;
+}
+
+@media screen and (max-width: 1000px){
+    .product-card {
+        font-size: 19px;
+    }
+    .product-card button {
+        display: block;
+        bottom: 6%;
+    }
+}
+
+@media screen and (max-width: 960px){
+    .product-card {
+        font-size: 28px;
+    }
+    .product-card button {
+        font-size: 14px;
+    }
+    .product-card .card .name, .card .price {
+        font-size: 16px;
+    }
+}

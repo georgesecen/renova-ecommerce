@@ -1,0 +1,11 @@
+/* Product variant ids (Also sizes) in the label value component */
+.ids-display{
+    display: flex;
+    gap: 0.5em;
+    height: fit-content;
+    width: fit-content;
+}
+
+.ids-display > p{
+    margin: 0;
+}

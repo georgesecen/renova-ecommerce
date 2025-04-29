@@ -145,14 +145,14 @@ dist
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
-# User-specific stuff
+# UserModel-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
 
-# AWS User-specific
+# AWS UserModel-specific
 .idea/**/aws.xml
 
 # Generated files
@@ -271,9 +271,9 @@ sketch
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
-# User-specific stuff
+# UserModel-specific stuff
 
-# AWS User-specific
+# AWS UserModel-specific
 
 # Generated files
 
@@ -343,3 +343,9 @@ sketch
 # https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
 
 # End of https://www.toptal.com/developers/gitignore/api/react,node,webstorm,phpstorm
+
+# For stripe credentials
+*.env
+
+# So we dont track images added and removed from server
+*/public/images/

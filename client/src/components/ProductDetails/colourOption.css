@@ -1,0 +1,33 @@
+.colour-option {
+    font-size: 13px;
+
+    width: 3.2em;
+    height: 3.2em;
+    border-radius: 100%;
+    margin: 2px 12px 2px 0;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.colour-option > div {
+    width: 74%;
+    height: 74%;
+    border-radius: 100%;
+    background-color: rgb(189, 189, 189);
+
+}
+
+.detailsPage .colour-option > div {
+    border: .5px solid rgb(221, 221, 221);
+}
+
+.detailsPage .colour-option:hover, .detailsPage .colour-option.active  {
+    border: .8px solid rgb(188, 188, 188);
+}
+
+.colour-option.active > div {
+    border: none;
+}

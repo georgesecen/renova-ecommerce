@@ -1,0 +1,27 @@
+button.button {
+    /*position: absolute;*/
+    /*bottom: 4px;*/
+    width: 100%;
+
+    color: rgb(200, 200, 200);
+    font-size: 1em;
+    text-decoration: none;
+    border: .5px solid rgb(200, 200, 200);
+    border-radius: 2px;
+    background: none;
+    /*font-size: 12px;*/
+    padding: 3px;
+    transition-duration: 150ms;
+}
+
+
+button.button:hover {
+    color: rgb(232, 232, 232);
+    border-color: rgb(232, 232, 232);
+}
+
+form.signIn-form button.btn.btn-primary {
+    position: relative; /* Ensures it does not inherit absolute positioning */
+    margin-top: 15px;
+    font-size: 2em;
+}

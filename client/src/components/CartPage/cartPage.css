@@ -1,0 +1,112 @@
+/*
+    1. Cart page styles
+    2. Cart section styles
+    3  Order summary section styles
+    4. Media queries
+*/
+
+/* 1. Cart page styles  */
+
+.cart-page {
+    min-height: calc(100vh - 80px);
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5em;
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(25, 25, 25);
+    box-shadow: 0 -80px rgb(25, 25, 25);
+}
+
+.cart-page h1 {
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.cart-page > .cart-section, .cart-page > .summary-section {
+    font-size: 16px;
+    margin: 0 10px;
+}
+
+
+/* 2. Cart section styles  */
+
+.cart-page > .cart-section {
+    width: 40em;
+}
+
+.cart-page > .cart-section p.msg {
+    padding-top: 60px;
+    font-size: 17px;
+    border-top: 1px solid rgb(147, 147, 147);
+}
+.cart-page > .cart-section a {
+    color: #7eb5fc;
+}
+
+/* Container holding cart items  */
+.cart-page .cart {
+    border-top: 1px solid rgb(147, 147, 147);
+    /* background-color: rgba(126, 126, 126, 0.083); */
+    width: 100%;
+}
+
+/* 3. Order summary styles  */
+
+.cart-page > .summary-section {
+    width: 24em;
+    height: 20em;
+    letter-spacing: .5px;
+}
+
+.cart-page .summary {
+    border-top: .5px solid rgb(147, 147, 147);
+    padding-top: 14px;
+}
+
+.cart-page .summary > div {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;   
+}
+
+.cart-page .summary button{
+    width: 100%;
+    margin: 18px 0;
+}
+.cart-page .summary button:hover{
+    background-color: rgb(223, 223, 223);
+    color: #111111;
+}
+
+
+/* 4. Media queries  */
+
+@media screen and (max-width: 990px){
+    .cart-page  {
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: flex-end;
+        padding-top: 0;
+    }
+    .cart-page > .summary-section, .cart-page > .cart-section {
+        margin-top: 50px;
+    }
+}
+
+@media screen and (max-width: 780px){
+    .cart-page {
+        padding-bottom: 80px;
+    }
+    .cart-page .cart-section {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 410px){
+    .cart-page > .summary-section {
+        width: 90%;
+    }
+}

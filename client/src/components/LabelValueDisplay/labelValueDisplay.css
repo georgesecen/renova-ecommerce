@@ -1,0 +1,54 @@
+
+/* Container containing label value */
+.label-value{
+    text-align: left;
+    width: fit-content;
+    /* padding: 0em 0.5em 0em 0.5em; */
+    padding-left: 0.5em;
+    overflow: auto;
+    /* scrollbar-width: thin; */
+}
+
+/* TODO: Make sure this works on all browsers/devices */
+/* For when information in label values go out of width. Scroll bar will not have arrows to make it cleaner */
+/* height */
+.label-value::-webkit-scrollbar {
+    height: 5px;
+}
+/* Track */
+.label-value::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+}
+
+/* Handle */
+.label-value::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px;
+}
+
+
+/* Label */
+.label-value > h6{
+    font-size: 0.7em;
+    margin: 0;
+    margin-bottom: 0.3em;
+    color: #6E6E6E;
+    text-wrap: nowrap;
+}
+/* Value */
+.label-value > div{
+    font-size: 0.9em;
+    margin: 0;
+    text-wrap: nowrap;
+}
+
+/* Line between label values */
+.seperator{
+    min-height: 2.3em;
+    min-width: 0.05em;
+
+    /* More consistent than background color as width is so small it is not the same size
+    for every seperator and looks weird if background color is used instead of box shadow. */
+    box-shadow: 0.05em 0px 0px #CDCDCD;
+}
