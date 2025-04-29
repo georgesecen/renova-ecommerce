@@ -113,3 +113,51 @@ A full stack ecommerce website powered by React.js, Express.js, and MySQL that d
     ```
    npm start
    ```
+
+<!-- My contributions section -->
+## 💻 My Contributions
+What I personally contributed to this project.
+
+
+### Product Management
+https://github.com/user-attachments/assets/9a8661b0-0bbc-4ab6-a963-1db6db29d0b8
+
+- Create and delete products in database and via Stripe API so products are available at Stripe checkout.
+- Modify product descriptions, prices, and stock quantities.
+- Add images to products.
+- Filter by product categories.
+
+### Order Placement
+https://github.com/user-attachments/assets/b90d5488-6cf3-419b-a94b-782c71fff9df
+
+- Embedded Stripe checkout session so customers never have to leave the website.
+- Allow customers to purchase products from their cart at a Stripe checkout session.
+- Give customer order confirmation and receipt.
+
+
+### Order Management
+https://github.com/user-attachments/assets/bf4cfaf1-5988-4bb2-82bb-8f883166d122
+
+- View all necessary order details so admin can fulfill orders and ship to customers the clothes they ordered.
+- Update order status.
+- Give option to fully refund order back to customers credit/debit card used at checkout.
+- Filter by order status.
+
+### Category Management
+https://github.com/user-attachments/assets/7d3e1922-40b3-4bb2-b3ef-23bd7082824a
+
+- Create and delete categories which products can fall under and customers can sort by in store.
+
+### Data Visualization
+<img alt=Data src=/images/bar-chart.png width=850px />
+<img alt=Data src=/images/pie-chart.png width=850px />
+
+- View revenue and sales history with a bar chart.
+- View best selling products with a pie chart.
+- Filter data for the last 7 days, 30 days, 90 days, or 365 days.
+
+
+### Customer Dashboard
+<img alt=Data src=/images/user-dashboard.png width=850px />
+
+- Allow customer to view their order history and review details such as order status, items, times, total etc.
