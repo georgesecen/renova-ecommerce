@@ -10,7 +10,7 @@ import "./checkoutForm.css"
 
 // Make sure to call loadStripe outside of a component’s render to avoid recreating the Stripe object on every render.
 // Stripe publishable key
-const stripePromise = loadStripe("pk_test_51QkxnbK1RDrGHWB8qmu8ClzOQbCZKLaRJC4VCcwAoMpdL6x9lyXA5UHelpCJl1jhLI3CPZPJ5lHYztkzs2waWkbP00CxKlz2Hx");
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 /**
  * Stripe checkout form which receives customer information to purchase products in
